@@ -35,6 +35,27 @@ class TopicRepository {
             meta,
         };
     };
+
+    findById = async (id: string) => {
+        return prisma.topic.findUnique({
+            where: { id },
+        });
+    };
+
+    candidateHasTopic = async ({ topicId, candidateId }: { topicId: string; candidateId: string }) => {
+        const team = await prisma.team.findFirst({
+            where: {
+                topicId,
+                candidates: {
+                    some: {
+                        id: candidateId,
+                    },
+                },
+            },
+            select: { id: true },
+        });
+        return !!team;
+    };
 }
 
 const topicRepository = new TopicRepository();

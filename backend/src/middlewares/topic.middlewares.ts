@@ -18,10 +18,11 @@ export const attachUserRole = async (req: Request, res: Response, next: NextFunc
                 status: false,
             message: "Tài khoản không tồn tại hoặc đã bị xoá.",
         });
-    }
+        }
 
         // Role từ Prisma enum trùng giá trị string với RoleType, cast để khớp type trong req.
         req.role = user.role as unknown as RoleType;
+        req.candidateId = user.candidateId ?? undefined;
         return next();
     } catch (error) {
         return next(error);

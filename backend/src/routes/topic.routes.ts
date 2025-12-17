@@ -7,5 +7,6 @@ import { attachUserRole } from "~/middlewares/topic.middlewares";
 const topicRouter = Router();
 
 topicRouter.get("/", auth, attachUserRole, isRole([RoleType.ADMIN]), topicController.getAll);
+topicRouter.get("/:id", auth, attachUserRole, topicController.getDetail);
 
 export default topicRouter;
