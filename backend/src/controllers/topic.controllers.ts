@@ -58,7 +58,6 @@ export const getDetail = async (
     try {
         const { id } = req.params;
 
-        // Kiểm tra UUID v4
         const isUuidV4 = uuidValidate(id) && uuidVersion(id) === 4;
         if (!isUuidV4) {
             return res.status(HTTP_STATUS.BAD_REQUEST).json({
@@ -107,6 +106,46 @@ export const getDetail = async (
                 created_at: topic.createdAt,
                 updated_at: topic.updatedAt,
             },
+        });
+    } catch (error) {
+        return next(error);
+    }
+};
+
+// CREATE
+export const create = async (
+    req: Request<ParamsDictionary, any, { title?: string; file_path?: string }, any>,
+    res: Response,
+    next: NextFunction,
+) => {
+    try {
+        const { title, file_path } = req.body;
+
+        // validate
+        if (!title || !file_path) {
+            return res.status(HTTP_STATUS.BAD_REQUEST).json({
+                status: false,
+                message: "Các trường không được để trống.",
+            });
+        }
+
+        try {
+            new URL(file_path);
+        } catch {
+            return res.status(HTTP_STATUS.BAD_REQUEST).json({
+                status: false,
+                message: "Đường dẫn file không hợp lệ.",
+            });
+        }
+
+        await topicRepository.create({
+            title: title.trim(),
+            filePath: file_path.trim(),
+        });
+
+        return res.status(HTTP_STATUS.CREATED).json({
+            status: true,
+            message: "Đã thêm đề tài thành công!",
         });
     } catch (error) {
         return next(error);

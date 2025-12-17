@@ -1,4 +1,5 @@
 import prisma from "~/configs/prisma";
+import Topic from "~/schemas/topic.schema";
 import { paginate } from "~/utils/pagination";
 
 class TopicRepository {
@@ -34,6 +35,12 @@ class TopicRepository {
             total: meta.total,
             meta,
         };
+    };
+
+    create = async (data: { title: string; filePath: string }) => {
+        return prisma.topic.create({
+            data: new Topic(data),
+        });
     };
 
     findById = async (id: string) => {

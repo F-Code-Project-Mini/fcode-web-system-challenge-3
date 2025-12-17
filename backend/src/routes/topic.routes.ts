@@ -8,5 +8,6 @@ const topicRouter = Router();
 
 topicRouter.get("/", auth, attachUserRole, isRole([RoleType.ADMIN]), topicController.getAll);
 topicRouter.get("/:id", auth, attachUserRole, topicController.getDetail);
+topicRouter.post("/", auth, attachUserRole, isRole([RoleType.ADMIN]), topicController.create);
 
 export default topicRouter;
