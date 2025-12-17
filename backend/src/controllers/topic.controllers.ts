@@ -25,8 +25,7 @@ export const getAll = async (
             });
         }
 
-        const skip = (page - 1) * limit;
-        const { topics, total } = await topicRepository.findWithPagination({ skip, take: limit });
+        const { topics, total } = await topicRepository.findWithPagination({ page, limit });
 
         return res.status(HTTP_STATUS.OK).json({
             status: true,
