@@ -1,16 +1,16 @@
-import { ArrowDownRight, MoveRight } from "lucide-react";
+import { MoveRight } from "lucide-react";
 import { Badge } from "~/components/ui/badge";
 import Helper from "~/utils/helper";
 
 const Timeline = () => {
     const timelineData = [
         {
-            startDate: "2025-12-17T08:30:00Z",
-            endDate: "2025-12-25T23:59:59Z",
+            startDate: "2025-12-12T08:30:00Z",
+            endDate: "2025-12-12T23:59:59Z",
             description: "Thời gian các team lên ý tưởng và chuẩn bị.",
         },
         {
-            startDate: "2025-12-25T00:00:00Z",
+            startDate: "2025-12-17T00:00:00Z",
             endDate: "2025-12-28T23:59:59Z",
             description: "Tham gia present thử để nhận xét và cải thiện ý tưởng.",
         },
@@ -34,7 +34,7 @@ const Timeline = () => {
                     <p className="mt-1 text-sm text-gray-500">Lịch trình thực hiện Challenge Vòng 3</p>
                 </div>
                 <div className="px-8 py-6">
-                    <div className="relative space-y-6">
+                    <div className="relative mt-6 space-y-6">
                         <div className="bg-primary/20 absolute top-3 bottom-3 left-[15px] w-0.5" />
 
                         {timelineData.map((item, index) => (
@@ -59,21 +59,23 @@ const Timeline = () => {
 };
 const Dot = ({ number, active = false }: { number: number; active?: boolean }) => (
     <div className="relative flex-shrink-0">
-        {active && <ArrowDownRight className="text-primary size-10 -translate-x-5 rotate-10 font-bold" />}
+        {/* {active && (
+            <ArrowDownRight className="text-primary absolute -top-5 right-1.5 z-10 size-10 -translate-x-5 -rotate-2 font-bold" />
+        )} */}
+        {active && (
+            <Badge
+                variant="default"
+                className="absolute -top-9 -left-6 mt-2 bg-yellow-500 text-white dark:bg-yellow-600"
+            >
+                Đang diễn ra
+            </Badge>
+        )}
         <div className="relative flex flex-col justify-center">
             <div
                 className={`flex h-8 w-8 items-center justify-center rounded-full text-sm font-semibold text-white shadow-sm ${active ? "bg-yellow-500" : "bg-gray-200"}`}
             >
                 {number}
             </div>
-            {active && (
-                <Badge
-                    variant="default"
-                    className="absolute top-8 -left-6 mt-2 bg-yellow-500 text-white dark:bg-yellow-600"
-                >
-                    Đang diễn ra
-                </Badge>
-            )}
         </div>
     </div>
 );
