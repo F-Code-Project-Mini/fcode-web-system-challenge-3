@@ -1,4 +1,4 @@
-import { useLayoutEffect } from "react";
+import { useEffect, useLayoutEffect } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router";
 import startTour from "~/components/AnimatedTour";
 import Footer from "~/components/Footer";
@@ -12,7 +12,7 @@ const MainLayout = () => {
     const navigate = useNavigate();
     const location = useLocation();
     console.log("trước nè");
-    useLayoutEffect(() => {
+    useEffect(() => {
         const checkAuth = async () => {
             const isLoginLocal = LocalStorage.getItem("login");
             if (isLoginLocal && !isLoading) {
