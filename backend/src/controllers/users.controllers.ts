@@ -47,6 +47,7 @@ const setCookieResponse = (res: Response, name: string, token: string, expiresIn
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
         expires: new Date(Date.now() + expiresIn * 1000),
+        sameSite: "lax",
     };
     res.cookie(name, token, cookieOptions);
 };
