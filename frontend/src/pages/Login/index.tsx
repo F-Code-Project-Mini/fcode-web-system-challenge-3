@@ -1,21 +1,7 @@
 import PartitionBanner from "./PartitionBanner";
 import FormLogin from "./FormLogin";
-import { useNavigate } from "react-router";
-import LocalStorage from "~/utils/localstorage";
-import { useEffect } from "react";
-import useAuth from "~/hooks/useAuth";
-const LoginPage = () => {
-    const isLoginLocal = LocalStorage.getItem("login");
-    const { isLogin } = useAuth();
-    const navigate = useNavigate();
-    useEffect(() => {
-        if (isLoginLocal || isLogin) {
-            navigate("/");
-        } else if (!isLogin) {
-            LocalStorage.removeItem("login");
-        }
-    }, [isLoginLocal, isLogin]);
 
+const LoginPage = () => {
     return (
         <section className="mx-auto grid min-h-[500px] w-full grid-cols-1 overflow-hidden rounded-lg border bg-white text-gray-700 shadow-xs sm:w-[550px] sm:grid-cols-2 lg:min-h-[700px] lg:w-[900px]">
             <PartitionBanner />

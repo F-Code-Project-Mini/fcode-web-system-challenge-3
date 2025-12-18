@@ -4,6 +4,7 @@ import useAuth from "~/hooks/useAuth";
 import { useState, useRef, useEffect } from "react";
 import SubmenuHeader from "./Submenu";
 import { Button } from "../ui/button";
+import { USER_ROLE } from "~/constants/enums";
 
 const Header = () => {
     const location = useLocation();
@@ -36,7 +37,7 @@ const Header = () => {
                         <li>
                             <NavLink url="/" name="Trang chủ" Icon={House} active={isActive(location.pathname, "/")} />
                         </li>
-                        {isLogin && (
+                        {isLogin && user.role === USER_ROLE.CANDIDATE && (
                             <>
                                 <li id="scoreboard">
                                     <NavLink
@@ -72,7 +73,7 @@ const Header = () => {
                         <div className="relative" ref={menuRef}>
                             <div
                                 onClick={() => setShowUserMenu(!showUserMenu)}
-                                className="group cursor-pointer rounded-lg px-3 py-2 transition-colors hover:bg-gray-100"
+                                className="group cursor-pointer rounded-lg px-3 transition-colors"
                             >
                                 <div className="flex items-center gap-2.5">
                                     <div className="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-gray-100 to-gray-500 text-sm font-semibold text-gray-700">

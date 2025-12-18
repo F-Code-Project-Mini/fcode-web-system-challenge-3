@@ -5,6 +5,8 @@ import "animate.css";
 import MainLayout from "./layout/MainLayout";
 import ScoreBoardPage from "./pages/ScoreBoard";
 import LoginPage from "./pages/Login";
+import JudgePage from "./pages/Judge";
+import JudgeBaremPage from "./pages/Judge/Barem";
 const App = () => {
     return (
         <BrowserRouter>
@@ -13,6 +15,12 @@ const App = () => {
                     <Route index element={<HomePage />} />
                     <Route path="scoreboard" element={<ScoreBoardPage />} />
                     <Route path="login" element={<LoginPage />} />
+
+                    {/* Role Judge */}
+                    <Route path="judge">
+                        <Route index element={<JudgePage />} />
+                        <Route path="barem" element={<JudgeBaremPage />} />
+                    </Route>
                 </Route>
             </Routes>
         </BrowserRouter>

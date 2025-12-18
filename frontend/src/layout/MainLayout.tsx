@@ -3,11 +3,12 @@ import { Outlet, useLocation, useNavigate } from "react-router";
 import startTour from "~/components/AnimatedTour";
 import Footer from "~/components/Footer";
 import Header from "~/components/Header";
+import { USER_ROLE } from "~/constants/enums";
 import useAuth from "~/hooks/useAuth";
 import LocalStorage from "~/utils/localstorage";
 
 const MainLayout = () => {
-    const { isLoading, getUserInfo } = useAuth();
+    const { isLoading, isLogin, user, getUserInfo } = useAuth();
     const navigate = useNavigate();
     const location = useLocation();
     useEffect(() => {
@@ -16,7 +17,6 @@ const MainLayout = () => {
             if (isLoginLocal && !isLoading) {
                 try {
                     await getUserInfo();
-                    startTour();
                 } catch {
                     LocalStorage.removeItem("login");
                     navigate("/login");
@@ -27,7 +27,20 @@ const MainLayout = () => {
             }
         };
         checkAuth();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isLoading, location.pathname]);
+
+    useEffect(() => {
+        if (user.role === USER_ROLE.CANDIDATE && isLogin) {
+            startTour();
+        }
+    }, [isLogin, user.role]);
+    useEffect(() => {
+        if (user.role === USER_ROLE.JUDGE && location.pathname.includes("/judge") === false) {
+            navigate("/judge");
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isLogin, location.pathname]);
     return (
         <>
             <section className="flex min-h-screen flex-col justify-between px-3.5 xl:px-5">
