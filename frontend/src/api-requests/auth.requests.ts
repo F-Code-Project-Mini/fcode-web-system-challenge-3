@@ -3,7 +3,7 @@ import { publicApi } from "~/utils/axiosInstance";
 
 class AuthApi {
     static login = async ({ email, password }: LoginInput) => {
-        const response = await publicApi.post("/auth/login", { email, password });
+        const response = await publicApi.post("/auth/login", { email, password }, { withCredentials: true });
         return response.data;
     };
     static getInfo = async () => {

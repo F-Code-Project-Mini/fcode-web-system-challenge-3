@@ -8,7 +8,7 @@ const options = {
         "Content-Type": "application/json",
     },
 };
-console.log(options);
+// console.log(options);
 
 export const publicApi = axios.create(options);
 export const privateApi = axios.create({
