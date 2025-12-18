@@ -23,6 +23,7 @@ const MainLayout = () => {
                 }
             } else if (!isLoginLocal && location.pathname !== "/login") {
                 navigate("/login");
+                console.log("vô đây");
             }
         };
         checkAuth();
