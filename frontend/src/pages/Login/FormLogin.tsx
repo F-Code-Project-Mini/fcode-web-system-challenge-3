@@ -8,6 +8,7 @@ import { useState } from "react";
 import { loginUser } from "~/features/userSlice";
 import { useAppDispatch } from "~/hooks/useRedux";
 import Notification from "~/utils/notification";
+import LocalStorage from "~/utils/localstorage";
 
 const FormLogin = () => {
     const [email, setEmail] = useState("");
@@ -20,9 +21,10 @@ const FormLogin = () => {
         e.preventDefault();
         try {
             await dispatch(loginUser({ email, password })).unwrap();
-            Notification.success({
-                text: "Đăng nhập thành công vào hệ thống Challenge Vòng 3!",
-            });
+            LocalStorage.setItem("login", "true");
+            // Notification.success({
+            //     text: "Đăng nhập thành công vào hệ thống Challenge Vòng 3!",
+            // });
             navigate("/");
         } catch (error) {
             Notification.error({

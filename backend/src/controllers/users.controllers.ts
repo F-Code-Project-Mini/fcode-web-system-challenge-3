@@ -12,14 +12,41 @@ export const login = async (
     next: NextFunction,
 ) => {
     try {
-        const result = await userService.login(req.body);
-        setCookieResponse(res, "access_token", result.access_token, ExpiresInTokenType.AccessToken);
-        setCookieResponse(res, "refresh_token", result.refresh_token, ExpiresInTokenType.RefreshToken);
+        const { access_token, refresh_token, user } = await userService.login(req.body);
+        setCookieResponse(res, "access_token", access_token, ExpiresInTokenType.AccessToken);
+        setCookieResponse(res, "refresh_token", refresh_token, ExpiresInTokenType.RefreshToken);
         return res.status(HTTP_STATUS.OK).json(
             new ResponseClient({
                 message: "Đăng nhập thành công!",
+                result: user,
             }),
         );
+    } catch (error) {
+        return next(error);
+    }
+};
+export const logout = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        res.clearCookie("access_token");
+        res.clearCookie("refresh_token");
+        return res.status(HTTP_STATUS.OK).json(
+            new ResponseClient({
+                message: "Đăng xuất thành công!",
+            }),
+        );
+    } catch (error) {
+        return next(error);
+    }
+};
+export const getInfo = async (req: Request, res: Response, next: NextFunction) => {
+    const userId = req.userId as string;
+    try {
+        const result = await userService.getInfo(userId);
+        return res.status(HTTP_STATUS.OK).json({
+            success: true,
+            message: "Lấy thông tin người dùng thành công!",
+            result,
+        });
     } catch (error) {
         return next(error);
     }

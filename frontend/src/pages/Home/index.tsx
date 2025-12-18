@@ -2,14 +2,17 @@ import Mentor from "./Mentor";
 import { ShowTopic } from "./ShowTopic";
 import Members from "./Members";
 import Timeline from "./Timeline";
-import "~/components/AnimatedTour";
+import useAuth from "~/hooks/useAuth";
 
 const HomePage = () => {
+    const { user } = useAuth();
+    console.log(user);
+
     return (
         <>
             <section className="mb-8">
                 <h1 className="flex items-center text-3xl font-bold text-gray-900">
-                    Xin chào, <span className="text-primary">Phạm Hoàng Tuấn</span>!
+                    Xin chào, <span className="text-primary">{user.fullName}</span>!
                 </h1>
                 <span className="animate__animated animate__zoomInLeft mt-2 block text-sm text-gray-600">
                     Chào mừng đến với <span className="font-bold">Challenge Vòng 3</span>. Chúc bạn hoàn thành tốt thử

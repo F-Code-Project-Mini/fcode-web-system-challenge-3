@@ -5,5 +5,8 @@ class LocalStorage {
     static getItem(key: string): string | null {
         return localStorage.getItem(key);
     }
+    static removeItem(key: string) {
+        localStorage.removeItem(key);
+    }
 }
 export default LocalStorage;

@@ -61,10 +61,18 @@ const driverObj = driver({
             },
         },
     ],
+    onDestroyStarted: () => {
+        if (!driverObj.hasNextStep() || confirm("Bạn có chắc chắn muốn thoát hướng dẫn không?")) {
+            driverObj.destroy();
+        }
+    },
 });
 
-setTimeout(() => {
-    if (LocalStorage.getItem("isInstruction") === "true") return;
-    driverObj.drive();
-    LocalStorage.setItem("isInstruction", "true");
-}, 500);
+const startTour = () => {
+    setTimeout(() => {
+        if (LocalStorage.getItem("isInstruction") === "true") return;
+        driverObj.drive();
+        LocalStorage.setItem("isInstruction", "true");
+    }, 500);
+};
+export default startTour;
