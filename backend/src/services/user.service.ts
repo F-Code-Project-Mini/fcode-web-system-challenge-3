@@ -17,7 +17,11 @@ class AuthService {
                 message: "Thông tin đăng nhập của bạn không hợp lệ!",
             });
         }
-        return await this.signAccesAndRefreshToken(accountExisted.id);
+        const token = await this.signAccesAndRefreshToken(accountExisted.id);
+        return {
+            ...token,
+            user: accountExisted,
+        };
     };
 
     public refreshToken = async (userId: string, token: string) => {
@@ -31,6 +35,17 @@ class AuthService {
             });
         }
         return await this.signAccesAndRefreshToken(userId);
+    };
+
+    public getInfo = async (userId: string) => {
+        const user = await userRespository.findById(userId);
+        if (!user) {
+            throw new ErrorWithStatus({
+                status: HTTP_STATUS.NOT_FOUND,
+                message: "Người dùng không tồn tại trong hệ thống!",
+            });
+        }
+        return user;
     };
 
     private signToken = ({
