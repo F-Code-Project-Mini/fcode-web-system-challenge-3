@@ -9,6 +9,7 @@ import JudgePage from "./pages/Judge";
 import JudgeBaremPage from "./pages/Judge/Barem";
 import ProtectedRoute from "./layout/ProtectedRoute";
 import { USER_ROLE } from "./constants/enums";
+import SubmissionsPage from "./pages/Submissions";
 const App = () => {
     return (
         <BrowserRouter>
@@ -17,6 +18,7 @@ const App = () => {
                     <Route index element={<HomePage />} />
                     <Route path="scoreboard" element={<ScoreBoardPage />} />
                     <Route path="login" element={<LoginPage />} />
+                    <Route path="submissions" element={<SubmissionsPage />} />
 
                     {/* Role Judge */}
                     <Route path="judge" element={<ProtectedRoute roleAccess={[USER_ROLE.JUDGE]} />}>
