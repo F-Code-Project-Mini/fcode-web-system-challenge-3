@@ -10,5 +10,6 @@ topicRouter.get("/", auth, attachUserRole, isRole([RoleType.ADMIN]), topicContro
 topicRouter.get("/:id", auth, attachUserRole, topicController.getDetail);
 topicRouter.post("/", auth, attachUserRole, isRole([RoleType.ADMIN]), topicController.create);
 topicRouter.patch("/:id", auth, attachUserRole, isRole([RoleType.ADMIN]), topicController.update);
+topicRouter.delete("/:id", auth, attachUserRole, isRole([RoleType.ADMIN]), topicController.deleteTopic);
 
 export default topicRouter;

@@ -53,6 +53,19 @@ class TopicRepository {
         });
     };
 
+    deleteById = async (id: string) => {
+        return prisma.topic.delete({
+            where: { id },
+        });
+    };
+
+    hasTeams = async (topicId: string) => {
+        const count = await prisma.team.count({
+            where: { topicId },
+        });
+        return count > 0;
+    };
+
     findById = async (id: string) => {
         return prisma.topic.findUnique({
             where: { id },

@@ -16,8 +16,8 @@ export const attachUserRole = async (req: Request, res: Response, next: NextFunc
         if (!user) {
             return res.status(HTTP_STATUS.UNAUTHORIZED).json({
                 status: false,
-            message: "Tài khoản không tồn tại hoặc đã bị xoá.",
-        });
+                message: "Tài khoản không tồn tại hoặc đã bị xoá.",
+            });
         }
 
         // Role từ Prisma enum trùng giá trị string với RoleType, cast để khớp type trong req.

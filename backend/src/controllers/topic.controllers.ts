@@ -58,8 +58,7 @@ export const getDetail = async (
     try {
         const { id } = req.params;
 
-        const isUuid = uuidValidate(id);
-        if (!isUuid) {
+        if (!uuidValidate(id)) {
             return res.status(HTTP_STATUS.BAD_REQUEST).json({
                 status: false,
                 message: "Id topic không hợp lệ.",
@@ -207,6 +206,46 @@ export const update = async (
                 file_path: updated.filePath,
                 updated_at: updated.updatedAt,
             },
+        });
+    } catch (error) {
+        return next(error);
+    }
+};
+
+// DELETE
+export const deleteTopic = async (req: Request<{ id: string }>, res: Response, next: NextFunction) => {
+    try {
+        const { id } = req.params;
+
+        if (!uuidValidate(id)) {
+            return res.status(HTTP_STATUS.BAD_REQUEST).json({
+                status: false,
+                message: "Id topic không hợp lệ.",
+            });
+        }
+
+        const existed = await topicRepository.findById(id);
+        if (!existed) {
+            return res.status(HTTP_STATUS.NOT_FOUND).json({
+                status: false,
+                message: "Topic này không tồn tại trên hệ thống.",
+            });
+        }
+
+        // Nếu topic đang được gán cho team thì không cho xóa
+        const hasTeams = await topicRepository.hasTeams(id);
+        if (hasTeams) {
+            return res.status(HTTP_STATUS.CONFLICT).json({
+                status: false,
+                message: "Không thể xóa topic đang được gán cho team.",
+            });
+        }
+
+        await topicRepository.deleteById(id);
+
+        return res.status(HTTP_STATUS.OK).json({
+            status: true,
+            message: "Xóa chủ đề thành công!",
         });
     } catch (error) {
         return next(error);
