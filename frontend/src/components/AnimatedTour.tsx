@@ -14,15 +14,7 @@ const driverObj = driver({
                 align: "start",
             },
         },
-        {
-            element: "#timeline",
-            popover: {
-                title: "Lịch trình thực hiện Challenge Vòng 3",
-                description: "Đây là nơi bạn có thể theo dõi các mốc thời gian quan trọng của thử thách.",
-                side: "left",
-                align: "start",
-            },
-        },
+
         {
             element: "#members",
             popover: {
@@ -39,6 +31,15 @@ const driverObj = driver({
                 title: "Mentor",
                 description: "Thông tin về mentor của nhóm.",
                 side: "bottom",
+                align: "start",
+            },
+        },
+        {
+            element: "#timeline",
+            popover: {
+                title: "Lịch trình thực hiện Challenge Vòng 3",
+                description: "Đây là nơi bạn có thể theo dõi các mốc thời gian quan trọng của thử thách.",
+                side: "left",
                 align: "start",
             },
         },

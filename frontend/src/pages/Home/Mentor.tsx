@@ -4,7 +4,7 @@ const Mentor = () => {
     return (
         <section className="col-span-1 lg:col-span-4" id="mentor">
             <div className="rounded-lg border border-gray-200 bg-white shadow-2xs lg:sticky lg:top-24">
-                <div className="border-b border-gray-100 bg-gradient-to-br from-gray-50 to-white px-4 py-4 sm:px-6 sm:py-5">
+                <div className="from-gray-100/60/60 border-b border-gray-100 bg-gradient-to-br to-white px-4 py-4 sm:px-6 sm:py-5">
                     <div className="flex items-center gap-3">
                         <div className="bg-primary/10 text-primary flex h-12 w-12 items-center justify-center overflow-hidden rounded-full">
                             {/* <User className="h-6 w-6" strokeWidth={2.2} /> */}

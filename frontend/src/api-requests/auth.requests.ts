@@ -3,12 +3,12 @@ import { privateApi } from "~/utils/axiosInstance";
 
 class AuthApi {
     static login = async ({ email, password }: LoginInput) => {
-        const response = await privateApi.post<{ result: UserType }>(
-            "/auth/login",
-            { email, password },
-            { withCredentials: true },
-        );
+        const response = await privateApi.post<{ result: UserType }>("/auth/login", { email, password });
         return response.data.result;
+    };
+    static refreshToken = async () => {
+        const response = await privateApi.post<{ accessToken: string }>("/auth/refresh", {});
+        return response.data.accessToken;
     };
     static logout = async () => {
         const response = await privateApi.post("/auth/logout", {});
