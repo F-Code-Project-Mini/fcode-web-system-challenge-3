@@ -2,9 +2,9 @@ import { Facebook, Mail } from "lucide-react";
 
 const Mentor = () => {
     return (
-        <section className="col-span-4" id="mentor">
-            <div className="sticky top-24 rounded-lg border border-gray-200 bg-white shadow-xs">
-                <div className="border-b border-gray-100 bg-gradient-to-br from-gray-50 to-white px-6 py-5">
+        <section className="col-span-1 lg:col-span-4" id="mentor">
+            <div className="rounded-lg border border-gray-200 bg-white shadow-2xs lg:sticky lg:top-24">
+                <div className="border-b border-gray-100 bg-gradient-to-br from-gray-50 to-white px-4 py-4 sm:px-6 sm:py-5">
                     <div className="flex items-center gap-3">
                         <div className="bg-primary/10 text-primary flex h-12 w-12 items-center justify-center overflow-hidden rounded-full">
                             {/* <User className="h-6 w-6" strokeWidth={2.2} /> */}
@@ -16,11 +16,11 @@ const Mentor = () => {
                         </div>
                         <div>
                             <span className="text-xs font-medium tracking-wide text-gray-500 uppercase">Mentor</span>
-                            <h3 className="mt-0.5 text-lg font-semibold text-gray-900">Phạm Hoàng Tuấn</h3>
+                            <h3 className="mt-0.5 text-base font-semibold text-gray-900 sm:text-lg">Phạm Hoàng Tuấn</h3>
                         </div>
                     </div>
                 </div>
-                <div className="space-y-4 px-6 py-5">
+                <div className="space-y-4 px-4 py-4 sm:px-6 sm:py-5">
                     <div className="flex items-start gap-3">
                         <div className="bg-primary/10 text-primary mt-0.5 flex h-8 w-8 items-center justify-center rounded-lg">
                             <Mail className="h-4 w-4" />

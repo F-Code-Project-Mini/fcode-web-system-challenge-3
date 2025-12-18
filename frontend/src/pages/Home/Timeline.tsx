@@ -27,13 +27,13 @@ const Timeline = () => {
     ];
 
     return (
-        <section className="col-span-12" id="timeline">
-            <div className="overflow-hidden rounded-lg border border-gray-100 bg-white shadow-xs">
-                <div className="border-b border-gray-200 bg-gradient-to-r from-gray-100 to-white px-8 py-4">
-                    <h2 className="text-lg font-semibold text-gray-900">Timeline</h2>
-                    <p className="mt-1 text-sm text-gray-500">Lịch trình thực hiện Challenge Vòng 3</p>
+        <section className="col-span-1" id="timeline">
+            <div className="overflow-hidden rounded-lg border border-gray-100 bg-white shadow-2xs">
+                <div className="border-b border-gray-200 bg-gradient-to-r from-gray-100 to-white px-4 py-3 sm:px-8 sm:py-4">
+                    <h2 className="text-base font-semibold text-gray-900 sm:text-lg">Timeline</h2>
+                    <p className="mt-1 text-xs text-gray-500 sm:text-sm">Lịch trình thực hiện Challenge Vòng 3</p>
                 </div>
-                <div className="px-8 py-6">
+                <div className="px-4 py-4 sm:px-8 sm:py-6">
                     <div className="relative mt-6 space-y-6">
                         <div className="bg-primary/20 absolute top-3 bottom-3 left-[15px] w-0.5" />
 

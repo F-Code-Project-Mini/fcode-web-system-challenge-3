@@ -3,7 +3,7 @@ class LocalStorage {
         localStorage.setItem(key, value);
     }
     static getItem(key: string): string | null {
-        return localStorage.getItem(key);
+        return localStorage.getItem(key) ?? null;
     }
     static removeItem(key: string) {
         localStorage.removeItem(key);

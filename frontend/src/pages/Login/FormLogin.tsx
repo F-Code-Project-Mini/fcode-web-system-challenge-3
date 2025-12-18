@@ -22,9 +22,12 @@ const FormLogin = () => {
         try {
             await dispatch(loginUser({ email, password })).unwrap();
             LocalStorage.setItem("login", "true");
-            // Notification.success({
-            //     text: "Đăng nhập thành công vào hệ thống Challenge Vòng 3!",
-            // });
+            const isInstruction = LocalStorage.getItem("isInstruction");
+            if (isInstruction) {
+                Notification.success({
+                    text: "Đăng nhập thành công vào hệ thống Challenge Vòng 3!",
+                });
+            }
             navigate("/");
         } catch (error) {
             Notification.error({
@@ -33,16 +36,16 @@ const FormLogin = () => {
         }
     };
     return (
-        <section className="flex flex-col justify-center px-8 py-10">
-            <div className="mb-8 text-center">
-                <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center">
+        <section className="flex flex-col justify-center px-4 py-8 sm:px-8 sm:py-10">
+            <div className="mb-6 text-center sm:mb-8">
+                <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center sm:h-16 sm:w-16">
                     <img src="/fcode.png" alt="F-Code" className="h-full w-full" />
                 </div>
-                <h1 className="text-2xl font-bold text-gray-900">Đăng nhập</h1>
-                <p className="mt-2 text-sm text-gray-600">CLB F-Code thuộc FPT University</p>
+                <h1 className="text-xl font-bold text-gray-900 sm:text-2xl">Đăng nhập</h1>
+                <p className="mt-2 text-xs text-gray-600 sm:text-sm">CLB F-Code thuộc FPT University</p>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-5">
+            <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5">
                 <div>
                     <label htmlFor="email" className="mb-2 block text-sm font-medium text-gray-700">
                         Email
