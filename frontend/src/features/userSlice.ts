@@ -1,15 +1,16 @@
 import { createAsyncThunk, createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import { AxiosError } from "axios";
 import AuthApi from "~/api-requests/auth.requests";
+import type { ReduxType } from "~/types/redux.type";
 import type { LoginInput, UserType } from "~/types/user.types";
-const initialState = {
+const initialState: ReduxType = {
     userInfo: {
         isLogin: false,
         isChecking: false,
         id: "",
         email: "",
         fullName: "",
-        role: "",
+        role: "CANDIDATE",
         candidateId: "",
         createdAt: "",
         updatedAt: "",
@@ -68,6 +69,8 @@ export const userSlice = createSlice({
 
         builder.addCase(getInfoUser.pending, (state) => {
             state.isLoading = true;
+            console.log("vô");
+            
         });
         builder.addCase(getInfoUser.fulfilled, (state, action: PayloadAction<UserType>) => {
             console.log({

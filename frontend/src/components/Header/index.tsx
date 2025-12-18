@@ -4,6 +4,7 @@ import useAuth from "~/hooks/useAuth";
 import { useState, useRef, useEffect } from "react";
 import SubmenuHeader from "./Submenu";
 import { Button } from "../ui/button";
+import { USER_ROLE } from "~/constants/enums";
 
 const Header = () => {
     const location = useLocation();
@@ -24,7 +25,7 @@ const Header = () => {
     }, []);
 
     return (
-        <header className="sticky top-2 z-50 mx-2 mt-5 rounded-xl border border-gray-100 bg-white/80 px-4 py-3 shadow-xs backdrop-blur-md sm:mx-4 md:px-6">
+        <header className="sticky top-2 z-50 mt-5 rounded-xl border border-gray-100 bg-white/80 px-4 py-3 shadow-xs backdrop-blur-md sm:mx-4 md:px-6">
             <div className="mx-auto flex max-w-7xl items-center">
                 <Link to="/" className="flex items-center gap-2 transition-opacity hover:opacity-80 sm:gap-2.5">
                     <img src="/fcode.png" alt="F-Code" className="h-7 w-7 sm:h-8 sm:w-8" />
@@ -36,7 +37,7 @@ const Header = () => {
                         <li>
                             <NavLink url="/" name="Trang chủ" Icon={House} active={isActive(location.pathname, "/")} />
                         </li>
-                        {isLogin && (
+                        {isLogin && user.role === USER_ROLE.CANDIDATE && (
                             <>
                                 <li id="scoreboard">
                                     <NavLink
@@ -72,10 +73,10 @@ const Header = () => {
                         <div className="relative" ref={menuRef}>
                             <div
                                 onClick={() => setShowUserMenu(!showUserMenu)}
-                                className="group cursor-pointer rounded-lg px-3 py-2 transition-colors hover:bg-gray-100"
+                                className="group cursor-pointer rounded-lg px-3 transition-colors"
                             >
                                 <div className="flex items-center gap-2.5">
-                                    <div className="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-gray-100 to-gray-500 text-sm font-semibold text-gray-700">
+                                    <div className="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-gray-100/60 to-gray-500 text-sm font-semibold text-gray-700">
                                         {user.fullName.charAt(0)}
                                     </div>
                                     <span className="text-sm font-medium text-gray-700">{user.fullName}</span>
@@ -143,7 +144,7 @@ const Header = () => {
                     {isLogin ? (
                         <div className="mt-4 border-t border-gray-100 pt-4">
                             <div className="flex items-center gap-3 rounded-lg bg-gray-50 p-3">
-                                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-gray-100 to-gray-500 text-sm font-semibold text-gray-700">
+                                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-gray-100/60 to-gray-500 text-sm font-semibold text-gray-700">
                                     {user.fullName.charAt(0)}
                                 </div>
                                 <div className="flex-1">

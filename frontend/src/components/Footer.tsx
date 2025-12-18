@@ -92,9 +92,9 @@ const Footer = () => {
 
                 <div className="mt-6 border-t border-gray-200 pt-4 sm:mt-8 sm:pt-6">
                     <p className="text-center text-xs text-gray-500 sm:text-sm">
-                        Leader Challenge 3:{" "}
-                        <Link className="underline" target="_blank" to="http://facebook.com/phamhoangtuanqn">
-                            Phạm Hoàng Tuấn
+                        Dự án được thiết kế bởi:{" "}
+                        <Link className="underline" target="_blank" to="https://www.facebook.com/fcodeclub">
+                            CLB F-Code
                         </Link>
                     </p>
                 </div>

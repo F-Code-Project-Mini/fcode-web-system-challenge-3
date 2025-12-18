@@ -9,6 +9,7 @@ import { loginUser } from "~/features/userSlice";
 import { useAppDispatch } from "~/hooks/useRedux";
 import Notification from "~/utils/notification";
 import LocalStorage from "~/utils/localstorage";
+import { USER_ROLE } from "~/constants/enums";
 
 const FormLogin = () => {
     const [email, setEmail] = useState("");
@@ -20,10 +21,11 @@ const FormLogin = () => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
-            await dispatch(loginUser({ email, password })).unwrap();
+            const { role } = await dispatch(loginUser({ email, password })).unwrap();
             LocalStorage.setItem("login", "true");
             const isInstruction = LocalStorage.getItem("isInstruction");
-            if (isInstruction) {
+
+            if (isInstruction || role !== USER_ROLE.CANDIDATE) {
                 Notification.success({
                     text: "Đăng nhập thành công vào hệ thống Challenge Vòng 3!",
                 });
