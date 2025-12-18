@@ -1,10 +1,21 @@
-import { ChevronDown, House, Menu, Send, ServerCrash, Trophy, X, type LucideProps } from "lucide-react";
+import {
+    BadgeQuestionMark,
+    ChevronDown,
+    House,
+    Menu,
+    Send,
+    ServerCrash,
+    Trophy,
+    X,
+    type LucideProps,
+} from "lucide-react";
 import { Link, useLocation } from "react-router";
 import useAuth from "~/hooks/useAuth";
 import { useState, useRef, useEffect } from "react";
 import SubmenuHeader from "./Submenu";
 import { Button } from "../ui/button";
 import { USER_ROLE } from "~/constants/enums";
+import LocalStorage from "~/utils/localstorage";
 
 const Header = () => {
     const location = useLocation();
@@ -12,6 +23,11 @@ const Header = () => {
     const [showUserMenu, setShowUserMenu] = useState(false);
     const [showMobileMenu, setShowMobileMenu] = useState(false);
     const menuRef = useRef<HTMLDivElement>(null);
+
+    const showAgainInstruction = () => {
+        LocalStorage.removeItem("isInstruction");
+        window.location.reload();
+    };
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
@@ -71,20 +87,30 @@ const Header = () => {
                 <div className="ml-auto hidden items-center gap-2 lg:flex">
                     {isLogin ? (
                         <div className="relative" ref={menuRef}>
-                            <div
-                                onClick={() => setShowUserMenu(!showUserMenu)}
-                                className="group cursor-pointer rounded-lg px-3 transition-colors"
-                            >
-                                <div className="flex items-center gap-2.5">
-                                    <div className="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-gray-100/60 to-gray-500 text-sm font-semibold text-gray-700">
-                                        {user.fullName.charAt(0)}
+                            <div className="flex items-center gap-2">
+                                <div
+                                    onClick={() => setShowUserMenu(!showUserMenu)}
+                                    className="group cursor-pointer rounded-lg px-3 py-2 transition-colors hover:bg-gray-100"
+                                >
+                                    <div className="flex items-center gap-2.5">
+                                        <div className="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-gray-100 to-gray-500 text-sm font-semibold text-gray-700">
+                                            {user.fullName.charAt(0)}
+                                        </div>
+                                        <span className="text-sm font-medium text-gray-700">{user.fullName}</span>
+                                        <ChevronDown
+                                            size={16}
+                                            className={`text-gray-500 transition-transform ${showUserMenu ? "rotate-180" : ""}`}
+                                        />
                                     </div>
-                                    <span className="text-sm font-medium text-gray-700">{user.fullName}</span>
-                                    <ChevronDown
-                                        size={16}
-                                        className={`text-gray-500 transition-transform ${showUserMenu ? "rotate-180" : ""}`}
-                                    />
                                 </div>
+                                {user.role === USER_ROLE.CANDIDATE && (
+                                    <div
+                                        className="cursor-pointer rounded-xl border bg-white px-2 py-1 shadow-2xs"
+                                        onClick={showAgainInstruction}
+                                    >
+                                        <BadgeQuestionMark />
+                                    </div>
+                                )}
                             </div>
                             {showUserMenu && <SubmenuHeader setShowUserMenu={setShowUserMenu} />}
                         </div>
