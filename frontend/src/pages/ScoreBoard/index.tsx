@@ -27,17 +27,17 @@ const ScoreBoardPage = () => {
 
     return (
         <>
-            <section className="mb-8">
-                <h1 className="text-3xl font-bold text-gray-900">Bảng điểm của bạn</h1>
+            <section className="mb-6 sm:mb-8">
+                <h1 className="text-2xl font-bold text-gray-900 sm:text-3xl">Bảng điểm của bạn</h1>
                 <span className="mt-2 block text-sm text-gray-600">Điểm số của bạn trong các vòng trước.</span>
             </section>
 
-            <div className="rounded-lg border border-gray-200 bg-white shadow-xs">
+            <div className="mx-4 rounded-lg border border-gray-200 bg-white shadow-xs sm:mx-0">
                 <div className="border-b border-gray-200">
-                    <div className="flex gap-4 px-6">
+                    <div className="flex gap-2 overflow-x-auto px-4 sm:gap-4 sm:px-6">
                         <button
                             onClick={() => setActiveRound(1)}
-                            className={`cursor-pointer border-b-2 px-4 py-3 text-sm font-semibold transition-colors ${
+                            className={`cursor-pointer border-b-2 px-3 py-3 text-sm font-semibold whitespace-nowrap transition-colors sm:px-4 ${
                                 activeRound === 1
                                     ? "border-primary text-primary"
                                     : "border-transparent text-gray-600 hover:text-gray-900"
@@ -47,7 +47,7 @@ const ScoreBoardPage = () => {
                         </button>
                         <button
                             onClick={() => setActiveRound(2)}
-                            className={`cursor-pointer border-b-2 px-4 py-3 text-sm font-semibold transition-colors ${
+                            className={`cursor-pointer border-b-2 px-3 py-3 text-sm font-semibold whitespace-nowrap transition-colors sm:px-4 ${
                                 activeRound === 2
                                     ? "border-primary text-primary"
                                     : "border-transparent text-gray-600 hover:text-gray-900"
