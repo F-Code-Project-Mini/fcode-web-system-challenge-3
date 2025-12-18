@@ -30,7 +30,7 @@ export function ShowTopic() {
                 </DialogTrigger>
             )}
 
-            <DialogContent className="min-h-[98%] min-w-[95%] bg-white sm:min-w-[80%]">
+            <DialogContent className="min-h-[98%] min-w-[95%] bg-white sm:min-w-[70%]">
                 <div className="gap-4 px-2 sm:px-3">
                     <iframe
                         src={urlPdf}

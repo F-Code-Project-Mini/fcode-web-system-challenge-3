@@ -8,10 +8,9 @@ const Notification = () => {
                     Thêm mentor vào nhóm của các bạn để mentor theo dõi tiến độ và báo cáo cho CLB.
                 </li>
                 <li className="text-sm">
-                    Các thành viên trong nhóm không đăng nhập lần đầu vào hệ thống, xem{" "}
-                    <span className="font-bold text-red-500 italic">như không tham gia</span> Challenge 3.
+                    Thành viên nào trong nhóm không đăng nhập lần đầu vào hệ thống, xem như thành viên đó{" "}
+                    <span className="font-bold text-red-500 italic">không tham gia</span> Challenge 3.
                 </li>
-                <li className="text-sm">Theo dõi timeline thường xuyên để tránh bỏ lỡ những thông tin quan trọng.</li>
                 <li className="text-sm">Hãy bấm vào nút phía dưới để xem yêu cầu đề tài của nhóm các bạn.</li>
             </ul>
         </div>
