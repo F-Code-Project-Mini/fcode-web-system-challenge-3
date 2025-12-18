@@ -4,6 +4,7 @@ import "./styles/global.css";
 import "animate.css";
 import MainLayout from "./layout/MainLayout";
 import ScoreBoardPage from "./pages/ScoreBoard";
+import LoginPage from "./pages/Login";
 const App = () => {
     return (
         <BrowserRouter>
@@ -11,6 +12,7 @@ const App = () => {
                 <Route path="/" element={<MainLayout />}>
                     <Route index element={<HomePage />} />
                     <Route path="scoreboard" element={<ScoreBoardPage />} />
+                    <Route path="login" element={<LoginPage />} />
                 </Route>
             </Routes>
         </BrowserRouter>
