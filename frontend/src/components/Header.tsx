@@ -4,7 +4,7 @@ import { Link, useLocation } from "react-router";
 const Header = () => {
     const location = useLocation();
     return (
-        <header className="sticky top-0 z-50 border-b border-gray-100 bg-white/80 px-6 py-2 shadow-sm backdrop-blur-md">
+        <header className="sticky top-2 z-50 mt-5 rounded-xl border-1 border-gray-100 bg-white/80 px-6 py-2 shadow-xs backdrop-blur-md">
             <div className="mx-auto flex max-w-7xl items-center justify-between">
                 <div className="flex items-center gap-12">
                     <Link to="/" className="flex items-center gap-2.5 transition-opacity hover:opacity-80">
