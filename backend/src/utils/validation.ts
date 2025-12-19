@@ -24,7 +24,8 @@ export const validate = (schema: AnyZodObject) => (req: Request, res: Response, 
             // console.log(Array(...err.issues));
 
             for (let error of Array(...err.issues)) {
-                errors.push(Helpers.converFirstUpper(`${error.path.join(" ")} ${error.message}`));
+                // errors.push(Helpers.converFirstUpper(`${error.path.join(" ")} ${error.message}`));
+                errors.push(Helpers.converFirstUpper(error.message));
             }
             return res.status(HTTP_STATUS.BAD_REQUEST).json({
                 success: false,

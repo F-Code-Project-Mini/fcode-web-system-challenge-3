@@ -48,12 +48,14 @@ class AuthService {
     }) => {
         console.log("sendMailActiveAccount", email, fullName, userId);
         const token = await this.signToken({
-            type: TokenType.AccessToken,
+            type: TokenType.ActivateAccount,
             userId,
             expiresIn: ExpiresInTokenType.ActivateAccount,
         });
         const KEY_ACTIVE = `activateAccountToken:${userId}`;
         const KEY_COUNTER = `activateAccountCounter:${userId}`;
+
+        console.log("token ne", token);
 
         const currentCount = await redisClient.get(KEY_COUNTER);
         if (currentCount && parseInt(currentCount) >= 5) {
@@ -69,27 +71,27 @@ class AuthService {
             redisClient.set(KEY_ACTIVE, token, ExpiresInTokenType.ActivateAccount),
         ]); // 60 phút
 
-        if (process.env.NODE_ENV === "production") {
-            await addEmailJob({
-                to: email,
-                subject: `[F-Code] Kích hoạt tài khoản`,
-                template: "activate_account",
-                context: {
-                    name: fullName,
-                    activationLink: `${process.env.CLIENT_URL}/activate/token/${token}`,
-                },
-            });
-        } else {
-            await addEmailJob({
-                to: process.env.DEV_EMAIL_RECEIVER || email,
-                subject: `[F-Code] Kích hoạt tài khoản`,
-                template: "activate_account",
-                context: {
-                    name: fullName,
-                    activationLink: `${process.env.CLIENT_URL}/activate/token/${token}`,
-                },
-            });
-        }
+        // if (process.env.NODE_ENV === "production") {
+        //     await addEmailJob({
+        //         to: email,
+        //         subject: `[F-Code] Kích hoạt tài khoản`,
+        //         template: "activate_account",
+        //         context: {
+        //             name: fullName,
+        //             activationLink: `${process.env.CLIENT_URL}/activate/token/${token}`,
+        //         },
+        //     });
+        // } else {
+        //     await addEmailJob({
+        //         to: process.env.DEV_EMAIL_RECEIVER || email,
+        //         subject: `[F-Code] Kích hoạt tài khoản`,
+        //         template: "activate_account",
+        //         context: {
+        //             name: fullName,
+        //             activationLink: `${process.env.CLIENT_URL}/activate/token/${token}`,
+        //         },
+        //     });
+        // }
         return true;
     };
 
@@ -115,6 +117,14 @@ class AuthService {
             });
         }
         return user;
+    };
+    setPassword = async (userId: string, password: string) => {
+        const hashedPassword = await AlgoCrypoto.hashPassword(password);
+        await Promise.all([
+            userRespository.updatePassword(userId, hashedPassword),
+            redisClient.del(`activateAccountToken:${userId}`),
+        ]);
+        return true;
     };
 
     private signToken = ({
