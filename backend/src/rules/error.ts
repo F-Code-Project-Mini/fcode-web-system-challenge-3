@@ -9,8 +9,11 @@ export type ErrorsType = Record<
 export class ErrorWithStatus {
     message: string;
     status: number;
-    constructor({ message, status }: { message: string; status: number }) {
+    constructor({ message, status, ...args }: { message: string; status: number; [key: string]: any }) {
         this.message = message;
         this.status = status;
+        if (args) {
+            Object.assign(this, args);
+        }
     }
 }

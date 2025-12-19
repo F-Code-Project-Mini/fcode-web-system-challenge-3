@@ -4,7 +4,9 @@ import { privateApi, publicApi } from "~/utils/axiosInstance";
 class AuthApi {
     static login = async ({ email, password }: LoginInput) => {
         const response = await privateApi.post<{ result: UserType }>("/auth/login", { email, password });
-        return response.data.result;
+        console.log("response", response);
+
+        return response?.data?.result || [];
     };
     static refreshToken = async () => {
         const response = await publicApi.post<{ status: boolean }>(

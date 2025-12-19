@@ -6,9 +6,11 @@ export class ResponseClient {
         status = true,
         message = "Thao tác thành công!",
         result,
-    }: { status?: boolean; message?: string; result?: any } = {}) {
+        ...args
+    }: { status?: boolean; message?: string; result?: any; [key: string]: any } = {}) {
         this.status = status;
         this.message = message;
+        Object.assign(this, args);
         if (result) {
             this.result = result;
         }
