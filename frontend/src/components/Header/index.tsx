@@ -179,20 +179,6 @@ const Header = () => {
                                 </div>
                             </div>
                             <div className="mt-2 space-y-1">
-                                <Link
-                                    to="/profile"
-                                    onClick={() => setShowMobileMenu(false)}
-                                    className="block rounded-lg px-3 py-2 text-sm text-gray-700 hover:bg-gray-50"
-                                >
-                                    Thông tin cá nhân
-                                </Link>
-                                <Link
-                                    to="/settings"
-                                    onClick={() => setShowMobileMenu(false)}
-                                    className="block rounded-lg px-3 py-2 text-sm text-gray-700 hover:bg-gray-50"
-                                >
-                                    Cài đặt
-                                </Link>
                                 <button
                                     onClick={() => {
                                         setShowMobileMenu(false);
