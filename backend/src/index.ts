@@ -8,6 +8,7 @@ import "./configs/env";
 import cors from "cors";
 import "./seeders/database";
 import rootRouter from "./routes/root.routes";
+import "./workers/email.worker";
 const app = express();
 const PORT = process.env.PORT || 8000;
 
