@@ -12,15 +12,25 @@ export const login = async (
     next: NextFunction,
 ) => {
     try {
-        const { access_token, refresh_token, user } = await userService.login(req.body);
-        setCookieResponse(res, "access_token", access_token, ExpiresInTokenType.AccessToken);
-        setCookieResponse(res, "refresh_token", refresh_token, ExpiresInTokenType.RefreshToken);
-        return res.status(HTTP_STATUS.OK).json(
-            new ResponseClient({
-                message: "Đăng nhập thành công!",
-                result: user,
-            }),
-        );
+        const data = await userService.activeAccount(req.body);
+        if (data === true) {
+            return res.status(HTTP_STATUS.OK).json(
+                new ResponseClient({
+                    message: "Nếu email của bạn đã được đăng ký, vui lòng kiểm tra hộp thư đến để kích hoạt tài khoản!",
+                    isFirstLogin: true,
+                }),
+            );
+        } else {
+            const { access_token, refresh_token, user } = data!;
+            setCookieResponse(res, "access_token", access_token, ExpiresInTokenType.AccessToken);
+            setCookieResponse(res, "refresh_token", refresh_token, ExpiresInTokenType.RefreshToken);
+            return res.status(HTTP_STATUS.OK).json(
+                new ResponseClient({
+                    message: "Đăng nhập thành công!",
+                    result: user,
+                }),
+            );
+        }
     } catch (error) {
         return next(error);
     }
