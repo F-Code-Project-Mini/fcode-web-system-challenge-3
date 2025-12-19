@@ -1,19 +1,19 @@
-import { useLayoutEffect } from "react";
-import { Navigate, Outlet } from "react-router";
+import { Outlet, useNavigate } from "react-router";
+import Loading from "~/components/Loading";
+import NoAccess from "~/components/NoAccess";
 import useAuth from "~/hooks/useAuth";
 
 const ProtectedRoute = ({ roleAccess = [] }: { roleAccess?: string[] }) => {
-    const { user } = useAuth();
+    const { user, isLoading } = useAuth();
+    const navigate = useNavigate();
+    console.log("isLoading, ", isLoading);
 
-    useLayoutEffect(() => {
-        console.log("sau nè");
-
-        if (!user) {
-            <Navigate to="/" replace />;
-        } else if (roleAccess.length > 0 && !roleAccess.includes(user.role)) {
-            <Navigate to="/" replace />;
-        }
-    }, [user, roleAccess]);
+    if (isLoading) {
+        return <Loading />;
+    } else if (roleAccess.includes(user.role) === false) {
+        navigate("/", { replace: true });
+        return <NoAccess />;
+    }
 
     return <Outlet />;
 };

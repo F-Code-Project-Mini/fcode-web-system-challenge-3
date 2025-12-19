@@ -72,6 +72,9 @@ export const userSlice = createSlice({
             };
             state.isLoading = false;
         });
+        builder.addCase(getInfoUser.rejected, (state) => {
+            state.isLoading = false;
+        });
 
         builder.addCase(logoutUser.fulfilled, (state) => {
             state.userInfo = {
