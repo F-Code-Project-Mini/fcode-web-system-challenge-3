@@ -22,7 +22,11 @@ const MainLayout = () => {
                     LocalStorage.removeItem("login");
                     navigate("/login");
                 }
-            } else if (!isLoginLocal && location.pathname !== "/login") {
+            } else if (
+                !isLoginLocal &&
+                location.pathname !== "/login" &&
+                !location.pathname.startsWith("/active/token/")
+            ) {
                 navigate("/login");
                 console.log("vô đây");
             }

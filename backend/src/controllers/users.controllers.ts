@@ -1,6 +1,6 @@
 import { NextFunction, ParamsDictionary } from "express-serve-static-core";
 import { CookieOptions, Request, Response } from "express";
-import { LoginRequestBody, RefreshTokenRequestBody } from "~/rules/requests/user.request";
+import { LoginRequestBody, UpdatePasswordRequestBody } from "~/rules/requests/user.request";
 import userService from "~/services/user.service";
 import { HTTP_STATUS } from "~/constants/httpStatus";
 import { ResponseClient } from "~/rules/response";
@@ -62,11 +62,7 @@ export const getInfo = async (req: Request, res: Response, next: NextFunction) =
     }
 };
 
-export const refreshToken = async (
-    req: Request<ParamsDictionary, any, RefreshTokenRequestBody>,
-    res: Response,
-    next: NextFunction,
-) => {
+export const refreshToken = async (req: Request, res: Response, next: NextFunction) => {
     const token = req.cookies.refresh_token ?? "";
     const userId = req.userId as string;
     try {
@@ -74,6 +70,26 @@ export const refreshToken = async (
         setCookieResponse(res, "access_token", result.access_token, ExpiresInTokenType.AccessToken);
         setCookieResponse(res, "refresh_token", result.refresh_token, ExpiresInTokenType.RefreshToken);
         return res.status(HTTP_STATUS.OK).json(new ResponseClient({ message: "Làm mới token thành công!" }));
+    } catch (error) {
+        return next(error);
+    }
+};
+export const setPassword = async (
+    req: Request<{ token: string }, any, UpdatePasswordRequestBody>,
+    res: Response,
+    next: NextFunction,
+) => {
+    console.log("VÔ đây nè anh em nhe");
+
+    const { userId } = req;
+    const { password } = req.body;
+    try {
+        await userService.setPassword(userId!, password);
+        return res.status(HTTP_STATUS.OK).json(
+            new ResponseClient({
+                message: "Đặt lại mật khẩu thành công!",
+            }),
+        );
     } catch (error) {
         return next(error);
     }
