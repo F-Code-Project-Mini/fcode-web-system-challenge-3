@@ -1,6 +1,5 @@
-import { LogOut, Settings, User, type LucideProps } from "lucide-react";
+import { LogOut } from "lucide-react";
 import React from "react";
-import { Link } from "react-router";
 import useAuth from "~/hooks/useAuth";
 
 const SubmenuHeader = ({ setShowUserMenu }: { setShowUserMenu: React.Dispatch<React.SetStateAction<boolean>> }) => {
@@ -11,10 +10,7 @@ const SubmenuHeader = ({ setShowUserMenu }: { setShowUserMenu: React.Dispatch<Re
                 <p className="text-sm font-semibold text-gray-900">{user.fullName}</p>
                 <p className="mt-0.5 text-xs text-gray-500">{user.email}</p>
             </div>
-            <div className="py-2">
-                <ItemSubmenu Icon={User} title="Thông tin cá nhân" url="/#" setShowUserMenu={setShowUserMenu} />
-                <ItemSubmenu Icon={Settings} title="Cài đặt" url="/#" setShowUserMenu={setShowUserMenu} />
-            </div>
+
             <div className="border-t border-gray-100 py-2">
                 <button
                     onClick={() => {
@@ -33,24 +29,4 @@ const SubmenuHeader = ({ setShowUserMenu }: { setShowUserMenu: React.Dispatch<Re
     );
 };
 
-const ItemSubmenu = ({
-    setShowUserMenu,
-    Icon,
-    title,
-    url = "#",
-}: {
-    setShowUserMenu: React.Dispatch<React.SetStateAction<boolean>>;
-    Icon: React.ForwardRefExoticComponent<Omit<LucideProps, "ref"> & React.RefAttributes<SVGSVGElement>>;
-    title: string;
-    url?: string;
-}) => (
-    <Link
-        to={url}
-        onClick={() => setShowUserMenu(false)}
-        className="flex cursor-pointer items-center gap-3 px-4 py-2.5 text-sm text-gray-700 transition-colors hover:bg-gray-50"
-    >
-        <Icon className="h-4 w-4 text-gray-500" />
-        <span>{title}</span>
-    </Link>
-);
 export default SubmenuHeader;

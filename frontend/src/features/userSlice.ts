@@ -28,7 +28,7 @@ export const loginUser = createAsyncThunk("auth/login", async (credentials: Logi
             return thunkAPI.rejectWithValue(message);
         }
 
-        return thunkAPI.rejectWithValue("[F-Code] Vui lòng tạo ticket trên Discord để được hỗ trợ!");
+        return thunkAPI.rejectWithValue(error);
     }
 });
 export const logoutUser = createAsyncThunk("auth/logout", async (_, thunkAPI) => {
@@ -70,7 +70,6 @@ export const userSlice = createSlice({
         builder.addCase(getInfoUser.pending, (state) => {
             state.isLoading = true;
             console.log("vô");
-            
         });
         builder.addCase(getInfoUser.fulfilled, (state, action: PayloadAction<UserType>) => {
             console.log({
