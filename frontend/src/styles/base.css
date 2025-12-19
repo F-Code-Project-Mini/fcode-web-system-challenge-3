@@ -1,7 +1,0 @@
-@theme {
-    --color-primary: oklch(0.65 0.18 165);
-}
-
-body {
-    font-family: "Inter", sans-serif;
-}

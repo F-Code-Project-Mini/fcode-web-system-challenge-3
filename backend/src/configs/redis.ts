@@ -1,4 +1,5 @@
 import { createClient, RedisClientType } from "redis";
+import { ConnectionOptions } from "bullmq";
 class RedisClient {
     private client: RedisClientType;
     private isConnect = false;
@@ -48,6 +49,18 @@ class RedisClient {
     del = async (key: string): Promise<number> => {
         return await this.client.del(key);
     };
+    incr = async (key: string): Promise<number> => {
+        return await this.client.incr(key);
+    };
+    expire = async (key: string, ttlSeconds: number): Promise<number> => {
+        return await this.client.expire(key, ttlSeconds);
+    };
 }
 const redisClient = new RedisClient();
 export default redisClient;
+
+export const redisConfig: ConnectionOptions = {
+    host: "127.0.0.1",
+    port: 6379,
+    maxRetriesPerRequest: null,
+};

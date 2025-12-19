@@ -1,11 +1,13 @@
 export enum TokenType {
     AccessToken,
     RefreshToken,
+    ActivateAccount,
 }
 
 export enum ExpiresInTokenType {
     AccessToken = 15 * 60, // 15 phút
     RefreshToken = 30 * 24 * 60 * 60, // 30 ngày
+    ActivateAccount = 24 * 60 * 60, // 24 giờ
 }
 
 export enum RoleType {

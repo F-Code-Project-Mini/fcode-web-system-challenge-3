@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { RoleType } from "~/constants/enums";
-import * as teamController from "~/controllers/team.controller";
+import * as teamController from "~/controllers/team.controllers";
 import { auth, isRole, attachUserRole } from "~/middlewares/auth.middlewares";
 
 const teamRouter = Router();
