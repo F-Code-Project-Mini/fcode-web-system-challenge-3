@@ -27,4 +27,3 @@ export const topicSchema = z.object({
         file_path: z.string().trim().url(),
     }),
 });
-

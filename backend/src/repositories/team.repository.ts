@@ -119,12 +119,12 @@ class TeamRepository {
         });
     };
 
-    update = async (id: string, data: { topicId: string; mentorNote?: string | null }) => {
+    update = async (id: string, data: { topicId?: string; mentorshipId?: string }) => {
         return prisma.team.update({
             where: { id },
             data: {
-                topicId: data.topicId,
-                mentorNote: data.mentorNote ?? null,
+                ...(data.topicId ? { topicId: data.topicId } : {}),
+                ...(data.mentorshipId ? { mentorshipId: data.mentorshipId } : {}),
             },
         });
     };
