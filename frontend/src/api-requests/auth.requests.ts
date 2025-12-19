@@ -1,12 +1,15 @@
 import type { LoginInput, UserType } from "~/types/user.types";
 import { privateApi, publicApi } from "~/utils/axiosInstance";
-
+type LoginResponse = { message: string; result: UserType; isFirstLogin?: boolean };
 class AuthApi {
     static login = async ({ email, password }: LoginInput) => {
-        const response = await privateApi.post<{ result: UserType }>("/auth/login", { email, password });
+        const response = await privateApi.post<LoginResponse>("/auth/login", {
+            email,
+            password,
+        });
         console.log("response", response);
 
-        return response?.data?.result || [];
+        return response?.data || [];
     };
     static refreshToken = async () => {
         const response = await publicApi.post<{ status: boolean }>(

@@ -5,11 +5,13 @@ import { Input } from "~/components/ui/input";
 import { Link, useNavigate } from "react-router";
 import { useState } from "react";
 
-import { loginUser } from "~/features/userSlice";
+import { setUser } from "~/features/userSlice";
 import { useAppDispatch } from "~/hooks/useRedux";
 import Notification from "~/utils/notification";
 import LocalStorage from "~/utils/localstorage";
 import { USER_ROLE } from "~/constants/enums";
+import AuthApi from "~/api-requests/auth.requests";
+import { AxiosError } from "axios";
 
 const FormLogin = () => {
     const [email, setEmail] = useState("");
@@ -20,24 +22,46 @@ const FormLogin = () => {
     const dispatch = useAppDispatch();
 
     const handleSubmit = async (e: React.FormEvent) => {
-        setIsFirstLogin(false);
         e.preventDefault();
-        if (!password) return;
+
         try {
-            const { role } = await dispatch(loginUser({ email, password })).unwrap();
+            const response = await AuthApi.login({ email, password });
+            const { isFirstLogin } = response;
+
             LocalStorage.setItem("login", "true");
             const isInstruction = LocalStorage.getItem("isInstruction");
-
-            if (isInstruction || role !== USER_ROLE.CANDIDATE) {
+            if (!isFirstLogin) {
+                const { role } = response.result;
+                setIsFirstLogin(false);
+                dispatch(setUser(response.result));
+                if (isInstruction || role !== USER_ROLE.CANDIDATE) {
+                    Notification.success({
+                        text: "Đăng nhập thành công vào hệ thống Challenge Vòng 3!",
+                    });
+                }
+                navigate("/");
+            } else {
+                setEmail("");
                 Notification.success({
-                    text: "Đăng nhập thành công vào hệ thống Challenge Vòng 3!",
+                    text: "Nếu email của bạn đã được đăng ký, vui lòng kiểm tra hộp thư đến để kích hoạt tài khoản!",
                 });
             }
-            navigate("/");
         } catch (error) {
-            Notification.error({
-                text: error as string,
-            });
+            if (error instanceof AxiosError) {
+                if (error.response?.data?.isFirstLogin) {
+                    setIsFirstLogin(true);
+                    Notification.error({
+                        text: error.response?.data?.message || "Đăng nhập thất bại!",
+                    });
+                } else {
+                    setIsFirstLogin(error.response?.data?.isFirstLogin ?? false);
+                    if (!isFirstLogin) {
+                        Notification.error({
+                            text: error.response?.data?.message || "Đăng nhập thất bại!",
+                        });
+                    }
+                }
+            }
         }
     };
 
