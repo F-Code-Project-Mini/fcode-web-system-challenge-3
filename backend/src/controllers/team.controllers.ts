@@ -17,8 +17,8 @@ export const getAll = async (
     next: NextFunction,
 ) => {
     try {
-        const page = Number(req.query.page ?? 1);
-        const limit = Number(req.query.limit ?? 10);
+        const page = Number(req.query.page);
+        const limit = Number(req.query.limit);
 
         if (!Number.isInteger(page) || !Number.isInteger(limit) || page < 1 || limit < 1) {
             return res.status(HTTP_STATUS.BAD_REQUEST).json({

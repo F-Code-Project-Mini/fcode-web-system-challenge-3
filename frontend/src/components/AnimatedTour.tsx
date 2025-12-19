@@ -1,6 +1,6 @@
 import { driver } from "driver.js";
 import "driver.js/dist/driver.css";
-import LocalStorage from "~/utils/store";
+import LocalStorage from "~/utils/localstorage";
 
 const driverObj = driver({
     showProgress: true,
@@ -14,15 +14,7 @@ const driverObj = driver({
                 align: "start",
             },
         },
-        {
-            element: "#timeline",
-            popover: {
-                title: "Lịch trình thực hiện Challenge Vòng 3",
-                description: "Đây là nơi bạn có thể theo dõi các mốc thời gian quan trọng của thử thách.",
-                side: "left",
-                align: "start",
-            },
-        },
+
         {
             element: "#members",
             popover: {
@@ -39,6 +31,15 @@ const driverObj = driver({
                 title: "Mentor",
                 description: "Thông tin về mentor của nhóm.",
                 side: "bottom",
+                align: "start",
+            },
+        },
+        {
+            element: "#timeline",
+            popover: {
+                title: "Lịch trình thực hiện Challenge Vòng 3",
+                description: "Đây là nơi bạn có thể theo dõi các mốc thời gian quan trọng của thử thách.",
+                side: "left",
                 align: "start",
             },
         },
@@ -61,10 +62,18 @@ const driverObj = driver({
             },
         },
     ],
+    onDestroyStarted: () => {
+        if (!driverObj.hasNextStep() || confirm("Bạn có chắc chắn muốn thoát hướng dẫn không?")) {
+            driverObj.destroy();
+        }
+    },
 });
 
-setTimeout(() => {
-    if (LocalStorage.getItem("isInstruction") === "true") return;
-    driverObj.drive();
-    LocalStorage.setItem("isInstruction", "true");
-}, 500);
+const startTour = () => {
+    setTimeout(() => {
+        if (LocalStorage.getItem("isInstruction") === "true") return;
+        driverObj.drive();
+        LocalStorage.setItem("isInstruction", "true");
+    }, 500);
+};
+export default startTour;

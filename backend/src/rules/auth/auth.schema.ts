@@ -6,3 +6,25 @@ export const loginSchema = z.object({
         password: z.string().trim().nonempty(),
     }),
 });
+
+export const getAllSchema = z.object({
+    query: z.object({
+        page: z.coerce.number().int().positive(),
+        limit: z.coerce.number().int().positive(),
+    }),
+});
+
+export const idParamSchema = z.object({
+        params: z.object({
+            id: z.string().uuid(""),
+        }),
+    });
+
+
+export const topicSchema = z.object({
+    body: z.object({
+        title: z.string().trim().nonempty(),
+        file_path: z.string().trim().url(),
+    }),
+});
+
