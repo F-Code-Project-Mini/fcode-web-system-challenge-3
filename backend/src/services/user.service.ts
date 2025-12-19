@@ -6,22 +6,91 @@ import AlgoCrypoto from "~/utils/crypto";
 import AlgoJwt from "~/utils/jwt";
 import { LoginRequestBody } from "~/rules/requests/user.request";
 import redisClient from "~/configs/redis";
-
+import { addEmailJob } from "~/queues/email.queue";
 class AuthService {
+    public activeAccount = async (data: LoginRequestBody) => {
+        const { email, password = "" } = data;
+
+        const user = await userRespository.findByEmail(email);
+
+        if (user?.password) {
+            return await this.login({ email, password });
+        } else if (user) {
+            await this.sendMailActiveAccount({ email, fullName: user.fullName, userId: user.id });
+        }
+        return true;
+    };
     public login = async (data: LoginRequestBody) => {
         const { email, password } = data;
         const accountExisted = await userRespository.findByEmail(email);
-        if (!accountExisted || !(await AlgoCrypoto.verifyPassword(password, accountExisted.password))) {
+        if (!accountExisted || !(await AlgoCrypoto.verifyPassword(password!, accountExisted.password))) {
             throw new ErrorWithStatus({
                 status: HTTP_STATUS.NOT_FOUND,
                 message: "Thông tin đăng nhập của bạn không hợp lệ!",
             });
         }
+
         const token = await this.signAccesAndRefreshToken(accountExisted.id);
         return {
             ...token,
             user: accountExisted,
         };
+    };
+
+    public sendMailActiveAccount = async ({
+        email,
+        fullName,
+        userId,
+    }: {
+        email: string;
+        fullName: string;
+        userId: string;
+    }) => {
+        console.log("sendMailActiveAccount", email, fullName, userId);
+        const token = await this.signToken({
+            type: TokenType.AccessToken,
+            userId,
+            expiresIn: ExpiresInTokenType.ActivateAccount,
+        });
+        const KEY_ACTIVE = `activateAccountToken:${userId}`;
+        const KEY_COUNTER = `activateAccountCounter:${userId}`;
+
+        const currentCount = await redisClient.get(KEY_COUNTER);
+        if (currentCount && parseInt(currentCount) >= 5) {
+            throw new ErrorWithStatus({
+                status: HTTP_STATUS.NOT_FOUND,
+                message: "Bạn đã gửi yêu cầu kích hoạt tài khoản quá nhiều lần, vui lòng thử lại sau!",
+                isFirstLogin: true,
+            });
+        }
+        await Promise.all([
+            redisClient.incr(KEY_COUNTER),
+            redisClient.expire(KEY_COUNTER, 60 * 60),
+            redisClient.set(KEY_ACTIVE, token, ExpiresInTokenType.ActivateAccount),
+        ]); // 60 phút
+
+        if (process.env.NODE_ENV === "production") {
+            await addEmailJob({
+                to: email,
+                subject: `[F-Code] Kích hoạt tài khoản`,
+                template: "activate_account",
+                context: {
+                    name: fullName,
+                    activationLink: `${process.env.CLIENT_URL}/activate/token/${token}`,
+                },
+            });
+        } else {
+            await addEmailJob({
+                to: process.env.DEV_EMAIL_RECEIVER || email,
+                subject: `[F-Code] Kích hoạt tài khoản`,
+                template: "activate_account",
+                context: {
+                    name: fullName,
+                    activationLink: `${process.env.CLIENT_URL}/activate/token/${token}`,
+                },
+            });
+        }
+        return true;
     };
 
     public refreshToken = async (userId: string, token: string) => {

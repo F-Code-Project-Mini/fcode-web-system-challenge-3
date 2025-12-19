@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice, type PayloadAction } from "@reduxjs/tool
 import { AxiosError } from "axios";
 import AuthApi from "~/api-requests/auth.requests";
 import type { ReduxType } from "~/types/redux.type";
-import type { LoginInput, UserType } from "~/types/user.types";
+import type { UserType } from "~/types/user.types";
 const initialState: ReduxType = {
     userInfo: {
         isLogin: false,
@@ -17,20 +17,7 @@ const initialState: ReduxType = {
     },
     isLoading: false,
 };
-export const loginUser = createAsyncThunk("auth/login", async (credentials: LoginInput, thunkAPI) => {
-    try {
-        const response = await AuthApi.login(credentials);
-        return response;
-    } catch (error) {
-        if (error instanceof AxiosError) {
-            const message = error.response?.data?.message;
 
-            return thunkAPI.rejectWithValue(message);
-        }
-
-        return thunkAPI.rejectWithValue(error);
-    }
-});
 export const logoutUser = createAsyncThunk("auth/logout", async (_, thunkAPI) => {
     try {
         await AuthApi.logout();
@@ -78,17 +65,6 @@ export const userSlice = createSlice({
                 isChecking: true,
             });
 
-            state.userInfo = {
-                ...action.payload,
-                isLogin: !!action.payload,
-                isChecking: true,
-            };
-            state.isLoading = false;
-        });
-        builder.addCase(loginUser.pending, (state) => {
-            state.isLoading = true;
-        });
-        builder.addCase(loginUser.fulfilled, (state, action: PayloadAction<UserType>) => {
             state.userInfo = {
                 ...action.payload,
                 isLogin: !!action.payload,
