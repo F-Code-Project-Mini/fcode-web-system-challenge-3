@@ -7,7 +7,6 @@ class AuthApi {
             email,
             password,
         });
-        console.log("response", response);
 
         return response?.data || [];
     };
@@ -19,6 +18,18 @@ class AuthApi {
                 withCredentials: true,
             },
         );
+        return response.data;
+    };
+
+    static activeAccount = async (token: string) => {
+        const response = await publicApi.get<{ result: UserType }>(`/auth/active/token/${token}`);
+        return response.data?.result;
+    };
+    static setPassword = async (token: string, password: string, confirmPassword: string) => {
+        const response = await publicApi.post<{ message: string }>(`/auth/set-password/token/${token}`, {
+            password,
+            confirmPassword,
+        });
         return response.data;
     };
     static logout = async () => {
