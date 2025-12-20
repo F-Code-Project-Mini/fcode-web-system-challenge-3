@@ -22,7 +22,7 @@ export function ShowTopic() {
                 <DialogTrigger asChild>
                     <Button
                         variant="secondary"
-                        className="bg-primary hover:bg-primary/90 mx-auto text-sm text-white sm:text-base"
+                        className="bg-primary hover:bg-primary/90 text-sm text-white"
                         id="topic"
                     >
                         Xem đề tài của nhóm

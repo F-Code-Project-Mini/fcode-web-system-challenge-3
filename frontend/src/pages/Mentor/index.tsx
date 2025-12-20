@@ -1,5 +1,5 @@
 import WelcomePartition from "~/components/WelcomePartition";
-import ListTeam from "./ListTeam";
+import Team from "./Team";
 
 const MentorPage = () => {
     return (
@@ -9,8 +9,8 @@ const MentorPage = () => {
             </section>
 
             <section className="col-span-1 space-y-10 lg:col-span-8" id="members">
-                <ListTeam />
-                <ListTeam />
+                <Team />
+                <Team />
             </section>
         </>
     );

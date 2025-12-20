@@ -26,10 +26,10 @@ export function ChoiceLeader() {
             <AlertDialogTrigger asChild>
                 <Button
                     variant="outline"
-                    className="shadown-base flex w-fit cursor-pointer items-center gap-2 rounded-xl border p-2"
+                    className="shadow-base flex w-fit cursor-pointer items-center gap-2 rounded-xl border p-2"
                 >
-                    <span>Thay đổi Leader</span>
                     <UserRound size={18} />
+                    <span>Thay đổi Leader</span>
                 </Button>
             </AlertDialogTrigger>
             <AlertDialogContent>

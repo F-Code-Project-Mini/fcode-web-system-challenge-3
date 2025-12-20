@@ -1,8 +1,8 @@
-import { Facebook, Sparkles } from "lucide-react";
+import { Facebook, Scroll, Sparkles } from "lucide-react";
 import { Link } from "react-router";
 import { Button } from "~/components/ui/button";
 import { ChoiceLeader } from "./ChoiceLeader";
-const ListTeam = () => {
+const Team = () => {
     return (
         <section className="col-span-1 lg:col-span-8" id="members">
             <div className="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-2xs">
@@ -17,6 +17,15 @@ const ListTeam = () => {
                         </p>
                     </div>
                     <div className="flex items-center gap-2">
+                        <Link to="/mentor/barem/2000">
+                            <Button
+                                variant="ghost"
+                                className="shadown-base flex w-fit cursor-pointer items-center gap-2 rounded-xl border p-2"
+                            >
+                                <Scroll size={18} />
+                                <span>Báo cáo</span>
+                            </Button>
+                        </Link>
                         <ChoiceLeader />
 
                         <Link to="/mentor/barem/2000">
@@ -24,8 +33,8 @@ const ListTeam = () => {
                                 variant="default"
                                 className="shadown-base flex w-fit cursor-pointer items-center gap-2 rounded-xl border p-2"
                             >
-                                <span>Đánh giá</span>
                                 <Sparkles size={18} />
+                                <span>Đánh giá</span>
                             </Button>
                         </Link>
                     </div>
@@ -41,13 +50,10 @@ const ListTeam = () => {
                                     Họ và tên
                                 </th>
                                 <th className="hidden px-3 py-2 text-left text-xs font-semibold tracking-wider text-gray-600 uppercase sm:table-cell sm:px-6 sm:py-3">
-                                    Thông tin cơ bản
+                                    MSSV
                                 </th>
                                 <th className="hidden px-3 py-2 text-left text-xs font-semibold tracking-wider text-gray-600 uppercase sm:px-6 sm:py-3 md:table-cell">
                                     Email
-                                </th>
-                                <th className="px-3 py-2 text-left text-xs font-semibold tracking-wider text-gray-600 uppercase sm:px-6 sm:py-3">
-                                    Facebook
                                 </th>
                             </tr>
                         </thead>
@@ -65,17 +71,6 @@ const ListTeam = () => {
                                 <td className="hidden px-3 py-3 text-sm whitespace-nowrap text-gray-600 sm:px-6 sm:py-4 md:table-cell">
                                     tuanph@fpt.edu.vn
                                 </td>
-                                <td className="px-3 py-3 text-sm whitespace-nowrap sm:px-6 sm:py-4">
-                                    <a
-                                        href="https://facebook.com/tuanph"
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="text-primary hover:text-primary/80 inline-flex items-center gap-1 transition-colors"
-                                    >
-                                        <Facebook size={14} />
-                                        <span>tuanph</span>
-                                    </a>
-                                </td>
                             </tr>
                             <tr className="transition-colors hover:bg-gray-50">
                                 <td className="px-3 py-3 text-sm font-medium whitespace-nowrap text-gray-900 sm:px-6 sm:py-4">
@@ -89,17 +84,6 @@ const ListTeam = () => {
                                 </td>
                                 <td className="hidden px-3 py-3 text-sm whitespace-nowrap text-gray-600 sm:px-6 sm:py-4 md:table-cell">
                                     antv@fpt.edu.vn
-                                </td>
-                                <td className="px-3 py-3 text-sm whitespace-nowrap sm:px-6 sm:py-4">
-                                    <a
-                                        href="https://facebook.com/antv"
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="text-primary hover:text-primary/80 inline-flex items-center gap-1 transition-colors"
-                                    >
-                                        <Facebook size={14} />
-                                        <span>antv</span>
-                                    </a>
                                 </td>
                             </tr>
                             <tr className="transition-colors hover:bg-gray-50">
@@ -115,17 +99,6 @@ const ListTeam = () => {
                                 <td className="hidden px-3 py-3 text-sm whitespace-nowrap text-gray-600 sm:px-6 sm:py-4 md:table-cell">
                                     binhlt@fpt.edu.vn
                                 </td>
-                                <td className="px-3 py-3 text-sm whitespace-nowrap sm:px-6 sm:py-4">
-                                    <a
-                                        href="https://facebook.com/binhlt"
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="text-primary hover:text-primary/80 inline-flex items-center gap-1 transition-colors"
-                                    >
-                                        <Facebook size={14} />
-                                        <span>binhlt</span>
-                                    </a>
-                                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -135,4 +108,4 @@ const ListTeam = () => {
     );
 };
 
-export default ListTeam;
+export default Team;

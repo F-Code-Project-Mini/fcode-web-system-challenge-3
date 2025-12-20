@@ -1,5 +1,4 @@
 import { BrowserRouter, Route, Routes } from "react-router";
-import HomePage from "./pages/Candidate";
 import "./styles/global.css";
 import "animate.css";
 import MainLayout from "./layout/MainLayout";
@@ -14,6 +13,10 @@ import ActivePage from "./pages/Active";
 import MentorPage from "./pages/Mentor";
 import IndexPage from "./pages/Home";
 import MentorBaremPage from "./pages/Mentor/Barem";
+import AdminPage from "./pages/Admin";
+import TeamsPage from "./pages/Admin/Teams";
+import ReportsPage from "./pages/Admin/Reports";
+import TopicsPage from "./pages/Admin/Topics";
 const App = () => {
     return (
         <BrowserRouter>
@@ -35,6 +38,14 @@ const App = () => {
                     <Route path="mentor" element={<ProtectedRoute roleAccess={[USER_ROLE.MENTOR]} />}>
                         <Route index element={<MentorPage />} />
                         <Route path="barem/:id" element={<MentorBaremPage />} />
+                    </Route>
+
+                    {/* Role Mentor */}
+                    <Route path="admin" element={<ProtectedRoute roleAccess={[USER_ROLE.ADMIN]} />}>
+                        <Route index element={<AdminPage />} />
+                        <Route path="teams" element={<TeamsPage />} />
+                        <Route path="reports" element={<ReportsPage />} />
+                        <Route path="topics" element={<TopicsPage />} />
                     </Route>
                 </Route>
             </Routes>
