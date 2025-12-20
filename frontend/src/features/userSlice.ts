@@ -10,7 +10,7 @@ const initialState: ReduxType = {
         id: "",
         email: "",
         fullName: "",
-        role: "CANDIDATE",
+        role: null,
         candidateId: "",
         createdAt: "",
         updatedAt: "",
@@ -70,6 +70,9 @@ export const userSlice = createSlice({
                 isLogin: !!action.payload,
                 isChecking: true,
             };
+            state.isLoading = false;
+        });
+        builder.addCase(getInfoUser.rejected, (state) => {
             state.isLoading = false;
         });
 

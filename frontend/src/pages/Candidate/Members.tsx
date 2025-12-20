@@ -1,4 +1,3 @@
-import { Facebook } from "lucide-react";
 const Members = () => {
     return (
         <section className="col-span-1 lg:col-span-8" id="members">
@@ -27,9 +26,6 @@ const Members = () => {
                                 <th className="hidden px-3 py-2 text-left text-xs font-semibold tracking-wider text-gray-600 uppercase sm:px-6 sm:py-3 md:table-cell">
                                     Email
                                 </th>
-                                <th className="px-3 py-2 text-left text-xs font-semibold tracking-wider text-gray-600 uppercase sm:px-6 sm:py-3">
-                                    Facebook
-                                </th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-gray-200 bg-white">
@@ -46,17 +42,6 @@ const Members = () => {
                                 <td className="hidden px-3 py-3 text-sm whitespace-nowrap text-gray-600 sm:px-6 sm:py-4 md:table-cell">
                                     tuanph@fpt.edu.vn
                                 </td>
-                                <td className="px-3 py-3 text-sm whitespace-nowrap sm:px-6 sm:py-4">
-                                    <a
-                                        href="https://facebook.com/tuanph"
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="text-primary hover:text-primary/80 inline-flex items-center gap-1 transition-colors"
-                                    >
-                                        <Facebook size={14} />
-                                        <span>tuanph</span>
-                                    </a>
-                                </td>
                             </tr>
                             <tr className="transition-colors hover:bg-gray-50">
                                 <td className="px-3 py-3 text-sm font-medium whitespace-nowrap text-gray-900 sm:px-6 sm:py-4">
@@ -71,17 +56,6 @@ const Members = () => {
                                 <td className="hidden px-3 py-3 text-sm whitespace-nowrap text-gray-600 sm:px-6 sm:py-4 md:table-cell">
                                     antv@fpt.edu.vn
                                 </td>
-                                <td className="px-3 py-3 text-sm whitespace-nowrap sm:px-6 sm:py-4">
-                                    <a
-                                        href="https://facebook.com/antv"
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="text-primary hover:text-primary/80 inline-flex items-center gap-1 transition-colors"
-                                    >
-                                        <Facebook size={14} />
-                                        <span>antv</span>
-                                    </a>
-                                </td>
                             </tr>
                             <tr className="transition-colors hover:bg-gray-50">
                                 <td className="px-3 py-3 text-sm font-medium whitespace-nowrap text-gray-900 sm:px-6 sm:py-4">
@@ -95,17 +69,6 @@ const Members = () => {
                                 </td>
                                 <td className="hidden px-3 py-3 text-sm whitespace-nowrap text-gray-600 sm:px-6 sm:py-4 md:table-cell">
                                     binhlt@fpt.edu.vn
-                                </td>
-                                <td className="px-3 py-3 text-sm whitespace-nowrap sm:px-6 sm:py-4">
-                                    <a
-                                        href="https://facebook.com/binhlt"
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="text-primary hover:text-primary/80 inline-flex items-center gap-1 transition-colors"
-                                    >
-                                        <Facebook size={14} />
-                                        <span>binhlt</span>
-                                    </a>
                                 </td>
                             </tr>
                         </tbody>

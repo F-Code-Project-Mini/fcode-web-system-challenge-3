@@ -25,5 +25,8 @@ class Helper {
 
         return parts.length > 0 ? parts.join(" ") : "0 giây";
     }
+    static isActive = (src: string, dest: string) => {
+        return src === dest;
+    };
 }
 export default Helper;
