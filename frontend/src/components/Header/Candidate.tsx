@@ -21,6 +21,7 @@ const CandidateHeader = () => {
                     active={Helper.isActive(location.pathname, "/submissions")}
                 />
             </li>
+
             <li>
                 <NavLink url="https://discord.gg/WvudrJaYD" name="Hỗ trợ" Icon={ServerCrash} target="_blank" />
             </li>

@@ -1,6 +1,8 @@
-import { MobileNavLink } from "./NavLink";
+import { NavLink } from "./NavLink";
 import Helper from "~/utils/helper";
 import { Form, Scroll, Users } from "lucide-react";
+import { use, useEffect, useState } from "react";
+import { useLocation } from "react-router";
 const listMenuAdmin = [
     {
         id: "teams",
@@ -22,13 +24,12 @@ const listMenuAdmin = [
     },
 ];
 const AdminHeader = () => {
-    console.log("location.pathname", location.pathname);
-
+    const location = useLocation();
     return (
         <>
             {listMenuAdmin.map((menu) => (
                 <li id={menu.id} key={menu.id}>
-                    <MobileNavLink
+                    <NavLink
                         url={menu.url}
                         name={menu.name}
                         Icon={menu.Icon}

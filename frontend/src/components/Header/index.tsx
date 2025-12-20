@@ -1,4 +1,4 @@
-import { BadgeQuestionMark, ChevronDown, House, Menu, ServerCrash, X } from "lucide-react";
+import { BadgeQuestionMark, ChevronDown, House, Menu, X } from "lucide-react";
 import { Link, useLocation } from "react-router";
 import useAuth from "~/hooks/useAuth";
 import { useState, useRef, useEffect } from "react";
