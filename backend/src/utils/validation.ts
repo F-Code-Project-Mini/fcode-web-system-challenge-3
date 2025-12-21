@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import { AnyZodObject, ZodError } from "zod/v3";
 import { HTTP_STATUS } from "~/constants/httpStatus";
 import Helpers from "./helpers";
+import { validate as uuidValidate, version as uuidVersion } from "uuid";
 
 export const validate = (schema: AnyZodObject) => (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -14,8 +15,7 @@ export const validate = (schema: AnyZodObject) => (req: Request, res: Response, 
 
         if (result.body !== undefined) req.body = result.body;
         if (result.params !== undefined) req.params = result.params;
-        if (result.query !== undefined) req.query = result.query;
-        console.log(req.body);
+        if (result.query !== undefined) Object.assign(req.query, result.query);
 
         return next();
     } catch (err) {
@@ -35,4 +35,8 @@ export const validate = (schema: AnyZodObject) => (req: Request, res: Response, 
         }
         return next(err);
     }
+};
+
+export const isUuidV4 = (id?: string): boolean => {
+  return !!id && uuidValidate(id) && uuidVersion(id) === 4;
 };

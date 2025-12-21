@@ -7,5 +7,6 @@ declare module "express" {
         userId?: string;
         role?: RoleType;
         tokenPayload?: TokenPayload;
+        candidateId?: string;
     }
 }
