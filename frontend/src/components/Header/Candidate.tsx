@@ -1,8 +1,10 @@
 import { NavLink } from "./NavLink";
 import { Send, ServerCrash, Trophy } from "lucide-react";
+import { useLocation } from "react-router";
 import Helper from "~/utils/helper";
 
 const CandidateHeader = () => {
+    const location = useLocation();
     return (
         <>
             <li id="scoreboard">
