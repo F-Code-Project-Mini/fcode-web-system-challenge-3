@@ -24,6 +24,8 @@ export const auth = async (req: Request, res: Response, next: NextFunction) => {
             });
         }
         req.userId = payload.userId;
+        req.role = payload.role;
+        
 
         next();
     } catch (error) {
@@ -52,6 +54,7 @@ export const verifyToken =
                 });
             }
             req.userId = payload.userId;
+
             next();
         } catch (error) {
             next(error);
@@ -75,6 +78,7 @@ export const verifyTokenActiveAccount = async (req: Request<{ token: string }>, 
     }
 };
 export const isRole = (roles: string[]) => async (req: Request, res: Response, next: NextFunction) => {
+    console.log("req.role", req.role);
     if (roles.includes(req.role as string)) {
         next();
     } else {
@@ -83,31 +87,7 @@ export const isRole = (roles: string[]) => async (req: Request, res: Response, n
         });
     }
 };
-export const attachUserRole = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-        if (!req.userId) {
-            return res.status(HTTP_STATUS.UNAUTHORIZED).json({
-                status: false,
-                message: "Vui lòng đăng nhập trước khi thao tác.",
-            });
-        }
 
-        const user = await userRepository.findById(req.userId);
-        if (!user) {
-            return res.status(HTTP_STATUS.UNAUTHORIZED).json({
-                status: false,
-                message: "Tài khoản không tồn tại hoặc đã bị xoá.",
-            });
-        }
-
-        // Role từ Prisma enum trùng giá trị string với RoleType, cast để khớp type trong req.
-        req.role = user.role as unknown as RoleType;
-        req.candidateId = user.candidateId ?? undefined;
-        return next();
-    } catch (error) {
-        return next(error);
-    }
-};
 export const isExsitedTokenInRedis = async (req: Request, res: Response, next: NextFunction) => {
     const { userId } = req;
     console.log("userId", userId);

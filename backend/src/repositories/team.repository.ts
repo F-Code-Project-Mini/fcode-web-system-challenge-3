@@ -2,16 +2,7 @@ import prisma from "~/configs/prisma";
 import { paginate } from "~/utils/pagination";
 
 class TeamRepository {
-
-    findWithPagination = async ({
-        page,
-        limit,
-        mentorId,
-    }: {
-        page?: number;
-        limit?: number;
-        mentorId?: string;
-    }) => {
+    findWithPagination = async ({ page, limit, mentorId }: { page?: number; limit?: number; mentorId?: string }) => {
         const where = mentorId
             ? {
                   mentorship: {
@@ -25,12 +16,8 @@ class TeamRepository {
             limit,
             where,
             orderBy: { id: "desc" },
-            select: {
-                id: true,
-                mentorshipId: true,
-                leaderId: true,
-                topicId: true,
-                mentorNote: true
+            include: {
+                candidates: true,
             },
         });
 
@@ -109,7 +96,15 @@ class TeamRepository {
         return this.findByIdWithMembers(candidate.teamId);
     };
 
-    create = async ({ mentorshipId, topicId, mentorNote }: { mentorshipId: string; topicId: string; mentorNote?: string | null }) => {
+    create = async ({
+        mentorshipId,
+        topicId,
+        mentorNote,
+    }: {
+        mentorshipId: string;
+        topicId: string;
+        mentorNote?: string | null;
+    }) => {
         return prisma.team.create({
             data: {
                 mentorshipId,

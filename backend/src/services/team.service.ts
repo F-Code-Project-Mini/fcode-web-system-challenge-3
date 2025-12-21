@@ -1,3 +1,4 @@
+import { includes } from "lodash";
 import { RoleType } from "~/constants/enums";
 import { HTTP_STATUS } from "~/constants/httpStatus";
 import teamRepository from "~/repositories/team.repository";
@@ -28,13 +29,7 @@ class TeamService {
         });
 
         return {
-            data: teams.map((team) => ({
-                id: team.id,
-                mentorship_id: team.mentorshipId,
-                leader_id: team.leaderId,
-                topic_id: team.topicId,
-                mentor_note: team.mentorNote,
-            })),
+            data: teams,
             pagination: {
                 total: meta.total,
                 page: meta.page,

@@ -5,16 +5,17 @@ import teamService from "~/services/team.service";
 
 export const getAll = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const page = Number((req.query as any).page);
-        const limit = Number((req.query as any).limit);
+        const page = Number((req.query as any).page) ?? 1;
+        const limit = Number((req.query as any).limit) ?? 20;
+        const result = await teamService.getAll({
+            page,
+            limit,
+            role: req.role,
+            userId: req.userId,
+        });
         return res.status(HTTP_STATUS.OK).json(
             new ResponseClient({
-                result: await teamService.getAll({
-                    page,
-                    limit,
-                    role: req.role,
-                    userId: req.userId,
-                }),
+                result,
             }),
         );
     } catch (error) {
@@ -63,9 +64,7 @@ export const update = async (req: Request<{ id: string }>, res: Response, next: 
             mentorship_id?: string;
         };
         const result = await teamService.update(id, { topic_id, mentorship_id });
-        return res
-            .status(HTTP_STATUS.OK)
-            .json(new ResponseClient({ message: "Cập nhật team thành công!", result }));
+        return res.status(HTTP_STATUS.OK).json(new ResponseClient({ message: "Cập nhật team thành công!", result }));
     } catch (error) {
         return next(error);
     }
