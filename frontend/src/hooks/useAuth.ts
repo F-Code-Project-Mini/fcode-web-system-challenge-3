@@ -1,19 +1,19 @@
 import { useSelector } from "react-redux";
 import type { RootState } from "~/store/store";
 import { useAppDispatch } from "./useRedux";
-import { getInfoUser, logoutUser } from "~/features/userSlice";
+import { getInfo, logoutUser } from "~/features/userSlice";
 import { useNavigate } from "react-router";
 import LocalStorage from "~/utils/localstorage";
 const useAuth = () => {
     const dispatch = useAppDispatch();
-    const userInfo = useSelector((state: RootState) => state.user.userInfo);
+    const { userInfo, isLoading } = useSelector((state: RootState) => state.user);
     const isLogin = userInfo.isLogin;
     const navigate = useNavigate();
 
     const getUserInfo = () => {
         if (isLogin) return;
         LocalStorage.setItem("login", "true");
-        dispatch(getInfoUser());
+        dispatch(getInfo());
     };
 
     const logout = () => {
@@ -27,7 +27,7 @@ const useAuth = () => {
         isChecking: userInfo.isChecking,
         isLogin,
         logout,
-        isLoading: useSelector((state: RootState) => state.user.isLoading),
+        isLoading,
     };
 };
 export default useAuth;

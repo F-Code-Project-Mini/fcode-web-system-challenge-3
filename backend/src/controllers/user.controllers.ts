@@ -71,6 +71,8 @@ export const refreshToken = async (req: Request, res: Response, next: NextFuncti
         setCookieResponse(res, "refresh_token", result.refresh_token, ExpiresInTokenType.RefreshToken);
         return res.status(HTTP_STATUS.OK).json(new ResponseClient({ message: "Làm mới token thành công!" }));
     } catch (error) {
+        res.clearCookie("access_token");
+        res.clearCookie("refresh_token");
         return next(error);
     }
 };

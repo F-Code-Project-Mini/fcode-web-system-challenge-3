@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { TokenType } from "~/constants/enums";
-import * as authController from "~/controllers/users.controllers";
+import * as authController from "~/controllers/user.controllers";
 import * as middlewareAuth from "~/middlewares/auth.middlewares";
 
 import { activeAccountSchema, loginSchema, setPasswordSchema } from "~/rules/auth/auth.schema";

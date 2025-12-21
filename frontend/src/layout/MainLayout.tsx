@@ -15,6 +15,7 @@ const MainLayout = () => {
     useEffect(() => {
         const checkAuth = async () => {
             const isLoginLocal = LocalStorage.getItem("login");
+
             if (isLoginLocal && !isLoading) {
                 try {
                     await getUserInfo();
@@ -31,6 +32,8 @@ const MainLayout = () => {
                 console.log("vô đây");
             }
         };
+        console.log("Chạy cái này mấy lần");
+
         checkAuth();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isLoading, location.pathname]);

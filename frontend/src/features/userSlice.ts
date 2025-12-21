@@ -30,7 +30,7 @@ export const logoutUser = createAsyncThunk("auth/logout", async (_, thunkAPI) =>
         return thunkAPI.rejectWithValue("[F-Code] Vui lòng tạo ticket trên Discord để được hỗ trợ!");
     }
 });
-export const getInfoUser = createAsyncThunk("user/getInfo", async () => {
+export const getInfo = createAsyncThunk("user/getInfo", async () => {
     return await AuthApi.getInfo();
 });
 export const userSlice = createSlice({
@@ -48,17 +48,17 @@ export const userSlice = createSlice({
                 isChecking: true,
                 isLogin: true,
             };
-            state.isLoading = true;
+            state.isLoading = false;
         },
     },
     extraReducers: (builder) => {
         // xử lý mấy cái gọi api bất đồng bộ
 
-        builder.addCase(getInfoUser.pending, (state) => {
+        builder.addCase(getInfo.pending, (state) => {
             state.isLoading = true;
             console.log("vô");
         });
-        builder.addCase(getInfoUser.fulfilled, (state, action: PayloadAction<UserType>) => {
+        builder.addCase(getInfo.fulfilled, (state, action: PayloadAction<UserType>) => {
             console.log({
                 ...action.payload,
                 isLogin: !!action.payload,
@@ -72,7 +72,7 @@ export const userSlice = createSlice({
             };
             state.isLoading = false;
         });
-        builder.addCase(getInfoUser.rejected, (state) => {
+        builder.addCase(getInfo.rejected, (state) => {
             state.isLoading = false;
         });
 

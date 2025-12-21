@@ -4,6 +4,8 @@ import { TokenType } from "~/constants/enums";
 import { HTTP_STATUS } from "~/constants/httpStatus";
 import { ErrorWithStatus } from "~/rules/error";
 import AlgoJwt from "~/utils/jwt";
+import userRepository from "~/repositories/user.repository";
+import { RoleType } from "~/constants/enums";
 
 export const auth = async (req: Request, res: Response, next: NextFunction) => {
     const token = req.cookies.access_token;
@@ -22,6 +24,8 @@ export const auth = async (req: Request, res: Response, next: NextFunction) => {
             });
         }
         req.userId = payload.userId;
+        req.role = payload.role;
+        
 
         next();
     } catch (error) {
@@ -50,6 +54,7 @@ export const verifyToken =
                 });
             }
             req.userId = payload.userId;
+
             next();
         } catch (error) {
             next(error);
@@ -73,6 +78,7 @@ export const verifyTokenActiveAccount = async (req: Request<{ token: string }>, 
     }
 };
 export const isRole = (roles: string[]) => async (req: Request, res: Response, next: NextFunction) => {
+    console.log("req.role", req.role);
     if (roles.includes(req.role as string)) {
         next();
     } else {
@@ -81,6 +87,7 @@ export const isRole = (roles: string[]) => async (req: Request, res: Response, n
         });
     }
 };
+
 export const isExsitedTokenInRedis = async (req: Request, res: Response, next: NextFunction) => {
     const { userId } = req;
     console.log("userId", userId);
