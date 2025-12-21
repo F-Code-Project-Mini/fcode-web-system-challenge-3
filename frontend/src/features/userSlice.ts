@@ -48,7 +48,7 @@ export const userSlice = createSlice({
                 isChecking: true,
                 isLogin: true,
             };
-            state.isLoading = true;
+            state.isLoading = false;
         },
     },
     extraReducers: (builder) => {
@@ -59,12 +59,6 @@ export const userSlice = createSlice({
             console.log("vô");
         });
         builder.addCase(getInfoUser.fulfilled, (state, action: PayloadAction<UserType>) => {
-            console.log({
-                ...action.payload,
-                isLogin: !!action.payload,
-                isChecking: true,
-            });
-
             state.userInfo = {
                 ...action.payload,
                 isLogin: !!action.payload,

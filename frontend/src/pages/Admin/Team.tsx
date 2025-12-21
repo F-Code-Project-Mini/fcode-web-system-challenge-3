@@ -1,3 +1,4 @@
+import { Button } from "~/components/ui/button";
 import { ShowTopic } from "../Candidate/ShowTopic";
 
 const Teams = () => {
@@ -10,11 +11,21 @@ const Teams = () => {
                             NHÓM <span className="text-primary font-bold">5</span>
                         </h2>
                         <p className="mt-1 text-xs text-gray-500 sm:text-sm">
-                            Danh sách thành viên trong nhóm, vui lòng chủ động liên hệ mentor và các thành viên trong
-                            nhóm.
+                            <ul>
+                                <li>
+                                    Đề tài: <span className="font-bold">Database</span>
+                                </li>
+                                <li>
+                                    Mentor: <span className="text-yellow-500">Chưa cập nhật</span>
+                                </li>
+                            </ul>
+                            {/* <span className="font-bold text-black">Phạm Hoàng Tuấn</span> */}
                         </p>
                     </div>
-                    <ShowTopic />
+                    <div className="flex gap-2">
+                        <ShowTopic />
+                        <Button variant={"outline"}>Cập nhật Mentor</Button>
+                    </div>
                 </div>
                 <div className="overflow-x-auto">
                     <table className="w-full">
