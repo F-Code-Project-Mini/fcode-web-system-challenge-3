@@ -33,6 +33,10 @@ class RedisClient {
         }
         return this.client;
     };
+    exists = async (key: string): Promise<boolean> => {
+        const result = await this.client.exists(key);
+        return result === 1;
+    };
 
     set = async (key: string, value: string, ttlSeconds?: number): Promise<void> => {
         if (ttlSeconds) {

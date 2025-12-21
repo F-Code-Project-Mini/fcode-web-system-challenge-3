@@ -1,30 +1,25 @@
-import Mentor from "./Mentor";
-import { ShowTopic } from "./ShowTopic";
-import Members from "./Members";
-import Timeline from "./Timeline";
-import WelcomePartition from "~/components/WelcomePartition";
-import Notification from "./Notification";
+import { USER_ROLE } from "~/constants/enums";
+import MentorPage from "../Mentor";
+import useAuth from "~/hooks/useAuth";
+import HomePage from "../Candidate";
+import JudgePage from "../Judge";
+import Loading from "~/components/Loading";
+import AdminPage from "../Admin";
 
-const HomePage = () => {
-    return (
-        <>
-            <section className="mb-6 sm:mb-8">
-                <WelcomePartition />
-            </section>
+const IndexPage = () => {
+    const { user } = useAuth();
 
-            <section>
-                <Notification />
-                <ShowTopic />
-            </section>
-            <section className="mt-6 grid grid-cols-1 gap-4 lg:grid-cols-12 lg:gap-6">
-                <Members />
-                <Mentor />
-            </section>
-            <section className="mt-5 grid grid-cols-1 gap-6">
-                <Timeline />
-            </section>
-        </>
-    );
+    if (user.role === USER_ROLE.CANDIDATE) {
+        return <HomePage />;
+    } else if (user.role === USER_ROLE.MENTOR) {
+        return <MentorPage />;
+    } else if (user.role === USER_ROLE.JUDGE) {
+        return <JudgePage />;
+    } else if (user.role === USER_ROLE.ADMIN) {
+        return <AdminPage />;
+    } else {
+        return <Loading />;
+    }
 };
 
-export default HomePage;
+export default IndexPage;

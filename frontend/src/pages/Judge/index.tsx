@@ -1,5 +1,6 @@
-import { LogIn, MousePointer2 } from "lucide-react";
+import { Sparkles } from "lucide-react";
 import { Link } from "react-router";
+import { Button } from "~/components/ui/button";
 import WelcomePartition from "~/components/WelcomePartition";
 
 const JudgePage = () => {
@@ -52,11 +53,14 @@ const JudgePage = () => {
                                         10:00 AM
                                     </td>
                                     <td className="px-3 py-3 text-sm text-gray-600 sm:table-cell sm:px-6 sm:py-4">
-                                        <Link
-                                            to="/judge/barem/2000"
-                                            className="shadown-base inline-block w-fit cursor-pointer rounded-xl border bg-white p-2"
-                                        >
-                                            <LogIn />
+                                        <Link to="/judge/barem/2000">
+                                            <Button
+                                                variant="outline"
+                                                className="shadown-base flex w-fit cursor-pointer items-center gap-2 rounded-xl border p-2"
+                                            >
+                                                <span>Đánh giá</span>
+                                                <Sparkles size={18} />
+                                            </Button>
                                         </Link>
                                     </td>
                                 </tr>

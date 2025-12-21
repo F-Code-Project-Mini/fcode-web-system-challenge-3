@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from "express";
+import redisClient from "~/configs/redis";
 import { TokenType } from "~/constants/enums";
 import { HTTP_STATUS } from "~/constants/httpStatus";
 import { ErrorWithStatus } from "~/rules/error";
@@ -56,6 +57,23 @@ export const verifyToken =
             next(error);
         }
     };
+
+export const verifyTokenActiveAccount = async (req: Request<{ token: string }>, res: Response, next: NextFunction) => {
+    const { token } = req.params;
+    try {
+        const payload = await AlgoJwt.verifyToken({ token });
+        if (payload.type !== TokenType.ActivateAccount) {
+            throw new ErrorWithStatus({
+                status: HTTP_STATUS.UNAUTHORIZED,
+                message: "Token không chính xác!",
+            });
+        }
+        req.userId = payload.userId;
+        next();
+    } catch (error) {
+        next(error);
+    }
+};
 export const isRole = (roles: string[]) => async (req: Request, res: Response, next: NextFunction) => {
     if (roles.includes(req.role as string)) {
         next();
@@ -88,5 +106,20 @@ export const attachUserRole = async (req: Request, res: Response, next: NextFunc
         return next();
     } catch (error) {
         return next(error);
+    }
+};
+export const isExsitedTokenInRedis = async (req: Request, res: Response, next: NextFunction) => {
+    const { userId } = req;
+    console.log("userId", userId);
+
+    const isExisted = await redisClient.exists(`activateAccountToken:${userId}`);
+    if (!isExisted) {
+        throw new ErrorWithStatus({
+            status: HTTP_STATUS.BAD_REQUEST,
+            message: "Token kích hoạt tài khoản không hợp lệ hoặc đã hết hạn!",
+        });
+    } else {
+        req.userId = userId;
+        next();
     }
 };

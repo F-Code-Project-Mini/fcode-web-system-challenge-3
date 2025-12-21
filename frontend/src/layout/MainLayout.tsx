@@ -22,7 +22,11 @@ const MainLayout = () => {
                     LocalStorage.removeItem("login");
                     navigate("/login");
                 }
-            } else if (!isLoginLocal && location.pathname !== "/login") {
+            } else if (
+                !isLoginLocal &&
+                location.pathname !== "/login" &&
+                !location.pathname.startsWith("/active/token/")
+            ) {
                 navigate("/login");
                 console.log("vô đây");
             }
@@ -36,14 +40,17 @@ const MainLayout = () => {
             startTour();
         }
     }, [isLogin, user.role]);
-    useLayoutEffect(() => {
-        if (user.role === USER_ROLE.JUDGE && location.pathname.includes("/judge") === false) {
-            console.log(location.pathname);
+    // useLayoutEffect(() => {
+    //     if (user.role === USER_ROLE.JUDGE && location.pathname.includes("/judge") === false) {
+    //         console.log(location.pathname);
+    //         navigate("/judge");
+    //     } else if (user.role === USER_ROLE.MENTOR && location.pathname.includes("/mentor") === false) {
+    //         console.log(location.pathname);
+    //         navigate("/mentor");
+    //     }
+    //     // eslint-disable-next-line react-hooks/exhaustive-deps
+    // }, [isLogin, location.pathname]);
 
-            navigate("/judge");
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isLogin, location.pathname]);
     return (
         <>
             <section className="flex min-h-screen flex-col justify-between px-3.5 xl:px-5">

@@ -1,14 +1,4 @@
-import {
-    BadgeQuestionMark,
-    ChevronDown,
-    House,
-    Menu,
-    Send,
-    ServerCrash,
-    Trophy,
-    X,
-    type LucideProps,
-} from "lucide-react";
+import { BadgeQuestionMark, ChevronDown, House, Menu, X } from "lucide-react";
 import { Link, useLocation } from "react-router";
 import useAuth from "~/hooks/useAuth";
 import { useState, useRef, useEffect } from "react";
@@ -16,12 +6,18 @@ import SubmenuHeader from "./Submenu";
 import { Button } from "../ui/button";
 import { USER_ROLE } from "~/constants/enums";
 import LocalStorage from "~/utils/localstorage";
+import { NavLink } from "./NavLink";
+import Helper from "~/utils/helper";
+import MenuMobileHeader from "./MenuMobile";
+import CandidateHeader from "./Candidate";
+import AdminHeader from "./Admin";
 
 const Header = () => {
     const location = useLocation();
     const { isLogin, user } = useAuth();
     const [showUserMenu, setShowUserMenu] = useState(false);
     const [showMobileMenu, setShowMobileMenu] = useState(false);
+
     const menuRef = useRef<HTMLDivElement>(null);
 
     const showAgainInstruction = () => {
@@ -51,36 +47,15 @@ const Header = () => {
                 <nav className="ml-10 hidden lg:block">
                     <ul className="flex items-center gap-1">
                         <li>
-                            <NavLink url="/" name="Trang chủ" Icon={House} active={isActive(location.pathname, "/")} />
-                        </li>
-                        {isLogin && user.role === USER_ROLE.CANDIDATE && (
-                            <>
-                                <li id="scoreboard">
-                                    <NavLink
-                                        url="/scoreboard"
-                                        name="Bảng điểm"
-                                        Icon={Trophy}
-                                        active={isActive(location.pathname, "/scoreboard")}
-                                    />
-                                </li>
-                                <li id="submissions">
-                                    <NavLink
-                                        url="/submissions"
-                                        name="Nộp đề tài"
-                                        Icon={Send}
-                                        active={isActive(location.pathname, "/submissions")}
-                                    />
-                                </li>
-                            </>
-                        )}
-                        <li>
                             <NavLink
-                                url="https://discord.gg/WvudrJaYD"
-                                name="Hỗ trợ"
-                                Icon={ServerCrash}
-                                target="_blank"
+                                url="/"
+                                name="Trang chủ"
+                                Icon={House}
+                                active={Helper.isActive(location.pathname, "/")}
                             />
                         </li>
+                        {isLogin && user.role === USER_ROLE.CANDIDATE && <CandidateHeader />}
+                        {isLogin && user.role === USER_ROLE.ADMIN && <AdminHeader />}
                     </ul>
                 </nav>
 
@@ -129,136 +104,9 @@ const Header = () => {
                 </button>
             </div>
 
-            {/* Mobile Navigation */}
-            {showMobileMenu && (
-                <div className="mt-4 border-t border-gray-100 pt-4 lg:hidden">
-                    <nav className="space-y-1">
-                        <MobileNavLink
-                            url="/"
-                            name="Trang chủ"
-                            Icon={House}
-                            active={isActive(location.pathname, "/")}
-                            onClick={() => setShowMobileMenu(false)}
-                        />
-                        {isLogin && (
-                            <>
-                                <MobileNavLink
-                                    url="/scoreboard"
-                                    name="Bảng điểm"
-                                    Icon={Trophy}
-                                    active={isActive(location.pathname, "/scoreboard")}
-                                    onClick={() => setShowMobileMenu(false)}
-                                />
-                                <MobileNavLink
-                                    url="/submissions"
-                                    name="Nộp đề tài"
-                                    Icon={Send}
-                                    active={isActive(location.pathname, "/submissions")}
-                                    onClick={() => setShowMobileMenu(false)}
-                                />
-                            </>
-                        )}
-                        <MobileNavLink
-                            url="https://discord.gg/WvudrJaYD"
-                            name="Hỗ trợ sự cố"
-                            Icon={ServerCrash}
-                            target="_blank"
-                            onClick={() => setShowMobileMenu(false)}
-                        />
-                    </nav>
-
-                    {isLogin ? (
-                        <div className="mt-4 border-t border-gray-100 pt-4">
-                            <div className="flex items-center gap-3 rounded-lg bg-gray-50 p-3">
-                                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-gray-100/60 to-gray-500 text-sm font-semibold text-gray-700">
-                                    {user.fullName.charAt(0)}
-                                </div>
-                                <div className="flex-1">
-                                    <p className="text-sm font-semibold text-gray-900">{user.fullName}</p>
-                                    <p className="text-xs text-gray-500">{user.email}</p>
-                                </div>
-                            </div>
-                            <div className="mt-2 space-y-1">
-                                <button
-                                    onClick={() => {
-                                        setShowMobileMenu(false);
-                                        console.log("Logout");
-                                    }}
-                                    className="block w-full rounded-lg px-3 py-2 text-left text-sm text-red-600 hover:bg-red-50"
-                                >
-                                    Đăng xuất
-                                </button>
-                            </div>
-                        </div>
-                    ) : (
-                        <div className="mt-4 border-t border-gray-100 pt-4">
-                            <Link to="/login" onClick={() => setShowMobileMenu(false)}>
-                                <Button className="w-full">Đăng nhập</Button>
-                            </Link>
-                        </div>
-                    )}
-                </div>
-            )}
+            {showMobileMenu && <MenuMobileHeader setShowMobileMenu={setShowMobileMenu} />}
         </header>
     );
 };
-
-const isActive = (src: string, dest: string) => {
-    return src === dest;
-};
-
-const NavLink = ({
-    url,
-    name,
-    active = false,
-    Icon,
-    target,
-}: {
-    url: string;
-    name: string;
-    active?: boolean;
-    Icon?: React.ForwardRefExoticComponent<Omit<LucideProps, "ref"> & React.RefAttributes<SVGSVGElement>>;
-    target?: string;
-}) => (
-    <Link
-        to={url}
-        className={`group relative flex items-center gap-2 rounded-lg px-3.5 py-2 text-sm font-medium transition-all duration-200 ${
-            active ? "text-primary" : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
-        }`}
-        target={target}
-    >
-        {Icon && <Icon size={16} strokeWidth={2.2} />}
-        <span>{name}</span>
-        {active && <div className="bg-primary absolute bottom-0 left-1/2 h-0.5 w-8 -translate-x-1/2 rounded-full" />}
-    </Link>
-);
-
-const MobileNavLink = ({
-    url,
-    name,
-    active = false,
-    Icon,
-    target,
-    onClick,
-}: {
-    url: string;
-    name: string;
-    active?: boolean;
-    target?: string;
-    onClick?: () => void;
-    Icon?: React.ForwardRefExoticComponent<Omit<LucideProps, "ref"> & React.RefAttributes<SVGSVGElement>>;
-}) => (
-    <Link
-        to={url}
-        target={target}
-        onClick={onClick}
-        className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors ${
-            active ? "text-primary bg-primary/10" : "text-gray-700 hover:bg-gray-50"
-        }`}
-    >
-        {Icon && <Icon size={18} strokeWidth={2.2} />}
-        <span>{name}</span>
-    </Link>
-);
 
 export default Header;
