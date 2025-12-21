@@ -9,8 +9,10 @@ const ProtectedRoute = ({ roleAccess = [] }: { roleAccess?: string[] }) => {
     console.log("isLoading, ", isLoading);
 
     if (isLoading) {
+        console.log("Đứng ở chỗ này nè");
+
         return <Loading />;
-    } else if (roleAccess.includes(user.role) === false) {
+    } else if (roleAccess.includes(user.role || "") === false) {
         navigate("/", { replace: true });
         return <NoAccess />;
     }

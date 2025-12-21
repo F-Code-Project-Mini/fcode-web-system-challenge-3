@@ -1,5 +1,5 @@
 import type { LucideProps } from "lucide-react";
-import { Link, NavLink as NavLink2 } from "react-router";
+import { Link } from "react-router";
 
 export const NavLink = ({
     url,

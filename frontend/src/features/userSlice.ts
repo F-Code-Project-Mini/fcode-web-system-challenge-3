@@ -48,7 +48,7 @@ export const userSlice = createSlice({
                 isChecking: true,
                 isLogin: true,
             };
-            state.isLoading = true;
+            state.isLoading = false;
         },
     },
     extraReducers: (builder) => {

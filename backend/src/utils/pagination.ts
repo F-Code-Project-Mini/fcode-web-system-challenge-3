@@ -8,15 +8,15 @@ type PaginateArgs<T> = T & {
 
 export async function paginate<
     TArgs extends {
-        select?: Prisma.UserSelect<DefaultArgs> | null | undefined;
-        omit?: Prisma.UserOmit<DefaultArgs> | null | undefined;
-        include?: Prisma.UserInclude<DefaultArgs> | null | undefined;
-        where?: Prisma.UserWhereInput | undefined;
-        orderBy?: (Prisma.UserOrderByWithRelationInput | Prisma.UserOrderByWithRelationInput[]) | undefined;
-        cursor?: Prisma.UserWhereUniqueInput | undefined;
+        select?: null | undefined;
+        omit?: null | undefined;
+        include?: null | undefined;
+        where?: undefined;
+        orderBy?: undefined;
+        cursor?: undefined;
         take?: number | undefined;
         skip?: number | undefined;
-        distinct?: (Prisma.UserScalarFieldEnum | Prisma.UserScalarFieldEnum[]) | undefined;
+        distinct?: undefined;
     },
 >(
     model: {

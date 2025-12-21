@@ -1,4 +1,4 @@
-import { ExpiresInTokenType, TokenType } from "~/constants/enums";
+import { ExpiresInTokenType, RoleType, TokenType } from "~/constants/enums";
 import { HTTP_STATUS } from "~/constants/httpStatus";
 import { ErrorWithStatus } from "~/rules/error";
 import userRespository from "~/repositories/user.repository";
@@ -6,7 +6,6 @@ import AlgoCrypoto from "~/utils/crypto";
 import AlgoJwt from "~/utils/jwt";
 import { LoginRequestBody } from "~/rules/requests/user.request";
 import redisClient from "~/configs/redis";
-import { addEmailJob } from "~/queues/email.queue";
 class AuthService {
     public activeAccount = async (data: LoginRequestBody) => {
         const { email, password = "" } = data;
@@ -30,7 +29,7 @@ class AuthService {
             });
         }
 
-        const token = await this.signAccesAndRefreshToken(accountExisted.id);
+        const token = await this.signAccesAndRefreshToken(accountExisted.id, accountExisted.role as RoleType);
         return {
             ...token,
             user: accountExisted,
@@ -49,6 +48,7 @@ class AuthService {
         console.log("sendMailActiveAccount", email, fullName, userId);
         const token = await this.signToken({
             type: TokenType.ActivateAccount,
+
             userId,
             expiresIn: ExpiresInTokenType.ActivateAccount,
         });
@@ -129,23 +129,26 @@ class AuthService {
 
     private signToken = ({
         userId,
+        role,
         type,
         expiresIn = ExpiresInTokenType.AccessToken,
     }: {
         userId: string;
+        role?: RoleType;
         type: TokenType;
         expiresIn?: number;
     }) => {
         return AlgoJwt.signToken({
-            payload: { type, userId },
+            payload: { type, userId, role },
             options: { expiresIn: expiresIn }, // convert seconds to mili seconds
         }) as Promise<string>;
     };
 
-    private signAccesAndRefreshToken = async (userId: string) => {
+    private signAccesAndRefreshToken = async (userId: string, role?: RoleType) => {
         const [accessToken, refreshToken] = await Promise.all([
             this.signToken({
                 userId,
+                role,
                 type: TokenType.AccessToken,
                 expiresIn: ExpiresInTokenType.AccessToken,
             }),
