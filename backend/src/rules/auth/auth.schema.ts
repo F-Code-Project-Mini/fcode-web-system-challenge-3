@@ -4,7 +4,33 @@ const jwtSchema = z.string().regex(/^[^.]+\.[^.]+\.[^.]+$/, "Token không hợp 
 export const loginSchema = z.object({
     body: z.object({
         email: z.string().trim().email().nonempty(),
-        password: z.string().nullable(),
+        password: z.string().trim().nonempty(),
+    }),
+});
+
+export const getAllSchema = z.object({
+    query: z.object({
+        page: z.number().positive().default(1),
+        limit: z.number().positive().default(20),
+    }),
+});
+
+export const idParamSchema = z.object({
+    params: z.object({
+        id: z.string().uuid("ID không hợp lệ!"),
+    }),
+});
+export const uuidParamsAndBodySchema = z.object({
+    ...idParamSchema.shape,
+    body: z.object({
+        candidate_id: z.string().uuid("ID ứng viên không hợp lệ!"),
+    }),
+});
+
+export const topicSchema = z.object({
+    body: z.object({
+        title: z.string().trim().nonempty(),
+        file_path: z.string().trim().url(),
     }),
 });
 export const activeAccountSchema = z.object({
