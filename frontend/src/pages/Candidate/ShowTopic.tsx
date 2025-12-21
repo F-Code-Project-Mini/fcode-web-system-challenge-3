@@ -3,9 +3,8 @@ import { Button } from "~/components/ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "~/components/ui/dialog";
 import useIsMobile from "~/hooks/useIsMobile";
 
-export function ShowTopic() {
+export function ShowTopic({ urlPdf }: { urlPdf: string }) {
     const isMobile = useIsMobile();
-    const urlPdf = "https://drive.google.com/file/d/1j2ktFsO9MTN_9z9yrEaV1LXu36hEzPkL/preview";
     return (
         <Dialog>
             {isMobile ? (
@@ -30,7 +29,7 @@ export function ShowTopic() {
                 </DialogTrigger>
             )}
 
-            <DialogContent className="min-h-[98%] min-w-[95%] bg-white sm:min-w-[70%]">
+            <DialogContent className="min-h-[98%] min-w-[96%] bg-white 2xl:min-h-[98%] 2xl:min-w-[95%]">
                 <div className="gap-4 px-2 sm:px-3">
                     <iframe
                         src={urlPdf}

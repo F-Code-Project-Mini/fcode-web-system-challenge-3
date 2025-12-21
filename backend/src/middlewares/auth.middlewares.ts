@@ -25,7 +25,6 @@ export const auth = async (req: Request, res: Response, next: NextFunction) => {
         }
         req.userId = payload.userId;
         req.role = payload.role;
-        
 
         next();
     } catch (error) {
@@ -54,6 +53,7 @@ export const verifyToken =
                 });
             }
             req.userId = payload.userId;
+            req.role = payload.role;
 
             next();
         } catch (error) {

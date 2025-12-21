@@ -65,7 +65,7 @@ const Header = () => {
                             <div className="flex items-center gap-2">
                                 <div
                                     onClick={() => setShowUserMenu(!showUserMenu)}
-                                    className="group cursor-pointer rounded-lg px-3 py-2 transition-colors hover:bg-gray-100"
+                                    className="group cursor-pointer rounded-lg px-3 transition-colors"
                                 >
                                     <div className="flex items-center gap-2.5">
                                         <div className="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-gray-100 to-gray-500 text-sm font-semibold text-gray-700">

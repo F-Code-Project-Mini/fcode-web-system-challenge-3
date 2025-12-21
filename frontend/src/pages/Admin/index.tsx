@@ -1,13 +1,22 @@
+import { useQuery } from "@tanstack/react-query";
 import Teams from "./Team";
+import TeamApi from "~/api-requests/team.requests";
 
 const AdminPage = () => {
+    const { data: teams } = useQuery({
+        queryKey: ["admin", "teams"],
+        queryFn: async () => {
+            const res = await TeamApi.getAllTeams();
+            return res.result.data;
+        },
+        staleTime: 5 * 60 * 1000,
+    });
     return (
         <>
             <section className="mt-4 grid grid-cols-1 gap-4 lg:grid-cols-12 lg:gap-6">
-                <Teams />
-                <Teams />
-                <Teams />
-                <Teams />
+                {teams?.map((item) => (
+                    <Teams key={item.id} team={item} />
+                ))}
             </section>
             <section>
                 {/* <Notification /> */}

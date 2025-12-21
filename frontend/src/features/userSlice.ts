@@ -14,6 +14,16 @@ const initialState: ReduxType = {
         candidateId: "",
         createdAt: "",
         updatedAt: "",
+        candidate: {
+            id: "",
+            studentCode: "",
+            phone: "",
+            major: "",
+            semester: "",
+            teamId: "",
+            createdAt: "",
+            updatedAt: "",
+        },
     },
     isLoading: false,
 };
@@ -39,10 +49,10 @@ export const userSlice = createSlice({
     reducers: {
         // action bth thôi
         setUser: (state, action: PayloadAction<UserType>) => {
-            console.log({
-                ...action.payload,
-                isLogin: true,
-            });
+            // console.log({
+            //     ...action.payload,
+            //     isLogin: true,
+            // });
             state.userInfo = {
                 ...action.payload,
                 isChecking: true,
@@ -56,14 +66,14 @@ export const userSlice = createSlice({
 
         builder.addCase(getInfo.pending, (state) => {
             state.isLoading = true;
-            console.log("vô");
+            // console.log("vô");
         });
         builder.addCase(getInfo.fulfilled, (state, action: PayloadAction<UserType>) => {
-            console.log({
-                ...action.payload,
-                isLogin: !!action.payload,
-                isChecking: true,
-            });
+            // console.log({
+            //     ...action.payload,
+            //     isLogin: !!action.payload,
+            //     isChecking: true,
+            // });
 
             state.userInfo = {
                 ...action.payload,

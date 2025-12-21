@@ -95,7 +95,7 @@ class AuthService {
         return true;
     };
 
-    public refreshToken = async (userId: string, token: string) => {
+    public refreshToken = async (userId: string, role: RoleType, token: string) => {
         const tokenInRedis = await redisClient.get(`refreshToken:${userId}`);
         console.log("refresh token in redis", tokenInRedis, userId);
 
@@ -105,7 +105,7 @@ class AuthService {
                 message: "Refresh token không được tìm thấy trong hệ thống hoặc không chính xác!",
             });
         }
-        return await this.signAccesAndRefreshToken(userId);
+        return await this.signAccesAndRefreshToken(userId, role);
     };
 
     public getInfo = async (userId: string) => {
@@ -144,7 +144,7 @@ class AuthService {
         }) as Promise<string>;
     };
 
-    private signAccesAndRefreshToken = async (userId: string, role?: RoleType) => {
+    private signAccesAndRefreshToken = async (userId: string, role: RoleType) => {
         const [accessToken, refreshToken] = await Promise.all([
             this.signToken({
                 userId,
@@ -154,6 +154,7 @@ class AuthService {
             }),
             this.signToken({
                 userId,
+                role,
                 type: TokenType.RefreshToken,
                 expiresIn: ExpiresInTokenType.RefreshToken,
             }),

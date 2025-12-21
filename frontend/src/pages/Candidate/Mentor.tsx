@@ -1,22 +1,16 @@
 import { Facebook, Mail } from "lucide-react";
 
-const Mentor = () => {
+const Mentor = ({ data }: { data: { fullName: string } | undefined }) => {
     return (
-        <section className="col-span-1 lg:col-span-4" id="mentor">
+        <section className="col-span-16 xl:col-span-4" id="mentor">
             <div className="rounded-lg border border-gray-200 bg-white shadow-2xs lg:sticky lg:top-24">
                 <div className="from-gray-100/60/60 border-b border-gray-100 bg-gradient-to-br to-white px-4 py-4 sm:px-6 sm:py-5">
                     <div className="flex items-center gap-3">
-                        <div className="bg-primary/10 text-primary flex h-12 w-12 items-center justify-center overflow-hidden rounded-full">
-                            {/* <User className="h-6 w-6" strokeWidth={2.2} /> */}
-                            <img
-                                src="https://i.ibb.co/DfQd5Qr5/594972376-1542715670398830-6245042482448236020-n.jpg"
-                                alt="Mentor"
-                                className="h-full w-full object-cover"
-                            />
-                        </div>
                         <div>
                             <span className="text-xs font-medium tracking-wide text-gray-500 uppercase">Mentor</span>
-                            <h3 className="mt-0.5 text-base font-semibold text-gray-900 sm:text-lg">Phạm Hoàng Tuấn</h3>
+                            <h3 className="mt-0.5 text-base font-semibold text-gray-900 sm:text-lg">
+                                {data?.fullName}
+                            </h3>
                         </div>
                     </div>
                 </div>

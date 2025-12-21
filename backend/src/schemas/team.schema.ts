@@ -2,6 +2,7 @@ import { v4 as uuidv4 } from "uuid";
 
 interface TeamType {
     id?: string;
+    name: string;
     mentorshipId: string;
     leaderId?: string | null;
     topicId: string;
@@ -10,6 +11,7 @@ interface TeamType {
 
 class Team {
     id: string;
+    name: string;
     mentorshipId: string;
     leaderId: string | null;
     topicId: string;
@@ -17,6 +19,7 @@ class Team {
 
     constructor(team: TeamType) {
         this.id = team.id || uuidv4();
+        this.name = team.name;
         this.mentorshipId = team.mentorshipId;
         this.leaderId = team.leaderId || null;
         this.topicId = team.topicId;

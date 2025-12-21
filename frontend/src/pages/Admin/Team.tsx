@@ -1,29 +1,31 @@
 import { Button } from "~/components/ui/button";
 import { ShowTopic } from "../Candidate/ShowTopic";
+import type { TeamType } from "~/types/team.types";
 
-const Teams = () => {
+const Teams = ({ team: { mentorship, candidates, leader, topic, name } }: { team: TeamType }) => {
     return (
         <section className="col-span-1 lg:col-span-16" id="members">
             <div className="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-2xs">
                 <div className="from-gray-100/60/60 flex justify-between border-b border-gray-200 bg-gradient-to-r px-4 py-3 sm:px-6 sm:py-4">
                     <div>
                         <h2 className="text-base font-semibold text-gray-900 sm:text-lg">
-                            NHÓM <span className="text-primary font-bold">5</span>
+                            NHÓM <span className="text-primary font-bold">{name}</span>
                         </h2>
                         <p className="mt-1 text-xs text-gray-500 sm:text-sm">
                             <ul>
                                 <li>
-                                    Đề tài: <span className="font-bold">Database</span>
+                                    Đề tài: <span className="font-bold">{topic.title}</span>
                                 </li>
                                 <li>
-                                    Mentor: <span className="text-yellow-500">Chưa cập nhật</span>
+                                    Mentor:{" "}
+                                    <span className="font-bold text-gray-600">{mentorship.mentor.fullName}</span>
                                 </li>
                             </ul>
                             {/* <span className="font-bold text-black">Phạm Hoàng Tuấn</span> */}
                         </p>
                     </div>
                     <div className="flex gap-2">
-                        <ShowTopic />
+                        <ShowTopic urlPdf={topic.filePath} />
                         <Button variant={"outline"}>Cập nhật Mentor</Button>
                     </div>
                 </div>
@@ -65,19 +67,21 @@ const Teams = () => {
                         </thead>
                         {/* tất cả thẻ con là tr có giá trị là border-r-2 */}
                         <tbody className="divide-y divide-gray-200 bg-white [&_tr_td:nth-last-child(-n+3)]:text-center [&_tr_td:nth-last-child(-n+4)]:border-r-2">
-                            {[1, 2, 3].map((item, index) => (
+                            {candidates.map(({ user, ...candidate }, index) => (
                                 <tr className="transition-colors hover:bg-gray-50">
                                     <td className="px-3 py-3 text-sm font-medium whitespace-nowrap text-gray-900 sm:px-6 sm:py-4">
                                         {index + 1}
                                     </td>
-                                    <td className="text-primary px-3 py-3 text-sm font-bold whitespace-nowrap sm:px-6 sm:py-4">
-                                        Phạm Hoàng Tuấn (Leader)
+                                    <td
+                                        className={`${candidate.id == leader.id ? `font-bold` : ``} px-3 py-3 text-sm whitespace-nowrap sm:px-6 sm:py-4`}
+                                    >
+                                        {user.fullName} {candidate.id == leader.id ? `(Trưởng nhóm)` : ``}
                                     </td>
                                     <td className="hidden px-3 py-3 text-sm whitespace-nowrap text-gray-600 sm:table-cell sm:px-6 sm:py-4">
-                                        QE170100
+                                        {candidate.studentCode}
                                     </td>
                                     <td className="hidden px-3 py-3 text-sm whitespace-nowrap text-gray-600 sm:px-6 sm:py-4 md:table-cell">
-                                        tuanph@fpt.edu.vn
+                                        {user.email}
                                     </td>
                                     <td className="hidden px-3 py-3 text-sm whitespace-nowrap text-gray-600 sm:px-6 sm:py-4 md:table-cell">
                                         20
