@@ -35,13 +35,13 @@ const Candidates = () => {
                                 <th></th>
                                 <th></th>
                                 <th></th>
-                                <th className="hidden border-x-2 px-3 py-2 text-left text-xs font-semibold tracking-wider text-gray-600 uppercase sm:table-cell sm:px-6 sm:py-3">
+                                <th className="hidden border-x-2 px-3 py-2 text-center text-xs font-semibold tracking-wider text-gray-600 uppercase sm:table-cell sm:px-6 sm:py-3">
                                     Vòng 1
                                 </th>
-                                <th className="hidden border-x-2 px-3 py-2 text-left text-xs font-semibold tracking-wider text-gray-600 uppercase sm:table-cell sm:px-6 sm:py-3">
+                                <th className="hidden border-x-2 px-3 py-2 text-center text-xs font-semibold tracking-wider text-gray-600 uppercase sm:table-cell sm:px-6 sm:py-3">
                                     Vòng 2
                                 </th>
-                                <th className="hidden border-x-2 px-3 py-2 text-left text-xs font-semibold tracking-wider text-gray-600 uppercase sm:table-cell sm:px-6 sm:py-3">
+                                <th className="hidden border-x-2 px-3 py-2 text-center text-xs font-semibold tracking-wider text-gray-600 uppercase sm:table-cell sm:px-6 sm:py-3">
                                     Vòng 3
                                 </th>
                                 <th></th>

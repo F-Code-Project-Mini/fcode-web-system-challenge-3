@@ -14,7 +14,6 @@ import MentorPage from "./pages/Mentor";
 import IndexPage from "./pages/Home";
 import MentorBaremPage from "./pages/Mentor/Barem";
 import AdminPage from "./pages/Admin";
-import TeamsPage from "./pages/Admin/Teams";
 import ReportsPage from "./pages/Admin/Reports";
 import CandidatePages from "./pages/Admin/Candidates";
 const App = () => {
@@ -43,7 +42,6 @@ const App = () => {
                     {/* Role Mentor */}
                     <Route path="admin" element={<ProtectedRoute roleAccess={[USER_ROLE.ADMIN]} />}>
                         <Route index element={<AdminPage />} />
-                        <Route path="teams" element={<TeamsPage />} />
                         <Route path="reports" element={<ReportsPage />} />
                         <Route path="candidates" element={<CandidatePages />} />
                     </Route>

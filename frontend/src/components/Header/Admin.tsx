@@ -9,12 +9,7 @@ const listMenuAdmin = [
         name: "Quản lý ứng viên",
         Icon: Users,
     },
-    {
-        id: "teams",
-        url: "/admin/teams",
-        name: "Quản lý nhóm",
-        Icon: Users,
-    },
+
     {
         id: "reports",
         url: "/admin/reports",
