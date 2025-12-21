@@ -29,8 +29,7 @@ class TeamRepository {
             },
             topic: true,
         };
-        const datane = await prisma.team.findMany();
-      
+
         const { data, meta } = await paginate<any>(prisma.team, {
             page,
             limit,
@@ -42,10 +41,42 @@ class TeamRepository {
     };
 
     findByIdWithMembers = async (id: string) => {
+        const include = {
+            candidates: {
+                omit: {
+                    mentorNote: true,
+                },
+                include: {
+                    user: {
+                        omit: {
+                            password: true,
+                            candidateId: true,
+                        },
+                    },
+                },
+            },
+            leader: {
+                omit: {
+                    mentorNote: true,
+                },
+            },
+            mentorship: {
+                include: {
+                    mentor: {
+                        omit: {
+                            password: true,
+                        },
+                    },
+                },
+            },
+            topic: true,
+        };
+
         const team = await prisma.team.findUnique({
             where: { id },
-            include: {
-                candidates: true,
+            include,
+            omit: {
+                mentorNote: true,
             },
         });
 
@@ -93,6 +124,7 @@ class TeamRepository {
     }) => {
         return prisma.team.create({
             data: {
+                name: "",
                 mentorshipId,
                 topicId,
                 mentorNote: mentorNote ?? null,

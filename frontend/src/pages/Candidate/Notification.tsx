@@ -3,7 +3,9 @@ const Notification = () => {
         <div className="mb-5 border-t border-b border-yellow-500 bg-yellow-100 px-4 py-3 text-yellow-700" role="alert">
             <p className="font-bold text-red-500">Lưu ý</p>
             <ul className="list-disc pl-4">
-                <li className="text-sm">Các bạn tự làm việc với nhau và bầu chọn ra Leader.</li>
+                <li className="text-sm">
+                    Các bạn tự làm việc với nhau và bầu chọn ra Leader, sau đó báo cáo lại với Mentor.
+                </li>
                 <li className="text-sm">
                     Thêm mentor vào nhóm của các bạn để mentor theo dõi tiến độ và báo cáo cho CLB.
                 </li>
