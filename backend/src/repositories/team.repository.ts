@@ -28,44 +28,13 @@ class TeamRepository {
         const team = await prisma.team.findUnique({
             where: { id },
             include: {
-                candidates: {
-                    select: {
-                        id: true,
-                        studentCode: true,
-                        phone: true,
-                        major: true,
-                        semester: true,
-                        createdAt: true,
-                        updatedAt: true,
-                        user: {
-                            select: {
-                                id: true,
-                                email: true,
-                                fullName: true,
-                            },
-                        },
-                    },
-                },
+                candidates: true,
             },
         });
 
         if (!team) return null;
 
-        return {
-            id: team.id,
-            mentorship_id: team.mentorshipId,
-            leader_id: team.leaderId,
-            topic_id: team.topicId,
-            mentor_note: team.mentorNote,
-            members: team.candidates.map((c) => ({
-                id: c.id,
-                student_code: c.studentCode,
-                phone: c.phone,
-                major: c.major,
-                semester: c.semester,
-                user: c.user,
-            })),
-        };
+        return team;
     };
 
     findByUserId = async (userId: string) => {
