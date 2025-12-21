@@ -46,16 +46,18 @@ const Footer = () => {
                     </div>
 
                     <div className="col-span-1 lg:col-span-3">
-                        <h3 className="text-sm font-semibold tracking-wider text-gray-900 uppercase">Leader</h3>
+                        <h3 className="text-sm font-semibold tracking-wider text-gray-900 uppercase">
+                            Recruitment Leader
+                        </h3>
                         <ul className="mt-3 space-y-2">
                             <li className="text-sm text-gray-600">Project: Trần Ngọc Thanh</li>
                             <li className="text-sm text-gray-600">Plan: Đào Thị Út Trinh</li>
                             <li className="text-sm text-gray-600">HR: Nguyễn Huy Phong</li>
                             <li className="text-sm text-gray-600">Media: Vũ Việt Quang</li>
-                            <li className="text-primary text-sm">Technical: Phạm Hoàng Tuấn</li>
+                            <li className="text-sm text-gray-600">Technical: Phạm Hoàng Tuấn</li>
                             <li className="text-sm text-gray-600">Challenge 1: Nguyễn Hoàng Minh</li>
                             <li className="text-sm text-gray-600">Challenge 2: Võ Gia Huy</li>
-                            <li className="text-primary text-sm">Challenge 3: Phạm Hoàng Tuấn</li>
+                            <li className="text-sm text-gray-600">Challenge 3: Phạm Hoàng Tuấn</li>
                         </ul>
                     </div>
 
