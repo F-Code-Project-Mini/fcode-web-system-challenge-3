@@ -7,7 +7,8 @@ import { getAllSchema, idParamSchema, uuidParamsAndBodySchema } from "~/rules/au
 
 const teamRouter = Router();
 
-teamRouter.get("/", auth, isRole([RoleType.ADMIN, RoleType.MENTOR]), validate(getAllSchema), teamController.getAll);
+// teamRouter.get("/", auth, isRole([RoleType.ADMIN, RoleType.MENTOR]), validate(getAllSchema), teamController.getAll);
+teamRouter.get("/", auth, validate(getAllSchema), teamController.getAll);
 
 teamRouter.get("/:id", auth, validate(idParamSchema), teamController.getDetail);
 

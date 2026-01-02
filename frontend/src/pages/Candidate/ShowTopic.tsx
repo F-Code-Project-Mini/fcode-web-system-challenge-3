@@ -5,13 +5,14 @@ import useIsMobile from "~/hooks/useIsMobile";
 
 export function ShowTopic({ urlPdf }: { urlPdf: string }) {
     const isMobile = useIsMobile();
+    
     return (
         <Dialog>
             {isMobile ? (
                 <Link target="_blank" to={urlPdf}>
                     <Button
                         variant="secondary"
-                        className="bg-primary hover:bg-primary/90 mx-auto text-sm text-white sm:text-base"
+                        className="bg-primary hover:bg-primary/90 mx-auto text-sm text-white shadow-md transition-all hover:shadow-lg sm:text-base"
                         id="topic"
                     >
                         Xem đề tài của nhóm
@@ -21,7 +22,7 @@ export function ShowTopic({ urlPdf }: { urlPdf: string }) {
                 <DialogTrigger asChild>
                     <Button
                         variant="secondary"
-                        className="bg-primary hover:bg-primary/90 text-sm text-white"
+                        className="bg-primary hover:bg-primary/90 text-sm text-white shadow-md transition-all hover:shadow-lg"
                         id="topic"
                     >
                         Xem đề tài của nhóm

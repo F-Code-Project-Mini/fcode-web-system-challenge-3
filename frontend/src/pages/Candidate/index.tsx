@@ -16,6 +16,8 @@ const HomePage = () => {
             const res = await TeamApi.getTeamById(user?.candidate?.teamId || "");
             return res.result;
         },
+        enabled: !!user?.candidate?.teamId,
+        staleTime: 5 * 60 * 1000,
     });
     return (
         <>
@@ -25,9 +27,9 @@ const HomePage = () => {
 
             <section>
                 <Notification />
-                <ShowTopic urlPdf={data?.topic.filePath || ""} />
+                <ShowTopic urlPdf={data?.topic?.filePath || ""} />
             </section>
-            <section className="mt-6 grid grid-cols-1 gap-4 lg:grid-cols-12 lg:gap-6">
+            <section className="mt-6 grid grid-cols-1 gap-4 lg:grid-cols-12 lg:gap-4">
                 <Members data={data} />
                 <Mentor data={data?.mentorship?.mentor} />
             </section>
