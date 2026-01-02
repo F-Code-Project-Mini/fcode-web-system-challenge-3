@@ -30,9 +30,14 @@ class AuthService {
         }
 
         const token = await this.signAccesAndRefreshToken(accountExisted.id, accountExisted.role as RoleType);
+        const { password: _, ...user } = accountExisted;
+        const candidate = await userRespository.findById(accountExisted.id);
         return {
             ...token,
-            user: accountExisted,
+            user: {
+                ...user,
+                candidate: candidate?.candidate,
+            },
         };
     };
 

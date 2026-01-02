@@ -16,6 +16,8 @@ const useAuth = () => {
         dispatch(getInfo());
     };
 
+    
+
     const logout = () => {
         LocalStorage.removeItem("login");
         dispatch(logoutUser());

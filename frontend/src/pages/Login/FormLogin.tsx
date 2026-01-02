@@ -34,6 +34,8 @@ const FormLogin = () => {
                 const { role } = response.result;
                 setIsFirstLogin(false);
                 dispatch(setUser(response.result));
+                console.log("response.result", response.result);
+
                 if (isInstruction || role !== USER_ROLE.CANDIDATE) {
                     Notification.success({
                         text: "Đăng nhập thành công vào hệ thống Challenge Vòng 3!",
@@ -66,31 +68,33 @@ const FormLogin = () => {
     };
 
     return (
-        <section className="flex flex-col justify-center px-4 py-8 sm:px-8 sm:py-10">
-            <div className="mb-6 text-center sm:mb-8">
-                <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center sm:h-16 sm:w-16">
+        <section className="flex flex-col justify-center px-6 py-10 sm:px-10 sm:py-12">
+            <div className="mb-8 text-center sm:mb-10">
+                <div className="relative mx-auto mb-5 flex h-16 w-16 items-center justify-center sm:h-18 sm:w-18">
                     <img src="/fcode.png" alt="F-Code" className="h-full w-full" />
+                    <div className="bg-primary/20 absolute inset-0 rounded-full opacity-50 blur-xl"></div>
                 </div>
-                <h1 className="text-xl font-bold text-gray-900 sm:text-2xl">Đăng nhập</h1>
-                <p className="mt-2 text-xs text-gray-600 sm:text-sm">CLB F-Code thuộc FPT University</p>
+                <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">Đăng nhập</h1>
+                <p className="mt-2.5 text-sm text-gray-600 sm:text-base">CLB F-Code thuộc FPT University</p>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5">
+            <form onSubmit={handleSubmit} className="space-y-5 sm:space-y-6">
                 <div>
-                    <label htmlFor="email" className="mb-2 block text-sm font-medium text-gray-700">
+                    <label htmlFor="email" className="mb-2.5 block text-sm font-medium text-gray-700">
                         Email
                     </label>
                     <div className="relative">
-                        <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                        <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
                             <Mail className="h-5 w-5 text-gray-400" />
                         </div>
                         <Input
                             id="email"
                             type="email"
                             value={email}
+                            disabled={!isFirstLogin}
                             onChange={(e) => setEmail(e.target.value)}
-                            placeholder="Email"
-                            className="py-5 pl-10"
+                            placeholder="example@fpt.edu.vn"
+                            className="pl-11"
                             required
                         />
                     </div>
@@ -98,11 +102,11 @@ const FormLogin = () => {
 
                 {!isFirstLogin && (
                     <div>
-                        <label htmlFor="password" className="mb-2 block text-sm font-medium text-gray-700">
+                        <label htmlFor="password" className="mb-2.5 block text-sm font-medium text-gray-700">
                             Mật khẩu
                         </label>
                         <div className="relative">
-                            <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                            <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
                                 <Lock className="h-5 w-5 text-gray-400" />
                             </div>
                             <Input
@@ -110,14 +114,14 @@ const FormLogin = () => {
                                 type={showPassword ? "text" : "password"}
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
-                                placeholder="Mật khẩu"
-                                className="py-5 pr-10 pl-10"
+                                placeholder="Nhập mật khẩu"
+                                className="pr-11 pl-11"
                                 required
                             />
                             <button
                                 type="button"
                                 onClick={() => setShowPassword(!showPassword)}
-                                className="absolute inset-y-0 right-0 flex cursor-pointer items-center pr-3 text-gray-400 transition-colors hover:text-gray-600"
+                                className="absolute inset-y-0 right-0 flex cursor-pointer items-center pr-4 text-gray-400 transition-colors hover:text-gray-600"
                             >
                                 {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
                             </button>
@@ -125,15 +129,17 @@ const FormLogin = () => {
                     </div>
                 )}
 
-                <Button className="w-full">{isFirstLogin ? "Tiếp tục" : "Đăng nhập"}</Button>
+                <Button className="w-full" size="lg">
+                    {isFirstLogin ? "Tiếp tục" : "Đăng nhập"}
+                </Button>
             </form>
 
-            <div className="mt-6 border-t border-gray-200 pt-6">
-                <p className="text-center text-sm text-gray-500">
+            <div className="mt-8 border-t border-gray-200 pt-6">
+                <p className="text-center text-sm text-gray-600">
                     Bạn gặp sự cố khi đăng nhập?{" "}
                     <Link
                         to="https://discord.gg/WvudrJaYD"
-                        className="text-primary hover:text-primary/80 font-medium transition-colors"
+                        className="text-primary hover:text-primary/80 font-semibold transition-colors hover:underline"
                     >
                         Liên hệ discord
                     </Link>
