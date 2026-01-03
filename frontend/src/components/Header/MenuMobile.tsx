@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router";
 import { Button } from "../ui/button";
 import { MobileNavLink } from "./NavLink";
-import { House, Send, ServerCrash, Trophy } from "lucide-react";
+import { House, Send, ServerCrash } from "lucide-react";
 import Helper from "~/utils/helper";
 import useAuth from "~/hooks/useAuth";
 
@@ -24,13 +24,6 @@ const MenuMobileHeader = ({
                 />
                 {isLogin && (
                     <>
-                        <MobileNavLink
-                            url="/scoreboard"
-                            name="Bảng điểm"
-                            Icon={Trophy}
-                            active={Helper.isActive(location.pathname, "/scoreboard")}
-                            onClick={() => setShowMobileMenu(false)}
-                        />
                         <MobileNavLink
                             url="/submissions"
                             name="Nộp đề tài"

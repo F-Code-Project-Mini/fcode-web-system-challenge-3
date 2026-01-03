@@ -44,15 +44,6 @@ const driverObj = driver({
             },
         },
         {
-            element: "#scoreboard",
-            popover: {
-                title: "Xem điểm các vòng trước",
-                description: "Xem điểm các vòng trước của bạn tại đây.",
-                side: "top",
-                align: "start",
-            },
-        },
-        {
             element: "#submissions",
             popover: {
                 title: "Nộp đề tài",

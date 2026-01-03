@@ -1,4 +1,7 @@
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { UserRound } from "lucide-react";
+import { useState } from "react";
+import TeamApi from "~/api-requests/team.requests";
 import {
     AlertDialog,
     AlertDialogAction,
@@ -18,9 +21,28 @@ import {
     SelectLabel,
     SelectTrigger,
     SelectValue,
-} from "~/components/ui/select";
+} from "~/components/ui/select";    
+import type { TeamType } from "~/types/team.types";
+import Notification from "~/utils/notification";
 
-export function ChoiceLeader() {
+export function ChoiceLeader({ team }: { team: TeamType }) {
+    const queryClient = useQueryClient();
+    const [leaderId, setLeaderId] = useState(() => team?.leader?.id || "");
+    const changeLeaderMutation = useMutation({
+        mutationFn: (data: { idTeam: string; idLeader: string }) => TeamApi.setLeader(data.idTeam, data.idLeader),
+        onError: () => {
+            Notification.error({
+                text: "Thay đổi leader thất bại!",
+            });
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["mentor-teams"] });
+            Notification.success({
+                text: "Thay đổi leader thành công!",
+            });
+        },
+    });
+
     return (
         <AlertDialog>
             <AlertDialogTrigger asChild>
@@ -35,24 +57,30 @@ export function ChoiceLeader() {
             <AlertDialogContent>
                 <AlertDialogHeader>
                     <AlertDialogTitle>Cập nhật leader cho nhóm</AlertDialogTitle>
-                    <Select>
+                    <Select value={leaderId} onValueChange={setLeaderId}>
                         <SelectTrigger className="w-full">
                             <SelectValue placeholder="Select a leader" />
                         </SelectTrigger>
                         <SelectContent>
                             <SelectGroup>
                                 <SelectLabel>Leader</SelectLabel>
-                                <SelectItem value="pham-hoang-tuan">[SE200947] - Phạm Hoàng Tuấn</SelectItem>
-                                <SelectItem value="lam-hoang-an">[SE200948] - Lâm Hoàng An</SelectItem>
-                                <SelectItem value="ho-le-thien-an">[SE200949] - Hồ Lê Thiên An</SelectItem>
-                                <SelectItem value="ngo-ngoc-gia-han">[SE200950] - Ngô Ngọc Gia Hân</SelectItem>
+                                {team.candidates.map((candidate) => (
+                                    <SelectItem key={candidate.id} value={candidate.id}>
+                                        [{candidate.studentCode}] - {candidate.user.fullName}
+                                    </SelectItem>
+                                ))}
                             </SelectGroup>
                         </SelectContent>
                     </Select>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                     <AlertDialogCancel>Đóng</AlertDialogCancel>
-                    <AlertDialogAction className="bg-black text-white">Xác nhận</AlertDialogAction>
+                    <AlertDialogAction
+                        className="bg-black text-white"
+                        onClick={() => changeLeaderMutation.mutate({ idTeam: team.id, idLeader: leaderId })}
+                    >
+                        Xác nhận
+                    </AlertDialogAction>
                 </AlertDialogFooter>
             </AlertDialogContent>
         </AlertDialog>

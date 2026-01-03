@@ -16,5 +16,11 @@ class TeamApi {
         const res = await privateApi.get<ResponseDetailData<TeamType[]>>(`/teams/mentor/${id}`);
         return res.data;
     }
+    static async setLeader(idTeam: string, idMember: string) {
+        const res = await privateApi.patch(`/teams/${idTeam}/set-leader`, {
+            candidate_id: idMember,
+        });
+        return res.data;
+    }
 }
 export default TeamApi;

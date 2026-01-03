@@ -3,9 +3,11 @@ import { Link } from "react-router";
 import { Button } from "~/components/ui/button";
 import { ChoiceLeader } from "./ChoiceLeader";
 import type { TeamType } from "~/types/team.types";
+import NotifyNotLeader from "~/components/NotifyNotLeader";
 const Team = ({ team }: { team: TeamType }) => {
     return (
         <section className="col-span-1 lg:col-span-8" id="members">
+            {!team.leaderId && <NotifyNotLeader name={team.name} />}
             <div className="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-2xs">
                 <div className="from-gray-100/60/60 flex items-center justify-between border-b border-gray-200 bg-gradient-to-r px-4 py-3 sm:px-6 sm:py-4">
                     <div>
@@ -26,7 +28,7 @@ const Team = ({ team }: { team: TeamType }) => {
                                 <span>Báo cáo</span>
                             </Button>
                         </Link>
-                        <ChoiceLeader />
+                        <ChoiceLeader team={team} />
 
                         <Link to="/mentor/barem/2000">
                             <Button
