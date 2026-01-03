@@ -11,5 +11,10 @@ class TeamApi {
         const res = await privateApi.get<ResponseDetailData<TeamType>>(`/teams/${id}`);
         return res.data;
     }
+
+    static async getTeamByMentorId(id: string) {
+        const res = await privateApi.get<ResponseDetailData<TeamType[]>>(`/teams/mentor/${id}`);
+        return res.data;
+    }
 }
 export default TeamApi;

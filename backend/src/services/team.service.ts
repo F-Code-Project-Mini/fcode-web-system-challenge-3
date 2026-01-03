@@ -113,6 +113,10 @@ class TeamService {
             });
         }
     }
+    // async getTeamByMentor(mentorId: string) {
+    //     const teams = await teamRepository.findByMentorId(mentorId);
+    //     return teams;
+    // }
 }
 
 const teamService = new TeamService();

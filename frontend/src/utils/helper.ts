@@ -1,7 +1,10 @@
 class Helper {
     // BE trả về date dạng: 2025-12-17T08:30:00Z
     static formatDate(date: string): string {
-        return new Date(date).toLocaleDateString("vi-VN", {
+        const d = new Date(date);
+        // Adjust for timezone offset
+        const adjusted = new Date(d.getTime() + d.getTimezoneOffset() * 60000);
+        return adjusted.toLocaleString("vi-VN", {
             day: "2-digit",
             month: "2-digit",
             year: "numeric",

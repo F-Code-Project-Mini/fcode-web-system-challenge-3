@@ -56,10 +56,10 @@ const MainLayout = () => {
 
     return (
         <>
-            <section className="flex min-h-screen flex-col justify-between px-3.5 xl:px-5">
+            <section className="flex min-h-screen flex-col justify-between bg-gradient-to-b from-gray-50/50 to-white px-4 xl:px-6">
                 <section>
                     <Header />
-                    <section className="mx-auto my-6 max-w-7xl sm:my-10">
+                    <section className="mx-auto my-8 max-w-7xl sm:my-12">
                         <Outlet />
                     </section>
                 </section>
