@@ -96,21 +96,24 @@ class TeamRepository {
             select: {
                 id: true,
             },
-            take: 1,
+            // take: 1,
         });
 
-        if (mentorTeams.length > 0) {
-            return this.findByIdWithMembers(mentorTeams[0].id);
+        const data = [];
+        console.log("mentorTeams", mentorTeams);
+        for (const t of mentorTeams) {
+            data.push(await this.findByIdWithMembers(t.id));
         }
+        return data;
 
-        // Nếu là candidate: tìm team qua candidateId
-        const candidate = await prisma.candidate.findFirst({
-            where: { user: { id: userId } },
-            select: { teamId: true },
-        });
+        // // Nếu là candidate: tìm team qua candidateId
+        // const candidate = await prisma.candidate.findFirst({
+        //     where: { user: { id: userId } },
+        //     select: { teamId: true },
+        // });
 
-        if (!candidate || !candidate.teamId) return null;
-        return this.findByIdWithMembers(candidate.teamId);
+        // if (!candidate || !candidate.teamId) return null;
+        // return this.findByIdWithMembers(candidate.teamId);
     };
 
     create = async ({

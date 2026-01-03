@@ -98,3 +98,13 @@ export const setLeader = async (req: Request<{ id: string }>, res: Response, nex
         return next(error);
     }
 };
+export const getTeamsByMentor = async (req: Request, res: Response, next: NextFunction) => {
+    console.log("req.userId", req.userId);
+    const { userId } = req;
+    try {
+        await teamService.getTeamByUserId(userId!);
+        return res.status(HTTP_STATUS.OK).json(new ResponseClient({ message: "Lấy danh sách thành viên thành công!" }));
+    } catch (error) {
+        return next(error);
+    }
+};

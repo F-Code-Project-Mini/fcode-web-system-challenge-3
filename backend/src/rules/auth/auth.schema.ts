@@ -4,7 +4,7 @@ const jwtSchema = z.string().regex(/^[^.]+\.[^.]+\.[^.]+$/, "Token không hợp 
 export const loginSchema = z.object({
     body: z.object({
         email: z.string().trim().email().nonempty(),
-        password: z.string().trim().nonempty(),
+        password: z.string().trim(),
     }),
 });
 

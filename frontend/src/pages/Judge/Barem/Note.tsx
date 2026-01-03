@@ -15,19 +15,20 @@ export function Note() {
     return (
         <AlertDialog>
             <AlertDialogTrigger asChild>
-                <div className="rounded-xl border-2 bg-white p-2">
-                    <NotebookPen size={20} />
-                </div>
+                <button className="hover:border-primary hover:bg-primary/5 hover:text-primary flex h-9 w-9 cursor-pointer items-center justify-center rounded-lg border border-gray-200 bg-white text-gray-600 shadow-xs transition-all hover:shadow-xs">
+                    <NotebookPen size={18} />
+                </button>
             </AlertDialogTrigger>
             <AlertDialogContent>
                 <AlertDialogHeader>
-                    <AlertDialogTitle>Ghi chú</AlertDialogTitle>
-
-                    <Textarea placeholder="Ghi chú ...." />
+                    <AlertDialogTitle className="text-xl font-semibold tracking-tight">Ghi chú</AlertDialogTitle>
+                    <div className="pt-4">
+                        <Textarea placeholder="Nhập ghi chú của bạn..." className="min-h-[120px]" />
+                    </div>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                     <AlertDialogCancel>Đóng</AlertDialogCancel>
-                    <AlertDialogAction className="bg-black text-white">Xác nhận</AlertDialogAction>
+                    <AlertDialogAction>Xác nhận</AlertDialogAction>
                 </AlertDialogFooter>
             </AlertDialogContent>
         </AlertDialog>
