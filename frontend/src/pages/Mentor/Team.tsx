@@ -30,7 +30,7 @@ const Team = ({ team }: { team: TeamType }) => {
                         </Link>
                         <ChoiceLeader team={team} />
 
-                        <Link to="/mentor/barem/2000">
+                        <Link to={`/mentor/team/${team.id}`}>
                             <Button
                                 variant="default"
                                 className="shadown-base flex w-fit cursor-pointer items-center gap-2 rounded-xl border p-2"

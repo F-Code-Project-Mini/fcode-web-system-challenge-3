@@ -34,7 +34,7 @@ const App = () => {
                     {/* Role Mentor */}
                     <Route path="mentor" element={<ProtectedRoute roleAccess={[USER_ROLE.MENTOR]} />}>
                         <Route index element={<MentorPage />} />
-                        <Route path="barem/:id" element={<MentorBaremPage />} />
+                        <Route path="team/:id" element={<MentorBaremPage />} />
                     </Route>
 
                     {/* Role Mentor */}

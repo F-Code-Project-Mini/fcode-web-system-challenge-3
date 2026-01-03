@@ -1,3 +1,4 @@
+import http from "http";
 import express from "express";
 import "dotenv/config";
 import { defaultErrorHandler } from "./middlewares/error.middlewares";
@@ -9,8 +10,10 @@ import cors from "cors";
 import "./seeders/database";
 import rootRouter from "./routes/root.routes";
 import "./workers/email.worker";
+import { initSocket } from "./configs/socket";
 const app = express();
 const PORT = process.env.PORT || 8000;
+const server = http.createServer(app);
 
 app.use(express.json());
 app.use(cookieParser());
@@ -20,7 +23,7 @@ app.use(
         credentials: true,
     }),
 );
-
+initSocket(server);
 redisClient.connect();
 
 app.use("/api/v1", rootRouter);
@@ -28,6 +31,6 @@ app.use("/api/v1", rootRouter);
 app.use(defaultErrorHandler);
 app.use(defaultSuccessHandler);
 
-app.listen(PORT, () => {
+server.listen(PORT, () => {
     console.log(`Server successfully launched on PORT ${PORT}!`);
 });

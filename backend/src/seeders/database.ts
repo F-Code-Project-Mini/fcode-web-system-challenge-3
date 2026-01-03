@@ -15,6 +15,7 @@ const seed = async () => {
     const promises = [];
     const promiseAccount = [];
     for (let student of studentList) {
+        // candidate
         const candidate = new Candidate({
             studentCode: student.student_code,
             phone: student.phone,
@@ -34,6 +35,7 @@ const seed = async () => {
                 data: candidate,
             }),
         );
+        // add thông tin bên candidate vào user
         promiseAccount.push(
             prisma.user.create({
                 data: user,
@@ -42,5 +44,9 @@ const seed = async () => {
     }
     await Promise.all(promises);
     await Promise.all(promiseAccount);
+
+
+
+    
 };
 seed();

@@ -17,7 +17,7 @@ export const studentList = [
         semester: "TRS6",
     },
     {
-        full_name: "Đạt Nguyễn",
+        full_name: "Nguyễn Võ Tiến Đạt",
         student_code: "SE190210",
         major: "Artificial Intelligence",
         phone: "0392447785",
@@ -25,7 +25,7 @@ export const studentList = [
         semester: "CN1",
     },
     {
-        full_name: "Bảo Huỳnh Gia",
+        full_name: "Huỳnh Gia Bảo",
         student_code: "SE204913",
         major: "Artificial Intelligence",
         phone: "0335339691",
@@ -33,7 +33,7 @@ export const studentList = [
         semester: "CN1",
     },
     {
-        full_name: "Phú Nguyễn",
+        full_name: "Nguyễn Văn Phú",
         student_code: "SE210043",
         major: "Software Engineering",
         phone: "0372240629",
@@ -49,7 +49,7 @@ export const studentList = [
         semester: "CN3",
     },
     {
-        full_name: "Phạm Bảo",
+        full_name: "Phạm Gia Bảo",
         student_code: "SE211866",
         major: "Software Engineering",
         phone: "0834800913",
@@ -73,7 +73,7 @@ export const studentList = [
         semester: "TRS6",
     },
     {
-        full_name: "Ho An",
+        full_name: "Hồ Lê Thiên An",
         student_code: "SE201566",
         major: "Software Engineering",
         phone: "0865343056",
@@ -81,7 +81,7 @@ export const studentList = [
         semester: "CN2",
     },
     {
-        full_name: "Kiệt Lưu Hoàng Anh",
+        full_name: "Lưu Hoàng Anh Kiệt",
         student_code: "SE211135",
         major: "Software Engineering",
         phone: "0796333099",
@@ -113,7 +113,7 @@ export const studentList = [
         semester: "LUK1",
     },
     {
-        full_name: "Trần Anh",
+        full_name: "Trần Ngọc Đoan Anh",
         student_code: "SE211960",
         major: "Artificial Intelligence",
         phone: "0903909385",
@@ -121,7 +121,7 @@ export const studentList = [
         semester: "TRS6",
     },
     {
-        full_name: "Nguyễn Tú",
+        full_name: "Nguyễn Ngọc Minh Tú",
         student_code: "SE210741",
         major: "Software Engineering",
         phone: "0326153807",
@@ -137,7 +137,7 @@ export const studentList = [
         semester: "CN1",
     },
     {
-        full_name: "Nguyen Tien Khai",
+        full_name: "Nguyễn Tiến Khải",
         student_code: "SE212092",
         major: "Software Engineering",
         phone: "0982524572",
@@ -153,7 +153,7 @@ export const studentList = [
         semester: "CN2",
     },
     {
-        full_name: "Minh Nguyễn",
+        full_name: "Nguyễn Văn Minh",
         student_code: "SE210756",
         major: "Artificial Intelligence",
         phone: "0785319939",
@@ -177,7 +177,7 @@ export const studentList = [
         semester: "CN1",
     },
     {
-        full_name: "Phan Phượng",
+        full_name: "Phan Kim Phượng",
         student_code: "SE210452",
         major: "Artificial Intelligence",
         phone: "0877227390",
@@ -185,7 +185,7 @@ export const studentList = [
         semester: "LUK1",
     },
     {
-        full_name: "Trịnh Tâm",
+        full_name: "Trịnh Thị Minh Tâm",
         student_code: "SE203367",
         major: "Software Engineering",
         phone: "0365148258",
@@ -193,7 +193,7 @@ export const studentList = [
         semester: "CN2",
     },
     {
-        full_name: "Võ Thắng",
+        full_name: "Võ Hiếu Thắng",
         student_code: "SE200932",
         major: "Artificial Intelligence",
         phone: "0394729112",
@@ -201,7 +201,7 @@ export const studentList = [
         semester: "CN2",
     },
     {
-        full_name: "Minh Nhật Nguyễn Hoàng",
+        full_name: "Nguyễn Hoàng Minh Nhật",
         student_code: "SE211601",
         major: "Software Engineering",
         phone: "0901893756",
@@ -209,7 +209,7 @@ export const studentList = [
         semester: "LUK3",
     },
     {
-        full_name: "Nguyễn Hảo",
+        full_name: "Nguyễn Vũ Hảo",
         student_code: "SE210946",
         major: "Information Assurance",
         phone: "0919653426",
@@ -225,7 +225,7 @@ export const studentList = [
         semester: "TRS4",
     },
     {
-        full_name: "Ngoc Phuc Nguyen",
+        full_name: "Nguyễn Ngọc Phúc",
         student_code: "SE203055",
         major: "Software Engineering",
         phone: "0932720343",
@@ -233,7 +233,7 @@ export const studentList = [
         semester: "CN2",
     },
     {
-        full_name: "Viet Nguyen",
+        full_name: "Nguyễn Quốc Việt",
         student_code: "SE211888",
         major: "Software Engineering",
         phone: "0327777596",
@@ -241,7 +241,7 @@ export const studentList = [
         semester: "TRS6",
     },
     {
-        full_name: "Đăng Lê",
+        full_name: "Lê Minh Đăng",
         student_code: "SE201183",
         major: "Software Engineering",
         phone: "0843339068",
@@ -249,7 +249,7 @@ export const studentList = [
         semester: "CN1",
     },
     {
-        full_name: "Mai Hiếu",
+        full_name: "Mai Xuân Hiếu",
         student_code: "SE200972",
         major: "Software Engineering",
         phone: "0965607840",
@@ -265,7 +265,7 @@ export const studentList = [
         semester: "TRS5",
     },
     {
-        full_name: "Lê Tuấn Anh Đàm",
+        full_name: "Đàm Lê Tuấn Anh",
         student_code: "SE204111",
         major: "Software Engineering",
         phone: "0908957939",
@@ -273,7 +273,7 @@ export const studentList = [
         semester: "CN2",
     },
     {
-        full_name: "Nam Võ",
+        full_name: "Võ Phạm Hoàng Nam",
         student_code: "SE211766",
         major: "Software Engineering",
         phone: "0944994562",
@@ -289,7 +289,7 @@ export const studentList = [
         semester: "CN2",
     },
     {
-        full_name: "Trần Vy",
+        full_name: "Trần Thị Thúy Vy",
         student_code: "SE210918",
         major: "Software Engineering",
         phone: "0327338321",
@@ -297,7 +297,7 @@ export const studentList = [
         semester: "LUK1",
     },
     {
-        full_name: "Vũ Tuấn",
+        full_name: "Vũ Minh Tuấn",
         student_code: "SE211093",
         major: "Integrated Circuit",
         phone: "0703421670",
@@ -305,7 +305,7 @@ export const studentList = [
         semester: "LUK3",
     },
     {
-        full_name: "Ngô Hân",
+        full_name: "Ngô Ngọc Gia Hân",
         student_code: "SE203677",
         major: "Software Engineering",
         phone: "0901675018",
@@ -313,7 +313,7 @@ export const studentList = [
         semester: "CN3",
     },
     {
-        full_name: "Duy Trần",
+        full_name: "Trần Vũ Hãi Duy",
         student_code: "SE200516",
         major: "Software Engineering",
         phone: "0823963128",
@@ -321,7 +321,7 @@ export const studentList = [
         semester: "TRS6",
     },
     {
-        full_name: "Chu Cường",
+        full_name: "Chu Minh Cường",
         student_code: "SE210364",
         major: "Software Engineering",
         phone: "0965393922",
@@ -329,7 +329,7 @@ export const studentList = [
         semester: "TRS6",
     },
     {
-        full_name: "Bình Nguyễn Văn Gia",
+        full_name: "Nguyễn Văn Gia Bình",
         student_code: "SE203555",
         major: "Software Engineering",
         phone: "0869089715",
@@ -337,7 +337,7 @@ export const studentList = [
         semester: "CN2",
     },
     {
-        full_name: "Trần Tường",
+        full_name: "Trần Khánh Tường",
         student_code: "SE211449",
         major: "Information Systems",
         phone: "0901776487",
@@ -345,7 +345,7 @@ export const studentList = [
         semester: "TRS6",
     },
     {
-        full_name: "Nguyễn Vy",
+        full_name: "Nguyễn Ngọc Mỹ Vy",
         student_code: "SE210777",
         major: "Artificial Intelligence",
         phone: "0963848771",
@@ -353,7 +353,7 @@ export const studentList = [
         semester: "TRS6",
     },
     {
-        full_name: "Nhân Chí",
+        full_name: "Bùi Phạm Chí Nhân",
         student_code: "SE203237",
         major: "Software Engineering",
         phone: "0394654576",
@@ -361,7 +361,7 @@ export const studentList = [
         semester: "CN3",
     },
     {
-        full_name: "Văn Bình Nguyễn",
+        full_name: "Nguyễn Văn Bình",
         student_code: "SE211968",
         major: "Software Engineering",
         phone: "0373450305",
@@ -385,7 +385,7 @@ export const studentList = [
         semester: "TRS6",
     },
     {
-        full_name: "Đạt Vũ",
+        full_name: "Vũ Mai Anh Đạt",
         student_code: "SE211953",
         major: "Software Engineering",
         phone: "0344095707",
@@ -393,7 +393,7 @@ export const studentList = [
         semester: "LUK3",
     },
     {
-        full_name: "Nguyên Võ Lê Khôi",
+        full_name: "Võ Lê Khôi Nguyên",
         student_code: "SE211914",
         major: "Software Engineering",
         phone: "0375669481",
@@ -401,7 +401,7 @@ export const studentList = [
         semester: "TRS5",
     },
     {
-        full_name: "Quoc Anh Nguyen",
+        full_name: "Nguyễn Quốc Anh",
         student_code: "SE211043",
         major: "Software Engineering",
         phone: "0789849037",
@@ -409,7 +409,7 @@ export const studentList = [
         semester: "CN1",
     },
     {
-        full_name: "Minh Trọng Hoàng",
+        full_name: "Hoàng Minh Trọng",
         student_code: "SE211927",
         major: "Software Engineering",
         phone: "0972672466",
@@ -417,7 +417,7 @@ export const studentList = [
         semester: "TRS6",
     },
     {
-        full_name: "Dư Hảo",
+        full_name: "Dư Đông Ngọc Hảo",
         student_code: "SE212030",
         major: "Artificial Intelligence",
         phone: "0902411641",
@@ -425,7 +425,7 @@ export const studentList = [
         semester: "CN1",
     },
     {
-        full_name: "Lợi Nguyễn Tấn",
+        full_name: "Nguyễn Tấn Lợi",
         student_code: "SE211059",
         major: "Software Engineering",
         phone: "0778653868",
@@ -457,7 +457,7 @@ export const studentList = [
         semester: "LUK3",
     },
     {
-        full_name: "Nguyen Van Quoc Bao",
+        full_name: "Nguyễn Văn Quốc Bảo",
         student_code: "SE201682",
         major: "Software Engineering",
         phone: "0399556929",
@@ -465,7 +465,7 @@ export const studentList = [
         semester: "CN2",
     },
     {
-        full_name: "Bình Đỗ Thanh",
+        full_name: "Đỗ Thanh Bình",
         student_code: "SE210474",
         major: "Software Engineering",
         phone: "0903960285",
@@ -473,7 +473,7 @@ export const studentList = [
         semester: "LUK3",
     },
     {
-        full_name: "Thành Đậu Đức",
+        full_name: "Đậu Đức Thành",
         student_code: "SE211107",
         major: "Artificial Intelligence",
         phone: "0866285370",
@@ -481,7 +481,7 @@ export const studentList = [
         semester: "LUK1",
     },
     {
-        full_name: "nguyen khang",
+        full_name: "Nguyễn Đức Nhật Khang",
         student_code: "SE210496",
         major: "Software Engineering",
         phone: "0976237876",
@@ -489,7 +489,7 @@ export const studentList = [
         semester: "TRS6",
     },
     {
-        full_name: "Triết Nguyễn",
+        full_name: "Nguyễn Thành Triết",
         student_code: "SE211615",
         major: "Software Engineering",
         phone: "0916413778",
@@ -497,7 +497,7 @@ export const studentList = [
         semester: "LUK4",
     },
     {
-        full_name: "Bui Trong",
+        full_name: "Bùi Phước Trọng",
         student_code: "SE212026",
         major: "Integrated Circuit",
         phone: "0901671494",
@@ -513,7 +513,7 @@ export const studentList = [
         semester: "TRS4",
     },
     {
-        full_name: "Thành Trần",
+        full_name: "Trần Cao Thành",
         student_code: "SE210041",
         major: "Software Engineering",
         phone: "0335021778",
@@ -521,7 +521,7 @@ export const studentList = [
         semester: "TRS4",
     },
     {
-        full_name: "Huy Võ",
+        full_name: "Võ Lê Kiến Huy",
         student_code: "SE210556",
         major: "Software Engineering",
         phone: "0908008416",
@@ -529,7 +529,7 @@ export const studentList = [
         semester: "CN1",
     },
     {
-        full_name: "Huyền Ngô Xuân",
+        full_name: "Ngô Xuân Huyền",
         student_code: "SE210768",
         major: "Software Engineering",
         phone: "0398532284",
@@ -537,7 +537,7 @@ export const studentList = [
         semester: "LUK1",
     },
     {
-        full_name: "Nguyen Lam",
+        full_name: "Nguyễn Phi Lam",
         student_code: "SE210380",
         major: "Artificial Intelligence",
         phone: "0869200419",
@@ -545,7 +545,7 @@ export const studentList = [
         semester: "TRS6",
     },
     {
-        full_name: "Le Quang",
+        full_name: "Lê Khắc Minh Quang",
         student_code: "SE204789",
         major: "Software Engineering",
         phone: "0974920299",
@@ -553,7 +553,7 @@ export const studentList = [
         semester: "CN1",
     },
     {
-        full_name: "Chánh Lê",
+        full_name: "Lê Gia Phúc Chánh",
         student_code: "SE210518",
         major: "Software Engineering",
         phone: "0968755719",
