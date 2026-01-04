@@ -11,7 +11,6 @@ const MainLayout = () => {
     const { isLoading, isLogin, user, getUserInfo } = useAuth();
     const navigate = useNavigate();
     const location = useLocation();
-    console.log("trước nè");
     useEffect(() => {
         const checkAuth = async () => {
             const isLoginLocal = LocalStorage.getItem("login");
@@ -29,10 +28,8 @@ const MainLayout = () => {
                 !location.pathname.startsWith("/active/token/")
             ) {
                 navigate("/login");
-                console.log("vô đây");
             }
         };
-        console.log("Chạy cái này mấy lần");
 
         checkAuth();
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -43,16 +40,6 @@ const MainLayout = () => {
             startTour();
         }
     }, [isLogin, user.role]);
-    // useLayoutEffect(() => {
-    //     if (user.role === USER_ROLE.JUDGE && location.pathname.includes("/judge") === false) {
-    //         console.log(location.pathname);
-    //         navigate("/judge");
-    //     } else if (user.role === USER_ROLE.MENTOR && location.pathname.includes("/mentor") === false) {
-    //         console.log(location.pathname);
-    //         navigate("/mentor");
-    //     }
-    //     // eslint-disable-next-line react-hooks/exhaustive-deps
-    // }, [isLogin, location.pathname]);
 
     return (
         <>

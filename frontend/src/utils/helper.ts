@@ -11,7 +11,16 @@ class Helper {
         });
     }
     static isInRangeDate(date: Date, startDate: string, endDate: string): boolean {
-        return date >= new Date(startDate) && date <= new Date(endDate);
+        // Chuyển tất cả về UTC để tránh lỗi timezone
+        const currentUTC = Date.UTC(date.getFullYear(), date.getMonth(), date.getDate());
+
+        const start = new Date(startDate);
+        const startUTC = Date.UTC(start.getUTCFullYear(), start.getUTCMonth(), start.getUTCDate());
+
+        const end = new Date(endDate);
+        const endUTC = Date.UTC(end.getUTCFullYear(), end.getUTCMonth(), end.getUTCDate());
+
+        return currentUTC >= startUTC && currentUTC <= endUTC;
     }
 
     static formatDuration(seconds: number): string {

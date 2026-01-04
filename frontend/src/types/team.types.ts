@@ -37,7 +37,12 @@ type Paginate = {
     page: number;
     limit: number;
 };
-type MentorshipType = {
+export type MentorshipType = {
+    id: string;
+    mentorId: string;
+    facebook: string;
+    discord: string;
+    phone: string;
     mentor: {
         fullName: string;
     };

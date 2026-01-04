@@ -1,17 +1,15 @@
 import axios, { AxiosError, type InternalAxiosRequestConfig } from "axios";
 import AuthApi from "~/api-requests/auth.requests";
 import LocalStorage from "./localstorage";
-console.log(import.meta.env.VITE_API_BACKEND);
 
 const options = {
-    baseURL: import.meta.env.VITE_API_BACKEND,
+    baseURL: import.meta.env.VITE_API_BACKEND_API,
     timeout: 10000,
     withCredentials: true,
     headers: {
         "Content-Type": "application/json",
     },
 };
-// console.log(options);
 
 export const publicApi = axios.create(options);
 export const privateApi = axios.create({
@@ -36,7 +34,7 @@ privateApi.interceptors.response.use(
                       _retry?: boolean;
                   })
                 | undefined = error.config;
-            if (error.response?.status === 401 && origin && !origin._retry) {
+            if (error.response?.status === 401 && origin && !origin._retry && !origin.url?.includes("/auth/refresh")) {
                 if (isRefreshing) {
                     return new Promise((resolve, reject) => {
                         refreshQueue.push({

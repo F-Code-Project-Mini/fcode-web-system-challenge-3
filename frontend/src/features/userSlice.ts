@@ -49,7 +49,6 @@ export const userSlice = createSlice({
     reducers: {
         // action bth thôi
         setUser: (state, action: PayloadAction<UserType>) => {
-            console.log("set data", action.payload);
 
             state.userInfo = {
                 ...action.payload,
@@ -64,10 +63,8 @@ export const userSlice = createSlice({
 
         builder.addCase(getInfo.pending, (state) => {
             state.isLoading = true;
-            // console.log("vô");
         });
         builder.addCase(getInfo.fulfilled, (state, action: PayloadAction<UserType>) => {
-            console.log("get info", action.payload);
 
             state.userInfo = {
                 ...action.payload,

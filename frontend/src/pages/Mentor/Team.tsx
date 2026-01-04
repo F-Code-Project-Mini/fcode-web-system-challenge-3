@@ -1,4 +1,4 @@
-import { Scroll, Sparkles } from "lucide-react";
+import { Sparkles } from "lucide-react";
 import { Link } from "react-router";
 import { Button } from "~/components/ui/button";
 import { ChoiceLeader } from "./ChoiceLeader";
@@ -19,7 +19,7 @@ const Team = ({ team }: { team: TeamType }) => {
                         </p>
                     </div>
                     <div className="flex items-center gap-2">
-                        <Link to="/mentor/barem/2000">
+                        {/* <Link to="/mentor/barem/2000">
                             <Button
                                 variant="ghost"
                                 className="shadown-base flex w-fit cursor-pointer items-center gap-2 rounded-xl border p-2"
@@ -27,10 +27,10 @@ const Team = ({ team }: { team: TeamType }) => {
                                 <Scroll size={18} />
                                 <span>Báo cáo</span>
                             </Button>
-                        </Link>
+                        </Link> */}
                         <ChoiceLeader team={team} />
 
-                        <Link to="/mentor/barem/2000">
+                        <Link to={`/mentor/team/${team.id}`}>
                             <Button
                                 variant="default"
                                 className="shadown-base flex w-fit cursor-pointer items-center gap-2 rounded-xl border p-2"

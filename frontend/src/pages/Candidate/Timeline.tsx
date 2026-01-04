@@ -5,11 +5,17 @@ import Helper from "~/utils/helper";
 const Timeline = () => {
     const timelineData = [
         {
-            endDate: "2026-01-12T23:59:59Z",
-            description: "Thời gian các bạn lên ý tưởng và chuẩn bị cho challenge.",
+            startDate: "2026-01-05T00:00:00Z",
+            endDate: "2026-01-05T23:59:59Z",
+            description: "Thông báo (thể lệ/ đề tài/ mentors/ danh sách nhóm) trên Discord.",
         },
         {
-            startDate: "2022-01-12T00:00:00Z",
+            startDate: "2026-01-05T00:00:00Z",
+            endDate: "2026-01-12T23:59:59Z",
+            description: "Thời gian thí sinh chuẩn bị.",
+        },
+        {
+            startDate: "2026-01-12T00:00:00Z",
             endDate: "2026-01-15T23:59:59Z",
             description: "Mở form đăng ký present thử để các bạn có cơ hội nhận xét từ Ban Giám Khảo.",
         },
@@ -26,7 +32,7 @@ const Timeline = () => {
         {
             startDate: "2026-01-21T00:00:00Z",
             endDate: "2026-01-23T23:59:59Z",
-            description: "Mở form đăng ký present chính thức, chọn thời gian và nộp sản phẩm.",
+            description: "Mở form đăng ký present chính thức (chọn thời gian và nộp sản phẩm).",
         },
         {
             startDate: "2026-01-25T00:00:00Z",
@@ -41,7 +47,7 @@ const Timeline = () => {
         {
             startDate: "2026-02-02T00:00:00Z",
             endDate: "2026-02-02T23:59:59Z",
-            description: "Gửi email thông báo kết quả cuối cùng cho các bạn.",
+            description: "Gửi Mail thông báo kết quả.",
         },
     ];
 
@@ -51,7 +57,8 @@ const Timeline = () => {
                 <div className="border-b border-gray-200/70 bg-gradient-to-r from-gray-50/80 to-white px-5 py-4 sm:px-8 sm:py-5">
                     <h2 className="text-base font-semibold tracking-tight text-gray-900 sm:text-lg">Timeline</h2>
                     <p className="mt-1.5 text-xs leading-relaxed text-gray-500 sm:text-sm">
-                        Lịch trình thực hiện Challenge Vòng 3
+                        Lịch trình thực hiện Challenge Vòng 3. Timeline cũng có thể thay đổi, chúng tôi sẽ thông báo
+                        trên Discord.
                     </p>
                 </div>
                 <div className="m-1 px-5 py-6 sm:px-8 sm:py-8">

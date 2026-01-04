@@ -1,0 +1,1 @@
+dotenv -e .env.development -- npx prisma db push

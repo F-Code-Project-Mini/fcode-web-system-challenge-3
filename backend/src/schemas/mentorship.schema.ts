@@ -3,18 +3,24 @@ import { v4 as uuidv4 } from "uuid";
 interface MentorshipType {
     id?: string;
     mentorId: string;
-    teamId: string;
+    facebook: string;
+    discord: string;
+    phone: string;
 }
 
 class Mentorship {
     id: string;
     mentorId: string;
-    teamId: string;
+    facebook: string;
+    discord: string;
+    phone: string;
 
     constructor(mentorship: MentorshipType) {
         this.id = mentorship.id || uuidv4();
         this.mentorId = mentorship.mentorId;
-        this.teamId = mentorship.teamId;
+        this.facebook = mentorship.facebook;
+        this.discord = mentorship.discord;
+        this.phone = mentorship.phone;
     }
 }
 

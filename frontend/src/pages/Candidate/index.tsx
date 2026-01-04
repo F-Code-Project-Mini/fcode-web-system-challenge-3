@@ -31,7 +31,7 @@ const HomePage = () => {
             </section>
             <section className="mt-6 grid grid-cols-1 gap-4 lg:grid-cols-12 lg:gap-4">
                 <Members data={data} />
-                <Mentor data={data?.mentorship?.mentor} />
+                <Mentor data={data?.mentorship} />
             </section>
             <section className="mt-5 grid grid-cols-1 gap-6">
                 <Timeline />
