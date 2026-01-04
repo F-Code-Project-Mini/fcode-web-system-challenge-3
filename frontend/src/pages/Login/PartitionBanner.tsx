@@ -2,7 +2,7 @@ const PartitionBanner = () => {
     return (
         <section className="relative hidden h-full w-full overflow-hidden sm:block">
             <img
-                src="/banner.jpg"
+                src="https://i.ibb.co/twx6NCbq/banner.jpg"
                 alt="F-Code Banner"
                 className="h-full w-full rounded-l-lg object-cover object-center transition-transform duration-300 hover:scale-105"
             />
