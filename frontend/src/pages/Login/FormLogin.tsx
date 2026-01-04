@@ -36,6 +36,8 @@ const FormLogin = () => {
                 dispatch(setUser(response.result));
 
                 if (isInstruction || role !== USER_ROLE.CANDIDATE) {
+                    // lưu access token, refresh token vô localstorage
+                    LocalStorage.setItem("access_token", response.result.access_token || "");
                     Notification.success({
                         text: "Đăng nhập thành công vào hệ thống Challenge Vòng 3!",
                     });

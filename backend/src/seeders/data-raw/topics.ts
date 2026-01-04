@@ -13,7 +13,7 @@ export const topicsList = [
     },
     {
         title: "Web Network Influence",
-        link: "https://drive.google.com/file/d/13j9z4mS2g822MWrvuJIWKIfYpd7cEhlc/preview",
+        link: "https://drive.google.com/file/d/1hS2cCKAL6S_PHR9eaz1Kp23KUuvPki15/preview",
     },
     {
         title: "Next-Word Prediction",
@@ -37,6 +37,6 @@ export const topicsList = [
     },
     {
         title: "GIT",
-        link: "https://drive.google.com/file/d/1BeSU2CrFGj73Rnh3xE6L835ITF-MfTfg/preview",
+        link: "https://drive.google.com/file/d/1Gt9peB91OaZYo0xeIanMgHEkOH4aVsnG/preview",
     },
 ];

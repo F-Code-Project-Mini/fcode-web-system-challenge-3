@@ -4,7 +4,7 @@ import { LoginRequestBody, UpdatePasswordRequestBody } from "~/rules/requests/us
 import userService from "~/services/user.service";
 import { HTTP_STATUS } from "~/constants/httpStatus";
 import { ResponseClient } from "~/rules/response";
-import { ExpiresInTokenType, RoleType } from "~/constants/enums";
+// import { ExpiresInTokenType, RoleType } from "~/constants/enums";
 
 export const login = async (
     req: Request<ParamsDictionary, any, LoginRequestBody>,
@@ -22,12 +22,16 @@ export const login = async (
             );
         } else {
             const { access_token, refresh_token, user } = data!;
-            setCookieResponse(res, "access_token", access_token, ExpiresInTokenType.AccessToken);
-            setCookieResponse(res, "refresh_token", refresh_token, ExpiresInTokenType.RefreshToken);
+            // setCookieResponse(res, "access_token", access_token, ExpiresInTokenType.AccessToken);
+            // setCookieResponse(res, "refresh_token", refresh_token, ExpiresInTokenType.RefreshToken);
             return res.status(HTTP_STATUS.OK).json(
                 new ResponseClient({
                     message: "Đăng nhập thành công!",
-                    result: user,
+                    result: {
+                        ...user,
+                        access_token,
+                        refresh_token,
+                    },
                 }),
             );
         }
@@ -70,9 +74,17 @@ export const refreshToken = async (req: Request, res: Response, next: NextFuncti
 
     try {
         const result = await userService.refreshToken(userId!, role!, token);
-        setCookieResponse(res, "access_token", result.access_token, ExpiresInTokenType.AccessToken);
-        setCookieResponse(res, "refresh_token", result.refresh_token, ExpiresInTokenType.RefreshToken);
-        return res.status(HTTP_STATUS.OK).json(new ResponseClient({ message: "Làm mới token thành công!" }));
+        // setCookieResponse(res, "access_token", result.access_token, ExpiresInTokenType.AccessToken);
+        // setCookieResponse(res, "refresh_token", result.refresh_token, ExpiresInTokenType.RefreshToken);
+        return res.status(HTTP_STATUS.OK).json(
+            new ResponseClient({
+                message: "Làm mới token thành công!",
+                result: {
+                    refresh_token: result.refresh_token,
+                    access_token: result.access_token,
+                },
+            }),
+        );
     } catch (error) {
         res.clearCookie("access_token");
         res.clearCookie("refresh_token");

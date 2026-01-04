@@ -16,18 +16,6 @@ export const privateApi = axios.create({
     ...options,
     // withCredentials: true,
 });
-privateApi.interceptors.request.use(
-    (config: InternalAxiosRequestConfig) => {
-        const token = LocalStorage.getItem("access_token");
-
-        if (token) {
-            config.headers.Authorization = `Bearer ${token}`;
-        }
-
-        return config;
-    },
-    (error) => Promise.reject(error),
-);
 let isRefreshing = false; // đánh dấu trạng thái gọi refresh token
 let refreshQueue: Array<{
     resolve: () => void;

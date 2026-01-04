@@ -94,7 +94,6 @@ export const studentList = [
         ],
         topic: 1,
         mentor: "nguyenminh150906@gmail.com",
-
     },
     {
         name: "3",
@@ -236,7 +235,6 @@ export const studentList = [
         ],
         topic: 4,
         mentor: "lam01662052827@gmail.com",
-
     },
     {
         name: "6",
@@ -283,7 +281,7 @@ export const studentList = [
             },
         ],
         topic: 0,
-        mentor:"huyvog6226@gmail.com"
+        mentor: "huyvog6226@gmail.com",
     },
     {
         name: "7",
@@ -330,8 +328,7 @@ export const studentList = [
             },
         ],
         topic: 5,
-        mentor:"huyvog6226@gmail.com"
-
+        mentor: "huyvog6226@gmail.com",
     },
     {
         name: "8",
@@ -425,7 +422,7 @@ export const studentList = [
             },
         ],
         topic: 1,
-        mentor: "voductri88714@gmail.com"
+        mentor: "voductri88714@gmail.com",
     },
     {
         name: "10",
@@ -472,7 +469,7 @@ export const studentList = [
             },
         ],
         topic: 7,
-        mentor: "khanhlinhwork1110@gmail.com"
+        mentor: "khanhlinhwork1110@gmail.com",
     },
     {
         name: "11",
@@ -519,7 +516,7 @@ export const studentList = [
             },
         ],
         topic: 8,
-        mentor: "khanhlinhwork1110@gmail.com"
+        mentor: "khanhlinhwork1110@gmail.com",
     },
     {
         name: "12",
@@ -614,7 +611,6 @@ export const studentList = [
         ],
         topic: 1,
         mentor: "uttrinh4115@gmail.com",
-
     },
     {
         name: "14",
@@ -661,7 +657,7 @@ export const studentList = [
             },
         ],
         mentor: "touman876@gmail.com",
-        topic: 9
+        topic: 9,
     },
 ];
 // const teams = [

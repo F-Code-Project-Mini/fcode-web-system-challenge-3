@@ -1,3 +1,4 @@
+import type { RefreshTokenType } from "~/types/auth.type";
 import type { LoginInput, UserType } from "~/types/user.types";
 import { privateApi, publicApi } from "~/utils/axiosInstance";
 type LoginResponse = { message: string; result: UserType; isFirstLogin?: boolean };
@@ -11,7 +12,7 @@ class AuthApi {
         return response?.data || [];
     };
     static refreshToken = async () => {
-        const response = await publicApi.post<{ status: boolean }>(
+        const response = await publicApi.post<RefreshTokenType>(
             "/auth/refresh",
             {},
             {

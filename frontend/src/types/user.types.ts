@@ -6,6 +6,8 @@ export type UserType = {
     candidateId: string;
     createdAt: string;
     updatedAt: string;
+    access_token?: string;
+    refresh_token?: string;
 };
 export type LoginInput = {
     email: string;

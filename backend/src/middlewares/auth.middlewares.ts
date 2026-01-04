@@ -3,12 +3,13 @@ import redisClient from "~/configs/redis";
 import { TokenType } from "~/constants/enums";
 import { HTTP_STATUS } from "~/constants/httpStatus";
 import { ErrorWithStatus } from "~/rules/error";
+import Helpers from "~/utils/helpers";
 import AlgoJwt from "~/utils/jwt";
-import userRepository from "~/repositories/user.repository";
-import { RoleType } from "~/constants/enums";
 
 export const auth = async (req: Request, res: Response, next: NextFunction) => {
-    const token = req.cookies.access_token;
+    // const token = req.cookies.access_token;
+    // header Authorization
+    const token = Helpers.getTokenFromHeader(req);
 
     if (!token) {
         return res.status(HTTP_STATUS.UNAUTHORIZED).json({
@@ -78,7 +79,7 @@ export const verifyTokenActiveAccount = async (req: Request<{ token: string }>, 
     }
 };
 export const isRole = (roles: string[]) => async (req: Request, res: Response, next: NextFunction) => {
-    console.log("req.role", req.role);
+    // console.log("req.role", req.role);
     if (roles.includes(req.role as string)) {
         next();
     } else {
