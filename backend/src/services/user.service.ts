@@ -6,6 +6,7 @@ import AlgoCrypoto from "~/utils/crypto";
 import AlgoJwt from "~/utils/jwt";
 import { LoginRequestBody } from "~/rules/requests/user.request";
 import redisClient from "~/configs/redis";
+import { addEmailJob } from "~/queues/email.queue";
 class AuthService {
     public activeAccount = async (data: LoginRequestBody) => {
         const { email, password = "" } = data;
@@ -76,27 +77,27 @@ class AuthService {
             redisClient.set(KEY_ACTIVE, token, ExpiresInTokenType.ActivateAccount),
         ]); // 60 phút
 
-        // if (process.env.NODE_ENV === "production") {
-        //     await addEmailJob({
-        //         to: email,
-        //         subject: `[F-Code] Kích hoạt tài khoản`,
-        //         template: "activate_account",
-        //         context: {
-        //             name: fullName,
-        //             activationLink: `${process.env.CLIENT_URL}/activate/token/${token}`,
-        //         },
-        //     });
-        // } else {
-        //     await addEmailJob({
-        //         to: process.env.DEV_EMAIL_RECEIVER || email,
-        //         subject: `[F-Code] Kích hoạt tài khoản`,
-        //         template: "activate_account",
-        //         context: {
-        //             name: fullName,
-        //             activationLink: `${process.env.CLIENT_URL}/activate/token/${token}`,
-        //         },
-        //     });
-        // }
+        if (process.env.NODE_ENV === "production") {
+            await addEmailJob({
+                to: email,
+                subject: `[F-Code] Kích hoạt tài khoản`,
+                template: "activate_account",
+                context: {
+                    name: fullName,
+                    activationLink: `${process.env.CLIENT_URL}/active/token/${token}`,
+                },
+            });
+        } else {
+            await addEmailJob({
+                to: process.env.DEV_EMAIL_RECEIVER || email,
+                subject: `[F-Code] Kích hoạt tài khoản`,
+                template: "activate_account",
+                context: {
+                    name: fullName,
+                    activationLink: `${process.env.CLIENT_URL}/active/token/${token}`,
+                },
+            });
+        }
         return true;
     };
 

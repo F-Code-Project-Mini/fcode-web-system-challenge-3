@@ -6,10 +6,8 @@ import useAuth from "~/hooks/useAuth";
 const ProtectedRoute = ({ roleAccess = [] }: { roleAccess?: string[] }) => {
     const { user, isLoading } = useAuth();
     const navigate = useNavigate();
-    console.log("isLoading, ", isLoading);
 
     if (isLoading) {
-        console.log("Đứng ở chỗ này nè");
 
         return <Loading />;
     } else if (roleAccess.includes(user.role || "") === false) {

@@ -34,7 +34,6 @@ const FormLogin = () => {
                 const { role } = response.result;
                 setIsFirstLogin(false);
                 dispatch(setUser(response.result));
-                console.log("response.result", response.result);
 
                 if (isInstruction || role !== USER_ROLE.CANDIDATE) {
                     Notification.success({

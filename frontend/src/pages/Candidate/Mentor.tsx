@@ -1,6 +1,6 @@
-import { Facebook, Mail } from "lucide-react";
-
-const Mentor = ({ data }: { data: { fullName: string } | undefined }) => {
+import { Facebook, Mail, MessageCircle } from "lucide-react";
+import type { MentorshipType } from "~/types/team.types";
+const Mentor = ({ data }: { data: MentorshipType | undefined }) => {
     return (
         <section className="col-span-16 xl:col-span-4" id="mentor">
             <div className="overflow-hidden rounded-lg border border-gray-200/70 bg-white shadow-xs transition-all lg:sticky lg:top-28">
@@ -9,27 +9,13 @@ const Mentor = ({ data }: { data: { fullName: string } | undefined }) => {
                         <div>
                             <span className="text-xs font-medium tracking-wide text-gray-500 uppercase">Mentor</span>
                             <h3 className="mt-1 text-base font-semibold tracking-tight text-gray-900 sm:text-lg">
-                                {data?.fullName}
+                                {data?.mentor?.fullName || "Chưa cập nhật"}
                             </h3>
                         </div>
                     </div>
                 </div>
-                <div className="px-2 py-2">
-                    <div className="group flex items-start gap-3.5 rounded-lg p-3 transition-colors hover:bg-gray-50/50">
-                        <div className="bg-primary/10 text-primary group-hover:bg-primary/20 mt-0.5 flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg transition-colors">
-                            <Mail className="h-4.5 w-4.5" />
-                        </div>
-                        <div className="min-w-0 flex-1">
-                            <p className="text-xs font-medium text-gray-500">Email</p>
-                            <a
-                                href="mailto:huyngfx@gmail.com"
-                                className="text-primary hover:text-primary/80 mt-1.5 block text-sm font-medium break-all transition-colors"
-                            >
-                                huyngfx@gmail.com
-                            </a>
-                        </div>
-                    </div>
 
+                <div className="px-2 py-2">
                     <div className="group flex items-start gap-3.5 rounded-lg p-3 transition-colors hover:bg-gray-50/50">
                         <div className="bg-primary/10 text-primary group-hover:bg-primary/20 mt-0.5 flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg transition-colors">
                             <Facebook className="h-4.5 w-4.5" />
@@ -37,13 +23,43 @@ const Mentor = ({ data }: { data: { fullName: string } | undefined }) => {
                         <div className="min-w-0 flex-1">
                             <p className="text-xs font-medium text-gray-500">Facebook</p>
                             <a
-                                href="https://facebook.com/nguyengiahuy"
+                                href={data?.facebook || ""}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="text-primary hover:text-primary/80 mt-1.5 block text-sm font-medium transition-colors"
                             >
-                                fb.com/nguyengiahuy
+                                {data?.mentor.fullName || "Chưa cập nhật"}
                             </a>
+                        </div>
+                    </div>
+                    <div className="group flex items-start gap-3.5 rounded-lg p-3 transition-colors hover:bg-gray-50/50">
+                        <div className="bg-primary/10 text-primary group-hover:bg-primary/20 mt-0.5 flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg transition-colors">
+                            <Mail className="h-4.5 w-4.5" />
+                        </div>
+                        <div className="min-w-0 flex-1">
+                            <p className="text-xs font-medium text-gray-500">Zalo</p>
+                            <a
+                                target="_blank"
+                                href={`https://zalo.me/${data?.phone || ""}`}
+                                className="text-primary hover:text-primary/80 mt-1.5 block text-sm font-medium break-all transition-colors"
+                            >
+                                {data?.phone || "Chưa cập nhật"}
+                            </a>
+                        </div>
+                    </div>
+
+                    <div className="group flex items-start gap-3.5 rounded-lg p-3 transition-colors hover:bg-gray-50/50">
+                        <div className="bg-primary/10 text-primary group-hover:bg-primary/20 mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg transition-colors">
+                            <MessageCircle className="h-4.5 w-4.5" />
+                        </div>
+                        <div className="min-w-0 flex-1">
+                            <p className="text-xs font-medium text-gray-500">Discord</p>
+                            <span
+                                rel="noopener noreferrer"
+                                className="text-primary hover:text-primary/80 mt-1.5 block text-sm font-medium transition-colors"
+                            >
+                                {data?.discord || "Chưa cập nhật"}
+                            </span>
                         </div>
                     </div>
                 </div>

@@ -58,6 +58,8 @@ export const getInfo = async (req: Request, res: Response, next: NextFunction) =
             result,
         });
     } catch (error) {
+        res.clearCookie("access_token");
+        res.clearCookie("refresh_token");
         return next(error);
     }
 };
