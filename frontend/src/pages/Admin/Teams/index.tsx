@@ -1,13 +1,13 @@
-import Teams from "../Team";
+// import Teams from "../Team";
 
 const TeamsPage = () => {
     return (
         <>
             <section className="mt-4 grid grid-cols-1 gap-4 lg:grid-cols-12 lg:gap-6">
+                {/* <Teams />
                 <Teams />
                 <Teams />
-                <Teams />
-                <Teams />
+                <Teams /> */}
             </section>
             <section>
                 {/* <Notification /> */}
