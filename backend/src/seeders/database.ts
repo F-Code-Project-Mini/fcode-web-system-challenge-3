@@ -14,8 +14,10 @@ const seed = async () => {
 
     const promises = [];
     const promiseAccount = [];
+    const mentorPromises = [];
     for (let student of studentList) {
         // candidate
+        // const hashedPassword = await AlgoCrypto.hashPassword("Demo@123");
         const candidate = new Candidate({
             studentCode: student.student_code,
             phone: student.phone,
@@ -25,7 +27,7 @@ const seed = async () => {
 
         const user = new User({
             email: student.email,
-            password: await AlgoCrypto.hashPassword("Demo@123"),
+            password: "",
             fullName: student.full_name,
             role: RoleType.CANDIDATE,
             candidateId: candidate.id,
@@ -42,11 +44,20 @@ const seed = async () => {
             }),
         );
     }
+    for (let mentor of mentorList) {
+        const user = new User({
+            email: mentor.email,
+            password: "",
+            fullName: mentor.fullName,
+            role: RoleType.MENTOR,
+        });
+        promiseAccount.push(
+            prisma.user.create({
+                data: user,
+            }),
+        );
+    }
     await Promise.all(promises);
     await Promise.all(promiseAccount);
-
-
-
-    
 };
 seed();

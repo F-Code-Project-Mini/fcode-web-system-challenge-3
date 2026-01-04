@@ -1,5 +1,4 @@
-import { Facebook, Mail } from "lucide-react";
-
+import { Facebook, Mail, MessageCircle } from "lucide-react";
 const Mentor = ({ data }: { data: { fullName: string } | undefined }) => {
     return (
         <section className="col-span-16 xl:col-span-4" id="mentor">
@@ -22,10 +21,10 @@ const Mentor = ({ data }: { data: { fullName: string } | undefined }) => {
                         <div className="min-w-0 flex-1">
                             <p className="text-xs font-medium text-gray-500">Email</p>
                             <a
-                                href="mailto:huyngfx@gmail.com"
+                                href="mailto:phamhoangtuanqn@gmail.com"
                                 className="text-primary hover:text-primary/80 mt-1.5 block text-sm font-medium break-all transition-colors"
                             >
-                                huyngfx@gmail.com
+                                phamhoangtuanqn@gmail.com
                             </a>
                         </div>
                     </div>
@@ -37,12 +36,29 @@ const Mentor = ({ data }: { data: { fullName: string } | undefined }) => {
                         <div className="min-w-0 flex-1">
                             <p className="text-xs font-medium text-gray-500">Facebook</p>
                             <a
-                                href="https://facebook.com/nguyengiahuy"
+                                href="https://facebook.com/phamhoangtuanqn"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="text-primary hover:text-primary/80 mt-1.5 block text-sm font-medium transition-colors"
                             >
-                                fb.com/nguyengiahuy
+                                fb.com/phamhoangtuanqn
+                            </a>
+                        </div>
+                    </div>
+
+                    <div className="group flex items-start gap-3.5 rounded-lg p-3 transition-colors hover:bg-gray-50/50">
+                        <div className="bg-primary/10 text-primary group-hover:bg-primary/20 mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg transition-colors">
+                            <MessageCircle className="h-4.5 w-4.5" />
+                        </div>
+                        <div className="min-w-0 flex-1">
+                            <p className="text-xs font-medium text-gray-500">Discord</p>
+                            <a
+                                href="https://discord.com/users/htuanqn"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-primary hover:text-primary/80 mt-1.5 block text-sm font-medium transition-colors"
+                            >
+                                htuanqn
                             </a>
                         </div>
                     </div>

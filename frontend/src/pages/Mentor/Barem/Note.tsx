@@ -1,4 +1,5 @@
 import { Check, NotebookPen } from "lucide-react";
+import { useState } from "react";
 import {
     AlertDialog,
     AlertDialogAction,
@@ -12,6 +13,7 @@ import {
 import { Textarea } from "~/components/ui/textarea";
 
 export function Note({ note }: { note?: string }) {
+    const [noteValue, setNoteValue] = useState(note || "");
     return (
         <AlertDialog>
             <AlertDialogTrigger asChild>
@@ -28,7 +30,12 @@ export function Note({ note }: { note?: string }) {
                 <AlertDialogHeader>
                     <AlertDialogTitle>Ghi chú</AlertDialogTitle>
 
-                    <Textarea placeholder="Ghi chú ...." value={note} className="min-h-[120px] text-base" />
+                    <Textarea
+                        placeholder="Ghi chú ...."
+                        value={noteValue}
+                        onChange={(e) => setNoteValue(e.target.value)}
+                        className="min-h-[120px] text-base"
+                    />
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                     <AlertDialogCancel>Đóng</AlertDialogCancel>
