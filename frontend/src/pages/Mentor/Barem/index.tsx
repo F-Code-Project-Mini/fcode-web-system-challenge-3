@@ -7,12 +7,10 @@ import TeamApi from "~/api-requests/team.requests";
 import { useParams } from "react-router";
 import { socket } from "~/utils/socket";
 import useAuth from "~/hooks/useAuth";
-type CellStatus = "idle" | "saving" | "saved" | "error";
 const MentorBaremPage = () => {
     const params = useParams();
     const { user } = useAuth();
     const [scores, setScores] = useState<{ [key: string]: number }>({});
-    const [cellStatus, setCellStatus] = useState<Record<string, CellStatus>>({});
 
     const debounceMapRef = useRef<Record<string, number>>({});
 
@@ -35,7 +33,7 @@ const MentorBaremPage = () => {
         }
     }, [candidates, selectedCandidate]);
 
-    const { data: mentorJudge } = useQuery({
+    const { data: baremMentor } = useQuery({
         queryKey: ["mentor-barem", selectedCandidate],
         queryFn: async () => {
             const res = await MentorApi.getBarem(selectedCandidate);
@@ -46,26 +44,34 @@ const MentorBaremPage = () => {
 
     // Reset lại data (k reset chuyển cái khác nó vẫn giữ lại data cũ của ứng viên khác)
     useEffect(() => {
-        if (!mentorJudge) return;
+        if (!baremMentor) return;
 
         const newScores: { [key: string]: number } = {};
-        mentorJudge.forEach((item) => {
-            item.partitions.forEach((part, index) => {
-                const scoreKey = `${item.target}-${index}`;
-                if (part.scoreCurrent !== undefined && part.scoreCurrent !== null) {
-                    newScores[scoreKey] = part.scoreCurrent;
-                }
+        baremMentor.forEach((item) => {
+            item.partitions.forEach((partition, partitionIndex) => {
+                partition.partitions?.forEach((subPart, subIndex) => {
+                    const scoreKey = `${item.target}-${partitionIndex}-${subIndex}`;
+                    if (subPart.scoreCurrent !== undefined && subPart.scoreCurrent !== null) {
+                        newScores[scoreKey] = subPart.scoreCurrent;
+                    }
+                });
             });
         });
 
         // eslint-disable-next-line react-hooks/set-state-in-effect
         setScores(newScores);
-        setCellStatus({});
-    }, [mentorJudge]);
+    }, [baremMentor]);
 
     const totalMaxScore =
-        mentorJudge?.reduce((sum, item) => {
-            return sum + item.partitions.reduce((partSum, part) => partSum + part.maxScore, 0);
+        baremMentor?.reduce((sum, item) => {
+            return (
+                sum +
+                item.partitions.reduce((partSum, partition) => {
+                    return (
+                        partSum + (partition.partitions?.reduce((subSum, subPart) => subSum + subPart.maxScore, 0) || 0)
+                    );
+                }, 0)
+            );
         }, 0) ?? 0;
 
     const totalCurrentScore = Object.values(scores).reduce((sum, score) => sum + (score || 0), 0);
@@ -76,11 +82,6 @@ const MentorBaremPage = () => {
         setScores((prev) => ({
             ...prev,
             [key]: isNaN(num) ? 0 : num,
-        }));
-
-        setCellStatus((prev) => ({
-            ...prev,
-            [key]: "saving",
         }));
     };
 
@@ -93,60 +94,30 @@ const MentorBaremPage = () => {
     }, []);
 
     useEffect(() => {
-        if (!mentorJudge || !selectedCandidate) return;
+        if (!baremMentor || !selectedCandidate) return;
 
         Object.entries(scores).forEach(([key, score]) => {
-            const [target, index] = key.split("-");
-            const part = mentorJudge?.find((item) => item.target === target)?.partitions[Number(index)];
-            if (!part) return;
-            if (debounceMapRef.current[part.code]) {
-                clearTimeout(debounceMapRef.current[part.code]);
+            const [target, partitionIndex, subIndex] = key.split("-");
+            const partition = baremMentor?.find((item) => item.target === target)?.partitions[Number(partitionIndex)];
+            const subPart = partition?.partitions?.[Number(subIndex)];
+
+            if (!subPart) return;
+
+            if (debounceMapRef.current[subPart.code]) {
+                clearTimeout(debounceMapRef.current[subPart.code]);
             }
 
-            debounceMapRef.current[part.code] = window.setTimeout(() => {
+            debounceMapRef.current[subPart.code] = window.setTimeout(() => {
                 socket.emit("SAVE_SCORE", {
                     mentorId: user.id,
                     candidateId: selectedCandidate,
-                    codeBarem: part.code,
+                    codeBarem: subPart.code,
                     score,
-                    note: "",
+                    note: partition?.note || "",
                 });
             }, 500);
         });
-    }, [scores, mentorJudge, selectedCandidate, user.id]);
-
-    useEffect(() => {
-        const onSaved = (payload: { codeBarem: string }) => {
-            const key = payload.codeBarem;
-
-            setCellStatus((prev) => ({
-                ...prev,
-                [key]: "saved",
-            }));
-
-            window.setTimeout(() => {
-                setCellStatus((prev) => ({
-                    ...prev,
-                    [key]: "idle",
-                }));
-            }, 1500);
-        };
-
-        const onError = (payload: { codeBarem: string }) => {
-            setCellStatus((prev) => ({
-                ...prev,
-                [payload.codeBarem]: "error",
-            }));
-        };
-
-        socket.on("SCORE_SAVED", onSaved);
-        socket.on("SAVE_SCORE_ERROR", onError);
-
-        return () => {
-            socket.off("SCORE_SAVED", onSaved);
-            socket.off("SAVE_SCORE_ERROR", onError);
-        };
-    }, []);
+    }, [scores, baremMentor, selectedCandidate, user.id]);
 
     return (
         <section className="px-4 sm:px-0">
@@ -192,13 +163,13 @@ const MentorBaremPage = () => {
                     </div>
 
                     <div className="overflow-x-auto">
-                        <table className="w-full min-w-[800px]">
+                        <table className="w-full min-w-[900px]">
                             <thead className="sticky top-0 bg-gray-50">
                                 <tr className="divide-x divide-gray-200">
-                                    <th className="w-32 px-4 py-3 text-left text-xs font-semibold tracking-wider text-gray-700 uppercase">
-                                        Mục tiêu
+                                    <th className="w-28 px-4 py-3 text-left text-xs font-semibold tracking-wider text-gray-700 uppercase">
+                                        Đối tượng
                                     </th>
-                                    <th className="px-4 py-3 text-left text-xs font-semibold tracking-wider text-gray-700 uppercase">
+                                    <th className="w-40 px-4 py-3 text-left text-xs font-semibold tracking-wider text-gray-700 uppercase">
                                         Tiêu chí
                                     </th>
                                     <th className="px-4 py-3 text-left text-xs font-semibold tracking-wider text-gray-700 uppercase">
@@ -214,129 +185,89 @@ const MentorBaremPage = () => {
                             </thead>
 
                             <tbody className="divide-y divide-gray-200 bg-white">
-                                {mentorJudge?.flatMap((item) =>
-                                    item.partitions.map((part, index) => {
-                                        const scoreKey = `${item.target}-${index}`;
-                                        return (
-                                            <tr
-                                                key={scoreKey}
-                                                className="divide-x divide-gray-100 transition-colors hover:bg-gray-50"
-                                            >
-                                                {index === 0 && (
-                                                    <td
-                                                        rowSpan={item.partitions.length}
-                                                        className="align-center bg-gray-50/50 px-4 py-4 text-center"
-                                                    >
-                                                        <span className="text-sm font-bold text-gray-900">
-                                                            {item.target}
-                                                        </span>
-                                                    </td>
-                                                )}
+                                {baremMentor?.flatMap((item) => {
+                                    let targetRowIndex = 0;
+                                    const totalSubPartitions = item.partitions.reduce(
+                                        (sum, partition) => sum + (partition.partitions?.length || 0),
+                                        0,
+                                    );
 
-                                                <td className="align-center px-4 py-4">
-                                                    <span className="text-sm font-medium text-gray-900">
-                                                        {part.criteria}
-                                                    </span>
-                                                </td>
+                                    return item.partitions.flatMap((partition, partitionIndex) => {
+                                        const subPartitions = partition.partitions || [];
+                                        const criteriaRowSpan = subPartitions.length;
 
-                                                <td className="px-4 py-4 align-top">
-                                                    <div
-                                                        className="text-sm leading-relaxed text-gray-600"
-                                                        dangerouslySetInnerHTML={{
-                                                            __html: part.description || "—",
-                                                        }}
-                                                    />
-                                                </td>
+                                        return subPartitions.map((subPart, subIndex) => {
+                                            const scoreKey = `${item.target}-${partitionIndex}-${subIndex}`;
+                                            const isFirstSubPart = subIndex === 0;
+                                            const isFirstPartition = targetRowIndex === 0;
 
-                                                <td className="px-4 py-4 text-center align-top">
-                                                    <div className="flex items-center justify-center gap-1">
-                                                        <input
-                                                            type="number"
-                                                            min="0"
-                                                            max={part.maxScore}
-                                                            step="0.5"
-                                                            value={scores[scoreKey] || part?.scoreCurrent || ""}
-                                                            onChange={(e) =>
-                                                                handleScoreChange(scoreKey, e.target.value)
-                                                            }
-                                                            placeholder="0"
-                                                            className="disabled:focus:border-primary disabled:focus:ring-primary w-16 rounded border border-gray-200 px-2 py-1.5 text-center text-sm transition-colors focus:ring-1 focus:outline-none disabled:cursor-not-allowed disabled:bg-gray-100"
+                                            const row = (
+                                                <tr
+                                                    key={scoreKey}
+                                                    className="divide-x divide-gray-100 transition-colors hover:bg-gray-50/50"
+                                                >
+                                                    {isFirstPartition && (
+                                                        <td
+                                                            rowSpan={totalSubPartitions}
+                                                            className="bg-primary/5 border-r-2 border-gray-200 px-4 py-4 text-center"
+                                                        >
+                                                            <span className="text-primary text-base font-bold">
+                                                                {item.target}
+                                                            </span>
+                                                        </td>
+                                                    )}
+
+                                                    {isFirstSubPart && (
+                                                        <td
+                                                            rowSpan={criteriaRowSpan}
+                                                            className="bg-gray-50/70 px-4 py-4 text-center"
+                                                        >
+                                                            <span className="text-sm font-semibold text-gray-800">
+                                                                {partition.criteria}
+                                                            </span>
+                                                        </td>
+                                                    )}
+
+                                                    <td className="px-4 py-3">
+                                                        <div
+                                                            className="text-sm leading-relaxed text-gray-700"
+                                                            dangerouslySetInnerHTML={{
+                                                                __html: subPart.description || "—",
+                                                            }}
                                                         />
-                                                        <span className="text-sm font-medium text-gray-600">
-                                                            / {part.maxScore}
-                                                        </span>
-                                                    </div>
-                                                    <div className="mt-1 flex min-h-[20px] items-center gap-1 text-xs italic">
-                                                        {cellStatus[part?.code] === "saving" && (
-                                                            <>
-                                                                <svg
-                                                                    className="h-4 w-4 animate-spin text-blue-500"
-                                                                    fill="none"
-                                                                    viewBox="0 0 24 24"
-                                                                >
-                                                                    <circle
-                                                                        className="opacity-25"
-                                                                        cx="12"
-                                                                        cy="12"
-                                                                        r="10"
-                                                                        stroke="currentColor"
-                                                                        strokeWidth="4"
-                                                                    ></circle>
-                                                                    <path
-                                                                        className="opacity-75"
-                                                                        fill="currentColor"
-                                                                        d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
-                                                                    ></path>
-                                                                </svg>
-                                                                Đang lưu...
-                                                            </>
-                                                        )}
-                                                        {cellStatus[part?.code] === "saved" && (
-                                                            <>
-                                                                <svg
-                                                                    className="h-4 w-4 text-green-500"
-                                                                    fill="none"
-                                                                    viewBox="0 0 24 24"
-                                                                    stroke="currentColor"
-                                                                    strokeWidth="2"
-                                                                >
-                                                                    <path
-                                                                        strokeLinecap="round"
-                                                                        strokeLinejoin="round"
-                                                                        d="M5 13l4 4L19 7"
-                                                                    />
-                                                                </svg>
-                                                                <span>Đã lưu</span>
-                                                            </>
-                                                        )}
-                                                        {cellStatus[part?.code] === "error" && (
-                                                            <>
-                                                                <svg
-                                                                    className="h-4 w-4 text-red-500"
-                                                                    fill="none"
-                                                                    viewBox="0 0 24 24"
-                                                                    stroke="currentColor"
-                                                                    strokeWidth="2"
-                                                                >
-                                                                    <path
-                                                                        strokeLinecap="round"
-                                                                        strokeLinejoin="round"
-                                                                        d="M6 18L18 6M6 6l12 12"
-                                                                    />
-                                                                </svg>
-                                                                <span>Lỗi lưu</span>
-                                                            </>
-                                                        )}
-                                                    </div>
-                                                </td>
+                                                    </td>
 
-                                                <td className="cursor-pointer px-4 py-4 align-top">
-                                                    <Note note={part?.note} />
-                                                </td>
-                                            </tr>
-                                        );
-                                    }),
-                                )}
+                                                    <td className="px-4 py-3 text-center">
+                                                        <div className="flex items-center justify-center gap-1">
+                                                            <input
+                                                                type="number"
+                                                                min="0"
+                                                                max={subPart.maxScore}
+                                                                step="0.5"
+                                                                value={scores[scoreKey] || ""}
+                                                                onChange={(e) =>
+                                                                    handleScoreChange(scoreKey, e.target.value)
+                                                                }
+                                                                placeholder="0"
+                                                                className="focus:border-primary focus:ring-primary w-16 rounded border border-gray-300 px-2 py-1.5 text-center text-sm transition-colors focus:ring-1 focus:outline-none disabled:cursor-not-allowed disabled:bg-gray-100"
+                                                            />
+                                                            <span className="text-sm font-medium text-gray-600">
+                                                                / {subPart.maxScore}
+                                                            </span>
+                                                        </div>
+                                                    </td>
+
+                                                    <td className="cursor-pointer px-4 py-3 text-center">
+                                                        <Note note={partition?.note} />
+                                                    </td>
+                                                </tr>
+                                            );
+
+                                            targetRowIndex++;
+                                            return row;
+                                        });
+                                    });
+                                })}
                             </tbody>
                         </table>
                     </div>

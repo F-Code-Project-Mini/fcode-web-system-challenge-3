@@ -13,14 +13,15 @@ const Notification = () => {
                     <ul className="mt-2.5 space-y-2">
                         <li className="flex items-center gap-2 text-sm text-gray-700">
                             <span className="h-1.5 w-1.5 flex-shrink-0 rounded-full bg-yellow-500"></span>
+                            <span>Các thí sinh chủ động liên hệ với thành viên trong nhóm và mentor.</span>
+                        </li>
+                        <li className="flex items-center gap-2 text-sm text-gray-700">
+                            <span className="h-1.5 w-1.5 flex-shrink-0 rounded-full bg-yellow-500"></span>
                             <span>
                                 Các bạn tự làm việc với nhau và bầu chọn ra Leader, sau đó báo cáo lại với Mentor.
                             </span>
                         </li>
-                        <li className="flex items-center gap-2 text-sm text-gray-700">
-                            <span className="h-1.5 w-1.5 flex-shrink-0 rounded-full bg-yellow-500"></span>
-                            <span>Thêm mentor vào nhóm của các bạn để mentor theo dõi tiến độ và báo cáo cho CLB.</span>
-                        </li>
+
                         <li className="flex items-center gap-2 text-sm text-gray-700">
                             <span className="h-1.5 w-1.5 flex-shrink-0 rounded-full bg-yellow-500"></span>
                             <span>
@@ -30,7 +31,7 @@ const Notification = () => {
                         </li>
                         <li className="flex items-center gap-2 text-sm text-gray-700">
                             <span className="h-1.5 w-1.5 flex-shrink-0 rounded-full bg-yellow-500"></span>
-                            <span>Hãy bấm vào nút phía dưới để xem yêu cầu đề tài của nhóm các bạn.</span>
+                            <span>Mentor chỉ tham gia giám sát tiến độ và không hỗ trợ kiến thức học thuật..</span>
                         </li>
                     </ul>
                 </div>

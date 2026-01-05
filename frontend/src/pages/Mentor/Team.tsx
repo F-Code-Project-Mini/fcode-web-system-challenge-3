@@ -4,13 +4,14 @@ import { Button } from "~/components/ui/button";
 import { ChoiceLeader } from "./ChoiceLeader";
 import type { TeamType } from "~/types/team.types";
 import NotifyNotLeader from "~/components/NotifyNotLeader";
+import { ShowTopic } from "../Candidate/ShowTopic";
 const Team = ({ team }: { team: TeamType }) => {
     return (
         <section className="col-span-1 lg:col-span-8" id="members">
             {!team.leaderId && <NotifyNotLeader name={team.name} />}
             <div className="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-2xs">
-                <div className="from-gray-100/60/60 flex items-center justify-between border-b border-gray-200 bg-gradient-to-r px-4 py-3 sm:px-6 sm:py-4">
-                    <div>
+                <div className="from-gray-100/60/60 flex flex-col gap-3 border-b border-gray-200 bg-gradient-to-r px-4 py-3 sm:px-6 sm:py-4 lg:flex-row lg:items-center lg:justify-between lg:gap-4">
+                    <div className="flex-1">
                         <h2 className="text-base font-semibold text-gray-900 sm:text-lg">
                             NHÓM <span className="text-primary font-bold">{team.name}</span>
                         </h2>
@@ -18,16 +19,8 @@ const Team = ({ team }: { team: TeamType }) => {
                             Các thành viên trong nhóm sẽ chủ động liên hệ với bạn để add bạn vào nhóm.
                         </p>
                     </div>
-                    <div className="flex items-center gap-2">
-                        {/* <Link to="/mentor/barem/2000">
-                            <Button
-                                variant="ghost"
-                                className="shadown-base flex w-fit cursor-pointer items-center gap-2 rounded-xl border p-2"
-                            >
-                                <Scroll size={18} />
-                                <span>Báo cáo</span>
-                            </Button>
-                        </Link> */}
+                    <div className="flex flex-wrap items-center gap-2">
+                        <ShowTopic urlPdf={team.topic.filePath} name={team.topic.title} />
                         <ChoiceLeader team={team} />
 
                         <Link to={`/mentor/team/${team.id}`}>
@@ -36,7 +29,8 @@ const Team = ({ team }: { team: TeamType }) => {
                                 className="shadown-base flex w-fit cursor-pointer items-center gap-2 rounded-xl border p-2"
                             >
                                 <Sparkles size={18} />
-                                <span>Đánh giá</span>
+                                <span className="hidden sm:inline">Đánh giá</span>
+                                <span className="sm:hidden">Chấm điểm</span>
                             </Button>
                         </Link>
                     </div>

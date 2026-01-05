@@ -11,43 +11,39 @@ const Timeline = () => {
         },
         {
             startDate: "2026-01-05T00:00:00Z",
-            endDate: "2026-01-12T23:59:59Z",
+            endDate: "2026-01-23T23:59:59Z",
             description: "Thời gian thí sinh chuẩn bị.",
         },
         {
             startDate: "2026-01-12T00:00:00Z",
             endDate: "2026-01-15T23:59:59Z",
-            description: "Mở form đăng ký present thử để các bạn có cơ hội nhận xét từ Ban Giám Khảo.",
+            description: "Mở form đăng ký thuyết trình thử và chính thức (chọn thời gian và nộp sản phẩm).",
+        },
+
+        {
+            startDate: "2026-01-16T00:00:00Z",
+            endDate: "2026-01-16T23:59:59Z",
+            description: "Thông báo thời gian thuyết trình thử cho các nhóm đã đăng ký trên Discord.",
         },
         {
             startDate: "2026-01-16T00:00:00Z",
             endDate: "2026-01-16T23:59:59Z",
-            description: "Thông báo thời gian present thử cho các nhóm đã đăng ký trên Discord.",
+            description: "Thông báo phòng và thời gian thuyết trình chính thức cho các nhóm trên Discord.",
         },
         {
-            startDate: "2026-01-18T00:00:00Z",
-            endDate: "2026-01-20T23:59:59Z",
-            description: "Thời gian present thử để nhận xét và cải thiện sản phẩm.",
+            startDate: "2026-01-17T00:00:00Z",
+            endDate: "2026-01-21T23:59:59Z",
+            description: "Thời gian thuyết trình thử.",
         },
         {
-            startDate: "2026-01-21T00:00:00Z",
-            endDate: "2026-01-23T23:59:59Z",
-            description: "Mở form đăng ký present chính thức (chọn thời gian và nộp sản phẩm).",
+            startDate: "2026-01-24T00:00:00Z",
+            endDate: "2026-01-31T23:59:59Z",
+            description: "Thời gian thuyết trình chính thức.",
         },
         {
-            startDate: "2026-01-25T00:00:00Z",
-            endDate: "2026-01-25T23:59:59Z",
-            description: "Thông báo phòng và thời gian present chính thức cho các nhóm trên Discord.",
-        },
-        {
-            startDate: "2026-01-26T00:00:00Z",
-            endDate: "2026-01-30T23:59:59Z",
-            description: "Thời gian present chính thức.",
-        },
-        {
-            startDate: "2026-02-02T00:00:00Z",
-            endDate: "2026-02-02T23:59:59Z",
-            description: "Gửi Mail thông báo kết quả.",
+            startDate: "2025-02-02T00:00:00Z",
+            endDate: "2025-02-02T23:59:59Z",
+            description: "Nhận kết quả Challenge 3 từ CLB.",
         },
     ];
 

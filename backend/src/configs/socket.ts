@@ -5,7 +5,7 @@ import prisma from "./prisma";
 export const initSocket = (server: http.Server) => {
     const io = new Server(server, {
         cors: {
-            origin: "http://localhost:5173",
+            origin: process.env.NODE_ENV === "development" ? "http://localhost:5173" : process.env.CLIENT_URL,
             credentials: true,
             methods: ["GET", "POST"],
         },
