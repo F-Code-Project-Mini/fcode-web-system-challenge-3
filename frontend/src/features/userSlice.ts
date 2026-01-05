@@ -3,6 +3,7 @@ import { AxiosError } from "axios";
 import AuthApi from "~/api-requests/auth.requests";
 import type { ReduxType } from "~/types/redux.type";
 import type { UserType } from "~/types/user.types";
+import LocalStorage from "~/utils/localstorage";
 const initialState: ReduxType = {
     userInfo: {
         isLogin: false,
@@ -49,7 +50,6 @@ export const userSlice = createSlice({
     reducers: {
         // action bth thôi
         setUser: (state, action: PayloadAction<UserType>) => {
-
             state.userInfo = {
                 ...action.payload,
                 isChecking: true,
@@ -65,7 +65,6 @@ export const userSlice = createSlice({
             state.isLoading = true;
         });
         builder.addCase(getInfo.fulfilled, (state, action: PayloadAction<UserType>) => {
-
             state.userInfo = {
                 ...action.payload,
                 isLogin: !!action.payload,
@@ -75,6 +74,8 @@ export const userSlice = createSlice({
         });
         builder.addCase(getInfo.rejected, (state) => {
             state.isLoading = false;
+            LocalStorage.removeItem("login");
+            LocalStorage.removeItem("access_token");
         });
 
         builder.addCase(logoutUser.fulfilled, (state) => {
