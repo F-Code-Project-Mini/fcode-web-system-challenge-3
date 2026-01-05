@@ -1,7 +1,6 @@
 import { RadioGroup, RadioGroupItem } from "~/components/ui/radio-group";
 import { useState } from "react";
 import { Note } from "./Note";
-import { ShowTopic } from "~/pages/Candidate/ShowTopic";
 
 const baremJudge = [
     {
