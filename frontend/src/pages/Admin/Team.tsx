@@ -25,7 +25,7 @@ const Teams = ({ team: { mentorship, candidates, leader, topic, name } }: { team
                         </p>
                     </div>
                     <div className="flex gap-2">
-                        <ShowTopic urlPdf={topic.filePath} />
+                        <ShowTopic urlPdf={topic.filePath} name="" />
                         <Button variant={"outline"}>Cập nhật Mentor</Button>
                     </div>
                 </div>

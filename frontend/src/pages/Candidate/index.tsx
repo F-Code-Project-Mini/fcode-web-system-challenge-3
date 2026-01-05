@@ -27,7 +27,7 @@ const HomePage = () => {
 
             <section>
                 <Notification />
-                <ShowTopic urlPdf={data?.topic?.filePath || ""} />
+                <ShowTopic urlPdf={data?.topic?.filePath || ""} name={data?.topic?.title || ""} />
             </section>
             <section className="mt-6 grid grid-cols-1 gap-4 lg:grid-cols-12 lg:gap-4">
                 <Members data={data} />
