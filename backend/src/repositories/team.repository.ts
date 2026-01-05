@@ -49,7 +49,7 @@ class TeamRepository {
                 include: {
                     user: {
                         omit: {
-                            password: true,
+                            // password: true,
                             candidateId: true,
                         },
                     },
@@ -72,7 +72,7 @@ class TeamRepository {
             topic: true,
         };
 
-        const team = await prisma.team.findUnique({
+        let team = await prisma.team.findUnique({
             where: { id },
             include,
             omit: {
@@ -82,7 +82,20 @@ class TeamRepository {
 
         if (!team) return null;
 
-        return team;
+        // Remove password from user objects in candidates
+        const teamNew = {
+            ...team,
+            candidates: team.candidates.map((candidate) => {
+                if (!candidate.user) {
+                    return candidate;
+                }
+                const { password, ...userWithoutPassword } = candidate.user;
+
+                Object.assign(candidate.user, userWithoutPassword, { isConfirm: !!password });
+                return candidate;
+            }),
+        };
+        return teamNew;
     };
 
     findByUserId = async (userId: string) => {

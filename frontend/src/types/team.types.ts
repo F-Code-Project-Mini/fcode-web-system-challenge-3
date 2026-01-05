@@ -18,7 +18,9 @@ export type CandidateType = {
     mentorNote: string | null;
     createdAt: string;
     updatedAt: string;
-    user: Omit<UserType, "candidateId">;
+    user: Omit<UserType, "candidateId"> & {
+        isConfirm: boolean;
+    };
 };
 export type TeamType = {
     id: string;

@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import type { TeamType } from "~/types/team.types";
 import TeamApi from "~/api-requests/team.requests";
 import useAuth from "~/hooks/useAuth";
+import Timeline from "../Candidate/Timeline";
 
 const MentorPage = () => {
     const { user } = useAuth();
@@ -31,6 +32,9 @@ const MentorPage = () => {
                 {teams?.result.map((team: TeamType) => (
                     <Team key={team.id} team={team} />
                 ))}
+            </section>
+            <section className="mt-5 grid grid-cols-1 gap-6">
+                <Timeline />
             </section>
         </>
     );
