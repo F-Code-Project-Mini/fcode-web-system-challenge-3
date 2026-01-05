@@ -1,5 +1,6 @@
 import { Check, NotebookPen } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+
 import {
     AlertDialog,
     AlertDialogAction,
@@ -10,20 +11,63 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from "~/components/ui/alert-dialog";
-import { Textarea } from "~/components/ui/textarea";
+import { Tooltip, TooltipContent, TooltipTrigger } from "~/components/ui/tooltip";
 
-export function Note({ note }: { note?: string }) {
+import { Textarea } from "~/components/ui/textarea";
+type NoteProps = {
+    note?: string;
+    candidateId: string;
+    codeBarem: string;
+    keyId: string;
+    handleNoteChange?: (keyId: string, note: string) => void;
+};
+export function Note({ note, keyId, handleNoteChange }: NoteProps) {
     const [noteValue, setNoteValue] = useState(note || "");
+    const debounceTimerRef = useRef<number | null>(null);
+    const isUserEditingRef = useRef(false);
+
+    useEffect(() => {
+        if (!isUserEditingRef.current && note !== undefined) {
+            // eslint-disable-next-line react-hooks/set-state-in-effect
+            setNoteValue(note || "");
+        }
+    }, [note]);
+
+    useEffect(() => {
+        if (!isUserEditingRef.current) return;
+
+        if (debounceTimerRef.current) {
+            clearTimeout(debounceTimerRef.current);
+        }
+
+        debounceTimerRef.current = window.setTimeout(() => {
+            handleNoteChange?.(keyId, noteValue);
+            isUserEditingRef.current = false;
+        }, 500);
+
+        return () => {
+            if (debounceTimerRef.current) {
+                clearTimeout(debounceTimerRef.current);
+            }
+        };
+    }, [noteValue, keyId, handleNoteChange]);
     return (
         <AlertDialog>
             <AlertDialogTrigger asChild>
                 <div className="relative rounded-xl border-2 bg-white p-2">
-                    {note ? (
-                        <div className="absolute -top-2 -right-2 flex h-3 w-3 items-center justify-center rounded-full bg-green-500 text-white">
-                            <Check />
-                        </div>
-                    ) : null}
-                    <NotebookPen size={20} />
+                    <Tooltip>
+                        <TooltipTrigger asChild>
+                            <div>
+                                {note ? (
+                                    <div className="absolute -top-2 -right-2 flex h-3 w-3 items-center justify-center rounded-full bg-green-500 text-white">
+                                        <Check />
+                                    </div>
+                                ) : null}
+                                <NotebookPen size={20} />
+                            </div>
+                        </TooltipTrigger>
+                        {note && <TooltipContent>{note}</TooltipContent>}
+                    </Tooltip>
                 </div>
             </AlertDialogTrigger>
             <AlertDialogContent>
@@ -32,14 +76,22 @@ export function Note({ note }: { note?: string }) {
 
                     <Textarea
                         placeholder="Ghi chú ...."
+                        onChange={(e) => {
+                            isUserEditingRef.current = true;
+                            setNoteValue(e.target.value);
+                        }}
                         value={noteValue}
-                        onChange={(e) => setNoteValue(e.target.value)}
                         className="min-h-[120px] text-base"
                     />
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                     <AlertDialogCancel>Đóng</AlertDialogCancel>
-                    <AlertDialogAction className="bg-black text-white">Xác nhận</AlertDialogAction>
+                    <AlertDialogAction
+                        className="bg-black text-white"
+                        // onClick={() => mutationUpdateNote.mutate(noteValue)}
+                    >
+                        Xác nhận
+                    </AlertDialogAction>
                 </AlertDialogFooter>
             </AlertDialogContent>
         </AlertDialog>

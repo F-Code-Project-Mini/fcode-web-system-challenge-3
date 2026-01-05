@@ -14,8 +14,8 @@ export const initSocket = (server: http.Server) => {
     io.on("connection", (socket) => {
         console.log("SOCKET CONNECTED:", socket.id);
         socket.on("SAVE_SCORE", async (payload) => {
-            if (payload.score == "") return;
-            console.log("GHi nhận login");
+            if (payload.score == "" && payload.note == "") return;
+            // console.log("GHi nhận login");
 
             const existed = await prisma.baremScore.findFirst({
                 where: {
@@ -31,7 +31,7 @@ export const initSocket = (server: http.Server) => {
                         id: existed.id,
                     },
                     data: {
-                        score: payload.score,
+                        score: payload.score || 0,
                         note: payload.note,
                     },
                 });
@@ -41,7 +41,7 @@ export const initSocket = (server: http.Server) => {
                         mentorId: payload.mentorId,
                         candidateId: payload.candidateId,
                         codeBarem: payload.codeBarem,
-                        score: payload.score,
+                        score: payload.score || 0,
                         note: payload.note,
                         type: "MENTOR",
                     },

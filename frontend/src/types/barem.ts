@@ -6,6 +6,7 @@ export interface Partition {
         description: string;
         maxScore: number;
         scoreCurrent: number;
+        note: string;
     }[];
     description: string;
     maxScore: number;

@@ -1,5 +1,5 @@
 import { RadioGroup, RadioGroupItem } from "~/components/ui/radio-group";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Note } from "./Note";
 import { useQuery } from "@tanstack/react-query";
 import MentorApi from "~/api-requests/mentor.requests";
@@ -7,12 +7,16 @@ import TeamApi from "~/api-requests/team.requests";
 import { useParams } from "react-router";
 import { socket } from "~/utils/socket";
 import useAuth from "~/hooks/useAuth";
+import type { CandidateType } from "~/types/team.types";
 const MentorBaremPage = () => {
     const params = useParams();
     const { user } = useAuth();
     const [scores, setScores] = useState<{ [key: string]: number }>({});
+    const [notes, setNotes] = useState<{ [key: string]: string }>({});
+    const isDataInitialized = useRef(false);
 
     const debounceMapRef = useRef<Record<string, number>>({});
+    const debounceNoteMapRef = useRef<Record<string, number>>({});
 
     const { data: candidates } = useQuery({
         queryKey: ["mentor", "get-team", params.id],
@@ -23,23 +27,24 @@ const MentorBaremPage = () => {
         enabled: !!params.id,
     });
 
-    const [selectedCandidate, setSelectedCandidate] = useState<string>("");
+    const [candidateActive, setcandidateActive] = useState<CandidateType | undefined>(undefined);
 
     useEffect(() => {
-        if (!selectedCandidate && candidates?.candidates?.length) {
-            // eslint-disable-next-line react-hooks/set-state-in-effect
-            setSelectedCandidate(candidates.candidates[0].id);
+        if (!candidateActive && candidates?.candidates?.length) {
+            setcandidateActive(candidates.candidates[0]);
             // reset scores and cell status when candidate changes
         }
-    }, [candidates, selectedCandidate]);
+        // Reset flag khi chuyển candidate
+        isDataInitialized.current = false;
+    }, [candidates, candidateActive]);
 
     const { data: baremMentor } = useQuery({
-        queryKey: ["mentor-barem", selectedCandidate],
+        queryKey: ["mentor-barem", candidateActive],
         queryFn: async () => {
-            const res = await MentorApi.getBarem(selectedCandidate);
+            const res = await MentorApi.getBarem(candidateActive?.id || "");
             return res.result;
         },
-        enabled: !!selectedCandidate,
+        enabled: !!candidateActive,
     });
 
     // Reset lại data (k reset chuyển cái khác nó vẫn giữ lại data cũ của ứng viên khác)
@@ -47,6 +52,7 @@ const MentorBaremPage = () => {
         if (!baremMentor) return;
 
         const newScores: { [key: string]: number } = {};
+        const newNotes: { [key: string]: string } = {};
         baremMentor.forEach((item) => {
             item.partitions.forEach((partition, partitionIndex) => {
                 partition.partitions?.forEach((subPart, subIndex) => {
@@ -54,12 +60,22 @@ const MentorBaremPage = () => {
                     if (subPart.scoreCurrent !== undefined && subPart.scoreCurrent !== null) {
                         newScores[scoreKey] = subPart.scoreCurrent;
                     }
+
+                    if (subPart.note !== undefined && subPart.note !== null) {
+                        newNotes[scoreKey] = subPart.note;
+                    }
                 });
             });
         });
 
         // eslint-disable-next-line react-hooks/set-state-in-effect
         setScores(newScores);
+        setNotes(newNotes);
+
+        // Đánh dấu data đã được initialized để tránh emit socket không cần thiết
+        setTimeout(() => {
+            isDataInitialized.current = true;
+        }, 100);
     }, [baremMentor]);
 
     const totalMaxScore =
@@ -84,6 +100,12 @@ const MentorBaremPage = () => {
             [key]: isNaN(num) ? 0 : num,
         }));
     };
+    const handleNoteChange = useCallback((key: string, note: string) => {
+        setNotes((prev) => ({
+            ...prev,
+            [key]: note,
+        }));
+    }, []);
 
     useEffect(() => {
         if (!socket.connected) socket.connect();
@@ -93,8 +115,9 @@ const MentorBaremPage = () => {
         };
     }, []);
 
+    // useEffect riêng cho scores
     useEffect(() => {
-        if (!baremMentor || !selectedCandidate) return;
+        if (!baremMentor || !candidateActive || !isDataInitialized.current) return;
 
         Object.entries(scores).forEach(([key, score]) => {
             const [target, partitionIndex, subIndex] = key.split("-");
@@ -107,17 +130,44 @@ const MentorBaremPage = () => {
                 clearTimeout(debounceMapRef.current[subPart.code]);
             }
 
-            debounceMapRef.current[subPart.code] = window.setTimeout(() => {
+            debounceMapRef.current[subPart.code] = setTimeout(() => {
                 socket.emit("SAVE_SCORE", {
                     mentorId: user.id,
-                    candidateId: selectedCandidate,
+                    candidateId: candidateActive.id,
                     codeBarem: subPart.code,
                     score,
-                    note: partition?.note || "",
+                    note: notes[key] || "",
                 });
             }, 500);
         });
-    }, [scores, baremMentor, selectedCandidate, user.id]);
+    }, [scores, baremMentor, candidateActive, user.id, notes]);
+
+    // useEffect riêng cho notes
+    useEffect(() => {
+        if (!baremMentor || !candidateActive || !isDataInitialized.current) return;
+
+        Object.entries(notes).forEach(([key, note]) => {
+            const [target, partitionIndex, subIndex] = key.split("-");
+            const partition = baremMentor?.find((item) => item.target === target)?.partitions[Number(partitionIndex)];
+            const subPart = partition?.partitions?.[Number(subIndex)];
+
+            if (!subPart) return;
+
+            if (debounceNoteMapRef.current[subPart.code]) {
+                clearTimeout(debounceNoteMapRef.current[subPart.code]);
+            }
+
+            debounceNoteMapRef.current[subPart.code] = setTimeout(() => {
+                socket.emit("SAVE_SCORE", {
+                    mentorId: user.id,
+                    candidateId: candidateActive.id,
+                    codeBarem: subPart.code,
+                    score: scores[key] || 0,
+                    note: note,
+                });
+            }, 500);
+        });
+    }, [notes, baremMentor, candidateActive, user.id, scores]);
 
     return (
         <section className="px-4 sm:px-0">
@@ -129,8 +179,10 @@ const MentorBaremPage = () => {
             <div className="mb-6 rounded-lg border border-gray-200 bg-white p-4 shadow-xs sm:p-6">
                 <h3 className="text-primary mb-4 text-base font-semibold sm:text-lg">Ứng viên</h3>
                 <RadioGroup
-                    value={selectedCandidate}
-                    onValueChange={setSelectedCandidate}
+                    value={candidateActive?.id}
+                    onValueChange={(id) =>
+                        setcandidateActive(candidates?.candidates.find((candidate) => candidate.id === id))
+                    }
                     className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-5"
                 >
                     {candidates?.candidates.map((candidate) => (
@@ -152,10 +204,7 @@ const MentorBaremPage = () => {
                 <div className="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-xs">
                     <div className="border-b border-gray-200 bg-gradient-to-r from-gray-50 to-white px-4 py-4 sm:px-6">
                         <h2 className="text-base font-bold text-gray-900 sm:text-lg">
-                            ỨNG VIÊN:{" "}
-                            <span className="text-primary">
-                                {candidates?.candidates.find((item) => item.id === selectedCandidate)?.user.fullName}
-                            </span>
+                            ỨNG VIÊN: <span className="text-primary">{candidateActive?.user.fullName}</span>
                         </h2>
                         <p className="mt-1 text-xs text-gray-500 sm:text-sm">
                             Vui lòng nhập điểm cho từng tiêu chí dưới đây
@@ -201,6 +250,8 @@ const MentorBaremPage = () => {
                                             const isFirstSubPart = subIndex === 0;
                                             const isFirstPartition = targetRowIndex === 0;
 
+                                            const isInvalidScore = scores[scoreKey] > subPart.maxScore;
+
                                             const row = (
                                                 <tr
                                                     key={scoreKey}
@@ -230,7 +281,7 @@ const MentorBaremPage = () => {
 
                                                     <td className="px-4 py-3">
                                                         <div
-                                                            className="text-sm leading-relaxed text-gray-700"
+                                                            className={`text-sm leading-relaxed ${isInvalidScore ? "text-red-600" : "text-gray-700"}`}
                                                             dangerouslySetInnerHTML={{
                                                                 __html: subPart.description || "—",
                                                             }}
@@ -249,16 +300,24 @@ const MentorBaremPage = () => {
                                                                     handleScoreChange(scoreKey, e.target.value)
                                                                 }
                                                                 placeholder="0"
-                                                                className="focus:border-primary focus:ring-primary w-16 rounded border border-gray-300 px-2 py-1.5 text-center text-sm transition-colors focus:ring-1 focus:outline-none disabled:cursor-not-allowed disabled:bg-gray-100"
+                                                                className={`w-16 rounded border px-2 py-1.5 text-center text-sm ${isInvalidScore ? "border-red-500 text-red-500" : "focus:border-primary focus:ring-primary border-gray-300 transition-colors focus:ring-1 focus:outline-none disabled:cursor-not-allowed disabled:bg-gray-100"}`}
                                                             />
-                                                            <span className="text-sm font-medium text-gray-600">
+                                                            <span
+                                                                className={`text-sm font-medium ${isInvalidScore ? "text-red-600" : "text-gray-600"}`}
+                                                            >
                                                                 / {subPart.maxScore}
                                                             </span>
                                                         </div>
                                                     </td>
 
                                                     <td className="cursor-pointer px-4 py-3 text-center">
-                                                        <Note note={partition?.note} />
+                                                        <Note
+                                                            keyId={scoreKey}
+                                                            handleNoteChange={handleNoteChange}
+                                                            note={notes[scoreKey] || ""}
+                                                            candidateId={candidateActive?.id || ""}
+                                                            codeBarem={subPart.code}
+                                                        />
                                                     </td>
                                                 </tr>
                                             );

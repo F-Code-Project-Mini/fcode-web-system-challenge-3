@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import prisma from "~/configs/prisma";
 import { HTTP_STATUS } from "~/constants/httpStatus";
+import { BaremUpdateNote } from "~/rules/requests/barem.request";
 import { ResponseClient } from "~/rules/response";
 
 const mentorBarem = [
@@ -214,6 +215,7 @@ export const getBarem = async (req: Request, res: Response) => {
         }),
     );
 };
+
 // const mentorBarem = [
 //     {
 //         target: "Member",
