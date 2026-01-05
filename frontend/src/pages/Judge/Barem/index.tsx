@@ -166,7 +166,7 @@ const JudgeBaremPage = () => {
                 <h1 className="text-2xl font-bold text-gray-900 sm:text-3xl">Chấm điểm Challenge 3</h1>
                 <p className="mt-2 text-sm text-gray-600">Vui lòng chọn ứng viên và điền điểm cho từng tiêu chí</p>
             </div>
-            <ShowTopic urlPdf="" />
+            {/* <ShowTopic urlPdf="" /> */}
             <div className="my-6 rounded-lg border border-gray-200 bg-white p-4 sm:p-6">
                 <h3 className="text-primary sm:text-md mb-4 text-base font-semibold">Ứng viên</h3>
                 <RadioGroup

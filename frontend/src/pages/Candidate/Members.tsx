@@ -19,7 +19,8 @@ const Members = ({ data }: { data: TeamType | undefined }) => {
                         NHÓM <span className="text-primary font-bold">{data?.name}</span>
                     </h2>
                     <p className="mt-1.5 text-xs leading-relaxed text-gray-500 sm:text-sm">
-                        Danh sách thành viên trong nhóm, vui lòng chủ động liên hệ mentor và các thành viên trong nhóm.
+                        Danh sách thành viên trong nhóm, vui lòng chủ động liên hệ mentor và các thành viên trong nhóm
+                        thông qua kênh <span className="font-bold">Discord</span>.
                     </p>
                 </div>
                 <div className="overflow-auto">

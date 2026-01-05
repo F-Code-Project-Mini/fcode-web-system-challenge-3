@@ -16,10 +16,10 @@ const useAuth = () => {
         dispatch(getInfo());
     };
 
-    
-
     const logout = () => {
         LocalStorage.removeItem("login");
+        LocalStorage.removeItem("access_token");
+
         dispatch(logoutUser());
         navigate("/login");
     };
