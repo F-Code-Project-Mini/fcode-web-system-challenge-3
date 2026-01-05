@@ -1,4 +1,4 @@
-import { FileText, Sparkles, UserCircle } from "lucide-react";
+import { FileText } from "lucide-react";
 import { Link } from "react-router";
 import { Button } from "~/components/ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "~/components/ui/dialog";
