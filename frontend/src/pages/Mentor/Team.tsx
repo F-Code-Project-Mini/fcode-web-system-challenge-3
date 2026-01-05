@@ -74,7 +74,10 @@ const Team = ({ team }: { team: TeamType }) => {
                                             </div>
                                         </td>
                                         <td className="px-4 py-3.5 text-sm whitespace-nowrap text-gray-600 sm:table-cell sm:px-6 sm:py-4">
-                                            {member.studentCode}
+                                            <p className="text-blue-gray-900 text-sm font-semibold">
+                                                {member.studentCode}
+                                            </p>
+                                            <p className="text-xs text-gray-500">Kỳ {member.semester}</p>
                                         </td>
                                         <td className="px-4 py-3.5 text-sm whitespace-nowrap text-gray-600 sm:px-6 sm:py-4 md:table-cell">
                                             {user.email}
