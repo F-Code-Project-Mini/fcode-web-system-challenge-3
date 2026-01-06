@@ -11,7 +11,7 @@ const MenuMobileHeader = ({
 }: {
     setShowMobileMenu: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
-    const { isLogin, user } = useAuth();
+    const { isLogin, user, logout } = useAuth();
     return (
         <div className="mt-4 border-t border-gray-100 pt-4 lg:hidden">
             <nav className="space-y-1">
@@ -22,7 +22,7 @@ const MenuMobileHeader = ({
                     active={Helper.isActive(location.pathname, "/")}
                     onClick={() => setShowMobileMenu(false)}
                 />
-                {isLogin && (
+                {/* {isLogin && (
                     <>
                         <MobileNavLink
                             url="/submissions"
@@ -32,7 +32,7 @@ const MenuMobileHeader = ({
                             onClick={() => setShowMobileMenu(false)}
                         />
                     </>
-                )}
+                )} */}
                 <MobileNavLink
                     url="https://discord.gg/WvudrJaYD"
                     name="Hỗ trợ sự cố"
@@ -57,6 +57,7 @@ const MenuMobileHeader = ({
                         <button
                             onClick={() => {
                                 setShowMobileMenu(false);
+                                logout();
                             }}
                             className="block w-full rounded-lg px-3 py-2 text-left text-sm text-red-600 hover:bg-red-50"
                         >
