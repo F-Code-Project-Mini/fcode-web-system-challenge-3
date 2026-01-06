@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router";
 import { Button } from "../ui/button";
 import { MobileNavLink } from "./NavLink";
-import { House, Send, ServerCrash } from "lucide-react";
+import { House, ServerCrash } from "lucide-react";
 import Helper from "~/utils/helper";
 import useAuth from "~/hooks/useAuth";
 
