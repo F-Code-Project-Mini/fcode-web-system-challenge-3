@@ -35,6 +35,11 @@ const Members = ({ data }: { data: TeamType | undefined }) => {
                                         data.candidates.find((candidate) => candidate.id === data.leaderId)?.user
                                             .id && <ChangeNameTeam team={data} />}
                             </div>
+                            {!data?.name && (
+                                <p className="mt-1 text-xs text-red-500 sm:text-sm">
+                                    Nhóm trưởng mới được quyền đặt tên nhóm
+                                </p>
+                            )}
                             <p className="mt-1.5 text-xs leading-relaxed text-gray-500 sm:text-sm">
                                 Danh sách thành viên trong nhóm, vui lòng chủ động liên hệ mentor và các thành viên
                                 trong nhóm thông qua kênh <span className="font-bold">Discord</span>.
