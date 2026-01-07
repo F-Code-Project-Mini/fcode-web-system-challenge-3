@@ -14,7 +14,7 @@ export const initSocket = (server: http.Server) => {
     io.on("connection", (socket) => {
         socket.on("SAVE_SCORE", async (payload) => {
             // if (payload.score == "" && payload.note == "") return;
-            // if (payload.score == "") payload.score = "0";
+            if (payload.score <= 0 && payload.note == "") return;
             console.log("payload:", payload.score);
 
             try {

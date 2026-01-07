@@ -9,6 +9,7 @@ import { socket } from "~/utils/socket";
 import useAuth from "~/hooks/useAuth";
 import type { CandidateType } from "~/types/team.types";
 import { BadgeCheck } from "lucide-react";
+import BadgeLeader from "~/components/BadgeLeader";
 type ParamsBarem = {
     id: string;
     candidateId?: string;
@@ -33,6 +34,8 @@ const MentorBaremPage = () => {
         },
         enabled: !!params.id,
     });
+    const isLeader = params?.candidateId === candidates?.leader.id;
+    // console.log("isLeader", params?.candidateId, isLeader);
 
     const [candidateActive, setcandidateActive] = useState<CandidateType | undefined>(undefined);
 
@@ -88,6 +91,9 @@ const MentorBaremPage = () => {
 
     const totalMaxScore =
         baremMentor?.reduce((sum, item) => {
+            if (!isLeader && item.target == "Leader") {
+                return sum;
+            }
             return (
                 sum +
                 item.partitions.reduce((partSum, partition) => {
@@ -212,9 +218,12 @@ const MentorBaremPage = () => {
             <section className="my-6" id="barem-table">
                 <div className="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-xs">
                     <div className="border-b border-gray-200 bg-gradient-to-r from-gray-50 to-white px-4 py-4 sm:px-6">
-                        <h2 className="text-base font-bold text-gray-900 sm:text-lg">
-                            ỨNG VIÊN: <span className="text-primary">{candidateActive?.user.fullName}</span>
-                        </h2>
+                        <div className="flex items-center gap-2">
+                            <h2 className="text-base font-bold text-gray-900 sm:text-lg">
+                                ỨNG VIÊN: <span className="text-primary">{candidateActive?.user.fullName}</span>
+                            </h2>
+                            {isLeader && <BadgeLeader />}
+                        </div>
                         <p className="mt-1 text-xs text-gray-500 sm:text-sm">
                             Vui lòng nhập điểm cho từng tiêu chí dưới đây
                         </p>
@@ -249,6 +258,9 @@ const MentorBaremPage = () => {
                                         (sum, partition) => sum + (partition.partitions?.length || 0),
                                         0,
                                     );
+                                    if (!isLeader && item.target == "Leader") {
+                                        return null;
+                                    }
 
                                     return item.partitions.flatMap((partition, partitionIndex) => {
                                         const subPartitions = partition.partitions || [];
@@ -357,16 +369,19 @@ const MentorBaremPage = () => {
 
 const TotalScore = ({ totalCurrentScore, totalMaxScore }: { totalCurrentScore: number; totalMaxScore: number }) => (
     <div className="my-6 flex flex-col gap-4 rounded-lg border border-gray-200 bg-white p-4 shadow-xs sm:flex-row sm:items-center sm:justify-between sm:p-6">
-        <div className="flex items-baseline gap-2">
-            <span className="text-md font-semibold text-gray-700 sm:text-lg">Tổng điểm:</span>
-            <span
-                className={`${
-                    totalCurrentScore <= totalMaxScore ? "text-primary" : "text-red-600"
-                } text-2xl font-bold sm:text-3xl`}
-            >
-                {totalCurrentScore.toFixed(1)}
-            </span>
-            <span className="text-lg font-medium text-gray-600">/ {totalMaxScore}</span>
+        <div>
+            <div className="flex items-baseline gap-2">
+                <span className="text-md font-semibold text-gray-700 sm:text-lg">Tổng điểm:</span>
+                <span
+                    className={`${
+                        totalCurrentScore <= totalMaxScore ? "text-primary" : "text-red-600"
+                    } text-2xl font-bold sm:text-3xl`}
+                >
+                    {totalCurrentScore.toFixed(1)}
+                </span>
+                <span className="text-lg font-medium text-gray-600">/ {totalMaxScore}</span>
+            </div>
+            <span className="text-xs italic">Leader luôn cao hơn member tối đa là 15đ</span>
         </div>
         <span className="font-bold italic">Điểm được lưu tự động</span>
     </div>
