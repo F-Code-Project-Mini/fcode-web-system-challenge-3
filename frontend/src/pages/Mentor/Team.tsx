@@ -5,6 +5,7 @@ import { ChoiceLeader } from "./ChoiceLeader";
 import type { TeamType } from "~/types/team.types";
 import NotifyNotLeader from "~/components/NotifyNotLeader";
 import { ShowTopic } from "../Candidate/ShowTopic";
+import Helper from "~/utils/helper";
 const Team = ({ team }: { team: TeamType }) => {
     return (
         <section className="col-span-1 lg:col-span-8" id="members">
@@ -51,6 +52,9 @@ const Team = ({ team }: { team: TeamType }) => {
                                 <th className="px-3 py-2 text-left text-xs font-semibold tracking-wider text-gray-600 uppercase sm:px-6 sm:py-3 md:table-cell">
                                     Liên hệ
                                 </th>
+                                <th className="px-3 py-2 text-left text-xs font-semibold tracking-wider text-gray-600 uppercase sm:px-6 sm:py-3 md:table-cell">
+                                    Trạng thái
+                                </th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-gray-200/60 bg-white">
@@ -93,6 +97,17 @@ const Team = ({ team }: { team: TeamType }) => {
                                                 <span className="block font-medium">{user.email}</span>
                                                 <span className="block text-gray-500">{member.phone}</span>
                                             </div>
+                                        </td>
+                                        <td className="px-4 py-3.5 text-sm whitespace-nowrap text-gray-600 sm:px-6 sm:py-4 md:table-cell">
+                                            <span>
+                                                Điểm Mentor:{" "}
+                                                <span
+                                                    className={`font-semibold ${Helper.belowAverage(member.scoreMentor) ? "text-red-500" : "text-green-500"}`}
+                                                >
+                                                    {member.scoreMentor || 0}
+                                                </span>
+                                                <span>/100</span>
+                                            </span>
                                         </td>
                                     </tr>
                                 );

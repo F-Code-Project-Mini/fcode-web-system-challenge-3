@@ -68,7 +68,6 @@ const MentorBaremPage = () => {
             });
         });
 
-        // eslint-disable-next-line react-hooks/set-state-in-effect
         setScores(newScores);
         setNotes(newNotes);
 

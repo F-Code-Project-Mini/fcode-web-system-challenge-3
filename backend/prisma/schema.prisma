@@ -166,6 +166,8 @@ model BaremScore {
   mentor    User      @relation("MentorToScore", fields: [mentorId], references: [id])
   candidate Candidate @relation("CandidateReceivedScore", fields: [candidateId], references: [id])
 
+  @@unique([mentorId, codeBarem, candidateId])
+  @@index([candidateId])
   @@map("scores")
 }
 
