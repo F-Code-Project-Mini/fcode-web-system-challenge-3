@@ -4,13 +4,19 @@ import { Note } from "./Note";
 import { useQuery } from "@tanstack/react-query";
 import MentorApi from "~/api-requests/mentor.requests";
 import TeamApi from "~/api-requests/team.requests";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { socket } from "~/utils/socket";
 import useAuth from "~/hooks/useAuth";
 import type { CandidateType } from "~/types/team.types";
+type ParamsBarem = {
+    id: string;
+    candidateId?: string;
+};
 const MentorBaremPage = () => {
-    const params = useParams();
+    const params = useParams<ParamsBarem>();
+
     const { user } = useAuth();
+    const navigate = useNavigate();
     const [scores, setScores] = useState<{ [key: string]: number }>({});
     const [notes, setNotes] = useState<{ [key: string]: string }>({});
     const isDataInitialized = useRef(false);
@@ -31,15 +37,17 @@ const MentorBaremPage = () => {
 
     useEffect(() => {
         if (!candidateActive && candidates?.candidates?.length) {
-            setcandidateActive(candidates.candidates[0]);
+            setcandidateActive(
+                candidates.candidates.find((c) => c.id === params.candidateId) || candidates.candidates[0],
+            );
             // reset scores and cell status when candidate changes
         }
         // Reset flag khi chuyển candidate
         isDataInitialized.current = false;
-    }, [candidates, candidateActive]);
+    }, [candidates, candidateActive, params.candidateId]);
 
     const { data: baremMentor } = useQuery({
-        queryKey: ["mentor-barem", candidateActive],
+        queryKey: ["mentor-barem", candidateActive, params.candidateId],
         queryFn: async () => {
             const res = await MentorApi.getBarem(candidateActive?.id || "");
             return res.result;
@@ -179,9 +187,10 @@ const MentorBaremPage = () => {
                 <h3 className="text-primary mb-4 text-base font-semibold sm:text-lg">Ứng viên</h3>
                 <RadioGroup
                     value={candidateActive?.id}
-                    onValueChange={(id) =>
-                        setcandidateActive(candidates?.candidates.find((candidate) => candidate.id === id))
-                    }
+                    onValueChange={(id) => {
+                        setcandidateActive(candidates?.candidates.find((candidate) => candidate.id === id));
+                        navigate(`/mentor/team/${params.id}/candidate/${id}`);
+                    }}
                     className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-5"
                 >
                     {candidates?.candidates.map((candidate) => (

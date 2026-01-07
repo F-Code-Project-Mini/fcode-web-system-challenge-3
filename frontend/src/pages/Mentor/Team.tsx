@@ -24,7 +24,7 @@ const Team = ({ team }: { team: TeamType }) => {
                         <ShowTopic urlPdf={team.topic.filePath} name={team.topic.title} />
                         <ChoiceLeader team={team} />
 
-                        <Link to={`/mentor/team/${team.id}`}>
+                        {/* <Link to={`/mentor/team/${team.id}`}>
                             <Button
                                 variant="default"
                                 className="shadown-base flex w-fit cursor-pointer items-center gap-2 rounded-xl border p-2"
@@ -33,7 +33,7 @@ const Team = ({ team }: { team: TeamType }) => {
                                 <span className="hidden sm:inline">Đánh giá</span>
                                 <span className="sm:hidden">Chấm điểm</span>
                             </Button>
-                        </Link>
+                        </Link> */}
                     </div>
                 </div>
                 <div className="overflow-x-auto">
@@ -99,15 +99,25 @@ const Team = ({ team }: { team: TeamType }) => {
                                             </div>
                                         </td>
                                         <td className="px-4 py-3.5 text-sm whitespace-nowrap text-gray-600 sm:px-6 sm:py-4 md:table-cell">
-                                            <span>
-                                                Điểm Mentor:{" "}
-                                                <span
-                                                    className={`font-semibold ${Helper.belowAverage(member.scoreMentor) ? "text-red-500" : "text-green-500"}`}
-                                                >
-                                                    {member.scoreMentor || 0}
-                                                </span>
-                                                <span>/100</span>
-                                            </span>
+                                            <div className="flex flex-col gap-2">
+                                                <div className="flex items-center gap-1 text-xs">
+                                                    <span className="text-gray-500">Điểm:</span>
+                                                    <span
+                                                        className={`font-semibold ${Helper.belowAverage(member.scoreMentor) ? "text-red-500" : "text-green-500"}`}
+                                                    >
+                                                        {member.scoreMentor || 0}
+                                                    </span>
+                                                    <span className="text-gray-500">/100</span>
+                                                </div>
+                                                <Button variant="outline" size="sm" className="w-fit text-xs">
+                                                    <Link
+                                                        to={`/mentor/team/${team.id}/candidate/${member.id}`}
+                                                        className="flex items-center gap-1"
+                                                    >
+                                                        <Sparkles size={10} /> <span>Đánh giá</span>
+                                                    </Link>
+                                                </Button>
+                                            </div>
                                         </td>
                                     </tr>
                                 );
