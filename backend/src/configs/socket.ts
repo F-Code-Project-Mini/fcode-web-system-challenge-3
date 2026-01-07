@@ -12,43 +12,39 @@ export const initSocket = (server: http.Server) => {
     });
 
     io.on("connection", (socket) => {
-        console.log("SOCKET CONNECTED:", socket.id);
         socket.on("SAVE_SCORE", async (payload) => {
-            if (payload.score == "" && payload.note == "") return;
-            // console.log("GHi nhận login");
+            // if (payload.score == "" && payload.note == "") return;
+            // if (payload.score == "") payload.score = "0";
+            console.log("payload:", payload.score);
 
-            const existed = await prisma.baremScore.findFirst({
-                where: {
-                    mentorId: payload.mentorId,
-                    candidateId: payload.candidateId,
-                    codeBarem: payload.codeBarem,
-                },
-            });
-
-            if (existed) {
-                await prisma.baremScore.update({
+            try {
+                const result = await prisma.baremScore.upsert({
                     where: {
-                        id: existed.id,
+                        mentorId_codeBarem_candidateId: {
+                            mentorId: payload.mentorId,
+                            codeBarem: payload.codeBarem,
+                            candidateId: payload.candidateId,
+                        },
                     },
-                    data: {
-                        score: payload.score || 0,
+                    update: {
+                        score: parseFloat(payload.score || "0"),
                         note: payload.note,
+                        mentorId: payload.mentorId,
                     },
-                });
-            } else {
-                await prisma.baremScore.create({
-                    data: {
+                    create: {
                         mentorId: payload.mentorId,
                         candidateId: payload.candidateId,
                         codeBarem: payload.codeBarem,
-                        score: payload.score || 0,
+                        score: parseFloat(payload.score || "0"),
                         note: payload.note,
                         type: "MENTOR",
                     },
                 });
-            }
 
-            socket.emit("SCORE_SAVED", payload);
+                socket.emit("SCORE_SAVED", result);
+            } catch (error) {
+                console.error("Socket SAVE_SCORE error:", error);
+            }
         });
     });
 };

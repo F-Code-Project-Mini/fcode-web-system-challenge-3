@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from "express";
+import { RoleType } from "~/constants/enums";
 import { HTTP_STATUS } from "~/constants/httpStatus";
 import { ResponseClient } from "~/rules/response";
 import teamService from "~/services/team.service";
@@ -33,8 +34,12 @@ export const getDetail = async (req: Request<{ id: string }>, res: Response, nex
 };
 
 export const getTeamByUserId = async (req: Request<{ id: string }>, res: Response, next: NextFunction) => {
+    const {
+        role,
+        params: { id },
+    } = req;
     try {
-        const result = await teamService.getTeamByUserId(req.params.id);
+        const result = await teamService.getTeamByUserId(id, role == RoleType.MENTOR);
         return res.status(HTTP_STATUS.OK).json(new ResponseClient({ result }));
     } catch (error) {
         return next(error);

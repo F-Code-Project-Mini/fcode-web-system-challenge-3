@@ -21,6 +21,7 @@ export type CandidateType = {
     user: Omit<UserType, "candidateId"> & {
         isConfirm: boolean;
     };
+    scoreMentor: number | null;
 };
 export type TeamType = {
     id: string;
