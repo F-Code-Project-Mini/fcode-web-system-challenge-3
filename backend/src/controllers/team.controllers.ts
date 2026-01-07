@@ -46,20 +46,20 @@ export const getTeamByUserId = async (req: Request<{ id: string }>, res: Respons
     }
 };
 
-export const create = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-        const { mentorship_id, topic_id } = req.body as {
-            mentorship_id: string;
-            topic_id: string;
-        };
-        const created = await teamService.create({ mentorship_id, topic_id });
-        return res
-            .status(HTTP_STATUS.CREATED)
-            .json(new ResponseClient({ message: "Tạo team thành công!", result: { id: created.id } }));
-    } catch (error) {
-        return next(error);
-    }
-};
+// export const create = async (req: Request, res: Response, next: NextFunction) => {
+//     try {
+//         const { mentorship_id, topic_id } = req.body as {
+//             mentorship_id: string;
+//             topic_id: string;
+//         };
+//         const created = await teamService.create({ mentorship_id, topic_id });
+//         return res
+//             .status(HTTP_STATUS.CREATED)
+//             .json(new ResponseClient({ message: "Tạo team thành công!", result: { id: created.id } }));
+//     } catch (error) {
+//         return next(error);
+//     }
+// };
 
 export const update = async (req: Request<{ id: string }>, res: Response, next: NextFunction) => {
     try {
@@ -109,6 +109,19 @@ export const getTeamsByMentor = async (req: Request, res: Response, next: NextFu
     try {
         await teamService.getTeamByUserId(userId!);
         return res.status(HTTP_STATUS.OK).json(new ResponseClient({ message: "Lấy danh sách thành viên thành công!" }));
+    } catch (error) {
+        return next(error);
+    }
+};
+export const changeName = async (req: Request<{ id: string }>, res: Response, next: NextFunction) => {
+    console.log("req.body", "Đã ghi nhanan n");
+    const { name } = req.body;
+    const { userId } = req;
+    try {
+        const result = await teamService.changeName(userId!, req.params.id, name);
+        return res
+            .status(HTTP_STATUS.OK)
+            .json(new ResponseClient({ message: "Cập nhật tên nhóm thành công!", result }));
     } catch (error) {
         return next(error);
     }
