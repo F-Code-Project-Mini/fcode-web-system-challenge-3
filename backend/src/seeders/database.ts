@@ -109,8 +109,8 @@ const seed = async () => {
         teamsPromise.push(
             prisma.team.create({
                 data: new Team({
+                    group: team.group,
                     topicId: topic?.id || "",
-                    name: team.name,
                     mentorshipId: mentor?.id || "",
                 }),
             }),
@@ -121,7 +121,7 @@ const seed = async () => {
     // tiến hành update teamId cho từng candidate
     for (const team of studentList) {
         const teamRecord = await prisma.team.findFirst({
-            where: { name: team.name },
+            where: { group: team.group },
         });
         for (const candidateInfo of team.candidates) {
             await prisma.candidate.updateMany({

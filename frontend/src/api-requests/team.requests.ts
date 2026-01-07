@@ -22,5 +22,11 @@ class TeamApi {
         });
         return res.data;
     }
+    static async changeNameTeam(idTeam: string, newName: string) {
+        const res = await privateApi.patch(`/teams/${idTeam}/change-name`, {
+            name: newName,
+        });
+        return res.data;
+    }
 }
 export default TeamApi;

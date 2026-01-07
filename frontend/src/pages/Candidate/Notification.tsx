@@ -35,7 +35,10 @@ const Notification = () => {
                         </li>
                         <li className="flex items-center gap-2 text-sm text-red-600">
                             <span className="h-1.5 w-1.5 flex-shrink-0 rounded-full bg-yellow-500"></span>
-                            <span>Tất cả thành viên bắt buộc đều phải thuyết trình.</span>
+                            <span className="font-semibold text-red-600">
+                                Tất cả thành viên bắt buộc đều phải thuyết trình.
+                            </span>
+                            <img src="/icon-new.gif" alt="important" className="inline h-6 w-10" />
                         </li>
                     </ul>
                 </div>
