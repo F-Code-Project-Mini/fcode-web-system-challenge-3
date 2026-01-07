@@ -20,6 +20,7 @@ export const idParamSchema = z.object({
         id: z.string().uuid("ID không hợp lệ!"),
     }),
 });
+
 export const uuidParamsAndBodySchema = z.object({
     ...idParamSchema.shape,
     body: z.object({
@@ -52,4 +53,14 @@ export const setPasswordSchema = z.object({
             message: "Nhập lại mật khẩu không khớp!",
             path: ["confirmPassword"],
         }),
+});
+export const changeNameSchema = z.object({
+    body: z.object({
+        name: z
+            .string()
+            .trim()
+            .nonempty("Tên nhóm không được để trống!")
+            .min(3, "Tên nhóm phải có ít nhất 3 ký tự!")
+            .max(50, "Tên nhóm không được vượt quá 50 ký tự!"),
+    }),
 });

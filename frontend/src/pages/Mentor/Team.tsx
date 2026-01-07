@@ -9,12 +9,17 @@ import Helper from "~/utils/helper";
 const Team = ({ team }: { team: TeamType }) => {
     return (
         <section className="col-span-1 lg:col-span-8" id="members">
-            {!team.leaderId && <NotifyNotLeader name={team.name} />}
+            {!team.leaderId && <NotifyNotLeader name={team.group} />}
             <div className="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-2xs">
                 <div className="from-gray-100/60/60 flex flex-col gap-3 border-b border-gray-200 bg-gradient-to-r px-4 py-3 sm:px-6 sm:py-4 lg:flex-row lg:items-center lg:justify-between lg:gap-4">
                     <div className="flex-1">
-                        <h2 className="text-base font-semibold text-gray-900 sm:text-lg">
-                            NHÓM <span className="text-primary font-bold">{team.name}</span>
+                        <h2 className="text-base font-semibold tracking-tight text-gray-900 sm:text-lg">
+                            [NHÓM <span className="text-primary font-bold">{team?.group}</span>] -{" "}
+                            {team.name ? (
+                                <span className="text-primary font-bold">{team.name}</span>
+                            ) : (
+                                <span className="text-red-500 italic">Chưa đặt tên nhóm</span>
+                            )}
                         </h2>
                         <p className="mt-1 text-xs text-gray-500 sm:text-sm">
                             Các thành viên trong nhóm sẽ chủ động liên hệ với bạn để add bạn vào nhóm.

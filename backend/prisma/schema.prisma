@@ -50,7 +50,8 @@ model Candidate {
 
 model Team {
   id           String  @id @default(uuid()) @db.VarChar(36)
-  name         String  @db.VarChar(20)
+  group        Int     @unique @db.Int
+  name         String?  @unique  @db.VarChar(255)
   mentorshipId String  @map("mentorship_id") @db.VarChar(36)
   leaderId     String? @unique @map("leader_id") @db.VarChar(36)
   topicId      String  @map("topic_id") @db.VarChar(36)

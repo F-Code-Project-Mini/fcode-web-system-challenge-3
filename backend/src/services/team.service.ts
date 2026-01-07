@@ -59,13 +59,13 @@ class TeamService {
         return team;
     }
 
-    async create(body: { mentorship_id: string; topic_id: string }) {
-        const team = await teamRepository.create({
-            mentorshipId: body.mentorship_id,
-            topicId: body.topic_id,
-        });
-        return team;
-    }
+    // async create(body: { mentorship_id: string; topic_id: string }) {
+    //     const team = await teamRepository.create({
+    //         mentorshipId: body.mentorship_id,
+    //         topicId: body.topic_id,
+    //     });
+    //     return team;
+    // }
 
     async update(id: string, body: { topic_id?: string; mentorship_id?: string }) {
         const existed = await teamRepository.findById(id);
@@ -112,6 +112,32 @@ class TeamService {
                 message: result.message as string,
             });
         }
+    }
+    async changeName(userId: string, teamId: string, name: string) {
+        const existed = await teamRepository.findById(teamId);
+        if (!existed) {
+            throw new ErrorWithStatus({
+                status: HTTP_STATUS.NOT_FOUND,
+                message: "Team không tồn tại trên hệ thống.",
+            });
+        }
+        if (existed.name) {
+            throw new ErrorWithStatus({
+                status: HTTP_STATUS.FORBIDDEN,
+                message: "Chỉ được phép đổi tên nhóm một lần duy nhất.",
+            });
+        }
+        const isLeader = await teamRepository.isLeader(teamId, userId);
+
+        if (!isLeader) {
+            throw new ErrorWithStatus({
+                status: HTTP_STATUS.FORBIDDEN,
+                message: "Bạn không có quyền thay đổi tên nhóm này.",
+            });
+        }
+        // check có phải leader nhóm này không?
+        const updated = await teamRepository.update(teamId, { name });
+        return updated;
     }
     // async getTeamByMentor(mentorId: string) {
     //     const teams = await teamRepository.findByMentorId(mentorId);
