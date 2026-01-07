@@ -39,6 +39,9 @@ const Members = ({ data }: { data: TeamType | undefined }) => {
                                 <th className="px-4 py-3 text-left text-xs font-semibold tracking-wide text-gray-600 uppercase sm:px-6 sm:py-3.5 md:table-cell">
                                     Liên hệ
                                 </th>
+                                <th className="px-4 py-3 text-left text-xs font-semibold tracking-wide text-gray-600 uppercase sm:px-6 sm:py-3.5 md:table-cell">
+                                    Kết quả
+                                </th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-gray-200/60 bg-white">
@@ -81,6 +84,9 @@ const Members = ({ data }: { data: TeamType | undefined }) => {
                                                 <span className="block font-medium">{user.email}</span>
                                                 <span className="block text-gray-500">{member.phone}</span>
                                             </div>
+                                        </td>
+                                        <td className="px-4 py-3.5 text-sm whitespace-nowrap text-gray-600 sm:px-6 sm:py-4 md:table-cell">
+                                            <span className="font-semibold text-yellow-500">Chờ thuyết trình</span>
                                         </td>
                                     </tr>
                                 );

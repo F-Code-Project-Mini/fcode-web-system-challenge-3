@@ -31,7 +31,11 @@ const Notification = () => {
                         </li>
                         <li className="flex items-center gap-2 text-sm text-gray-700">
                             <span className="h-1.5 w-1.5 flex-shrink-0 rounded-full bg-yellow-500"></span>
-                            <span>Mentor chỉ tham gia giám sát tiến độ và không hỗ trợ kiến thức học thuật..</span>
+                            <span>Mentor chỉ tham gia giám sát tiến độ và không hỗ trợ kiến thức học thuật.</span>
+                        </li>
+                        <li className="flex items-center gap-2 text-sm text-red-600">
+                            <span className="h-1.5 w-1.5 flex-shrink-0 rounded-full bg-yellow-500"></span>
+                            <span>Tất cả thành viên bắt buộc đều phải thuyết trình.</span>
                         </li>
                     </ul>
                 </div>
