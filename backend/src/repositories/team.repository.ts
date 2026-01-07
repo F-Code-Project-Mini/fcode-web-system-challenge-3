@@ -1,5 +1,6 @@
 import prisma from "~/configs/prisma";
 import { paginate } from "~/utils/pagination";
+import userRespository from "./user.repository";
 
 class TeamRepository {
     findWithPagination = async ({ page, limit, mentorId }: { page?: number; limit?: number; mentorId?: string }) => {
@@ -40,7 +41,7 @@ class TeamRepository {
         return { teams: data, meta };
     };
 
-    findByIdWithMembers = async (id: string) => {
+    findByIdWithMembers = async (id: string, displayScore: boolean = false) => {
         const include = {
             candidates: {
                 omit: {
@@ -82,23 +83,35 @@ class TeamRepository {
 
         if (!team) return null;
 
-        // Remove password from user objects in candidates
-        const teamNew = {
-            ...team,
-            candidates: team.candidates.map((candidate) => {
+        const candidatesWithScores = await Promise.all(
+            team.candidates.map(async (candidate) => {
                 if (!candidate.user) {
                     return candidate;
                 }
+
+                const scoreMentor = displayScore ? await userRespository.getScoreMentor(candidate.id) : null;
+
                 const { password, ...userWithoutPassword } = candidate.user;
 
-                Object.assign(candidate.user, userWithoutPassword, { isConfirm: !!password });
-                return candidate;
+                return {
+                    ...candidate,
+                    scoreMentor,
+                    user: {
+                        ...userWithoutPassword,
+                        isConfirm: !!password,
+                    },
+                };
             }),
+        );
+
+        const teamNew = {
+            ...team,
+            candidates: candidatesWithScores,
         };
         return teamNew;
     };
 
-    findByUserId = async (userId: string) => {
+    findByUserId = async (userId: string, displayScore: boolean = false) => {
         // Nếu là mentor: tìm các team thuộc mentorship của mentor đó
         const mentorTeams = await prisma.team.findMany({
             where: {
@@ -109,24 +122,14 @@ class TeamRepository {
             select: {
                 id: true,
             },
-            // take: 1,
         });
 
         const data = [];
         console.log("mentorTeams", mentorTeams);
         for (const t of mentorTeams) {
-            data.push(await this.findByIdWithMembers(t.id));
+            data.push(await this.findByIdWithMembers(t.id, displayScore));
         }
         return data;
-
-        // // Nếu là candidate: tìm team qua candidateId
-        // const candidate = await prisma.candidate.findFirst({
-        //     where: { user: { id: userId } },
-        //     select: { teamId: true },
-        // });
-
-        // if (!candidate || !candidate.teamId) return null;
-        // return this.findByIdWithMembers(candidate.teamId);
     };
 
     create = async ({

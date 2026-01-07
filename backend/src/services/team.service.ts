@@ -48,8 +48,8 @@ class TeamService {
         return team;
     }
 
-    async getTeamByUserId(id: string) {
-        const team = await teamRepository.findByUserId(id);
+    async getTeamByUserId(id: string, displayScore: boolean = false) {
+        const team = await teamRepository.findByUserId(id, displayScore);
         if (!team) {
             throw new ErrorWithStatus({
                 status: HTTP_STATUS.NOT_FOUND,

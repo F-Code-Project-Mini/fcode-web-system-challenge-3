@@ -40,5 +40,10 @@ class Helper {
     static isActive = (src: string, dest: string) => {
         return src === dest;
     };
+
+    static belowAverage = (score: number | null) => {
+        if (score === null) return false;
+        return score < 50;
+    };
 }
 export default Helper;
