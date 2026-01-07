@@ -6,6 +6,7 @@ import type { TeamType } from "~/types/team.types";
 import NotifyNotLeader from "~/components/NotifyNotLeader";
 import { ShowTopic } from "../Candidate/ShowTopic";
 import Helper from "~/utils/helper";
+import BadgeLeader from "~/components/BadgeLeader";
 const Team = ({ team }: { team: TeamType }) => {
     return (
         <section className="col-span-1 lg:col-span-8" id="members">
@@ -84,11 +85,7 @@ const Team = ({ team }: { team: TeamType }) => {
                                         >
                                             <div className="flex items-center gap-2">
                                                 {user.fullName}
-                                                {isLeader && (
-                                                    <span className="text-primary bg-primary/10 rounded-md px-2 py-0.5 text-xs font-medium">
-                                                        Trưởng nhóm
-                                                    </span>
-                                                )}
+                                                {isLeader && <BadgeLeader />}
                                             </div>
                                             <p className="mt-0.5 text-xs text-gray-600">Ngành: {member.major}</p>
                                             {!user.isConfirm && (
