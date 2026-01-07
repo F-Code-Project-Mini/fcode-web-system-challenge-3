@@ -8,6 +8,7 @@ import { useNavigate, useParams } from "react-router";
 import { socket } from "~/utils/socket";
 import useAuth from "~/hooks/useAuth";
 import type { CandidateType } from "~/types/team.types";
+import { BadgeCheck } from "lucide-react";
 type ParamsBarem = {
     id: string;
     candidateId?: string;
@@ -288,12 +289,20 @@ const MentorBaremPage = () => {
                                                     )}
 
                                                     <td className="px-4 py-3">
-                                                        <div
-                                                            className={`text-sm leading-relaxed ${isInvalidScore ? "text-red-600" : "text-gray-700"}`}
-                                                            dangerouslySetInnerHTML={{
-                                                                __html: subPart.description || "—",
-                                                            }}
-                                                        />
+                                                        <div className="flex items-center gap-1">
+                                                            {scores[scoreKey] > 0 && (
+                                                                <BadgeCheck
+                                                                    className="inline-block text-green-600"
+                                                                    size={16}
+                                                                />
+                                                            )}
+                                                            <div
+                                                                className={`text-sm leading-relaxed ${isInvalidScore ? "text-red-600" : "text-gray-700"}`}
+                                                                dangerouslySetInnerHTML={{
+                                                                    __html: `${subPart.description}` || "—",
+                                                                }}
+                                                            />
+                                                        </div>
                                                     </td>
 
                                                     <td className="px-4 py-3 text-center">
