@@ -2,6 +2,7 @@ import NotifyNotLeader from "~/components/NotifyNotLeader";
 import type { TeamType } from "~/types/team.types";
 import { ChangeNameTeam } from "./ChangeNameTeam";
 import useAuth from "~/hooks/useAuth";
+import BadgeLeader from "~/components/BadgeLeader";
 
 const Members = ({ data }: { data: TeamType | undefined }) => {
     const candidates = data?.candidates;
@@ -84,11 +85,7 @@ const Members = ({ data }: { data: TeamType | undefined }) => {
                                         >
                                             <div className="flex items-center gap-2">
                                                 {user.fullName}
-                                                {isLeader && (
-                                                    <span className="text-primary bg-primary/10 rounded-md px-2 py-0.5 text-xs font-medium">
-                                                        Trưởng nhóm
-                                                    </span>
-                                                )}
+                                                {isLeader && <BadgeLeader />}
                                             </div>
                                             <p className="mt-0.5 text-xs text-gray-600">Ngành: {member.major}</p>
                                             {!user.isConfirm && (
