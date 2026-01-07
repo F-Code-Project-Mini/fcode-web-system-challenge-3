@@ -1,4 +1,4 @@
-import { Facebook, Mail, MessageCircle } from "lucide-react";
+import { Facebook, MessageCircle, Phone } from "lucide-react";
 import type { MentorshipType } from "~/types/team.types";
 const Mentor = ({ data }: { data: MentorshipType | undefined }) => {
     return (
@@ -37,7 +37,7 @@ const Mentor = ({ data }: { data: MentorshipType | undefined }) => {
                     </div>
                     <div className="group flex items-start gap-3.5 rounded-lg p-3 transition-colors hover:bg-gray-50/50">
                         <div className="bg-primary/10 text-primary group-hover:bg-primary/20 mt-0.5 flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg transition-colors">
-                            <Mail className="h-4.5 w-4.5" />
+                            <Phone className="h-4.5 w-4.5" />
                         </div>
                         <div className="min-w-0 flex-1">
                             <p className="text-xs font-medium text-gray-500">Zalo</p>
