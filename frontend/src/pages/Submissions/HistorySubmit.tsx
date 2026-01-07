@@ -5,7 +5,6 @@ interface Submission {
     phoneNumber: string;
     productLink: string;
     codeLink: string;
-    description: string;
     submittedAt: string;
     status: "pending" | "approved" | "rejected";
 }
