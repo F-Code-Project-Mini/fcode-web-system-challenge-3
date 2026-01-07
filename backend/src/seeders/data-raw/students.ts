@@ -2,7 +2,7 @@
 // $2b$10$.oIjaNHYprdhLa1EQVaMfe7L3qmCURyq0u99Pb9hlF1jbmNQAs.bC
 export const studentList = [
     {
-        name: "1",
+        group: 1,
         candidates: [
             {
                 full_name: "Lâm Hoàng An",
@@ -49,7 +49,7 @@ export const studentList = [
         mentor: "nguyenminh150906@gmail.com",
     },
     {
-        name: "2",
+        group: 2,
         candidates: [
             {
                 full_name: "Lê Gia Phúc Chánh",
@@ -96,7 +96,7 @@ export const studentList = [
         mentor: "nguyenminh150906@gmail.com",
     },
     {
-        name: "3",
+        group: 3,
         candidates: [
             {
                 full_name: "Lê Khả Huy",
@@ -143,7 +143,7 @@ export const studentList = [
         mentor: "quanghd023@gmail.com",
     },
     {
-        name: "4",
+        group: 4,
         candidates: [
             {
                 full_name: "Lê Khả Hoàng",
@@ -190,7 +190,7 @@ export const studentList = [
         mentor: "lam01662052827@gmail.com",
     },
     {
-        name: "5",
+        group: 5,
         candidates: [
             {
                 full_name: "Nguyễn Kim Tiến Đạt",
@@ -237,7 +237,7 @@ export const studentList = [
         mentor: "lam01662052827@gmail.com",
     },
     {
-        name: "6",
+        group: 6,
         candidates: [
             {
                 full_name: "Nguyễn Ngọc Phúc",
@@ -284,7 +284,7 @@ export const studentList = [
         mentor: "huyvog6226@gmail.com",
     },
     {
-        name: "7",
+        group: 7,
         candidates: [
             {
                 full_name: "Đàm Lê Tuấn Anh",
@@ -331,7 +331,7 @@ export const studentList = [
         mentor: "huyvog6226@gmail.com",
     },
     {
-        name: "8",
+        group: 8,
         candidates: [
             {
                 full_name: "Vũ Mai Anh Đạt",
@@ -378,7 +378,7 @@ export const studentList = [
         mentor: "nguyenduchuy23052006@gmail.com",
     },
     {
-        name: "9",
+        group: 9,
         candidates: [
             {
                 full_name: "Nguyễn Văn Quốc Bảo",
@@ -425,7 +425,7 @@ export const studentList = [
         mentor: "voductri88714@gmail.com",
     },
     {
-        name: "10",
+        group: 10,
         candidates: [
             {
                 full_name: "Nguyễn Ngọc Minh Tú",
@@ -472,7 +472,7 @@ export const studentList = [
         mentor: "khanhlinhwork1110@gmail.com",
     },
     {
-        name: "11",
+        group: 11,
         candidates: [
             {
                 full_name: "Hồ Lê Thiên An",
@@ -519,7 +519,7 @@ export const studentList = [
         mentor: "khanhlinhwork1110@gmail.com",
     },
     {
-        name: "12",
+        group: 12,
         candidates: [
             {
                 full_name: "Đậu Đức Thành",
@@ -566,7 +566,7 @@ export const studentList = [
         mentor: "tcp352006@gmail.com",
     },
     {
-        name: "13",
+        group: 13,
         candidates: [
             {
                 full_name: "Võ Lê Khôi Nguyên",
@@ -613,7 +613,7 @@ export const studentList = [
         mentor: "uttrinh4115@gmail.com",
     },
     {
-        name: "14",
+        group: 14,
         candidates: [
             {
                 full_name: "Dư Đông Ngọc Hảo",

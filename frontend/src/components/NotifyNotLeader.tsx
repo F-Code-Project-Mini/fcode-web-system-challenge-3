@@ -2,7 +2,7 @@ const NotifyNotLeader = ({
     name,
     message = "Vui lòng chọn một thành viên làm trưởng nhóm để tiếp tục quá trình đánh giá và quản lý.",
 }: {
-    name: string;
+    name: number;
     message?: string;
 }) => {
     return (

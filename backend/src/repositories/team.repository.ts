@@ -132,31 +132,13 @@ class TeamRepository {
         return data;
     };
 
-    create = async ({
-        mentorshipId,
-        topicId,
-        mentorNote,
-    }: {
-        mentorshipId: string;
-        topicId: string;
-        mentorNote?: string | null;
-    }) => {
-        return prisma.team.create({
-            data: {
-                name: "",
-                mentorshipId,
-                topicId,
-                mentorNote: mentorNote ?? null,
-            },
-        });
-    };
-
-    update = async (id: string, data: { topicId?: string; mentorshipId?: string }) => {
+    update = async (id: string, data: { name?: string; topicId?: string; mentorshipId?: string }) => {
         return prisma.team.update({
             where: { id },
             data: {
                 ...(data.topicId ? { topicId: data.topicId } : {}),
                 ...(data.mentorshipId ? { mentorshipId: data.mentorshipId } : {}),
+                ...(data.name ? { name: data.name } : {}),
             },
         });
     };
@@ -207,6 +189,19 @@ class TeamRepository {
         });
 
         return { ok: true };
+    };
+    isLeader = async (teamId: string, userId: string) => {
+        const team = await prisma.team.findUnique({
+            where: {
+                id: teamId,
+                leader: {
+                    user: {
+                        id: userId,
+                    },
+                },
+            },
+        });
+        return !!team;
     };
 }
 

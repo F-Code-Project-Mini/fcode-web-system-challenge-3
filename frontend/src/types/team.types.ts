@@ -25,7 +25,8 @@ export type CandidateType = {
 };
 export type TeamType = {
     id: string;
-    name: string;
+    group: number;
+    name?: string;
     mentorshipId: string;
     leaderId: string;
     topicId: string;

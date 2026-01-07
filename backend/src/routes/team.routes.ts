@@ -3,8 +3,7 @@ import { validate } from "~/utils/validation";
 import { RoleType } from "~/constants/enums";
 import * as teamController from "~/controllers/team.controllers";
 import { auth, isRole } from "~/middlewares/auth.middlewares";
-import { getAllSchema, idParamSchema, uuidParamsAndBodySchema } from "~/rules/auth/auth.schema";
-
+import { changeNameSchema, getAllSchema, idParamSchema, uuidParamsAndBodySchema } from "~/rules/auth/auth.schema";
 const teamRouter = Router();
 
 // teamRouter.get("/", auth, isRole([RoleType.ADMIN, RoleType.MENTOR]), validate(getAllSchema), teamController.getAll);
@@ -14,7 +13,15 @@ teamRouter.get("/:id", auth, validate(idParamSchema), teamController.getDetail);
 
 teamRouter.get("/mentor/:id", auth, validate(idParamSchema), teamController.getTeamByUserId);
 
-teamRouter.post("/", auth, isRole([RoleType.ADMIN]), teamController.create);
+// teamRouter.post("/", auth, isRole([RoleType.ADMIN]), teamController.create);
+teamRouter.patch(
+    "/:id/change-name",
+    auth,
+    isRole([RoleType.CANDIDATE]),
+    validate(idParamSchema),
+    validate(changeNameSchema),
+    teamController.changeName,
+);
 teamRouter.patch("/:id", auth, isRole([RoleType.ADMIN]), validate(idParamSchema), teamController.update);
 teamRouter.delete("/:id", auth, isRole([RoleType.ADMIN]), validate(idParamSchema), teamController.deleteTeam);
 
