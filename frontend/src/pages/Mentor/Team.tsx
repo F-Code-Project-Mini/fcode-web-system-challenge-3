@@ -21,6 +21,12 @@ const Team = ({ team }: { team: TeamType }) => {
                                 <span className="text-red-500 italic">Chưa đặt tên nhóm</span>
                             )}
                         </h2>
+                        {!team?.name && (
+                            <p className="mt-1 text-xs text-red-500 sm:text-sm">
+                                Nhóm trưởng mới được quyền đặt tên nhóm
+                            </p>
+                        )}
+
                         <p className="mt-1 text-xs text-gray-500 sm:text-sm">
                             Các thành viên trong nhóm sẽ chủ động liên hệ với bạn để add bạn vào nhóm.
                         </p>
