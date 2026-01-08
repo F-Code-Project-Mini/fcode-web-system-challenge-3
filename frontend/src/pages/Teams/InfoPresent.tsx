@@ -1,7 +1,6 @@
 import { BookOpen, Calendar, Clock } from "lucide-react";
-import React from "react";
 
-const InfoPresent = ({ team }: { team: TeamType }) => {
+const InfoPresent = () => {
     return (
         <div className="overflow-hidden rounded-lg border border-amber-200/60 bg-gradient-to-br from-amber-50/50 to-white shadow-xs transition-all">
             <div className="border-b border-amber-200/60 bg-gradient-to-br from-amber-50/80 to-white px-5 py-4">
