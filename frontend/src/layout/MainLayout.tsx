@@ -3,6 +3,7 @@ import { Outlet, useLocation, useNavigate } from "react-router";
 import startTour from "~/components/AnimatedTour";
 import Footer from "~/components/Footer";
 import Header from "~/components/Header";
+import ScrollToTop from "~/components/ScrollToTop";
 import { USER_ROLE } from "~/constants/enums";
 import useAuth from "~/hooks/useAuth";
 import LocalStorage from "~/utils/localstorage";
@@ -40,6 +41,8 @@ const MainLayout = () => {
             startTour();
         }
     }, [isLogin, user.role]);
+
+    ScrollToTop();
 
     return (
         <>

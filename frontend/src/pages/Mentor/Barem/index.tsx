@@ -10,6 +10,7 @@ import useAuth from "~/hooks/useAuth";
 import type { CandidateType } from "~/types/team.types";
 import { BadgeCheck } from "lucide-react";
 import BadgeLeader from "~/components/BadgeLeader";
+import Notification from "./Notification";
 type ParamsBarem = {
     id: string;
     candidateId?: string;
@@ -214,6 +215,8 @@ const MentorBaremPage = () => {
                     ))}
                 </RadioGroup>
             </div>
+
+            <Notification />
 
             <section className="my-6" id="barem-table">
                 <div className="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-xs">
