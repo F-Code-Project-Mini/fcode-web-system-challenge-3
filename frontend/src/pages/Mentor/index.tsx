@@ -5,6 +5,7 @@ import type { TeamType } from "~/types/team.types";
 import TeamApi from "~/api-requests/team.requests";
 import useAuth from "~/hooks/useAuth";
 import Timeline from "../Candidate/Timeline";
+import Notification from "./Notification";
 
 const MentorPage = () => {
     const { user } = useAuth();
@@ -22,7 +23,9 @@ const MentorPage = () => {
             <section className="mb-6 sm:mb-8">
                 <WelcomePartition />
             </section>
-
+            <section>
+                <Notification />
+            </section>
             <section className="col-span-1 space-y-10 lg:col-span-8" id="members">
                 {teams && teams.result.length === 0 && (
                     <p className="text-center text-lg font-medium">
