@@ -1,5 +1,4 @@
 import { BookOpen, User } from "lucide-react";
-import React from "react";
 import type { TeamType } from "~/types/team.types";
 
 const TopicTeam = ({ team }: { team: TeamType }) => {

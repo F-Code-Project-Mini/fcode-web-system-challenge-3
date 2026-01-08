@@ -102,7 +102,7 @@ const TeamPage = () => {
 
                             <div className="col-span-1 space-y-2 lg:col-span-4">
                                 <TopicTeam team={team} />
-                                <InfoPresent team={team} />
+                                <InfoPresent />
                             </div>
                         </div>
                     </>

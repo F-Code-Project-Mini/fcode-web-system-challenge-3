@@ -7,7 +7,7 @@ const AdminPage = () => {
         queryKey: ["admin", "teams"],
         queryFn: async () => {
             const res = await TeamApi.getAllTeams();
-            return res.result.data;
+            return res.result;
         },
         staleTime: 5 * 60 * 1000,
     });
