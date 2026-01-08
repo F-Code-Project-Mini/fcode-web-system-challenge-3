@@ -26,7 +26,7 @@ export const getAll = async (req: Request, res: Response, next: NextFunction) =>
 
 export const getDetail = async (req: Request<{ id: string }>, res: Response, next: NextFunction) => {
     try {
-        const result = await teamService.getDetail(req.params.id);
+        const result = await teamService.getDetail(req.params.id, req.role as RoleType);
         return res.status(HTTP_STATUS.OK).json(new ResponseClient({ result }));
     } catch (error) {
         return next(error);
@@ -117,7 +117,6 @@ export const getTeamsByMentor = async (req: Request, res: Response, next: NextFu
     }
 };
 export const changeName = async (req: Request<{ id: string }>, res: Response, next: NextFunction) => {
-    console.log("req.body", "Đã ghi nhanan n");
     const { name } = req.body;
     const { userId } = req;
     try {

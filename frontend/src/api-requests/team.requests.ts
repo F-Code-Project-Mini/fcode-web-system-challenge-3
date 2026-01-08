@@ -1,9 +1,9 @@
-import type { ResponseDetailData, ResponsePaginate, TeamType } from "~/types/team.types";
+import type { ResponseDetailData, TeamType } from "~/types/team.types";
 import { privateApi } from "~/utils/axiosInstance";
 
 class TeamApi {
     static async getAllTeams() {
-        const res = await privateApi.get<ResponsePaginate<TeamType[]>>("/teams");
+        const res = await privateApi.get<ResponseDetailData<TeamType[]>>("/teams");
         return res.data;
     }
 
