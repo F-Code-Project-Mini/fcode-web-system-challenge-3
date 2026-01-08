@@ -15,6 +15,7 @@ import MentorBaremPage from "./pages/Mentor/Barem";
 import AdminPage from "./pages/Admin";
 import ReportsPage from "./pages/Admin/Reports";
 import CandidatePages from "./pages/Admin/Candidates";
+import TeamPage from "./pages/Teams";
 const App = () => {
     return (
         <BrowserRouter>
@@ -22,6 +23,7 @@ const App = () => {
                 <Route path="/" element={<MainLayout />}>
                     <Route index element={<IndexPage />} />
                     <Route path="login" element={<LoginPage />} />
+                    <Route path="teams" element={<TeamPage />} />
                     <Route path="active/token/:token" element={<ActivePage />} />
                     <Route path="submissions" element={<SubmissionsPage />} />
 

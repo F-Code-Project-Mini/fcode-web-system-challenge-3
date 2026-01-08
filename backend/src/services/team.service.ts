@@ -21,24 +21,13 @@ class TeamService {
         const safeLimit = Number.isFinite(limitNum) && limitNum > 0 ? limitNum : 10;
 
         const mentorId = role === RoleType.MENTOR ? userId : undefined;
-        const { teams, meta } = await teamRepository.findWithPagination({
-            page: safePage,
-            limit: safeLimit,
-            mentorId,
-        });
+        const data = await teamRepository.findWithPagination();
 
-        return {
-            data: teams,
-            pagination: {
-                total: meta.total,
-                page: meta.page,
-                limit: meta.limit,
-            },
-        };
+        return data;
     }
 
-    async getDetail(id: string) {
-        const team = await teamRepository.findByIdWithMembers(id);
+    async getDetail(id: string, role: RoleType) {
+        const team = await teamRepository.findByIdWithMembers(id, false, role);
         if (!team) {
             throw new ErrorWithStatus({
                 status: HTTP_STATUS.NOT_FOUND,
