@@ -35,6 +35,7 @@ const Team = ({ team }: { team: TeamType }) => {
                     <div className="flex flex-wrap items-center gap-2">
                         <ShowTopic urlPdf={team.topic.filePath} name={team.topic.title} />
                         <ChoiceLeader team={team} />
+                        <ShowTopic urlPdf={team.topic.filePath} name={team.topic.title} />
 
                         {/* <Link to={`/mentor/team/${team.id}`}>
                             <Button

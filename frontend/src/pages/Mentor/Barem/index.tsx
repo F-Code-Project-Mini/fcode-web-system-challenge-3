@@ -34,7 +34,7 @@ const MentorBaremPage = () => {
         },
         enabled: !!params.id,
     });
-    const isLeader = params?.candidateId === candidates?.leader.id;
+    const isLeader = params?.candidateId === candidates?.leader?.id;
     // console.log("isLeader", params?.candidateId, isLeader);
 
     const [candidateActive, setcandidateActive] = useState<CandidateType | undefined>(undefined);
