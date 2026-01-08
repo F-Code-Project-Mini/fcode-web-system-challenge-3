@@ -110,14 +110,14 @@ const Team = ({ team }: { team: TeamType }) => {
                                         </td>
                                         <td className="px-4 py-3.5 text-sm whitespace-nowrap text-gray-600 sm:px-6 sm:py-4 md:table-cell">
                                             <div className="flex flex-col gap-2">
-                                                <div className="flex items-center gap-1 text-xs">
+                                                <div className="flex items-center gap-1 text-sm">
                                                     <span className="text-gray-500">Điểm:</span>
                                                     <span
                                                         className={`font-semibold ${Helper.belowAverage(member.scoreMentor) ? "text-red-500" : "text-green-500"}`}
                                                     >
                                                         {member.scoreMentor || 0}
                                                     </span>
-                                                    <span className="text-gray-500">/100</span>
+                                                    <span className="text-gray-500">/{isLeader ? "100" : "85"}</span>
                                                 </div>
                                                 {user.isConfirm && (
                                                     <Button
