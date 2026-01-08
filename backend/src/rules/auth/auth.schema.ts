@@ -64,3 +64,9 @@ export const changeNameSchema = z.object({
             .max(50, "Tên nhóm không được vượt quá 50 ký tự!"),
     }),
 });
+
+export const noteBodySchema = z.object({
+    body: z.object({
+        note: z.string().trim().nonempty("Ghi chú không được để trống!"),
+    }),
+});

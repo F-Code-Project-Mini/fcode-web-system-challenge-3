@@ -61,15 +61,18 @@ export const getTeamByUserId = async (req: Request<{ id: string }>, res: Respons
 //     }
 // };
 
-export const update = async (req: Request<{ id: string }>, res: Response, next: NextFunction) => {
+export const update = async (
+    req: Request<{ id: string }, any, { note: string }>,
+    res: Response,
+    next: NextFunction,
+) => {
     try {
         const { id } = req.params;
-        const { topic_id, mentorship_id } = req.body as {
-            topic_id?: string;
-            mentorship_id?: string;
-        };
-        const result = await teamService.update(id, { topic_id, mentorship_id });
-        return res.status(HTTP_STATUS.OK).json(new ResponseClient({ message: "Cập nhật team thành công!", result }));
+        const { note } = req.body;
+        const result = await teamService.update(id, { note });
+        return res
+            .status(HTTP_STATUS.OK)
+            .json(new ResponseClient({ message: "Cập nhật thông tin thành công!", result }));
     } catch (error) {
         return next(error);
     }

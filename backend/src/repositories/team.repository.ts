@@ -77,7 +77,7 @@ class TeamRepository {
             where: { id },
             include,
             omit: {
-                mentorNote: true,
+                // mentorNote: true,
             },
         });
 
@@ -132,13 +132,12 @@ class TeamRepository {
         return data;
     };
 
-    update = async (id: string, data: { name?: string; topicId?: string; mentorshipId?: string }) => {
+    update = async (id: string, data: { name?: string; note?: string }) => {
         return prisma.team.update({
             where: { id },
             data: {
-                ...(data.topicId ? { topicId: data.topicId } : {}),
-                ...(data.mentorshipId ? { mentorshipId: data.mentorshipId } : {}),
                 ...(data.name ? { name: data.name } : {}),
+                ...(data.note ? { mentorNote: data.note } : {}),
             },
         });
     };

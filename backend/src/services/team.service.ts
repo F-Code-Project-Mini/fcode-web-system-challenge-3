@@ -67,7 +67,7 @@ class TeamService {
     //     return team;
     // }
 
-    async update(id: string, body: { topic_id?: string; mentorship_id?: string }) {
+    async update(id: string, body: { note: string }) {
         const existed = await teamRepository.findById(id);
         if (!existed) {
             throw new ErrorWithStatus({
@@ -77,8 +77,7 @@ class TeamService {
         }
 
         const updated = await teamRepository.update(id, {
-            topicId: body.topic_id ?? existed.topicId,
-            mentorshipId: body.mentorship_id ?? existed.mentorshipId,
+            note: body.note,
         });
         return updated;
     }
