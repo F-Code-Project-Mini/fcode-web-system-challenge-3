@@ -1,6 +1,7 @@
 import prisma from "~/configs/prisma";
 import { paginate } from "~/utils/pagination";
 import userRespository from "./user.repository";
+import { RoleType } from "~/constants/enums";
 
 class TeamRepository {
     findWithPagination = async ({ page, limit, mentorId }: { page?: number; limit?: number; mentorId?: string }) => {
@@ -41,7 +42,7 @@ class TeamRepository {
         return { teams: data, meta };
     };
 
-    findByIdWithMembers = async (id: string, displayScore: boolean = false) => {
+    findByIdWithMembers = async (id: string, displayScore: boolean = false, role: RoleType) => {
         const include = {
             candidates: {
                 omit: {
@@ -72,12 +73,13 @@ class TeamRepository {
             },
             topic: true,
         };
+        console.log("role", role);
 
         let team = await prisma.team.findUnique({
             where: { id },
             include,
             omit: {
-                // mentorNote: true,
+                ...([RoleType.MENTOR, RoleType.ADMIN].includes(role) ? {} : { mentorNote: true }),
             },
         });
 
@@ -127,7 +129,7 @@ class TeamRepository {
         const data = [];
         console.log("mentorTeams", mentorTeams);
         for (const t of mentorTeams) {
-            data.push(await this.findByIdWithMembers(t.id, displayScore));
+            data.push(await this.findByIdWithMembers(t.id, displayScore, RoleType.MENTOR));
         }
         return data;
     };

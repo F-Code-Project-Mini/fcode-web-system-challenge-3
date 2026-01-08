@@ -18,7 +18,16 @@ import TeamApi from "~/api-requests/team.requests";
 import Notification from "~/utils/notification";
 import type { TeamType } from "~/types/team.types";
 import type { AxiosError } from "axios";
-
+const suggestNameTeam = [
+    "ByteX",
+    "CodeX",
+    "DevSquad",
+    "TechForce",
+    "PixelCrew",
+    "CodeNinjas",
+    "ByteStorm",
+    "AlphaTeam",
+];
 export function ChangeNameTeam({ team }: { team: TeamType }) {
     const queryClient = useQueryClient();
     const [newName, setNewName] = useState(team.name!);
@@ -56,13 +65,32 @@ export function ChangeNameTeam({ team }: { team: TeamType }) {
                         onChange={(e) => setNewName(e.target.value)}
                     />
                     <span className="text-sm text-red-500 italic">
-                        Lưu ý cần cẩn thận khi bấm xác nhận, bạn không thể đặt lại tên nhóm nữa!
+                        Lưu ý cần cẩn thận khi bấm xác nhận, bạn không thể đặt lại tên nhóm nữa! Hãy kiểm tra thật kỹ để
+                        tránh bị trùng tên với nhóm khác!
                     </span>
+                    <div className="mt-4 space-y-2">
+                        <p className="text-sm font-medium text-gray-700">Gợi ý tên nhóm:</p>
+                        <div className="flex flex-wrap gap-2">
+                            {suggestNameTeam.map((suggestion) => (
+                                <Button
+                                    key={suggestion}
+                                    type="button"
+                                    variant="outline"
+                                    size="sm"
+                                    className="text-xs transition-colors hover:bg-gray-100"
+                                    onClick={() => setNewName(suggestion)}
+                                >
+                                    {suggestion}
+                                </Button>
+                            ))}
+                        </div>
+                    </div>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                     <AlertDialogCancel>Đóng</AlertDialogCancel>
                     <AlertDialogAction
                         className="bg-black text-white"
+                        disabled={!newName}
                         onClick={() => changeNameTeamMutation.mutate({ idTeam: team.id, newName })}
                     >
                         Xác nhận

@@ -37,8 +37,8 @@ class TeamService {
         };
     }
 
-    async getDetail(id: string) {
-        const team = await teamRepository.findByIdWithMembers(id);
+    async getDetail(id: string, role: RoleType) {
+        const team = await teamRepository.findByIdWithMembers(id, false, role);
         if (!team) {
             throw new ErrorWithStatus({
                 status: HTTP_STATUS.NOT_FOUND,
