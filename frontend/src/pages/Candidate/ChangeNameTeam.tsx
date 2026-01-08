@@ -18,16 +18,7 @@ import TeamApi from "~/api-requests/team.requests";
 import Notification from "~/utils/notification";
 import type { TeamType } from "~/types/team.types";
 import type { AxiosError } from "axios";
-const suggestNameTeam = [
-    "ByteX",
-    "CodeX",
-    "DevSquad",
-    "TechForce",
-    "PixelCrew",
-    "CodeNinjas",
-    "ByteStorm",
-    "AlphaTeam",
-];
+import suggestNameTeam from "~/data/suggestName.json";
 export function ChangeNameTeam({ team }: { team: TeamType }) {
     const queryClient = useQueryClient();
     const [newName, setNewName] = useState(team.name!);
@@ -47,6 +38,10 @@ export function ChangeNameTeam({ team }: { team: TeamType }) {
             });
         },
     });
+    const randomSuggestions = useState(() => {
+        const shuffled = [...suggestNameTeam].sort(() => Math.random() - 0.5);
+        return shuffled.slice(0, 8);
+    })[0];
 
     return (
         <AlertDialog>
@@ -71,7 +66,7 @@ export function ChangeNameTeam({ team }: { team: TeamType }) {
                     <div className="mt-4 space-y-2">
                         <p className="text-sm font-medium text-gray-700">Gợi ý tên nhóm:</p>
                         <div className="flex flex-wrap gap-2">
-                            {suggestNameTeam.map((suggestion) => (
+                            {randomSuggestions.map((suggestion) => (
                                 <Button
                                     key={suggestion}
                                     type="button"
