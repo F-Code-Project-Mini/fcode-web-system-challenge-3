@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router";
 import { Button } from "../ui/button";
 import { MobileNavLink } from "./NavLink";
-import { House, ServerCrash } from "lucide-react";
+import { House, Presentation, ServerCrash, Users } from "lucide-react";
 import Helper from "~/utils/helper";
 import useAuth from "~/hooks/useAuth";
 
@@ -22,17 +22,25 @@ const MenuMobileHeader = ({
                     active={Helper.isActive(location.pathname, "/")}
                     onClick={() => setShowMobileMenu(false)}
                 />
-                {/* {isLogin && (
+
+                {isLogin && (
                     <>
                         <MobileNavLink
-                            url="/submissions"
-                            name="Nộp đề tài"
-                            Icon={Send}
-                            active={Helper.isActive(location.pathname, "/submissions")}
+                            url="/presents"
+                            name="Đăng ký thuyết trình"
+                            Icon={Presentation}
+                            active={Helper.isActive(location.pathname, "/presents")}
+                            onClick={() => setShowMobileMenu(false)}
+                        />
+                        <MobileNavLink
+                            url="/teams"
+                            name="Danh sách nhóm"
+                            Icon={Users}
+                            active={Helper.isActive(location.pathname, "/teams")}
                             onClick={() => setShowMobileMenu(false)}
                         />
                     </>
-                )} */}
+                )}
                 <MobileNavLink
                     url="https://discord.gg/WvudrJaYD"
                     name="Hỗ trợ sự cố"
