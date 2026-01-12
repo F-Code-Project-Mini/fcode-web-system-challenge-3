@@ -1,4 +1,4 @@
-import { BadgeQuestionMark, ChevronDown, House, Menu, Users, X } from "lucide-react";
+import { BadgeQuestionMark, ChevronDown, House, Menu, ServerCrash, Users, X } from "lucide-react";
 import { Link, useLocation } from "react-router";
 import useAuth from "~/hooks/useAuth";
 import { useState, useRef, useEffect } from "react";
@@ -61,7 +61,8 @@ const Header = () => {
                                 active={Helper.isActive(location.pathname, "/")}
                             />
                         </li>
-                        <li id="submissions">
+                        {isLogin && user.role === USER_ROLE.CANDIDATE && <CandidateHeader />}
+                        <li id="teams">
                             <NavLink
                                 url="/teams"
                                 name="Danh sách nhóm"
@@ -69,7 +70,15 @@ const Header = () => {
                                 active={Helper.isActive(location.pathname, "/teams")}
                             />
                         </li>
-                        {isLogin && user.role === USER_ROLE.CANDIDATE && <CandidateHeader />}
+                        {/* <li>
+                            <NavLink
+                                url="https://discord.gg/WvudrJaYD"
+                                name="Hỗ trợ"
+                                Icon={ServerCrash}
+                                target="_blank"
+                            />
+                        </li> */}
+
                         {isLogin && user.role === USER_ROLE.ADMIN && <AdminHeader />}
                     </ul>
                 </nav>
