@@ -172,6 +172,28 @@ model BaremScore {
   @@map("scores")
 }
 
+// tạo 1 bảng lưu lại thông tin đăng ký thời gian present của ứng viên bao gồm
+// id
+// team_id - quan hệ với team
+// thời gian present thử  - json
+// thời gian present thật -  json
+
+// created_at
+// updated_at
+
+model Present {
+  id                 String   @id @default(uuid()) @db.VarChar(36)
+  teamId             String   @map("team_id") @db.VarChar(36)
+  tentativeSchedule  String   @map("tentative_schedule") @db.Json
+  finalSchedule      String   @map("final_schedule") @db.Json
+  createdAt          DateTime @default(now()) @map("created_at")
+  updatedAt          DateTime @updatedAt @map("updated_at")
+
+  team Team @relation(fields: [teamId], references: [id])
+
+  @@map("presents")
+}
+
 enum Role {
   CANDIDATE
   HOST
