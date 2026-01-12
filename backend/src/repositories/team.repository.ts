@@ -268,6 +268,10 @@ class TeamRepository {
             },
         });
     };
+
+    findAllPresentationSchedules = async () => {
+        return prisma.schedulePresent.findMany();
+    };
 }
 
 const teamRepository = new TeamRepository();

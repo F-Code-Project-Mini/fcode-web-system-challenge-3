@@ -16,7 +16,7 @@ const PresentPage = () => {
         queryKey: ["schedulePresentation", teamId],
         queryFn: async () => {
             if (!teamId) return null;
-            const res = await TeamApi.getSchedulePresentation(teamId);
+            const res = await TeamApi.getSchedulePresentationInTeam(teamId);
             return res;
         },
         enabled: !!teamId,

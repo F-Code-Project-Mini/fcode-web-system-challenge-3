@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Calendar, Clock, Send } from "lucide-react";
 import { Button } from "~/components/ui/button";
 import { RadioGroup, RadioGroupItem } from "~/components/ui/radio-group";
@@ -11,28 +11,7 @@ import Notification from "~/utils/notification";
 import { useAppSelector } from "~/hooks/useRedux";
 import type { AxiosError } from "axios";
 import ConfirmRegister from "./ConfirmRegister";
-
-interface TimeSlots {
-    [date: string]: string[];
-}
-
-const trialTimeSlots: TimeSlots = {
-    "17/01/2026": ["10h05 - 10h50", "16h05 - 16h50", "19h05 - 19h50", "20h05 - 20h50"],
-    "18/01/2026": ["15h05 - 15h50", "16h05 - 16h50", "19h05 - 19h50", "20h05 - 20h50"],
-    "19/01/2026": ["09h05 - 09h50", "10h05 - 10h50", "19h05 - 19h50", "20h05 - 20h50"],
-    "20/01/2026": ["19h05 - 19h50", "20h05 - 20h50"],
-    "21/01/2026": ["19h05 - 19h50", "20h05 - 20h50"],
-};
-
-const officialTimeSlots: TimeSlots = {
-    "24/01/2026": ["18h - 19h", "19h15 - 20h15"],
-    "26/01/2026": ["18h - 19h", "19h15 - 20h15"],
-    "27/01/2026": ["18h - 19h", "19h15 - 20h15"],
-    "28/01/2026": ["18h - 19h", "19h15 - 20h15"],
-    "29/01/2026": ["18h - 19h", "19h15 - 20h15"],
-    "30/01/2026": ["18h - 19h", "19h15 - 20h15"],
-    "31/01/2026": ["18h - 19h", "19h15 - 20h15"],
-};
+import Loading from "~/components/Loading";
 
 const FormRegisterPresent = ({
     isReload,
@@ -48,6 +27,23 @@ const FormRegisterPresent = ({
     const [trialSlot, setTrialSlot] = useState<string>("");
     const [officialSlots, setOfficialSlots] = useState<string[]>([]);
     const [showConfirmDialog, setShowConfirmDialog] = useState(false);
+
+    const { data: scheduleData, isLoading } = useQuery({
+        queryKey: ["scheduleAll"],
+        queryFn: async () => {
+            const res = await TeamApi.getSchedulePresentationAll();
+            return res.result;
+        },
+    });
+
+    const trialSchedules = scheduleData?.trialSchedules || [];
+    const officialSchedules = scheduleData?.officialSchedules || [];
+
+    const disabledTrialSlotsCount = trialSchedules.reduce((count, schedule) => {
+        return count + schedule.slots.filter((slot) => slot.disabled).length;
+    }, 0);
+
+    const isTrialFullyBooked = disabledTrialSlotsCount >= 10;
 
     const registerMutation = useMutation({
         mutationFn: (data: { teamId: string; trialDate: string; officialDate: string[] }) =>
@@ -92,6 +88,8 @@ const FormRegisterPresent = ({
         setShowConfirmDialog(false);
     };
 
+    if (isLoading) return <Loading />;
+
     return (
         <section className="mb-6 overflow-hidden rounded-md border bg-white">
             <div className="border-b border-gray-200/70 bg-gradient-to-r from-gray-50/80 to-white px-5 py-4 sm:px-6">
@@ -116,42 +114,64 @@ const FormRegisterPresent = ({
                         Chọn <span className="font-semibold">MỘT</span> khung giờ để thuyết trình thử nghiệm và nhận
                         phản hồi từ Ban Giám Khảo.
                     </p>
-                    <div className="rounded-md border-l-4 border-blue-400 bg-blue-50 p-3">
-                        <p className="text-xs text-blue-800">
-                            <span className="font-semibold">Lưu ý:</span> Chỉ còn{" "}
-                            <span className="font-bold">10 slot</span> thuyết trình thử. Hãy chọn một khung giờ phù hợp
-                            có đủ tất cả các thành viên trong nhóm để tham gia.
-                        </p>
-                    </div>
+                    {isTrialFullyBooked ? (
+                        <div className="rounded-md border-l-4 border-red-400 bg-red-50 p-3">
+                            <p className="text-sm font-semibold text-red-800">Đã hết slot thuyết trình thử!</p>
+                            <p className="mt-1 text-xs text-red-700">
+                                Tất cả 10 slot thuyết trình thử đã được đăng ký đầy. Bạn vẫn có thể đăng ký thuyết trình
+                                chính thức bên dưới.
+                            </p>
+                        </div>
+                    ) : (
+                        <div className="rounded-md border-l-4 border-blue-400 bg-blue-50 p-3">
+                            <p className="text-xs text-blue-800">
+                                <span className="font-semibold">Lưu ý:</span> Chỉ còn{" "}
+                                <span className="font-bold">{10 - disabledTrialSlotsCount} slot</span> thuyết trình thử.
+                                Hãy chọn một khung giờ phù hợp có đủ tất cả các thành viên trong nhóm để tham gia.
+                            </p>
+                        </div>
+                    )}
 
-                    <RadioGroup value={trialSlot} onValueChange={setTrialSlot}>
-                        {Object.entries(trialTimeSlots).map(([date, slots]) => (
-                            <div key={`trial-${date}`} className="mb-5 space-y-3">
-                                <div className="flex items-center gap-2 border-b border-gray-200 pb-2">
-                                    <Calendar className="h-4 w-4 text-gray-400" />
-                                    <span className="font-medium text-gray-700">{date}</span>
-                                </div>
-                                <div className="grid gap-2 pl-6 sm:grid-cols-2 lg:grid-cols-4">
-                                    {slots.map((slot) => (
-                                        <div key={`trial-${date}-${slot}`} className="flex items-center space-x-2">
-                                            <RadioGroupItem
-                                                value={`${date}|${slot}`}
-                                                id={`trial-${date}-${slot}`}
-                                                className="text-blue-600 disabled:cursor-not-allowed disabled:opacity-50"
-                                                // disabled={true}
-                                            />
-                                            <Label
-                                                htmlFor={`trial-${date}-${slot}`}
-                                                className="cursor-pointer text-sm font-normal text-gray-700 hover:text-gray-900"
+                    {!isTrialFullyBooked && (
+                        <RadioGroup value={trialSlot} onValueChange={setTrialSlot}>
+                            {trialSchedules.map((schedule) => (
+                                <div key={`trial-${schedule.date}`} className="mb-5 space-y-3">
+                                    <div className="flex items-center gap-2 border-b border-gray-200 pb-2">
+                                        <Calendar className="h-4 w-4 text-gray-400" />
+                                        <span className="font-medium text-gray-700">{schedule.date}</span>
+                                    </div>
+                                    <div className="grid gap-2 pl-6 sm:grid-cols-2 lg:grid-cols-4">
+                                        {schedule.slots.map((slot) => (
+                                            <div
+                                                key={`trial-${schedule.date}-${slot.time}`}
+                                                className="flex items-center space-x-2"
                                             >
-                                                {slot}
-                                            </Label>
-                                        </div>
-                                    ))}
+                                                <RadioGroupItem
+                                                    value={`${schedule.date}|${slot.time}`}
+                                                    id={`trial-${schedule.date}-${slot.time}`}
+                                                    className="text-blue-600 disabled:cursor-not-allowed disabled:opacity-50"
+                                                    disabled={slot.disabled}
+                                                />
+                                                <Label
+                                                    htmlFor={`trial-${schedule.date}-${slot.time}`}
+                                                    className={`text-sm font-normal ${
+                                                        slot.disabled
+                                                            ? "cursor-not-allowed text-gray-400 line-through"
+                                                            : "cursor-pointer text-gray-700 hover:text-gray-900"
+                                                    }`}
+                                                >
+                                                    {slot.time}
+                                                    {slot.disabled && (
+                                                        <span className="ml-1 text-xs text-red-500">(Hết)</span>
+                                                    )}
+                                                </Label>
+                                            </div>
+                                        ))}
+                                    </div>
                                 </div>
-                            </div>
-                        ))}
-                    </RadioGroup>
+                            ))}
+                        </RadioGroup>
+                    )}
                 </div>
 
                 <div className="border-t border-gray-200"></div>
@@ -177,25 +197,30 @@ const FormRegisterPresent = ({
                     </div>
 
                     <div className="space-y-4">
-                        {Object.entries(officialTimeSlots).map(([date, slots]) => (
-                            <div key={`official-${date}`} className="space-y-3">
+                        {officialSchedules.map((schedule) => (
+                            <div key={`official-${schedule.date}`} className="space-y-3">
                                 <div className="flex items-center gap-2 border-b border-gray-200 pb-2">
                                     <Calendar className="h-4 w-4 text-gray-400" />
-                                    <span className="font-medium text-gray-700">{date}</span>
+                                    <span className="font-medium text-gray-700">{schedule.date}</span>
                                 </div>
                                 <div className="grid gap-3 pl-6 sm:grid-cols-2 lg:grid-cols-4">
-                                    {slots.map((slot) => (
-                                        <div key={`official-${date}-${slot}`} className="flex items-center space-x-2">
+                                    {schedule.slots.map((slot) => (
+                                        <div
+                                            key={`official-${schedule.date}-${slot.time}`}
+                                            className="flex items-center space-x-2"
+                                        >
                                             <Checkbox
-                                                id={`official-${date}-${slot}`}
-                                                checked={officialSlots.includes(`${date}|${slot}`)}
-                                                onCheckedChange={() => handleOfficialSlotChange(`${date}|${slot}`)}
+                                                id={`official-${schedule.date}-${slot.time}`}
+                                                checked={officialSlots.includes(`${schedule.date}|${slot.time}`)}
+                                                onCheckedChange={() =>
+                                                    handleOfficialSlotChange(`${schedule.date}|${slot.time}`)
+                                                }
                                             />
                                             <Label
-                                                htmlFor={`official-${date}-${slot}`}
+                                                htmlFor={`official-${schedule.date}-${slot.time}`}
                                                 className="cursor-pointer text-sm font-normal text-gray-700 hover:text-gray-900"
                                             >
-                                                {slot}
+                                                {slot.time}
                                             </Label>
                                         </div>
                                     ))}

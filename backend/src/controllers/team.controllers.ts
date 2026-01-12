@@ -47,8 +47,19 @@ export const createSchedulePresentation = async (
         return next(error);
     }
 };
-
 export const getSchedulePresentation = async (
+    req: Request<ParamsDictionary, {}, {}>,
+    res: Response,
+    next: NextFunction,
+) => {
+    try {
+        const result = await teamService.getSchedulePresentationAll();
+        return res.status(HTTP_STATUS.OK).json(new ResponseClient({ result }));
+    } catch (error) {
+        return next(error);
+    }
+};
+export const getSchedulePresentationInTeam = async (
     req: Request<ParamsDictionary, {}, { teamId: string }>,
     res: Response,
     next: NextFunction,
@@ -57,7 +68,7 @@ export const getSchedulePresentation = async (
         const userId = req.userId!;
         const { teamId } = req.params;
         console.log("teamId", userId, teamId);
-      
+
         const result = await teamService.getSchedulePresentation(userId, teamId);
         return res.status(HTTP_STATUS.OK).json(new ResponseClient({ result }));
     } catch (error) {

@@ -75,3 +75,23 @@ export type SchedulePresentType = {
     createdAt: string;
     updatedAt: string;
 };
+export type TimeSlotType = {
+    time: string;
+    disabled?: boolean;
+};
+
+export type ScheduleDateType = {
+    date: string;
+    slots: TimeSlotType[];
+};
+
+
+export type OfficialTimeSlotType = {
+    time: string;
+};
+
+export type OfficialScheduleDateType = {
+    date: string;
+    slots: OfficialTimeSlotType[];
+};
+
