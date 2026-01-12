@@ -2,6 +2,7 @@ import prisma from "~/configs/prisma";
 import { paginate } from "~/utils/pagination";
 import userRespository from "./user.repository";
 import { RoleType } from "~/constants/enums";
+import Present from "~/schemas/present.schema";
 
 class TeamRepository {
     findWithPagination = async () => {
@@ -226,6 +227,25 @@ class TeamRepository {
             },
         });
         return !!team;
+    };
+
+    isTrialDateExists = async (trialDate: string) => {
+        const team = await prisma.present.findFirst({
+            where: {
+                trialDate,
+            },
+        });
+        return !!team;
+    };
+
+    createPresentationSchedule = async (data: { teamId: string; trialDate: string; officialDate: string[] }) => {
+        return prisma.present.create({
+            data: new Present({
+                teamId: data.teamId,
+                trialDate: data.trialDate,
+                officialDate: data.officialDate,
+            }),
+        });
     };
 }
 

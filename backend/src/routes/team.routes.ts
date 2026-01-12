@@ -14,6 +14,7 @@ const teamRouter = Router();
 
 // teamRouter.get("/", auth, isRole([RoleType.ADMIN, RoleType.MENTOR]), validate(getAllSchema), teamController.getAll);
 teamRouter.get("/", auth, validate(getAllSchema), teamController.getAll);
+teamRouter.post("/present", auth, teamController.createSchedulePresentation);
 
 teamRouter.get("/:id", auth, validate(idParamSchema), teamController.getDetail);
 
@@ -59,4 +60,5 @@ teamRouter.get(
     // validate(uuidParamsAndBodySchema),
     teamController.getTeamsByMentor,
 );
+
 export default teamRouter;

@@ -127,6 +127,40 @@ class TeamService {
         const updated = await teamRepository.update(teamId, { name });
         return updated;
     }
+    createSchedulePresentation = async ({
+        userId,
+        teamId,
+        trialDate,
+        officialDate,
+    }: {
+        userId: string;
+        teamId: string;
+        trialDate: string;
+        officialDate: string[];
+    }) => {
+        // trial_date: chỉ có 1 nhóm được đăng ký, nên là check sự trùng lặp
+        // check trial_date có bị trùng với nhóm khác không
+        const isTrialDateExist = await teamRepository.isTrialDateExists(trialDate);
+        if (isTrialDateExist) {
+            throw new ErrorWithStatus({
+                status: HTTP_STATUS.BAD_REQUEST,
+                message: "Ngày thuyết trình thử đã được đăng ký bởi nhóm khác, vui lòng chọn ngày khác.",
+            });
+        }
+        const isLeader = await teamRepository.isLeader(teamId, userId);
+        if (!isLeader) {
+            throw new ErrorWithStatus({
+                status: HTTP_STATUS.FORBIDDEN,
+                message: "Chỉ trưởng nhóm mới có quyền đăng ký lịch trình thuyết trình.",
+            });
+        }
+        const created = await teamRepository.createPresentationSchedule({
+            teamId,
+            trialDate,
+            officialDate,
+        });
+        return created;
+    };
     // async getTeamByMentor(mentorId: string) {
     //     const teams = await teamRepository.findByMentorId(mentorId);
     //     return teams;

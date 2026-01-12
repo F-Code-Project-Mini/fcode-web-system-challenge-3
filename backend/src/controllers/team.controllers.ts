@@ -1,8 +1,10 @@
+import { ParamsDictionary } from "express-serve-static-core";
 import { NextFunction, Request, Response } from "express";
 import { RoleType } from "~/constants/enums";
 import { HTTP_STATUS } from "~/constants/httpStatus";
 import { ResponseClient } from "~/rules/response";
 import teamService from "~/services/team.service";
+import { CreateSchedulePresent } from "~/rules/requests/team.request";
 
 export const getAll = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -19,6 +21,27 @@ export const getAll = async (req: Request, res: Response, next: NextFunction) =>
                 result,
             }),
         );
+    } catch (error) {
+        return next(error);
+    }
+};
+export const createSchedulePresentation = async (
+    req: Request<ParamsDictionary, {}, CreateSchedulePresent>,
+    res: Response,
+    next: NextFunction,
+) => {
+    const userId = req.userId!;
+    const { teamId, trialDate, officialDate } = req.body;
+    try {
+        const result = await teamService.createSchedulePresentation({
+            userId,
+            teamId,
+            trialDate,
+            officialDate,
+        });
+        return res
+            .status(HTTP_STATUS.CREATED)
+            .json(new ResponseClient({ message: "Tạo lịch trình thuyết trình thành công!", result }));
     } catch (error) {
         return next(error);
     }
