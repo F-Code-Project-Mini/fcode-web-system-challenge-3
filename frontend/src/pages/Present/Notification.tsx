@@ -10,7 +10,7 @@ const Notification = () => {
                         <li className="flex items-start gap-2">
                             <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-amber-600"></span>
                             <span>
-                                <strong>Thuyết trình thử (Online - 45 phút):</strong> 20 phút trình bày + 25 phút hỏi
+                                <strong>Thuyết trình thử (Online - 45 phút):</strong> 25 phút trình bày + 20 phút hỏi
                                 đáp/góp ý.
                             </span>
                         </li>
