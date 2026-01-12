@@ -48,6 +48,23 @@ export const createSchedulePresentation = async (
     }
 };
 
+export const getSchedulePresentation = async (
+    req: Request<ParamsDictionary, {}, { teamId: string }>,
+    res: Response,
+    next: NextFunction,
+) => {
+    try {
+        const userId = req.userId!;
+        const { teamId } = req.params;
+        console.log("teamId", userId, teamId);
+        // chỉ có thành viên mới get dc
+        const result = await teamService.getSchedulePresentation(userId, teamId);
+        return res.status(HTTP_STATUS.OK).json(new ResponseClient({ result }));
+    } catch (error) {
+        return next(error);
+    }
+};
+
 export const getDetail = async (req: Request<{ id: string }>, res: Response, next: NextFunction) => {
     try {
         const result = await teamService.getDetail(req.params.id, req.role as RoleType);

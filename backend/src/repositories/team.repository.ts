@@ -230,8 +230,20 @@ class TeamRepository {
         return !!team;
     };
 
+    isMember = async (teamId: string, userId: string) => {
+        const team = await prisma.user.findUnique({
+            where: {
+                id: userId,
+                candidate: {
+                    teamId: teamId,
+                },
+            },
+        });
+        return !!team;
+    };
+
     isTrialDateExists = async (trialDate: string) => {
-        const team = await prisma.present.findFirst({
+        const team = await prisma.schedulePresent.findFirst({
             where: {
                 trialDate,
             },
@@ -246,6 +258,14 @@ class TeamRepository {
                 trialDate: data.trialDate,
                 officialDate: data.officialDate,
             }),
+        });
+    };
+
+    findSchedulePresentationByTeamId = async (teamId: string) => {
+        return prisma.schedulePresent.findFirst({
+            where: {
+                teamId,
+            },
         });
     };
 }

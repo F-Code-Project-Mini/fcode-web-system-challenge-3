@@ -15,12 +15,12 @@ const teamRouter = Router();
 // teamRouter.get("/", auth, isRole([RoleType.ADMIN, RoleType.MENTOR]), validate(getAllSchema), teamController.getAll);
 teamRouter.get("/", auth, validate(getAllSchema), teamController.getAll);
 teamRouter.post("/present", auth, teamController.createSchedulePresentation);
+teamRouter.get("/get-schedule/:teamId", auth, teamController.getSchedulePresentation);
 
 teamRouter.get("/:id", auth, validate(idParamSchema), teamController.getDetail);
 
 teamRouter.get("/mentor/:id", auth, validate(idParamSchema), teamController.getTeamByUserId);
 
-// teamRouter.post("/", auth, isRole([RoleType.ADMIN]), teamController.create);
 teamRouter.patch(
     "/:id/change-name",
     auth,

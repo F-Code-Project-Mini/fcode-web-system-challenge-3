@@ -1,6 +1,6 @@
 import FormRegisterPresent from "./FormRegisterPresent";
-import HistoryPresent from "./HistoryPresent";
 import Notification from "./Notification";
+import SchedulePresent from "./SchedulePresent";
 
 const PresentPage = () => {
     return (
@@ -15,8 +15,7 @@ const PresentPage = () => {
             <Notification />
 
             <FormRegisterPresent />
-
-            <HistoryPresent />
+            <SchedulePresent />
         </>
     );
 };

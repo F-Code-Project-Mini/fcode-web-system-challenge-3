@@ -177,9 +177,9 @@ model SchedulePresent {
   id     String @id @default(uuid()) @db.VarChar(36)
   teamId String @map("team_id") @db.VarChar(36)
 
-  trialDate    String @unique @map("trial_date") @db.VarChar(255)
-  officialDate Json   @map("offical_date") @db.Json
-  finalDate    String @unique @map("final_date") @db.VarChar(255)
+  trialDate    String  @unique @map("trial_date") @db.VarChar(255)
+  officialDate Json    @map("offical_date") @db.Json
+  finalDate    String? @unique @map("final_date") @db.VarChar(255)
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")

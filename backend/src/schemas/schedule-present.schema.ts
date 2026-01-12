@@ -5,6 +5,7 @@ interface SchedulePresentType {
     teamId: string;
     trialDate: string;
     officialDate: string[];
+    finalDate?: string;
     createdAt?: Date;
     updatedAt?: Date;
 }
@@ -14,6 +15,7 @@ class SchedulePresent {
     teamId: string;
     trialDate: string;
     officialDate: string[];
+    finalDate?: string;
     createdAt: Date;
     updatedAt: Date;
     constructor(present: SchedulePresentType) {
@@ -21,6 +23,7 @@ class SchedulePresent {
         this.teamId = present.teamId;
         this.trialDate = present.trialDate;
         this.officialDate = present.officialDate;
+        this.finalDate = present.finalDate || "";
         this.createdAt = present.createdAt || new Date();
         this.updatedAt = present.updatedAt || new Date();
     }

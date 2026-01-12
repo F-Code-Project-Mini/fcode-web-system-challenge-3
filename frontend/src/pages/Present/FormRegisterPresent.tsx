@@ -91,7 +91,6 @@ const FormRegisterPresent = () => {
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-6 p-5 sm:p-6">
-                {/* Trial Presentation */}
                 <div className="space-y-4">
                     <div className="flex items-center gap-2">
                         <Clock className="h-5 w-5 text-blue-500" />
@@ -125,7 +124,8 @@ const FormRegisterPresent = () => {
                                             <RadioGroupItem
                                                 value={`${date}|${slot}`}
                                                 id={`trial-${date}-${slot}`}
-                                                className="text-blue-600"
+                                                className="text-blue-600 disabled:cursor-not-allowed disabled:opacity-50"
+                                                // disabled={true}
                                             />
                                             <Label
                                                 htmlFor={`trial-${date}-${slot}`}
@@ -153,7 +153,7 @@ const FormRegisterPresent = () => {
                     </div>
                     <p className="text-sm text-gray-600">
                         Chọn <span className="font-semibold text-green-700">NHIỀU</span> khung giờ bạn có thể tham gia
-                        thuyết trình chính thức
+                        thuyết trình chính thức. BTC sẽ sắp xếp và thông báo lịch cụ thể sau.
                     </p>
                     <div className="rounded-md border-l-4 border-green-400 bg-green-50 p-3">
                         <p className="text-xs text-green-800">

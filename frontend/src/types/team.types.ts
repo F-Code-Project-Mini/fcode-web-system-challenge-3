@@ -66,3 +66,12 @@ export type ResponseDetailData<T> = {
     message: string;
     result: T;
 };
+export type SchedulePresentType = {
+    id: string;
+    teamId: string;
+    trialDate: string;
+    officialDate: string[];
+    finalDate: string;
+    createdAt: string;
+    updatedAt: string;
+};
