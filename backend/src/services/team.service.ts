@@ -166,14 +166,14 @@ class TeamService {
         const isMember = await teamRepository.isMember(teamId, userId);
         if (!isMember) {
             throw new ErrorWithStatus({
-                status: HTTP_STATUS.FORBIDDEN,
+                status: HTTP_STATUS.OK,
                 message: "Bạn không có quyền xem lịch trình thuyết trình của nhóm này.",
             });
         }
         const schedule = await teamRepository.findSchedulePresentationByTeamId(teamId);
         if (!schedule) {
             throw new ErrorWithStatus({
-                status: HTTP_STATUS.NOT_FOUND,
+                status: HTTP_STATUS.OK,
                 message: "Lịch trình thuyết trình của nhóm không tồn tại.",
             });
         }

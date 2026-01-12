@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Calendar, Clock, Send } from "lucide-react";
 import { Button } from "~/components/ui/button";
 import { RadioGroup, RadioGroupItem } from "~/components/ui/radio-group";
@@ -17,22 +17,33 @@ interface TimeSlots {
 }
 
 const trialTimeSlots: TimeSlots = {
-    "17/01/2026": ["7:00 - 7:45", "8:00 - 8:45", "9:00 - 9:45", "10:00 - 10:45"],
-    "18/01/2026": ["7:00 - 7:45", "8:00 - 8:45", "9:00 - 9:45", "10:00 - 10:45"],
-    "19/01/2026": ["7:00 - 7:45", "8:00 - 8:45", "9:00 - 9:45", "10:00 - 10:45"],
-    "20/01/2026": ["7:00 - 7:45", "8:00 - 8:45", "9:00 - 9:45", "10:00 - 10:45"],
+    "17/01/2026": ["10h05 - 10h50", "16h05 - 16h50", "19h05 - 19h50", "20h05 - 20h50"],
+    "18/01/2026": ["15h05 - 15h50", "16h05 - 16h50", "19h05 - 19h50", "20h05 - 20h50"],
+    "19/01/2026": ["09h05 - 09h50", "10h05 - 10h50", "19h05 - 19h50", "20h05 - 20h50"],
+    "20/01/2026": ["19h05 - 19h50", "20h05 - 20h50"],
+    "21/01/2026": ["19h05 - 19h50", "20h05 - 20h50"],
 };
 
 const officialTimeSlots: TimeSlots = {
-    "17/01/2026": ["13:00 - 13:45", "14:00 - 14:45"],
-    "18/01/2026": ["13:00 - 13:45", "14:00 - 14:45"],
-    "19/01/2026": ["13:00 - 13:45", "14:00 - 14:45"],
-    "20/01/2026": ["13:00 - 13:45", "14:00 - 14:45"],
+    "24/01/2026": ["18h - 19h", "19h15 - 20h15"],
+    "26/01/2026": ["18h - 19h", "19h15 - 20h15"],
+    "27/01/2026": ["18h - 19h", "19h15 - 20h15"],
+    "28/01/2026": ["18h - 19h", "19h15 - 20h15"],
+    "29/01/2026": ["18h - 19h", "19h15 - 20h15"],
+    "30/01/2026": ["18h - 19h", "19h15 - 20h15"],
+    "31/01/2026": ["18h - 19h", "19h15 - 20h15"],
 };
 
-const FormRegisterPresent = () => {
+const FormRegisterPresent = ({
+    isReload,
+    setIsReload,
+}: {
+    isReload: boolean;
+    setIsReload: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
     const userInfo = useAppSelector((state) => state.user.userInfo);
     const teamId = userInfo.candidate?.teamId || "";
+    const queryClient = useQueryClient();
 
     const [trialSlot, setTrialSlot] = useState<string>("");
     const [officialSlots, setOfficialSlots] = useState<string[]>([]);
@@ -48,9 +59,11 @@ const FormRegisterPresent = () => {
             });
         },
         onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["schedulePresentation", teamId] });
             Notification.success({
                 text: "Đăng ký thời gian thuyết trình thành công!",
             });
+            setIsReload(!isReload);
             setTrialSlot("");
             setOfficialSlots([]);
         },
@@ -101,13 +114,13 @@ const FormRegisterPresent = () => {
                     </div>
                     <p className="text-sm text-gray-600">
                         Chọn <span className="font-semibold">MỘT</span> khung giờ để thuyết trình thử nghiệm và nhận
-                        phản hồi từ mentor.
+                        phản hồi từ Ban Giám Khảo.
                     </p>
                     <div className="rounded-md border-l-4 border-blue-400 bg-blue-50 p-3">
                         <p className="text-xs text-blue-800">
-                            <span className="font-semibold">Lưu ý:</span> Chỉ có{" "}
-                            <span className="font-bold">10 slot</span> thuyết trình thử cho toàn bộ các nhóm. Mỗi nhóm
-                            chỉ được chọn 1 khung giờ tham gia.
+                            <span className="font-semibold">Lưu ý:</span> Chỉ còn{" "}
+                            <span className="font-bold">10 slot</span> thuyết trình thử. Hãy chọn một khung giờ phù hợp
+                            có đủ tất cả các thành viên trong nhóm để tham gia.
                         </p>
                     </div>
 

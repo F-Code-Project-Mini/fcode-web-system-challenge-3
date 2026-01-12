@@ -1,6 +1,6 @@
 import Helper from "~/utils/helper";
 import { NavLink } from "./NavLink";
-import { Presentation, Send } from "lucide-react";
+import { Presentation } from "lucide-react";
 import { useLocation } from "react-router";
 
 const CandidateHeader = () => {

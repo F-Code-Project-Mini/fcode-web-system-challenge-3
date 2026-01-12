@@ -57,7 +57,7 @@ export const getSchedulePresentation = async (
         const userId = req.userId!;
         const { teamId } = req.params;
         console.log("teamId", userId, teamId);
-        // chỉ có thành viên mới get dc
+      
         const result = await teamService.getSchedulePresentation(userId, teamId);
         return res.status(HTTP_STATUS.OK).json(new ResponseClient({ result }));
     } catch (error) {

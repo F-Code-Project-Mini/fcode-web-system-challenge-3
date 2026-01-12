@@ -42,7 +42,7 @@ class TeamApi {
     }
 
     static async getSchedulePresentation(teamId: string) {
-        const res = await privateApi.get<ResponseDetailData<SchedulePresentType>>(`/teams/present/${teamId}`);
+        const res = await privateApi.get<ResponseDetailData<SchedulePresentType>>(`/teams/get-schedule/${teamId}`);
         return res.data;
     }
 }
