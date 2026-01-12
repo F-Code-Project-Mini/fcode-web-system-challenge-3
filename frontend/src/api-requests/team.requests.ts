@@ -28,5 +28,17 @@ class TeamApi {
         });
         return res.data;
     }
+    static async createSchedulePresentation({
+        teamId,
+        trialDate,
+        officialDate,
+    }: {
+        teamId: string;
+        trialDate: string;
+        officialDate: string[];
+    }) {
+        const res = await privateApi.post(`/teams/present`, { teamId, trialDate, officialDate });
+        return res.data;
+    }
 }
 export default TeamApi;

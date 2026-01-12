@@ -32,6 +32,7 @@ export const createSchedulePresentation = async (
 ) => {
     const userId = req.userId!;
     const { teamId, trialDate, officialDate } = req.body;
+    console.log("teamId, trialDate, officialDate", teamId, trialDate, officialDate);
     try {
         const result = await teamService.createSchedulePresentation({
             userId,
