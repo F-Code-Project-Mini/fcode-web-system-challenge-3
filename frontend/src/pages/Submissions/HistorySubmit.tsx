@@ -1,61 +1,24 @@
-import { ExternalLink, History, Clock, CheckCircle2, AlertCircle, XCircle } from "lucide-react";
-import { useState } from "react";
-interface Submission {
-    id: number;
-    phoneNumber: string;
-    productLink: string;
-    codeLink: string;
-    submittedAt: string;
-    status: "pending" | "approved" | "rejected";
-}
+import { ExternalLink, History, Clock } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import TeamApi from "~/api-requests/team.requests";
+import { useAppSelector } from "~/hooks/useRedux";
+import Loading from "~/components/Loading";
 
 const HistorySubmit = () => {
-    const [submissions] = useState<Submission[]>([
-        {
-            id: 1,
-            phoneNumber: "0123456789",
-            productLink: "https://demo.example.com",
-            codeLink: "https://github.com/user/project",
-            submittedAt: "2025-12-19 14:30:00",
-            status: "approved",
-        },
-        {
-            id: 2,
-            phoneNumber: "0123456789",
-            productLink: "https://demo-v2.example.com",
-            codeLink: "https://github.com/user/project-v2",
+    const userInfo = useAppSelector((state) => state.user.userInfo);
+    const teamId = userInfo.candidate?.teamId || "";
 
-            submittedAt: "2025-12-19 16:45:00",
-            status: "pending",
+    const { data: submissions, isLoading } = useQuery({
+        queryKey: ["submissions", teamId],
+        queryFn: async () => {
+            if (!teamId) return [];
+            const res = await TeamApi.getSubmissionInTeam(teamId);
+            return res.result;
         },
-    ]);
+        enabled: !!teamId,
+    });
 
-    const getStatusBadge = (status: Submission["status"]) => {
-        switch (status) {
-            case "approved":
-                return (
-                    <span className="inline-flex items-center gap-1.5 rounded-md border border-green-200/50 bg-green-50 px-2.5 py-1 text-xs font-medium text-green-700">
-                        <CheckCircle2 className="h-3.5 w-3.5" />
-                        Đã ghi nhận
-                    </span>
-                );
-            case "rejected":
-                return (
-                    <span className="inline-flex items-center gap-1.5 rounded-md border border-red-200/50 bg-red-50 px-2.5 py-1 text-xs font-medium text-red-700">
-                        <XCircle className="h-3.5 w-3.5" />
-                        Không hợp lệ
-                    </span>
-                );
-            case "pending":
-            default:
-                return (
-                    <span className="inline-flex items-center gap-1.5 rounded-md border border-yellow-200/50 bg-yellow-50 px-2.5 py-1 text-xs font-medium text-yellow-700">
-                        <AlertCircle className="h-3.5 w-3.5" />
-                        Chờ xác nhận
-                    </span>
-                );
-        }
-    };
+    if (isLoading) return <Loading />;
 
     return (
         <div className="overflow-hidden rounded-md border border-gray-200/70 bg-white">
@@ -67,7 +30,7 @@ const HistorySubmit = () => {
             </div>
 
             <div className="overflow-x-auto">
-                {submissions.length === 0 ? (
+                {!submissions || submissions.length === 0 ? (
                     <div className="py-16 text-center">
                         <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-gray-100">
                             <History className="h-8 w-8 text-gray-400" />
@@ -88,9 +51,8 @@ const HistorySubmit = () => {
                                 <th className="px-4 py-3 text-left text-xs font-semibold tracking-wide text-gray-600 uppercase sm:px-6 sm:py-3.5">
                                     Link sản phẩm
                                 </th>
-
                                 <th className="px-4 py-3 text-left text-xs font-semibold tracking-wide text-gray-600 uppercase sm:px-6 sm:py-3.5">
-                                    Trạng thái
+                                    Ghi chú
                                 </th>
                             </tr>
                         </thead>
@@ -123,30 +85,33 @@ const HistorySubmit = () => {
                                             <td className="px-4 py-3.5 text-sm sm:px-6 sm:py-4">
                                                 <div className="flex flex-col gap-2">
                                                     <a
-                                                        href={submission.productLink}
+                                                        href={submission.presentationLink}
                                                         target="_blank"
                                                         rel="noopener noreferrer"
                                                         className="text-primary hover:text-primary/80 flex items-center gap-1.5 font-medium transition-colors"
                                                     >
                                                         <ExternalLink className="h-3.5 w-3.5" />
-                                                        <span>Xem sản phẩm</span>
+                                                        <span>Slide & Sheet</span>
                                                     </a>
-                                                    {submission.codeLink && (
+                                                    {submission.productLink && (
                                                         <a
-                                                            href={submission.codeLink}
+                                                            href={submission.productLink}
                                                             target="_blank"
                                                             rel="noopener noreferrer"
                                                             className="flex items-center gap-1.5 text-gray-600 transition-colors hover:text-gray-900"
                                                         >
                                                             <ExternalLink className="h-3.5 w-3.5" />
-                                                            <span>Mã nguồn</span>
+                                                            <span>Source/Figma</span>
                                                         </a>
                                                     )}
                                                 </div>
                                             </td>
-
-                                            <td className="px-4 py-3.5 text-sm whitespace-nowrap sm:px-6 sm:py-4">
-                                                {getStatusBadge(submission.status)}
+                                            <td className="px-4 py-3.5 text-sm text-gray-600 sm:px-6 sm:py-4">
+                                                <p className="max-w-xs truncate">
+                                                    {submission.note || (
+                                                        <span className="text-gray-400 italic">Không có ghi chú</span>
+                                                    )}
+                                                </p>
                                             </td>
                                         </tr>
                                     );

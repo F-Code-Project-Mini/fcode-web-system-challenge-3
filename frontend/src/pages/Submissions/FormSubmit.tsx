@@ -1,12 +1,49 @@
-import React from "react";
+import React, { useState } from "react";
 import { FileText, Github, Link2, Send } from "lucide-react";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { Textarea } from "~/components/ui/textarea";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import TeamApi from "~/api-requests/team.requests";
+import Notification from "~/utils/notification";
+import { useAppSelector } from "~/hooks/useRedux";
+import type { AxiosError } from "axios";
 
 const FormSubmit = () => {
+    const userInfo = useAppSelector((state) => state.user.userInfo);
+    const teamId = userInfo.candidate?.teamId || "";
+    const queryClient = useQueryClient();
+
+    const [presentationLink, setPresentationLink] = useState("");
+    const [productLink, setProductLink] = useState("");
+    const [note, setNote] = useState("");
+
+    const submitMutation = useMutation({
+        mutationFn: (data: { presentationLink: string; productLink: string; note: string }) =>
+            TeamApi.submissions(teamId, data),
+        onError: (error: AxiosError<{ message?: string }>) => {
+            Notification.error({
+                text: error.response?.data?.message || "Nộp bài thất bại!",
+            });
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["submissions", teamId] });
+            Notification.success({
+                text: "Nộp bài thành công!",
+            });
+            setPresentationLink("");
+            setProductLink("");
+            setNote("");
+        },
+    });
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        submitMutation.mutate({
+            presentationLink,
+            productLink,
+            note,
+        });
     };
 
     return (
@@ -34,6 +71,8 @@ const FormSubmit = () => {
                         type="url"
                         placeholder="https://drive.google.com/..."
                         className="focus:ring-primary/20 transition-all focus:ring-2"
+                        value={presentationLink}
+                        onChange={(e) => setPresentationLink(e.target.value)}
                         required
                     />
                     <p className="flex items-center gap-1.5 text-xs text-gray-500">
@@ -53,6 +92,8 @@ const FormSubmit = () => {
                         type="url"
                         placeholder="GitHub, GitLab, Figma..."
                         className="focus:ring-primary/20 transition-all focus:ring-2"
+                        value={productLink}
+                        onChange={(e) => setProductLink(e.target.value)}
                     />
                 </div>
 
@@ -66,7 +107,9 @@ const FormSubmit = () => {
                         id="note"
                         placeholder="Mô tả ngắn về sản phẩm, tính năng nổi bật, công nghệ sử dụng..."
                         className="focus:ring-primary/20 min-h-[120px] resize-none transition-all focus:ring-2"
-                        // rows={5}
+                        value={note}
+                        onChange={(e) => setNote(e.target.value)}
+                        maxLength={500}
                     />
                     <p className="flex items-center gap-1.5 text-xs text-gray-500">
                         <span className="mt-0.5 h-1 w-1 flex-shrink-0 rounded-full bg-gray-400"></span>
@@ -77,9 +120,13 @@ const FormSubmit = () => {
 
                 {/* Submit Button */}
                 <div className="flex items-center gap-3 border-t border-gray-200/70 pt-5">
-                    <Button type="submit" className="group flex items-center gap-2 transition-all hover:shadow-md">
+                    <Button
+                        type="submit"
+                        className="group flex items-center gap-2 transition-all hover:shadow-md"
+                        disabled={submitMutation.isPending}
+                    >
                         <Send className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-                        Nộp bài
+                        {submitMutation.isPending ? "Đang nộp..." : "Nộp bài"}
                     </Button>
                     <p className="text-xs text-gray-500">
                         <span className="font-semibold text-red-600">Lưu ý:</span> Kiểm tra kỹ thông tin trước khi nộp
