@@ -21,13 +21,16 @@ const FormSubmit = () => {
             <form onSubmit={handleSubmit} className="space-y-6 p-5 sm:p-6">
                 {/* Product Link */}
                 <div className="space-y-2">
-                    <label htmlFor="productLink" className="flex items-center gap-2 text-sm font-medium text-gray-700">
+                    <label
+                        htmlFor="presentationLink"
+                        className="flex items-center gap-2 text-sm font-medium text-gray-700"
+                    >
                         <Link2 className="h-4 w-4 text-gray-400" />
                         Link sản phẩm (Bao gồm slide .pptx, Sheet phân công .xlsx)
                         <span className="text-red-500">*</span>
                     </label>
                     <Input
-                        id="productLink"
+                        id="presentationLink"
                         type="url"
                         placeholder="https://drive.google.com/..."
                         className="focus:ring-primary/20 transition-all focus:ring-2"
@@ -41,12 +44,12 @@ const FormSubmit = () => {
 
                 {/* Code Link */}
                 <div className="space-y-2">
-                    <label htmlFor="codeLink" className="flex items-center gap-2 text-sm font-medium text-gray-700">
+                    <label htmlFor="productLink" className="flex items-center gap-2 text-sm font-medium text-gray-700">
                         <Github className="h-4 w-4 text-gray-400" />
                         Link source/Figma (Nếu đề tài yêu cầu sản phẩm)
                     </label>
                     <Input
-                        id="codeLink"
+                        id="productLink"
                         type="url"
                         placeholder="GitHub, GitLab, Figma..."
                         className="focus:ring-primary/20 transition-all focus:ring-2"
@@ -55,12 +58,12 @@ const FormSubmit = () => {
 
                 {/* Description */}
                 <div className="space-y-2">
-                    <label htmlFor="description" className="flex items-center gap-2 text-sm font-medium text-gray-700">
+                    <label htmlFor="note" className="flex items-center gap-2 text-sm font-medium text-gray-700">
                         <FileText className="h-4 w-4 text-gray-400" />
                         Ghi chú
                     </label>
                     <Textarea
-                        id="description"
+                        id="note"
                         placeholder="Mô tả ngắn về sản phẩm, tính năng nổi bật, công nghệ sử dụng..."
                         className="focus:ring-primary/20 min-h-[120px] resize-none transition-all focus:ring-2"
                         // rows={5}

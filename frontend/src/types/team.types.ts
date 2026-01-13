@@ -85,7 +85,6 @@ export type ScheduleDateType = {
     slots: TimeSlotType[];
 };
 
-
 export type OfficialTimeSlotType = {
     time: string;
 };
@@ -95,3 +94,8 @@ export type OfficialScheduleDateType = {
     slots: OfficialTimeSlotType[];
 };
 
+export type SubmissionType = {
+    presentationLink: string;
+    productLink: string;
+    note: string;
+};

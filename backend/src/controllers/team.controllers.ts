@@ -59,7 +59,21 @@ export const getSchedulePresentation = async (
         return next(error);
     }
 };
-
+export const getSubmissionInTeam = async (
+    req: Request<ParamsDictionary, {}, { teamId: string }>,
+    res: Response,
+    next: NextFunction,
+) => {
+    try {
+        const userId = req.userId!;
+        const { teamId } = req.params;
+        console.log("teamId", userId, teamId);
+        const result = await teamService.getSubmissionInTeam(userId, teamId);
+        return res.status(HTTP_STATUS.OK).json(new ResponseClient({ result }));
+    } catch (error) {
+        return next(error);
+    }
+};
 export const createSubmission = async (
     req: Request<ParamsDictionary, {}, SubmissionType>,
     res: Response,

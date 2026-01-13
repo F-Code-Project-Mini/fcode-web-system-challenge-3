@@ -274,6 +274,13 @@ class TeamRepository {
     findAllPresentationSchedules = async () => {
         return prisma.schedulePresent.findMany();
     };
+    findSubmissionByTeamId = async (teamId: string) => {
+        return prisma.submission.findMany({
+            where: {
+                teamId,
+            },
+        });
+    };
     createSubmission = async (userId: string, data: SubmissionType) => {
         return prisma.submission.create({
             data: new Submission({

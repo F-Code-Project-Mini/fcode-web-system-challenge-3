@@ -251,6 +251,24 @@ class TeamService {
         };
     }
 
+    getSubmissionInTeam = async (userId: string, teamId: string) => {
+        const isMember = await teamRepository.isMember(teamId, userId);
+        if (!isMember) {
+            throw new ErrorWithStatus({
+                status: HTTP_STATUS.FORBIDDEN,
+                message: "Bạn không có quyền xem submission của nhóm này.",
+            });
+        }
+        const submission = await teamRepository.findSubmissionByTeamId(teamId);
+        if (!submission) {
+            throw new ErrorWithStatus({
+                status: HTTP_STATUS.NOT_FOUND,
+                message: "Submission của nhóm không tồn tại.",
+            });
+        }
+        return submission;
+    };
+
     createSubmission = async ({
         userId,
         teamId,
