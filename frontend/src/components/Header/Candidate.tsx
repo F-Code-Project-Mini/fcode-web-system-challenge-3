@@ -1,6 +1,6 @@
 import Helper from "~/utils/helper";
 import { NavLink } from "./NavLink";
-import { Presentation } from "lucide-react";
+import { Presentation, Send } from "lucide-react";
 import { useLocation } from "react-router";
 
 const CandidateHeader = () => {
@@ -15,14 +15,14 @@ const CandidateHeader = () => {
                     active={Helper.isActive(location.pathname, "/presents")}
                 />
             </li>
-            {/* <li id="submissions">
+            <li id="submissions">
                 <NavLink
                     url="/submissions"
                     name="Nộp sản phẩm"
                     Icon={Send}
                     active={Helper.isActive(location.pathname, "/submissions")}
                 />
-            </li> */}
+            </li>
         </>
     );
 };
