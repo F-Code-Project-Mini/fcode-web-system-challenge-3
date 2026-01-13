@@ -4,7 +4,7 @@ import { RoleType } from "~/constants/enums";
 import { HTTP_STATUS } from "~/constants/httpStatus";
 import { ResponseClient } from "~/rules/response";
 import teamService from "~/services/team.service";
-import { CreateSchedulePresent } from "~/rules/requests/team.request";
+import { CreateSchedulePresent, SubmissionType } from "~/rules/requests/team.request";
 
 export const getAll = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -55,6 +55,30 @@ export const getSchedulePresentation = async (
     try {
         const result = await teamService.getSchedulePresentationAll();
         return res.status(HTTP_STATUS.OK).json(new ResponseClient({ result }));
+    } catch (error) {
+        return next(error);
+    }
+};
+
+export const createSubmission = async (
+    req: Request<ParamsDictionary, {}, SubmissionType>,
+    res: Response,
+    next: NextFunction,
+) => {
+    try {
+        const userId = req.userId!;
+        const { teamId, presentationLink, productLink, note } = req.body;
+        console.log("teamId, presentationLink, productLink, note", teamId, presentationLink, productLink, note);
+        const result = await teamService.createSubmission({
+            userId,
+            teamId,
+            presentationLink,
+            productLink,
+            note,
+        });
+        return res
+            .status(HTTP_STATUS.CREATED)
+            .json(new ResponseClient({ message: "Tạo submission thành công!", result }));
     } catch (error) {
         return next(error);
     }

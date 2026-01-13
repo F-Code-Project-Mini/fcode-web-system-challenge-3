@@ -250,6 +250,35 @@ class TeamService {
             officialSchedules: availableOfficialSchedules,
         };
     }
+
+    createSubmission = async ({
+        userId,
+        teamId,
+        presentationLink,
+        productLink,
+        note,
+    }: {
+        userId: string;
+        teamId: string;
+        presentationLink: string;
+        productLink: string;
+        note: string;
+    }) => {
+        const isMember = await teamRepository.isMember(teamId, userId);
+        if (!isMember) {
+            throw new ErrorWithStatus({
+                status: HTTP_STATUS.FORBIDDEN,
+                message: "Bạn không có quyền tạo submission cho nhóm này.",
+            });
+        }
+        const created = await teamRepository.createSubmission({
+            teamId,
+            presentationLink,
+            productLink,
+            note,
+        });
+        return created;
+    };
 }
 
 const teamService = new TeamService();
