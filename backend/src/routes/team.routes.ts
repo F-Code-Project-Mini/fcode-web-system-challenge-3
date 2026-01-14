@@ -8,6 +8,7 @@ import {
     getAllSchema,
     idParamSchema,
     noteBodySchema,
+    submissionSchema,
     uuidParamsAndBodySchema,
 } from "~/rules/auth/auth.schema";
 const teamRouter = Router();
@@ -17,7 +18,7 @@ teamRouter.get("/", auth, validate(getAllSchema), teamController.getAll);
 teamRouter.post("/present", auth, teamController.createSchedulePresentation);
 
 teamRouter.get("/:teamId/submissions", auth, teamController.getSubmissionInTeam);
-teamRouter.post("/:teamId/submissions", auth, teamController.createSubmission);
+teamRouter.post("/:teamId/submissions", auth, validate(submissionSchema), teamController.createSubmission);
 
 // get các lịch đã có thể đăng ký
 teamRouter.get("/get-schedule-all", auth, teamController.getSchedulePresentation);

@@ -70,3 +70,12 @@ export const noteBodySchema = z.object({
         note: z.string().trim().nonempty("Ghi chú không được để trống!"),
     }),
 });
+
+export const submissionSchema = z.object({
+    body: z.object({
+        slideLink: z.string().trim().url("Link slide không hợp lệ!"),
+        taskAssignmentLink: z.string().trim().url("Link bài tập không hợp lệ!"),
+        productLinks: z.array(z.string().trim().url("Link sản phẩm không hợp lệ!")),
+        note: z.string().trim().optional(),
+    }),
+});

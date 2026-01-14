@@ -285,6 +285,14 @@ class TeamService {
                 message: "Bạn không có quyền tạo submission cho nhóm này.",
             });
         }
+        // chỉ leader mới được nộp
+        const isLeader = await teamRepository.isLeader(teamId, userId);
+        if (!isLeader) {
+            throw new ErrorWithStatus({
+                status: HTTP_STATUS.FORBIDDEN,
+                message: "Chỉ trưởng nhóm mới có quyền nộp sản phẩm cho nhóm.",
+            });
+        }
         const created = await teamRepository.createSubmission(userId, {
             teamId,
             slideLink,

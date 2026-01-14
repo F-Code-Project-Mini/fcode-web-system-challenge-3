@@ -83,14 +83,14 @@ export const createSubmission = async (
         const userId = req.userId!;
         const { slideLink, taskAssignmentLink, productLinks, note } = req.body;
         const { teamId } = req.params;
-        console.log(
-            "teamId, slideLink, taskAssignmentLink, productLinks, note",
-            teamId,
-            slideLink,
-            taskAssignmentLink,
-            productLinks,
-            note,
-        );
+        // console.log(
+        //     "teamId, slideLink, taskAssignmentLink, productLinks, note",
+        //     teamId,
+        //     slideLink,
+        //     taskAssignmentLink,
+        //     productLinks,
+        //     note,
+        // );
         const result = await teamService.createSubmission({
             userId,
             teamId,
