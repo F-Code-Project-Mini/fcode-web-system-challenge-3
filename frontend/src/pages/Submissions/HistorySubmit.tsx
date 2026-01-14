@@ -1,8 +1,9 @@
-import { ExternalLink, History, Clock } from "lucide-react";
+import { ExternalLink, History, Clock, FileText, Github, Link2 } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import TeamApi from "~/api-requests/team.requests";
 import { useAppSelector } from "~/hooks/useRedux";
 import Loading from "~/components/Loading";
+import { DialogDescription } from "./DialogDescription";
 
 const HistorySubmit = () => {
     const userInfo = useAppSelector((state) => state.user.userInfo);
@@ -49,7 +50,13 @@ const HistorySubmit = () => {
                                     Thời gian
                                 </th>
                                 <th className="px-4 py-3 text-left text-xs font-semibold tracking-wide text-gray-600 uppercase sm:px-6 sm:py-3.5">
-                                    Link sản phẩm
+                                    Slide thuyết trình
+                                </th>
+                                <th className="px-4 py-3 text-left text-xs font-semibold tracking-wide text-gray-600 uppercase sm:px-6 sm:py-3.5">
+                                    Phân công task
+                                </th>
+                                <th className="px-4 py-3 text-left text-xs font-semibold tracking-wide text-gray-600 uppercase sm:px-6 sm:py-3.5">
+                                    Source/Figma
                                 </th>
                                 <th className="px-4 py-3 text-left text-xs font-semibold tracking-wide text-gray-600 uppercase sm:px-6 sm:py-3.5">
                                     Ghi chú
@@ -83,35 +90,65 @@ const HistorySubmit = () => {
                                                 </div>
                                             </td>
                                             <td className="px-4 py-3.5 text-sm sm:px-6 sm:py-4">
-                                                <div className="flex flex-col gap-2">
+                                                {submission.slideLink ? (
                                                     <a
-                                                        href={submission.presentationLink}
+                                                        href={submission.slideLink}
                                                         target="_blank"
                                                         rel="noopener noreferrer"
                                                         className="text-primary hover:text-primary/80 flex items-center gap-1.5 font-medium transition-colors"
                                                     >
-                                                        <ExternalLink className="h-3.5 w-3.5" />
-                                                        <span>Slide & Sheet</span>
+                                                        <Link2 className="h-3.5 w-3.5" />
+                                                        <span>Xem slide</span>
                                                     </a>
-                                                    {submission.productLink && (
-                                                        <a
-                                                            href={submission.productLink}
-                                                            target="_blank"
-                                                            rel="noopener noreferrer"
-                                                            className="flex items-center gap-1.5 text-gray-600 transition-colors hover:text-gray-900"
-                                                        >
-                                                            <ExternalLink className="h-3.5 w-3.5" />
-                                                            <span>Source/Figma</span>
-                                                        </a>
-                                                    )}
-                                                </div>
+                                                ) : (
+                                                    <span className="text-xs text-gray-400 italic">Chưa có</span>
+                                                )}
                                             </td>
-                                            <td className="px-4 py-3.5 text-sm text-gray-600 sm:px-6 sm:py-4">
-                                                <p className="max-w-xs truncate">
-                                                    {submission.note || (
-                                                        <span className="text-gray-400 italic">Không có ghi chú</span>
-                                                    )}
-                                                </p>
+                                            <td className="px-4 py-3.5 text-sm sm:px-6 sm:py-4">
+                                                {submission.taskAssignmentLink ? (
+                                                    <a
+                                                        href={submission.taskAssignmentLink}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        className="flex items-center gap-1.5 text-gray-600 transition-colors hover:text-gray-900"
+                                                    >
+                                                        <FileText className="h-3.5 w-3.5" />
+                                                        <span>Xem sheet</span>
+                                                    </a>
+                                                ) : (
+                                                    <span className="text-xs text-gray-400 italic">Chưa có</span>
+                                                )}
+                                            </td>
+                                            <td className="px-4 py-3.5 text-sm sm:px-6 sm:py-4">
+                                                {submission.productLinks && submission.productLinks.length > 0 ? (
+                                                    <div className="flex flex-col gap-1.5">
+                                                        {submission.productLinks.map((link, linkIndex) => (
+                                                            <a
+                                                                key={linkIndex}
+                                                                href={link}
+                                                                target="_blank"
+                                                                rel="noopener noreferrer"
+                                                                className="flex items-center gap-1.5 text-gray-600 transition-colors hover:text-gray-900"
+                                                            >
+                                                                <Github className="h-3.5 w-3.5" />
+                                                                <span className="max-w-[200px] truncate">
+                                                                    Link {linkIndex + 1}
+                                                                </span>
+                                                            </a>
+                                                        ))}
+                                                    </div>
+                                                ) : (
+                                                    <span className="text-xs text-gray-400 italic">Không có</span>
+                                                )}
+                                            </td>
+                                            <td className="px-4 py-3.5 text-sm sm:px-6 sm:py-4">
+                                                {submission.note ? (
+                                                    <DialogDescription desc={submission.note} />
+                                                ) : (
+                                                    <span className="text-xs text-gray-400 italic">
+                                                        Không có ghi chú
+                                                    </span>
+                                                )}
                                             </td>
                                         </tr>
                                     );
