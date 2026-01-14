@@ -1,8 +1,9 @@
-import { ExternalLink, History, Clock } from "lucide-react";
+import { ExternalLink, History, Clock, FileText, Github, Link2 } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import TeamApi from "~/api-requests/team.requests";
 import { useAppSelector } from "~/hooks/useRedux";
 import Loading from "~/components/Loading";
+import { DialogDescription } from "./DialogDescription";
 
 const HistorySubmit = () => {
     const userInfo = useAppSelector((state) => state.user.userInfo);
@@ -39,85 +40,244 @@ const HistorySubmit = () => {
                         <p className="mt-1 text-xs text-gray-500">Hãy nộp bài dự thi của bạn ở form phía trên</p>
                     </div>
                 ) : (
-                    <table className="w-full">
-                        <thead className="bg-gray-50/50">
-                            <tr>
-                                <th className="px-4 py-3 text-left text-xs font-semibold tracking-wide text-gray-600 uppercase sm:px-6 sm:py-3.5">
-                                    Lần nộp
-                                </th>
-                                <th className="px-4 py-3 text-left text-xs font-semibold tracking-wide text-gray-600 uppercase sm:px-6 sm:py-3.5">
-                                    Thời gian
-                                </th>
-                                <th className="px-4 py-3 text-left text-xs font-semibold tracking-wide text-gray-600 uppercase sm:px-6 sm:py-3.5">
-                                    Link sản phẩm
-                                </th>
-                                <th className="px-4 py-3 text-left text-xs font-semibold tracking-wide text-gray-600 uppercase sm:px-6 sm:py-3.5">
-                                    Ghi chú
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody className="divide-y divide-gray-200/60 bg-white">
-                            {submissions
-                                .slice()
-                                .reverse()
-                                .map((submission, index) => {
-                                    const isLatest = index === 0;
-                                    return (
-                                        <tr key={submission.id} className="transition-colors hover:bg-gray-50/50">
-                                            <td className="px-4 py-3.5 text-sm font-medium whitespace-nowrap text-gray-900 sm:px-6 sm:py-4">
-                                                <div className="flex items-center gap-2">
-                                                    <span>#{submissions.length - index}</span>
-                                                    {isLatest && (
-                                                        <span className="bg-primary/10 text-primary rounded-md px-2 py-0.5 text-xs font-medium">
-                                                            Mới nhất
+                    <>
+                        {/* Mobile Card View */}
+                        <div className="block lg:hidden">
+                            <div className="space-y-4 p-4">
+                                {submissions
+                                    .slice()
+                                    .reverse()
+                                    .map((submission, index) => {
+                                        const isLatest = index === 0;
+                                        return (
+                                            <div
+                                                key={submission.id}
+                                                className="rounded-lg border border-gray-200/80 bg-white p-4"
+                                            >
+                                                {/* Header */}
+                                                <div className="mb-3 flex items-center justify-between border-b border-gray-100 pb-3">
+                                                    <div className="flex items-center gap-2">
+                                                        <span className="text-base font-semibold text-gray-900">
+                                                            Lần #{submissions.length - index}
                                                         </span>
+                                                        {isLatest && (
+                                                            <span className="bg-primary/10 text-primary rounded-md px-2 py-0.5 text-xs font-medium">
+                                                                Mới nhất
+                                                            </span>
+                                                        )}
+                                                    </div>
+                                                    <div className="flex items-center gap-1 text-xs text-gray-500">
+                                                        <Clock className="h-3 w-3" />
+                                                        <span>
+                                                            {new Date(submission.submittedAt).toLocaleDateString(
+                                                                "vi-VN",
+                                                            )}
+                                                        </span>
+                                                    </div>
+                                                </div>
+
+                                                {/* Content */}
+                                                <div className="space-y-3">
+                                                    {/* Slide Link */}
+                                                    <div>
+                                                        <p className="mb-1 text-xs font-medium text-gray-500">
+                                                            Slide thuyết trình
+                                                        </p>
+                                                        {submission.slideLink ? (
+                                                            <a
+                                                                href={submission.slideLink}
+                                                                target="_blank"
+                                                                rel="noopener noreferrer"
+                                                                className="text-primary hover:text-primary/80 flex items-center gap-1.5 text-sm font-medium transition-colors"
+                                                            >
+                                                                <Link2 className="h-3.5 w-3.5" />
+                                                                <span>Xem slide</span>
+                                                            </a>
+                                                        ) : (
+                                                            <span className="text-xs text-gray-400 italic">
+                                                                Chưa có
+                                                            </span>
+                                                        )}
+                                                    </div>
+
+                                                    {/* Task Assignment */}
+                                                    <div>
+                                                        <p className="mb-1 text-xs font-medium text-gray-500">
+                                                            Phân công task
+                                                        </p>
+                                                        {submission.taskAssignmentLink ? (
+                                                            <a
+                                                                href={submission.taskAssignmentLink}
+                                                                target="_blank"
+                                                                rel="noopener noreferrer"
+                                                                className="flex items-center gap-1.5 text-sm text-gray-700 transition-colors hover:text-gray-900"
+                                                            >
+                                                                <FileText className="h-3.5 w-3.5" />
+                                                                <span>Xem sheet</span>
+                                                            </a>
+                                                        ) : (
+                                                            <span className="text-xs text-gray-400 italic">
+                                                                Chưa có
+                                                            </span>
+                                                        )}
+                                                    </div>
+
+                                                    {/* Product Links */}
+                                                    {submission.productLinks && submission.productLinks.length > 0 && (
+                                                        <div>
+                                                            <p className="mb-1.5 text-xs font-medium text-gray-500">
+                                                                Source/Figma
+                                                            </p>
+                                                            <div className="flex flex-wrap gap-2">
+                                                                {submission.productLinks.map((link, linkIndex) => (
+                                                                    <a
+                                                                        key={linkIndex}
+                                                                        href={link}
+                                                                        target="_blank"
+                                                                        rel="noopener noreferrer"
+                                                                        className="flex items-center gap-1 rounded-md border border-gray-200 bg-gray-50 px-2 py-1 text-xs text-gray-700 transition-colors hover:border-gray-300 hover:bg-gray-100"
+                                                                    >
+                                                                        <Github className="h-3 w-3" />
+                                                                        <span>Link {linkIndex + 1}</span>
+                                                                    </a>
+                                                                ))}
+                                                            </div>
+                                                        </div>
+                                                    )}
+
+                                                    {/* Note */}
+                                                    {submission.note && (
+                                                        <div>
+                                                            <p className="mb-1.5 text-xs font-medium text-gray-500">
+                                                                Ghi chú
+                                                            </p>
+                                                            <DialogDescription desc={submission.note} />
+                                                        </div>
                                                     )}
                                                 </div>
-                                            </td>
-                                            <td className="px-4 py-3.5 text-sm whitespace-nowrap text-gray-600 sm:px-6 sm:py-4">
-                                                <div className="flex items-center gap-1.5">
-                                                    <Clock className="h-3.5 w-3.5 text-gray-400" />
-                                                    <span>
-                                                        {new Date(submission.submittedAt).toLocaleString("vi-VN")}
-                                                    </span>
-                                                </div>
-                                            </td>
-                                            <td className="px-4 py-3.5 text-sm sm:px-6 sm:py-4">
-                                                <div className="flex flex-col gap-2">
-                                                    <a
-                                                        href={submission.presentationLink}
-                                                        target="_blank"
-                                                        rel="noopener noreferrer"
-                                                        className="text-primary hover:text-primary/80 flex items-center gap-1.5 font-medium transition-colors"
-                                                    >
-                                                        <ExternalLink className="h-3.5 w-3.5" />
-                                                        <span>Slide & Sheet</span>
-                                                    </a>
-                                                    {submission.productLink && (
+                                            </div>
+                                        );
+                                    })}
+                            </div>
+                        </div>
+
+                        {/* Desktop Table View */}
+                        <table className="hidden w-full lg:table">
+                            <thead className="bg-gray-50/50">
+                                <tr>
+                                    <th className="px-4 py-3 text-left text-xs font-semibold tracking-wide text-gray-600 uppercase sm:px-6 sm:py-3.5">
+                                        Lần nộp
+                                    </th>
+                                    <th className="px-4 py-3 text-left text-xs font-semibold tracking-wide text-gray-600 uppercase sm:px-6 sm:py-3.5">
+                                        Thời gian
+                                    </th>
+                                    <th className="px-4 py-3 text-left text-xs font-semibold tracking-wide text-gray-600 uppercase sm:px-6 sm:py-3.5">
+                                        Slide thuyết trình
+                                    </th>
+                                    <th className="px-4 py-3 text-left text-xs font-semibold tracking-wide text-gray-600 uppercase sm:px-6 sm:py-3.5">
+                                        Phân công task
+                                    </th>
+                                    <th className="px-4 py-3 text-left text-xs font-semibold tracking-wide text-gray-600 uppercase sm:px-6 sm:py-3.5">
+                                        Source/Figma
+                                    </th>
+                                    <th className="px-4 py-3 text-left text-xs font-semibold tracking-wide text-gray-600 uppercase sm:px-6 sm:py-3.5">
+                                        Ghi chú
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody className="divide-y divide-gray-200/60 bg-white">
+                                {submissions
+                                    .slice()
+                                    .reverse()
+                                    .map((submission, index) => {
+                                        const isLatest = index === 0;
+                                        return (
+                                            <tr key={submission.id} className="transition-colors hover:bg-gray-50/50">
+                                                <td className="px-4 py-3.5 text-sm font-medium whitespace-nowrap text-gray-900 sm:px-6 sm:py-4">
+                                                    <div className="flex items-center gap-2">
+                                                        <span>#{submissions.length - index}</span>
+                                                        {isLatest && (
+                                                            <span className="bg-primary/10 text-primary rounded-md px-2 py-0.5 text-xs font-medium">
+                                                                Mới nhất
+                                                            </span>
+                                                        )}
+                                                    </div>
+                                                </td>
+                                                <td className="px-4 py-3.5 text-sm whitespace-nowrap text-gray-600 sm:px-6 sm:py-4">
+                                                    <div className="flex items-center gap-1.5">
+                                                        <Clock className="h-3.5 w-3.5 text-gray-400" />
+                                                        <span>
+                                                            {new Date(submission.submittedAt).toLocaleString("vi-VN")}
+                                                        </span>
+                                                    </div>
+                                                </td>
+                                                <td className="px-4 py-3.5 text-sm sm:px-6 sm:py-4">
+                                                    {submission.slideLink ? (
                                                         <a
-                                                            href={submission.productLink}
+                                                            href={submission.slideLink}
+                                                            target="_blank"
+                                                            rel="noopener noreferrer"
+                                                            className="text-primary hover:text-primary/80 flex items-center gap-1.5 font-medium transition-colors"
+                                                        >
+                                                            <Link2 className="h-3.5 w-3.5" />
+                                                            <span>Xem slide</span>
+                                                        </a>
+                                                    ) : (
+                                                        <span className="text-xs text-gray-400 italic">Chưa có</span>
+                                                    )}
+                                                </td>
+                                                <td className="px-4 py-3.5 text-sm sm:px-6 sm:py-4">
+                                                    {submission.taskAssignmentLink ? (
+                                                        <a
+                                                            href={submission.taskAssignmentLink}
                                                             target="_blank"
                                                             rel="noopener noreferrer"
                                                             className="flex items-center gap-1.5 text-gray-600 transition-colors hover:text-gray-900"
                                                         >
-                                                            <ExternalLink className="h-3.5 w-3.5" />
-                                                            <span>Source/Figma</span>
+                                                            <FileText className="h-3.5 w-3.5" />
+                                                            <span>Xem sheet</span>
                                                         </a>
+                                                    ) : (
+                                                        <span className="text-xs text-gray-400 italic">Chưa có</span>
                                                     )}
-                                                </div>
-                                            </td>
-                                            <td className="px-4 py-3.5 text-sm text-gray-600 sm:px-6 sm:py-4">
-                                                <p className="max-w-xs truncate">
-                                                    {submission.note || (
-                                                        <span className="text-gray-400 italic">Không có ghi chú</span>
+                                                </td>
+                                                <td className="px-4 py-3.5 text-sm sm:px-6 sm:py-4">
+                                                    {submission.productLinks && submission.productLinks.length > 0 ? (
+                                                        <div className="flex flex-col gap-1.5">
+                                                            {submission.productLinks.map((link, linkIndex) => (
+                                                                <a
+                                                                    key={linkIndex}
+                                                                    href={link}
+                                                                    target="_blank"
+                                                                    rel="noopener noreferrer"
+                                                                    className="flex items-center gap-1.5 text-gray-600 transition-colors hover:text-gray-900"
+                                                                >
+                                                                    <Github className="h-3.5 w-3.5" />
+                                                                    <span className="max-w-[200px] truncate">
+                                                                        Link {linkIndex + 1}
+                                                                    </span>
+                                                                </a>
+                                                            ))}
+                                                        </div>
+                                                    ) : (
+                                                        <span className="text-xs text-gray-400 italic">Không có</span>
                                                     )}
-                                                </p>
-                                            </td>
-                                        </tr>
-                                    );
-                                })}
-                        </tbody>
-                    </table>
+                                                </td>
+                                                <td className="px-4 py-3.5 text-sm sm:px-6 sm:py-4">
+                                                    {submission.note ? (
+                                                        <DialogDescription desc={submission.note} />
+                                                    ) : (
+                                                        <span className="text-xs text-gray-400 italic">
+                                                            Không có ghi chú
+                                                        </span>
+                                                    )}
+                                                </td>
+                                            </tr>
+                                        );
+                                    })}
+                            </tbody>
+                        </table>
+                    </>
                 )}
             </div>
         </div>
