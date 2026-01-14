@@ -168,7 +168,7 @@ class TeamService {
         // present thử đủ 10 slot thì k cho đăng ký nữa (nếu dữ liệu cột trial_date  có data và đủ 10 cái thì k cho đăng ký)
         const schedules = await teamRepository.findAllPresentationSchedules();
         const countOnTrialDate = schedules.filter((s) => s.trialDate.length > 0).length;
-        if (countOnTrialDate >= 10) {
+        if (countOnTrialDate >= 10 && trialDate.trim() !== "") {
             throw new ErrorWithStatus({
                 status: HTTP_STATUS.BAD_REQUEST,
                 message: "Ngày thuyết trình thử đã đủ số nhóm đăng ký. Bạn không thể đăng ký thêm.",
