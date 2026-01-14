@@ -2,6 +2,7 @@ import { RoleType } from "~/constants/enums";
 import { HTTP_STATUS } from "~/constants/httpStatus";
 import teamRepository from "~/repositories/team.repository";
 import { ErrorWithStatus } from "~/rules/error";
+import { SubmissionType } from "~/rules/requests/team.request";
 interface TimeSlots {
     [date: string]: string[];
 }
@@ -272,16 +273,11 @@ class TeamService {
     createSubmission = async ({
         userId,
         teamId,
-        presentationLink,
-        productLink,
+        slideLink,
+        taskAssignmentLink,
+        productLinks,
         note,
-    }: {
-        userId: string;
-        teamId: string;
-        presentationLink: string;
-        productLink: string;
-        note: string;
-    }) => {
+    }: SubmissionType & { userId: string; teamId: string }) => {
         const isMember = await teamRepository.isMember(teamId, userId);
         if (!isMember) {
             throw new ErrorWithStatus({
@@ -291,8 +287,9 @@ class TeamService {
         }
         const created = await teamRepository.createSubmission(userId, {
             teamId,
-            presentationLink,
-            productLink,
+            slideLink,
+            taskAssignmentLink,
+            productLinks,
             note,
         });
         return created;

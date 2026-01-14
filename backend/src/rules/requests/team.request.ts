@@ -4,8 +4,8 @@ export interface CreateSchedulePresent {
     officialDate: string[];
 }
 export interface SubmissionType {
-    teamId: string;
-    presentationLink: string;
-    productLink: string;
+    slideLink: string;
+    taskAssignmentLink: string;
+    productLinks: string[];
     note: string;
 }

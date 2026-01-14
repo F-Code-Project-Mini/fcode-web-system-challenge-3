@@ -281,13 +281,14 @@ class TeamRepository {
             },
         });
     };
-    createSubmission = async (userId: string, data: SubmissionType) => {
+    createSubmission = async (userId: string, data: SubmissionType & { teamId: string }) => {
         return prisma.submission.create({
             data: new Submission({
                 teamId: data.teamId,
                 userId,
-                presentationLink: data.presentationLink,
-                productLink: data.productLink,
+                slideLink: data.slideLink,
+                taskAssignmentLink: data.taskAssignmentLink,
+                productLinks: data.productLinks,
                 note: data.note,
             }),
         });

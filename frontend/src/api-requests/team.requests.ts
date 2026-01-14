@@ -3,7 +3,7 @@ import type {
     ResponseDetailData,
     ScheduleDateType,
     SchedulePresentType,
-    SubmissionRepositoryType,
+    SubmissionResponseType,
     SubmissionType,
     TeamType,
 } from "~/types/team.types";
@@ -63,9 +63,7 @@ class TeamApi {
     }
 
     static async getSubmissionInTeam(teamId: string) {
-        const res = await privateApi.get<ResponseDetailData<SubmissionRepositoryType[]>>(
-            `/teams/${teamId}/submissions`,
-        );
+        const res = await privateApi.get<ResponseDetailData<SubmissionResponseType[]>>(`/teams/${teamId}/submissions`);
         return res.data;
     }
 
