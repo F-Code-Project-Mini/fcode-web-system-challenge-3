@@ -183,11 +183,11 @@ const FormSubmit = () => {
                         className="focus:ring-primary/20 min-h-[120px] resize-none transition-all focus:ring-2"
                         value={note}
                         onChange={(e) => setNote(e.target.value)}
-                        maxLength={500}
+                        maxLength={5000}
                     />
                     <p className="flex items-center gap-1.5 text-xs text-gray-500">
                         <span className="mt-0.5 h-1 w-1 flex-shrink-0 rounded-full bg-gray-400"></span>
-                        Chia sẻ thêm về sản phẩm đã làm được những gì hay để giảm khảo tập trung khai thác (tối đa 500
+                        Chia sẻ thêm về sản phẩm đã làm được những gì hay để giảm khảo tập trung khai thác (tối đa 5000
                         ký tự)
                     </p>
                 </div>
