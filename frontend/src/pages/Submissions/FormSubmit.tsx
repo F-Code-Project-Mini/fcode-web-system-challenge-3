@@ -20,7 +20,7 @@ const FormSubmit = () => {
     const [note, setNote] = useState("");
 
     const submitMutation = useMutation({
-        mutationFn: (data: { presentationLink: string; productLink: string; note: string }) =>
+        mutationFn: (data: { slideLink: string; taskAssignmentLink: string; productLinks: string[]; note: string }) =>
             TeamApi.submissions(teamId, data),
         onError: (error: AxiosError<{ message?: string }>) => {
             Notification.error({
@@ -34,7 +34,7 @@ const FormSubmit = () => {
             });
             setSlideLink("");
             setTaskAssignmentLink("");
-            setProductLinks(["", "", ""]);
+            setProductLinks([""]);
             setNote("");
         },
     });
@@ -59,19 +59,11 @@ const FormSubmit = () => {
         e.preventDefault();
 
         const filledLinks = productLinks.filter((link) => link.trim() !== "");
-        if (filledLinks.length < 1) {
-            Notification.error({
-                text: "Vui lòng nhập tối thiểu 1 link Source code/Figma!",
-            });
-            return;
-        }
-
-        const productLink = filledLinks.join(" | ");
-        const presentationLink = `${slideLink} | ${taskAssignmentLink}`;
-
+        
         submitMutation.mutate({
-            presentationLink,
-            productLink,
+            slideLink,
+            taskAssignmentLink,
+            productLinks: filledLinks,
             note,
         });
     };
@@ -136,7 +128,7 @@ const FormSubmit = () => {
                 <div className="space-y-2">
                     <label className="flex items-center gap-2 text-sm font-medium text-gray-700">
                         <Github className="h-4 w-4 text-gray-400" />
-                        Link Source code/Figma (Nếu đề tài yêu cầu sản phẩm)
+                        Link Source code/Figma (Tùy chọn - Nếu đề tài yêu cầu sản phẩm)
                     </label>
                     <div className="space-y-3">
                         {productLinks.map((link, index) => (
@@ -148,7 +140,6 @@ const FormSubmit = () => {
                                         className="focus:ring-primary/20 transition-all focus:ring-2"
                                         value={link}
                                         onChange={(e) => handleProductLinkChange(index, e.target.value)}
-                                        required={index < 1}
                                     />
                                 </div>
                                 {productLinks.length > 1 && (

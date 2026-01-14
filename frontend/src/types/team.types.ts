@@ -95,8 +95,9 @@ export type OfficialScheduleDateType = {
 };
 
 export type SubmissionType = {
-    presentationLink: string;
-    productLink: string;
+    slideLink: string;
+    taskAssignmentLink: string;
+    productLinks: string[];
     note: string;
 };
 
@@ -104,6 +105,9 @@ export type SubmissionRepositoryType = {
     id: string;
     teamId: string;
     userId: string;
+    slideLink?: string;
+    taskAssignmentLink?: string;
+    productLinks?: string[];
     presentationLink: string;
     productLink: string;
     note: string;
