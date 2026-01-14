@@ -52,7 +52,7 @@ const HistorySubmit = () => {
                                         return (
                                             <div
                                                 key={submission.id}
-                                                className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm"
+                                                className="rounded-lg border border-gray-200/80 bg-white p-4"
                                             >
                                                 {/* Header */}
                                                 <div className="mb-3 flex items-center justify-between border-b border-gray-100 pb-3">
@@ -123,28 +123,27 @@ const HistorySubmit = () => {
                                                     </div>
 
                                                     {/* Product Links */}
-                                                    {submission.productLinks &&
-                                                        submission.productLinks.length > 0 && (
-                                                            <div>
-                                                                <p className="mb-1.5 text-xs font-medium text-gray-500">
-                                                                    Source/Figma
-                                                                </p>
-                                                                <div className="flex flex-wrap gap-2">
-                                                                    {submission.productLinks.map((link, linkIndex) => (
-                                                                        <a
-                                                                            key={linkIndex}
-                                                                            href={link}
-                                                                            target="_blank"
-                                                                            rel="noopener noreferrer"
-                                                                            className="flex items-center gap-1 rounded-md border border-gray-200 bg-gray-50 px-2 py-1 text-xs text-gray-700 transition-colors hover:border-gray-300 hover:bg-gray-100"
-                                                                        >
-                                                                            <Github className="h-3 w-3" />
-                                                                            <span>Link {linkIndex + 1}</span>
-                                                                        </a>
-                                                                    ))}
-                                                                </div>
+                                                    {submission.productLinks && submission.productLinks.length > 0 && (
+                                                        <div>
+                                                            <p className="mb-1.5 text-xs font-medium text-gray-500">
+                                                                Source/Figma
+                                                            </p>
+                                                            <div className="flex flex-wrap gap-2">
+                                                                {submission.productLinks.map((link, linkIndex) => (
+                                                                    <a
+                                                                        key={linkIndex}
+                                                                        href={link}
+                                                                        target="_blank"
+                                                                        rel="noopener noreferrer"
+                                                                        className="flex items-center gap-1 rounded-md border border-gray-200 bg-gray-50 px-2 py-1 text-xs text-gray-700 transition-colors hover:border-gray-300 hover:bg-gray-100"
+                                                                    >
+                                                                        <Github className="h-3 w-3" />
+                                                                        <span>Link {linkIndex + 1}</span>
+                                                                    </a>
+                                                                ))}
                                                             </div>
-                                                        )}
+                                                        </div>
+                                                    )}
 
                                                     {/* Note */}
                                                     {submission.note && (
