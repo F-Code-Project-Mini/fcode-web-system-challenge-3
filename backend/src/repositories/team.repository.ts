@@ -245,6 +245,7 @@ class TeamRepository {
     };
 
     isTrialDateExists = async (trialDate: string) => {
+        if (!trialDate || trialDate.trim() === "") return false;
         const team = await prisma.schedulePresent.findFirst({
             where: {
                 trialDate,

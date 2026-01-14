@@ -1,4 +1,4 @@
-import { ExternalLink, History, Clock, FileText, Github, Link2 } from "lucide-react";
+import { History, Clock, FileText, Github, Link2 } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import TeamApi from "~/api-requests/team.requests";
 import { useAppSelector } from "~/hooks/useRedux";
