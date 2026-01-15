@@ -27,7 +27,7 @@ const Notification2 = () => {
                             <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-blue-500"></span>
                             <span>
                                 <span className="text-xs italic">[18h30p - 15/01/2025]</span> Đã cập nhật link Google
-                                Meet thuyết trình thử ở mục "Đăng ký thuyết trình".
+                                Meet thuyết trình thử.
                             </span>
                         </li>
                     </ul>

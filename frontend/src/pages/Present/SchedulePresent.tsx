@@ -1,4 +1,4 @@
-import { Calendar, Clock, CheckCircle, ClipboardList, Video, Lightbulb } from "lucide-react";
+import { Calendar, Clock, CheckCircle, ClipboardList, Video, Lightbulb, CalendarCheck2 } from "lucide-react";
 import { Link } from "react-router";
 import type { SchedulePresentType } from "~/types/team.types";
 
@@ -106,7 +106,8 @@ const SchedulePresent = ({ data }: Props) => {
                                     <div className="bg-primary/10 border-primary rounded-md border px-3 py-2.5">
                                         <div className="flex items-center justify-between">
                                             <div className="flex items-center gap-2 text-sm">
-                                                <Calendar className="h-3.5 w-3.5 text-green-600" />
+                                                {/* <Calendar className="h-3.5 w-3.5 text-green-600" /> */}
+                                                <CalendarCheck2 className="h-3.5 w-3.5 text-green-600" />
                                                 <span className="font-medium text-green-900">
                                                     {registrationData.officialSlot.confirmedSlot.date}
                                                 </span>
@@ -114,6 +115,11 @@ const SchedulePresent = ({ data }: Props) => {
                                                 <span className="text-green-800">
                                                     {registrationData.officialSlot.confirmedSlot.time}
                                                 </span>
+                                                <img
+                                                    src="/icon-new.gif"
+                                                    alt="important"
+                                                    className="inline h-6 w-10 rounded-full"
+                                                />
                                             </div>
                                             <CheckCircle className="h-4 w-4 text-green-600" />
                                         </div>
