@@ -60,7 +60,19 @@ class TeamRepository {
         // });
         const data = prisma.team.findMany({
             orderBy: { group: "asc" },
-            include,
+            // include,
+            include: {
+                ...include,
+                schedulePresent: {
+                    omit: {
+                        officialDate: true,
+                        finalDate: true,
+                        createdAt: true,
+                        updatedAt: true,
+                        googleMeetLink: true,
+                    },
+                },
+            },
             omit: {
                 mentorNote: true,
             },

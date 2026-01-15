@@ -1,4 +1,5 @@
 import { Calendar, Clock, CheckCircle, ClipboardList, Video, Lightbulb } from "lucide-react";
+import { Link } from "react-router";
 import type { SchedulePresentType } from "~/types/team.types";
 
 type Props = {
@@ -60,7 +61,14 @@ const SchedulePresent = ({ data }: Props) => {
                                         <Video className="h-3.5 w-3.5 text-blue-600" />
                                         <p className="text-xs text-blue-900">
                                             <span className="font-semibold">Link Google Meet:</span>{" "}
-                                            <span className="text-blue-700 italic">Đang chờ cập nhật</span>
+                                            <Link
+                                                to={data.googleMeetLink}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="text-blue-600 hover:underline"
+                                            >
+                                                {data.googleMeetLink}
+                                            </Link>
                                         </p>
                                     </div>
                                 </div>
