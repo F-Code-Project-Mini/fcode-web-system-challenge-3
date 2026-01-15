@@ -3,7 +3,7 @@ import { OctagonAlert } from "lucide-react";
 const Notification = () => {
     return (
         <div
-            className="mb-6 rounded-lg border border-yellow-300/60 bg-gradient-to-r from-yellow-50 to-amber-50 px-5 py-4 shadow-xs"
+            className="mb-3 rounded-lg border border-yellow-300/60 bg-gradient-to-r from-yellow-50 to-amber-50 px-5 py-4 shadow-xs"
             role="alert"
         >
             <div className="flex items-center gap-3">
@@ -44,7 +44,7 @@ const Notification = () => {
                                 Tất cả thành viên bắt buộc đều phải thuyết trình.
                             </span>
                         </li>
-                        <li className="flex items-center gap-2 text-sm text-gray-700">
+                        {/* <li className="flex items-center gap-2 text-sm text-gray-700">
                             <span className="h-1.5 w-1.5 flex-shrink-0 rounded-full bg-yellow-500"></span>
                             <span>
                                 Các <span className="font-bold">nhóm đăng ký Present thử</span> cần nộp sản phẩm
@@ -52,7 +52,7 @@ const Notification = () => {
                                 <span className="font-semibold">16/01/2026</span>.
                             </span>
                             <img src="/icon-new.gif" alt="important" className="inline h-6 w-10" />
-                        </li>
+                        </li> */}
                         <li className="flex items-center gap-2 text-sm text-gray-700">
                             <span className="h-1.5 w-1.5 flex-shrink-0 rounded-full bg-yellow-500"></span>
                             <span>

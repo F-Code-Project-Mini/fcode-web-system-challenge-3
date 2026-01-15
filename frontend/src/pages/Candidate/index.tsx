@@ -27,11 +27,11 @@ const HomePage = () => {
                 <WelcomePartition />
             </section>
 
-            <section>
-                <Notification2 />
+            <section className="border-b-2 border-gray-500/30 pb-3">
                 <Notification />
+                <Notification2 />
             </section>
-            <section className="mt-4">
+            <section className="mt-2 border-b-2 border-gray-500/30 pb-3">
                 <PresentPage />
             </section>
             <section className="mt-8">
