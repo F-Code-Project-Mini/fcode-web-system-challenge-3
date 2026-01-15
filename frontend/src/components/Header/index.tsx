@@ -37,7 +37,7 @@ const Header = () => {
     }, []);
 
     return (
-        <header className="sticky top-3 z-50 mt-6 rounded-lg border border-gray-200/60 bg-white/95 px-5 py-3.5 backdrop-blur-xl transition-all sm:mx-6 md:px-7">
+        <header className="sticky top-3 z-50 mt-6 rounded-lg border border-gray-200/60 bg-white/95 px-5 py-3.5 backdrop-blur-xl transition-all md:px-7">
             <div className="mx-auto flex max-w-7xl items-center">
                 <Link to="/" className="group flex items-center gap-2.5 transition-all sm:gap-3">
                     <div className="relative">

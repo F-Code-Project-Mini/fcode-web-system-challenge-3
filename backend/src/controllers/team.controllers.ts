@@ -30,7 +30,11 @@ export const createSchedulePresentation = async (
     res: Response,
     next: NextFunction,
 ) => {
+    return res
+        .status(HTTP_STATUS.BAD_REQUEST)
+        .json(new ResponseClient({ message: "Không còn nhận đăng ký lịch trình thuyết trình!" }));
     const userId = req.userId!;
+
     const { teamId, trialDate, officialDate } = req.body;
     console.log("teamId, trialDate, officialDate", teamId, trialDate, officialDate);
     try {

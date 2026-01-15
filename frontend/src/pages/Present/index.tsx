@@ -25,15 +25,14 @@ const PresentPage = () => {
     if (isLoading) return <Loading />;
 
     const hasRegistered = scheduleData?.result;
-
     return (
         <>
-            <section className="mb-6 sm:mb-8">
+            {/* <section className="mb-6 sm:mb-8">
                 <h1 className="text-2xl font-bold text-gray-900 sm:text-3xl">Đăng ký thời gian thuyết trình</h1>
                 <span className="mt-2 block text-sm text-gray-600">
                     Chọn thời gian phù hợp để tham gia buổi thuyết trình thử và thuyết trình chính thức của Challenge 3.
                 </span>
-            </section>
+            </section> */}
 
             {hasRegistered ? (
                 <SchedulePresent data={scheduleData.result} />

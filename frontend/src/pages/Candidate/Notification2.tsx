@@ -7,9 +7,9 @@ const Notification2 = () => {
             role="alert"
         >
             <div className="flex items-center gap-3">
-                <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-blue-500 text-white">
+                {/* <div className="hidden h-6 w-6 shrink-0 items-center justify-center rounded-full bg-blue-500 text-white md:flex">
                     <span className="text-sm font-bold">!</span>
-                </div>
+                </div> */}
                 <div className="flex-1">
                     <p className="flex items-center gap-1 text-sm font-semibold text-blue-600">
                         <Megaphone />

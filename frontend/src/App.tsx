@@ -16,7 +16,7 @@ import AdminPage from "./pages/Admin";
 import ReportsPage from "./pages/Admin/Reports";
 import CandidatePages from "./pages/Admin/Candidates";
 import TeamPage from "./pages/Teams";
-import PresentPage from "./pages/Present";
+// import PresentPage from "./pages/Present";
 const App = () => {
     return (
         <BrowserRouter>
@@ -27,7 +27,7 @@ const App = () => {
                     <Route path="teams" element={<TeamPage />} />
                     <Route path="active/token/:token" element={<ActivePage />} />
                     <Route path="submissions" element={<SubmissionsPage />} />
-                    <Route path="presents" element={<PresentPage />} />
+                    {/* <Route path="presents" element={<PresentPage />} /> */}
 
                     {/* Role Judge */}
                     <Route path="judge" element={<ProtectedRoute roleAccess={[USER_ROLE.JUDGE]} />}>

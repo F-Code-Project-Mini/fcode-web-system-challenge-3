@@ -27,11 +27,11 @@ const SchedulePresent = ({ data }: Props) => {
     };
 
     return (
-        <div className="overflow-hidden rounded-lg border-1 border-green-200/60 shadow-xs">
+        <div className="overflow-hidden rounded-lg border-1 border-green-400/80 shadow-xs">
             <div className="border-b border-green-200/60 bg-gradient-to-br from-green-50/80 to-white px-5 py-4">
                 <h3 className="flex items-center gap-2 text-sm font-semibold text-gray-900">
                     <CheckCircle className="h-4 w-4 text-green-600" />
-                    Lịch đã đăng ký
+                    Lịch đăng ký thuyết trình
                 </h3>
             </div>
             <div className="space-y-4 px-5 py-4">
