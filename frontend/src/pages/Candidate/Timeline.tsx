@@ -86,7 +86,7 @@ const Dot = ({ number, active = false }: { number: number; active?: boolean }) =
         {active && (
             <Badge
                 variant="default"
-                className="absolute -top-8 -left-7 animate-pulse bg-gradient-to-r from-yellow-500 to-orange-500 text-xs font-semibold text-white shadow-xs"
+                className="absolute -top-8 -left-4 animate-pulse bg-gradient-to-r from-yellow-500 to-orange-500 px-1.5 text-[10px] font-semibold text-white shadow-xs max-sm:p-1 sm:-left-6 sm:text-xs"
             >
                 Đang diễn ra
             </Badge>
