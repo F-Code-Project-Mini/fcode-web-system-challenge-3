@@ -16,10 +16,12 @@ export function DialogDescription({ desc }: { desc: string }) {
             <AlertDialogTrigger asChild>
                 <Button variant="outline">Xem mô tả</Button>
             </AlertDialogTrigger>
-            <AlertDialogContent>
+            <AlertDialogContent className="max-h-[90vh] overflow-y-auto">
                 <AlertDialogHeader>
                     <AlertDialogTitle>Mô tả</AlertDialogTitle>
-                    <AlertDialogDescription>{desc}</AlertDialogDescription>
+                    <AlertDialogDescription>
+                        {<div dangerouslySetInnerHTML={{ __html: desc.replaceAll("\n", "<br />") }} />}
+                    </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                     <AlertDialogCancel>Đóng</AlertDialogCancel>

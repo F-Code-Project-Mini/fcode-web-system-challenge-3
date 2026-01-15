@@ -35,6 +35,12 @@ export type TeamType = {
     mentorship: MentorshipType;
     leader: LeaderType;
     topic: TopicType;
+    schedulePresent: SchedulePresent;
+};
+export type SchedulePresent = {
+    id: string;
+    teamId: string;
+    trialDate: string;
 };
 type Paginate = {
     total: number;
@@ -72,6 +78,7 @@ export type SchedulePresentType = {
     trialDate: string;
     officialDate: string[];
     finalDate: string;
+    googleMeetLink: string;
     createdAt: string;
     updatedAt: string;
 };

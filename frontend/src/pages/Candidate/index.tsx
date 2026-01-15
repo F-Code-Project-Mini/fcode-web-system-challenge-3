@@ -7,6 +7,7 @@ import Notification from "./Notification";
 import { useQuery } from "@tanstack/react-query";
 import TeamApi from "~/api-requests/team.requests";
 import useAuth from "~/hooks/useAuth";
+import Notification2 from "./Notification2";
 
 const HomePage = () => {
     const { user } = useAuth();
@@ -26,6 +27,7 @@ const HomePage = () => {
             </section>
 
             <section>
+                <Notification2 />
                 <Notification />
                 <ShowTopic urlPdf={data?.topic?.filePath || ""} name={data?.topic?.title || ""} />
             </section>

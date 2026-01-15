@@ -40,6 +40,13 @@ const Notification = () => {
                             </span>
                             <img src="/icon-new.gif" alt="important" className="inline h-6 w-10" />
                         </li>
+                        <li className="flex items-center gap-2 text-sm text-red-600">
+                            <span className="h-1.5 w-1.5 flex-shrink-0 rounded-full bg-yellow-500"></span>
+                            <span className="font-semibold text-red-600">
+                                Nghiêm cấm việc thảo luận ở nhóm không có Mentor.
+                            </span>
+                            <img src="/icon-new.gif" alt="important" className="inline h-6 w-10" />
+                        </li>
                     </ul>
                 </div>
             </div>
