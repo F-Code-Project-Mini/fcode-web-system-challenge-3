@@ -1,4 +1,4 @@
-import { BookOpen, Calendar, Clock } from "lucide-react";
+import { BookOpen, Calendar, Clock, CheckCircle } from "lucide-react";
 import type { SchedulePresent } from "~/types/team.types";
 const SchedulePresent = (trial: string, index: number) => {
     return trial.split("|")[index] || "";
@@ -6,49 +6,75 @@ const SchedulePresent = (trial: string, index: number) => {
 const InfoPresent = ({ schedule }: { schedule: SchedulePresent }) => {
     if (!schedule || schedule.trialDate == "") return null;
     return (
-        <div className="overflow-hidden rounded-lg border border-amber-200/60 bg-gradient-to-br from-amber-50/50 to-white shadow-xs transition-all">
-            <div className="border-b border-amber-200/60 bg-gradient-to-br from-amber-50/80 to-white px-5 py-4">
-                <h3 className="flex items-center gap-2 text-sm font-semibold text-gray-900">
-                    <Calendar className="h-4 w-4 text-amber-600" />
-                    Lịch thuyết trình thử
-                </h3>
-            </div>
-            <div className="space-y-3 px-5 py-4">
-                <div className="flex items-start gap-3">
-                    <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-amber-100/50 text-amber-600">
-                        <Calendar className="h-4 w-4" />
-                    </div>
-                    <div className="flex-1">
+        <div className="space-y-3">
+            {/* Thuyết trình thử */}
+            <div className="overflow-hidden rounded-lg border border-amber-200/60 bg-gradient-to-br from-amber-50/50 to-white shadow-xs transition-all">
+                <div className="border-b border-amber-200/60 bg-gradient-to-br from-amber-50/80 to-white px-4 py-3">
+                    <h3 className="flex items-center gap-2 text-xs font-semibold text-gray-900">
+                        <Clock className="h-3.5 w-3.5 text-amber-600" />
+                        Thuyết trình thử
+                    </h3>
+                </div>
+                <div className="grid grid-cols-3 gap-2 px-4 py-3">
+                    <div className="flex flex-col items-center rounded-lg bg-amber-50/50 p-2 text-center">
+                        <Calendar className="mb-1 h-3.5 w-3.5 text-amber-600" />
                         <p className="text-xs font-medium text-gray-500">Ngày</p>
-                        <p className="mt-0.5 text-xs font-semibold text-gray-900 italic">
-                            {/* {schedule.trialDate?.split("|")?.[0] || "Không đăng ký"} */}
+                        <p className="mt-0.5 text-xs font-bold text-gray-900">
                             {SchedulePresent(schedule.trialDate, 0)}
                         </p>
                     </div>
-                </div>
-                <div className="flex items-start gap-3">
-                    <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-amber-100/50 text-amber-600">
-                        <Clock className="h-4 w-4" />
-                    </div>
-                    <div className="flex-1">
+                    <div className="flex flex-col items-center rounded-lg bg-amber-50/50 p-2 text-center">
+                        <Clock className="mb-1 h-3.5 w-3.5 text-amber-600" />
                         <p className="text-xs font-medium text-gray-500">Giờ</p>
-                        <p className="mt-0.5 text-xs font-semibold text-gray-900 italic">
-                            {/* {schedule.trialDate?.split("|")?.[1] || "Chưa mở"} */}
+                        <p className="mt-0.5 text-xs font-bold text-gray-900">
                             {SchedulePresent(schedule.trialDate, 1)}
                         </p>
                     </div>
-                </div>
-                <div className="flex items-start gap-3">
-                    <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-amber-100/50 text-amber-600">
-                        <BookOpen className="h-4 w-4" />
-                    </div>
-                    <div className="flex-1">
-                        <p className="text-xs font-medium text-gray-500">Địa điểm</p>
-                        <p className="mt-0.5 text-xs font-semibold text-gray-900 italic">
-                            {schedule.trialDate ? "Google Meet" : "Không tổ chức"}
-                        </p>
+                    <div className="flex flex-col items-center rounded-lg bg-amber-50/50 p-2 text-center">
+                        <BookOpen className="mb-1 h-3.5 w-3.5 text-amber-600" />
+                        <p className="text-xs font-medium text-gray-500">Nơi</p>
+                        <p className="mt-0.5 text-xs font-bold text-gray-900">Google Meet</p>
                     </div>
                 </div>
+            </div>
+
+            {/* Thuyết trình chính thức */}
+            <div className="overflow-hidden rounded-lg border border-teal-200/60 bg-gradient-to-br from-teal-50/50 to-white shadow-xs transition-all">
+                <div className="border-b border-teal-200/60 bg-gradient-to-br from-teal-50/80 to-white px-4 py-3">
+                    <h3 className="flex items-center gap-2 text-xs font-semibold text-gray-900">
+                        <CheckCircle className="h-3.5 w-3.5 text-teal-600" />
+                        Thuyết trình chính thức
+                    </h3>
+                </div>
+                {schedule.finalDate ? (
+                    <div className="grid grid-cols-3 gap-2 px-4 py-3">
+                        <div className="flex flex-col items-center rounded-lg bg-teal-50/50 p-2 text-center">
+                            <Calendar className="mb-1 h-3.5 w-3.5 text-teal-600" />
+                            <p className="text-xs font-medium text-gray-500">Ngày</p>
+                            <p className="mt-0.5 text-xs font-bold text-gray-900">
+                                {SchedulePresent(schedule.finalDate, 0)}
+                            </p>
+                        </div>
+                        <div className="flex flex-col items-center rounded-lg bg-teal-50/50 p-2 text-center">
+                            <Clock className="mb-1 h-3.5 w-3.5 text-teal-600" />
+                            <p className="text-xs font-medium text-gray-500">Giờ</p>
+                            <p className="mt-0.5 text-xs font-bold text-gray-900">
+                                {SchedulePresent(schedule.finalDate, 1)}
+                            </p>
+                        </div>
+                        <div className="flex flex-col items-center rounded-lg bg-teal-50/50 p-2 text-center">
+                            <CheckCircle className="mb-1 h-3.5 w-3.5 text-teal-600" />
+                            <p className="text-xs font-medium text-gray-500">Nơi</p>
+                            <p className="mt-0.5 text-xs font-bold text-teal-700">...</p>
+                        </div>
+                    </div>
+                ) : (
+                    <div className="px-4 py-3">
+                        <div className="rounded-lg text-center">
+                            <p className="text-xs font-medium text-amber-700">Đang chờ BTC sắp xếp lịch</p>
+                        </div>
+                    </div>
+                )}
             </div>
         </div>
     );
