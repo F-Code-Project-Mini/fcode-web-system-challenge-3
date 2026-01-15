@@ -41,6 +41,7 @@ export type SchedulePresent = {
     id: string;
     teamId: string;
     trialDate: string;
+    finalDate: string;
 };
 type Paginate = {
     total: number;

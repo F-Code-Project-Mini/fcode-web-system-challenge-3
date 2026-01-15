@@ -4,7 +4,6 @@ import TeamApi from "~/api-requests/team.requests";
 import Loading from "~/components/Loading";
 import TopicTeam from "./InfoTeam";
 import InfoPresent from "./InfoPresent";
-import Notification from "./Notification";
 
 const TeamPage = () => {
     const { data: teams, isLoading } = useQuery({
@@ -25,7 +24,7 @@ const TeamPage = () => {
                     <span className="text-primary font-semibold">{teams?.length || 0}</span> nhóm
                 </p>
             </section>
-            <Notification />
+            {/* <Notification /> */}
 
             <section className="space-y-8">
                 {teams?.map((team, index) => (
