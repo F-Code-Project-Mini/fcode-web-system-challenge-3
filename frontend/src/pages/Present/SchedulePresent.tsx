@@ -1,4 +1,4 @@
-import { Calendar, Clock, CheckCircle, Video, Lightbulb, BookOpen, MapPinHouse } from "lucide-react";
+import { Calendar, Clock, CheckCircle, Video, BookOpen, MapPinHouse } from "lucide-react";
 import { Link } from "react-router";
 import type { SchedulePresentType } from "~/types/team.types";
 
