@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router";
 import { Button } from "../ui/button";
 import { MobileNavLink } from "./NavLink";
-import { House, Presentation, Send, ServerCrash, Users } from "lucide-react";
+import { House, Send, ServerCrash, Users } from "lucide-react";
 import Helper from "~/utils/helper";
 import useAuth from "~/hooks/useAuth";
 
@@ -25,13 +25,13 @@ const MenuMobileHeader = ({
 
                 {isLogin && (
                     <>
-                        <MobileNavLink
+                        {/* <MobileNavLink
                             url="/presents"
-                            name="Đăng ký thuyết trình"
+                            name="Lịch thuyết trình"
                             Icon={Presentation}
                             active={Helper.isActive(location.pathname, "/presents")}
                             onClick={() => setShowMobileMenu(false)}
-                        />
+                        /> */}
                         <MobileNavLink
                             url="/submissions"
                             name="Nộp sản phẩm"

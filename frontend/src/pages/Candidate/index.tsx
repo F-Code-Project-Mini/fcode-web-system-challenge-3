@@ -8,6 +8,7 @@ import { useQuery } from "@tanstack/react-query";
 import TeamApi from "~/api-requests/team.requests";
 import useAuth from "~/hooks/useAuth";
 import Notification2 from "./Notification2";
+import PresentPage from "../Present";
 
 const HomePage = () => {
     const { user } = useAuth();
@@ -29,9 +30,14 @@ const HomePage = () => {
             <section>
                 <Notification2 />
                 <Notification />
+            </section>
+            <section className="mt-4">
+                <PresentPage />
+            </section>
+            <section className="mt-8">
                 <ShowTopic urlPdf={data?.topic?.filePath || ""} name={data?.topic?.title || ""} />
             </section>
-            <section className="mt-6 grid grid-cols-1 gap-4 lg:grid-cols-12 lg:gap-2">
+            <section className="mt-2 grid grid-cols-1 gap-4 lg:grid-cols-12 lg:gap-2">
                 <Members data={data} />
                 <Mentor data={data?.mentorship} />
             </section>

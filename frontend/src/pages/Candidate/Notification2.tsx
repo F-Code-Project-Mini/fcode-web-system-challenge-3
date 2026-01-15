@@ -7,9 +7,9 @@ const Notification2 = () => {
             role="alert"
         >
             <div className="flex items-center gap-3">
-                <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-blue-500 text-white">
+                {/* <div className="hidden h-6 w-6 shrink-0 items-center justify-center rounded-full bg-blue-500 text-white md:flex">
                     <span className="text-sm font-bold">!</span>
-                </div>
+                </div> */}
                 <div className="flex-1">
                     <p className="flex items-center gap-1 text-sm font-semibold text-blue-600">
                         <Megaphone />
@@ -27,7 +27,7 @@ const Notification2 = () => {
                             <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-blue-500"></span>
                             <span>
                                 <span className="text-xs italic">[18h30p - 15/01/2025]</span> Đã cập nhật link Google
-                                Meet thuyết trình thử ở mục "Đăng ký thuyết trình".
+                                Meet thuyết trình thử.
                             </span>
                         </li>
                     </ul>

@@ -61,7 +61,7 @@ model Team {
   leader          Candidate?       @relation("TeamLeader", fields: [leaderId], references: [id])
   topic           Topic            @relation(fields: [topicId], references: [id])
   candidates      Candidate[]      @relation("CandidateToTeam")
-  submission      Submission?
+  submissions     Submission[]
   reports         Report[]
   schedulePresent SchedulePresent?
 
@@ -106,7 +106,6 @@ model Submission {
   team Team @relation(fields: [teamId], references: [id])
   user User @relation(fields: [userId], references: [id])
 
-  @@unique([teamId])
   @@map("submissions")
 }
 
