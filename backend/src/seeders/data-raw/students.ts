@@ -1,5 +1,5 @@
 // Danh sách ứng viên pass vòng 1
-// $2b$10$.oIjaNHYprdhLa1EQVaMfe7L3qmCURyq0u99Pb9hlF1jbmNQAs.bC
+// UPDATE `users` SET `password` = '$2b$10$.oIjaNHYprdhLa1EQVaMfe7L3qmCURyq0u99Pb9hlF1jbmNQAs.bC'
 export const studentList = [
     {
         group: 1,
