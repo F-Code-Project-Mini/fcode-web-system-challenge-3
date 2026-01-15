@@ -44,7 +44,7 @@ const HistorySubmit = () => {
                         {/* Mobile Card View */}
                         <div className="block lg:hidden">
                             <div className="space-y-4 p-4">
-                                {submissions.slice().map((submission, index) => {
+                                {submissions.map((submission, index) => {
                                     const isLatest = index === 0;
                                     return (
                                         <div

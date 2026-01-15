@@ -292,6 +292,9 @@ class TeamRepository {
             where: {
                 teamId,
             },
+            orderBy: {
+                submittedAt: "desc",
+            },
         });
     };
     createSubmission = async (userId: string, data: SubmissionType & { teamId: string }) => {
