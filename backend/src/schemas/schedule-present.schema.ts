@@ -6,6 +6,7 @@ interface SchedulePresentType {
     trialDate: string;
     officialDate: string[];
     finalDate?: string;
+    googleMeetLink?: string;
     createdAt?: Date;
     updatedAt?: Date;
 }
@@ -15,7 +16,8 @@ class SchedulePresent {
     teamId: string;
     trialDate: string;
     officialDate: string[];
-    finalDate?: string;
+    finalDate: string;
+    googleMeetLink: string;
     createdAt: Date;
     updatedAt: Date;
     constructor(present: SchedulePresentType) {
@@ -24,6 +26,7 @@ class SchedulePresent {
         this.trialDate = present.trialDate;
         this.officialDate = present.officialDate;
         this.finalDate = present.finalDate || "";
+        this.googleMeetLink = present.googleMeetLink || "";
         this.createdAt = present.createdAt || new Date();
         this.updatedAt = present.updatedAt || new Date();
     }
