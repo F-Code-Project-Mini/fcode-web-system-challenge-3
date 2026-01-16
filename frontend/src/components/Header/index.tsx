@@ -1,5 +1,5 @@
 import { BadgeQuestionMark, ChevronDown, House, Menu, Users, X } from "lucide-react";
-import { Link, useLocation } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import useAuth from "~/hooks/useAuth";
 import { useState, useRef, useEffect } from "react";
 import SubmenuHeader from "./Submenu";
@@ -30,18 +30,21 @@ const Header = () => {
     const [currentRole, setCurrentRole] = useState<RoleType>(
         (LocalStorage.getItem("role") as RoleType) || user?.roles?.[0],
     );
+    const navigate = useNavigate();
 
     const menuRef = useRef<HTMLDivElement>(null);
 
     const showAgainInstruction = () => {
         LocalStorage.removeItem("isInstruction");
-        window.location.reload();
+        // window.location.reload();
+        navigate("/");
     };
 
     const handleSwitchRole = (role: RoleType) => {
         LocalStorage.setItem("role", role);
         setCurrentRole(role);
-        window.location.reload();
+        navigate("/");
+        // window.location.reload();
     };
 
     useEffect(() => {

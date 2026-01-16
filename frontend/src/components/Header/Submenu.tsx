@@ -1,13 +1,11 @@
 import { LogOut } from "lucide-react";
 import React from "react";
 import useAuth from "~/hooks/useAuth";
-import LocalStorage from "~/utils/localstorage";
-import type { RoleType } from "~/types/user.types";
+
 import Helper from "~/utils/helper";
 
 const SubmenuHeader = ({ setShowUserMenu }: { setShowUserMenu: React.Dispatch<React.SetStateAction<boolean>> }) => {
     const { user, logout } = useAuth();
-    const currentRole = (LocalStorage.getItem("role") as RoleType) || user.roles[0];
 
     return (
         <div className="absolute top-full right-0 mt-2 w-56 rounded-lg border border-gray-200 bg-white shadow-lg">
@@ -15,7 +13,9 @@ const SubmenuHeader = ({ setShowUserMenu }: { setShowUserMenu: React.Dispatch<Re
                 <p className="text-sm font-semibold text-gray-900">{user.fullName}</p>
                 <p className="mt-0.5 text-xs text-gray-500">{user.email}</p>
                 {user.roles.length >= 2 && (
-                    <p className="mt-0.5 text-xs text-gray-500">Quyền hạn: {Helper.getRoleName(currentRole)}</p>
+                    <p className="mt-0.5 text-xs text-gray-500">
+                        Quyền hạn: {user.roles.map((item) => Helper.getRoleName(item)).join(", ")}
+                    </p>
                 )}
             </div>
 
