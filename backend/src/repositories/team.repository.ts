@@ -1,6 +1,6 @@
 import prisma from "~/configs/prisma";
 import { paginate } from "~/utils/pagination";
-import userRespository from "./user.repository";
+import userRepository from "./user.repository";
 import { RoleType } from "~/constants/enums";
 import Present from "~/schemas/schedule-present.schema";
 import SchedulePresent from "~/schemas/schedule-present.schema";
@@ -130,7 +130,7 @@ class TeamRepository {
                     return candidate;
                 }
 
-                const scoreMentor = displayScore ? await userRespository.getScoreMentor(candidate.id) : null;
+                const scoreMentor = displayScore ? await userRepository.getScoreMentor(candidate.id) : null;
 
                 const { password, ...userWithoutPassword } = candidate.user;
 

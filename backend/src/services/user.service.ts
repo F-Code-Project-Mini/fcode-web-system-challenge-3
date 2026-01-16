@@ -1,7 +1,7 @@
 import { ExpiresInTokenType, RoleType, TokenType } from "~/constants/enums";
 import { HTTP_STATUS } from "~/constants/httpStatus";
 import { ErrorWithStatus } from "~/rules/error";
-import userRespository from "~/repositories/user.repository";
+import userRepository from "~/repositories/user.repository";
 import AlgoCrypoto from "~/utils/crypto";
 import AlgoJwt from "~/utils/jwt";
 import { LoginRequestBody } from "~/rules/requests/user.request";
@@ -11,7 +11,7 @@ class AuthService {
     public activeAccount = async (data: LoginRequestBody) => {
         const { email, password = "" } = data;
 
-        const user = await userRespository.findByEmail(email);
+        const user = await userRepository.findByEmail(email);
 
         if (user?.password) {
             return await this.login({ email, password });
@@ -22,7 +22,7 @@ class AuthService {
     };
     public login = async (data: LoginRequestBody) => {
         const { email, password } = data;
-        const accountExisted = await userRespository.findByEmail(email);
+        const accountExisted = await userRepository.findByEmail(email);
         if (!accountExisted || !(await AlgoCrypoto.verifyPassword(password!, accountExisted.password))) {
             throw new ErrorWithStatus({
                 status: HTTP_STATUS.NOT_FOUND,
@@ -32,7 +32,7 @@ class AuthService {
 
         const token = await this.signAccesAndRefreshToken(accountExisted.id, accountExisted.role as RoleType);
         const { password: _, ...user } = accountExisted;
-        const candidate = await userRespository.findById(accountExisted.id);
+        const candidate = await userRepository.findById(accountExisted.id);
         return {
             ...token,
             user: {
@@ -115,7 +115,7 @@ class AuthService {
     };
 
     public getInfo = async (userId: string) => {
-        const user = await userRespository.findById(userId);
+        const user = await userRepository.findById(userId);
         if (!user) {
             throw new ErrorWithStatus({
                 status: HTTP_STATUS.NOT_FOUND,
@@ -127,7 +127,7 @@ class AuthService {
     setPassword = async (userId: string, password: string) => {
         const hashedPassword = await AlgoCrypoto.hashPassword(password);
         await Promise.all([
-            userRespository.updatePassword(userId, hashedPassword),
+            userRepository.updatePassword(userId, hashedPassword),
             redisClient.del(`activateAccountToken:${userId}`),
         ]);
         return true;

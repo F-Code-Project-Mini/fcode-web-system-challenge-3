@@ -16,6 +16,7 @@ class UserRepository {
                 password: true,
             },
             include: {
+                userRoles: true,
                 candidate: {
                     omit: {
                         mentorNote: true,
@@ -35,6 +36,9 @@ class UserRepository {
         });
         return result;
     };
+    hasRole = (user: any, roleName: string) => {
+        return user.userRoles.some((ur: any) => ur.role.role === roleName);
+    };
 
     // get điểm mentor chấm userId: string
     getScoreMentor = async (userId: string) => {
@@ -53,5 +57,5 @@ class UserRepository {
         return Number(groupUsers[0]?._sum.score ?? 0);
     };
 }
-const userRespository = new UserRepository();
-export default userRespository;
+const userRepository = new UserRepository();
+export default userRepository;
