@@ -6,6 +6,8 @@ import { useQuery } from "@tanstack/react-query";
 import JudgeApi from "~/api-requests/judge.requests";
 import Loading from "~/components/Loading";
 import Helper from "~/utils/helper";
+import Notification from "./Notification";
+import { Badge } from "~/components/ui/badge";
 
 const JudgePage = () => {
     const { data: rooms, isLoading } = useQuery({
@@ -25,6 +27,9 @@ const JudgePage = () => {
         <>
             <section className="mb-6 sm:mb-8">
                 <WelcomePartition />
+            </section>
+            <section className="mb-6 sm:mb-8">
+                <Notification />
             </section>
             <section className="col-span-1 lg:col-span-8" id="members">
                 <div className="overflow-hidden rounded-lg border border-gray-200/70 bg-white shadow-xs transition-all">
@@ -119,12 +124,7 @@ const JudgePage = () => {
                                                 <td className="px-4 py-3.5 text-sm text-gray-600 sm:px-6 sm:py-4">
                                                     {room.team?.schedulePresent?.googleMeetLink ? (
                                                         ["urgent", "expired"].includes(status) ? (
-                                                            <Button
-                                                                variant="outline"
-                                                                size="sm"
-                                                                className="w-fit bg-teal-600 text-xs text-white hover:bg-teal-600/90"
-                                                                asChild
-                                                            >
+                                                            <Badge asChild className="bg-teal-600 text-white">
                                                                 <a
                                                                     href={room.team.schedulePresent.googleMeetLink}
                                                                     target="_blank"
@@ -134,9 +134,9 @@ const JudgePage = () => {
                                                                     <Video size={14} />
                                                                     <span>Tham gia</span>
                                                                 </a>
-                                                            </Button>
+                                                            </Badge>
                                                         ) : (
-                                                            <span className="text-xs text-gray-400 italic">
+                                                            <span className="text-center text-xs text-gray-400 italic">
                                                                 Chưa đến giờ
                                                             </span>
                                                         )

@@ -1,5 +1,5 @@
 import type { BaremResultItem } from "~/types/barem";
-import type { ResponseDetailData } from "~/types/team.types";
+import type { ResponseDetailData, SchedulePresent, SubmissionResponseType } from "~/types/team.types";
 import { privateApi } from "~/utils/axiosInstance";
 
 export type RoomType = {
@@ -62,7 +62,8 @@ export type TeamDetailType = {
     leader: {
         id: string;
     } | null;
-    submissions: SubmissionType[];
+    submissions: SubmissionResponseType[];
+    schedulePresent: SchedulePresent;
 };
 
 class JudgeApi {

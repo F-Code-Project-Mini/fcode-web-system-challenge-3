@@ -112,6 +112,7 @@ const RoomDetail = () => {
                             <tbody className="divide-y divide-gray-200/60 bg-white">
                                 {candidates.map((candidate, index) => {
                                     const isLeader = candidate.id === leader?.id;
+
                                     return (
                                         <tr key={candidate.id} className="transition-colors hover:bg-gray-50/50">
                                             <td className="px-4 py-3.5 text-sm font-medium whitespace-nowrap text-gray-900 sm:px-6 sm:py-4">
@@ -149,6 +150,7 @@ const RoomDetail = () => {
                                                         </span>
                                                         <span className="text-gray-500">/100</span>
                                                     </div>
+
                                                     <Button
                                                         variant="outline"
                                                         size="sm"
