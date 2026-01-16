@@ -71,16 +71,16 @@ const JudgePage = () => {
                                                 <td className="px-4 py-3.5 text-sm font-medium whitespace-nowrap text-gray-900 sm:px-6 sm:py-4">
                                                     {index + 1}
                                                 </td>
-                                                <td className="px-4 py-3.5 text-sm font-bold sm:px-6 sm:py-4">
+                                                <td className="px-4 py-3.5 text-sm font-medium sm:px-6 sm:py-4">
                                                     {/* {room.team?.topic?.title || "Chưa có đề tài"} */}
-                                                    <h2 className="text-base font-semibold tracking-tight text-gray-900">
+                                                    <h2 className="text-base font-medium tracking-tight text-gray-900">
                                                         [NHÓM{" "}
-                                                        <span className="text-primary font-bold">
+                                                        <span className="text-primary font-medium">
                                                             {room.team?.group}
                                                         </span>
                                                         ] -{" "}
                                                         {room.team?.name ? (
-                                                            <span className="text-primary font-bold">
+                                                            <span className="text-primary font-medium">
                                                                 {room.team.name}
                                                             </span>
                                                         ) : (
@@ -136,15 +136,9 @@ const JudgePage = () => {
                                                                 </a>
                                                             </Button>
                                                         ) : (
-                                                            <Button
-                                                                variant="outline"
-                                                                size="sm"
-                                                                className="w-fit cursor-not-allowed bg-teal-600 text-xs text-white opacity-50 hover:bg-teal-600/90"
-                                                                disabled
-                                                            >
-                                                                <Video size={14} />
-                                                                <span>Tham gia</span>
-                                                            </Button>
+                                                            <span className="text-xs text-gray-400 italic">
+                                                                Chưa đến giờ
+                                                            </span>
                                                         )
                                                     ) : (
                                                         <span className="text-xs text-gray-400 italic">
@@ -153,31 +147,19 @@ const JudgePage = () => {
                                                     )}
                                                 </td>
                                                 <td className="px-4 py-3.5 text-sm text-gray-600 sm:px-6 sm:py-4">
-                                                    {room.id ? (
-                                                        <>
-                                                            {["urgent", "expired"].includes(status) ? (
-                                                                <Button
-                                                                    variant="outline"
-                                                                    size="sm"
-                                                                    className="w-fit text-xs"
-                                                                    asChild
-                                                                >
-                                                                    <Link
-                                                                        to={`/judge/room/${room.id}`}
-                                                                        className="flex items-center gap-1"
-                                                                    >
-                                                                        <Sparkles size={10} /> <span>Xem chi tiết</span>
-                                                                    </Link>
-                                                                </Button>
-                                                            ) : (
-                                                                <p className="italic">Chưa đến giờ</p>
-                                                            )}
-                                                        </>
-                                                    ) : (
-                                                        <span className="text-xs text-gray-400 italic">
-                                                            Chưa có nhóm
-                                                        </span>
-                                                    )}
+                                                    <Button
+                                                        variant="outline"
+                                                        size="sm"
+                                                        className="w-fit text-xs"
+                                                        asChild
+                                                    >
+                                                        <Link
+                                                            to={`/judge/room/${room.id}`}
+                                                            className="flex items-center gap-1"
+                                                        >
+                                                            <Sparkles size={10} /> <span>Xem chi tiết</span>
+                                                        </Link>
+                                                    </Button>
                                                 </td>
                                             </tr>
                                         );
