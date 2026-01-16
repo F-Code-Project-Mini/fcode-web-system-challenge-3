@@ -43,17 +43,16 @@ const JudgePage = () => {
                                         STT
                                     </th>
                                     <th className="px-4 py-3 text-left text-xs font-semibold tracking-wide text-gray-600 uppercase sm:px-6 sm:py-3.5">
-                                        Đề tài
+                                        Nhóm
                                     </th>
                                     <th className="px-4 py-3 text-left text-xs font-semibold tracking-wide text-gray-600 uppercase sm:px-6 sm:py-3.5">
                                         Phòng
                                     </th>
-                                    <th className="hidden px-4 py-3 text-left text-xs font-semibold tracking-wide text-gray-600 uppercase sm:table-cell sm:px-6 sm:py-3.5">
-                                        Nhóm
-                                    </th>
+
                                     <th className="hidden px-4 py-3 text-left text-xs font-semibold tracking-wide text-gray-600 uppercase sm:px-6 sm:py-3.5 md:table-cell">
                                         Bắt đầu
                                     </th>
+
                                     <th className="px-4 py-3 text-left text-xs font-semibold tracking-wide text-gray-600 uppercase sm:px-6 sm:py-3.5">
                                         Google Meet
                                     </th>
@@ -69,55 +68,74 @@ const JudgePage = () => {
                                             <td className="px-4 py-3.5 text-sm font-medium whitespace-nowrap text-gray-900 sm:px-6 sm:py-4">
                                                 {index + 1}
                                             </td>
-                                            <td className="text-primary px-4 py-3.5 text-sm font-bold sm:px-6 sm:py-4">
-                                                {room.team?.topic?.title || "Chưa có đề tài"}
+                                            <td className="px-4 py-3.5 text-sm font-bold sm:px-6 sm:py-4">
+                                                {/* {room.team?.topic?.title || "Chưa có đề tài"} */}
+                                                <h2 className="text-base font-semibold tracking-tight text-gray-900">
+                                                    [NHÓM{" "}
+                                                    <span className="text-primary font-bold">{room.team?.group}</span>]
+                                                    -{" "}
+                                                    {room.team?.name ? (
+                                                        <span className="text-primary font-bold">{room.team.name}</span>
+                                                    ) : (
+                                                        <span className="text-red-500">Chưa đặt tên nhóm</span>
+                                                    )}
+                                                </h2>
+                                                <span className="text-xs italic">
+                                                    Đề tài:{" "}
+                                                    <span className="text-primary">
+                                                        {room.team?.topic?.title || "Chưa có đề tài"}
+                                                    </span>
+                                                </span>
                                             </td>
                                             <td className="px-4 py-3.5 text-sm whitespace-nowrap text-gray-600 sm:px-6 sm:py-4">
-                                                {room.roomNumber}
+                                                <span className="font-semibold">{room.roomNumber}</span>
+                                                <p className="mt-0.5 text-xs text-gray-500">
+                                                    Thuyết trình{" "}
+                                                    {room.presentPhase === "OFFICIAL" ? "chính thức" : "thử"}
+                                                </p>
                                             </td>
-                                            <td className="hidden px-4 py-3.5 text-sm whitespace-nowrap text-gray-600 sm:table-cell sm:px-6 sm:py-4">
-                                                {room.team ? (
-                                                    <>
-                                                        <span className="font-semibold">{room.team.group}</span>
-                                                        {room.team.name && (
-                                                            <p className="mt-0.5 text-xs text-gray-500">
-                                                                {room.team.name}
-                                                            </p>
-                                                        )}
-                                                    </>
-                                                ) : (
-                                                    "Chưa có nhóm"
-                                                )}
-                                            </td>
+
                                             <td className="hidden px-4 py-3.5 text-sm whitespace-nowrap text-gray-600 sm:px-6 sm:py-4 md:table-cell">
                                                 {room.startTime}
                                             </td>
+
                                             <td className="px-4 py-3.5 text-sm text-gray-600 sm:px-6 sm:py-4">
                                                 {room.team?.schedulePresent?.googleMeetLink ? (
-                                                    <a
-                                                        href={room.team.schedulePresent.googleMeetLink}
-                                                        target="_blank"
-                                                        rel="noopener noreferrer"
-                                                        className="inline-flex items-center gap-1.5 text-blue-600 hover:text-blue-700 hover:underline"
+                                                    <Button
+                                                        variant="outline"
+                                                        size="sm"
+                                                        className="w-fit bg-teal-600 text-xs text-white hover:bg-teal-600/90"
+                                                        asChild
                                                     >
-                                                        <Video size={16} />
-                                                        <span>Tham gia</span>
-                                                    </a>
+                                                        <a
+                                                            href={room.team.schedulePresent.googleMeetLink}
+                                                            target="_blank"
+                                                            rel="noopener noreferrer"
+                                                            className="flex items-center gap-1.5"
+                                                        >
+                                                            <Video size={14} />
+                                                            <span>Tham gia</span>
+                                                        </a>
+                                                    </Button>
                                                 ) : (
                                                     <span className="text-xs text-gray-400 italic">Chưa có link</span>
                                                 )}
                                             </td>
                                             <td className="px-4 py-3.5 text-sm text-gray-600 sm:px-6 sm:py-4">
                                                 {room.id ? (
-                                                    <Link to={`/judge/room/${room.id}`}>
-                                                        <Button
-                                                            variant="outline"
-                                                            className="flex w-fit cursor-pointer items-center gap-2 rounded-lg border px-3 py-2 shadow-sm transition-all hover:shadow-md"
+                                                    <Button
+                                                        variant="outline"
+                                                        size="sm"
+                                                        className="w-fit text-xs"
+                                                        asChild
+                                                    >
+                                                        <Link
+                                                            to={`/judge/room/${room.id}`}
+                                                            className="flex items-center gap-1"
                                                         >
-                                                            <span>Xem chi tiết</span>
-                                                            <Sparkles size={16} />
-                                                        </Button>
-                                                    </Link>
+                                                            <Sparkles size={10} /> <span>Xem chi tiết</span>
+                                                        </Link>
+                                                    </Button>
                                                 ) : (
                                                     <span className="text-xs text-gray-400 italic">Chưa có nhóm</span>
                                                 )}
@@ -126,7 +144,7 @@ const JudgePage = () => {
                                     ))
                                 ) : (
                                     <tr>
-                                        <td colSpan={7} className="px-4 py-8 text-center text-sm text-gray-500">
+                                        <td colSpan={8} className="px-4 py-8 text-center text-sm text-gray-500">
                                             Bạn chưa được phân công phòng chấm nào.
                                         </td>
                                     </tr>
