@@ -7,30 +7,13 @@ interface TimeSlots {
     [date: string]: string[];
 }
 class TeamService {
-    async getAll({
-        page,
-        limit,
-        role,
-        userId,
-    }: {
-        page?: number | string;
-        limit?: number | string;
-        role?: RoleType;
-        userId?: string;
-    }) {
-        const pageNum = Number(page);
-        const limitNum = Number(limit);
-        const safePage = Number.isFinite(pageNum) && pageNum > 0 ? pageNum : 1;
-        const safeLimit = Number.isFinite(limitNum) && limitNum > 0 ? limitNum : 10;
-
-        const mentorId = role === RoleType.MENTOR ? userId : undefined;
+    async getAll() {
         const data = await teamRepository.findWithPagination();
-
         return data;
     }
 
-    async getDetail(id: string, role: RoleType) {
-        const team = await teamRepository.findByIdWithMembers(id, false, role);
+    async getDetail(id: string, roles: RoleType[]) {
+        const team = await teamRepository.findByIdWithMembers(id, false, roles);
         if (!team) {
             throw new ErrorWithStatus({
                 status: HTTP_STATUS.NOT_FOUND,

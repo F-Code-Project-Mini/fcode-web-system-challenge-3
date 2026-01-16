@@ -70,10 +70,10 @@ export const getInfo = async (req: Request, res: Response, next: NextFunction) =
 
 export const refreshToken = async (req: Request, res: Response, next: NextFunction) => {
     const token = req.cookies.refresh_token ?? "";
-    const { userId, role } = req;
+    const { userId, roles } = req;
 
     try {
-        const result = await userService.refreshToken(userId!, role!, token);
+        const result = await userService.refreshToken(userId!, roles!, token);
         // setCookieResponse(res, "access_token", result.access_token, ExpiresInTokenType.AccessToken);
         // setCookieResponse(res, "refresh_token", result.refresh_token, ExpiresInTokenType.RefreshToken);
         return res.status(HTTP_STATUS.OK).json(

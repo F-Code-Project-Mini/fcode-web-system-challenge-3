@@ -2,9 +2,10 @@ import { RoleType } from "~/constants/enums";
 import { HTTP_STATUS } from "~/constants/httpStatus";
 import topicRepository from "~/repositories/topic.repository";
 import { ErrorWithStatus } from "~/rules/error";
+import Helpers from "~/utils/helpers";
 
 class TopicService {
-    async getAll({ page, limit }: { page?: number; limit?: number}) {
+    async getAll({ page, limit }: { page?: number; limit?: number }) {
         const { topics, total } = await topicRepository.findWithPagination({ page: page, limit: limit });
         return {
             data: topics.map((topic) => ({
@@ -18,10 +19,10 @@ class TopicService {
         };
     }
 
-    async getDetail(params: { id: string; role?: RoleType; candidateId?: string }) {
-        const { id, role, candidateId } = params;
+    async getDetail(params: { id: string; roles?: RoleType[]; candidateId?: string }) {
+        const { id, roles, candidateId } = params;
 
-        if (role === RoleType.CANDIDATE) {
+        if (roles && Helpers.hasRole(roles, RoleType.CANDIDATE)) {
             if (!candidateId) {
                 throw new ErrorWithStatus({
                     status: HTTP_STATUS.NOT_FOUND,

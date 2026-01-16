@@ -8,11 +8,13 @@ datasource db {
 }
 
 model User {
-  id          String   @id @default(uuid()) @db.VarChar(36)
-  email       String   @unique @db.VarChar(255)
-  password    String   @db.VarChar(60)
-  fullName    String   @map("full_name") @db.VarChar(255)
-  role        Role
+  id       String @id @default(uuid()) @db.VarChar(36)
+  email    String @unique @db.VarChar(255)
+  password String @db.VarChar(60)
+  fullName String @map("full_name") @db.VarChar(255)
+  // role     Role
+  // hệ hệ nhiều nhiều với roles
+
   candidateId String?  @unique @map("candidate_id") @db.VarChar(36)
   createdAt   DateTime @default(now()) @map("created_at")
   updatedAt   DateTime @updatedAt @map("updated_at")
@@ -21,10 +23,10 @@ model User {
   candidate   Candidate?   @relation("UserToCandidate", fields: [candidateId], references: [id])
   mentorships Mentorship[] @relation("MentorToMentorship")
   submissions Submission[]
-  hostedRooms Room[]       @relation("HostToRoom")
   judgeRooms  JudgeRoom[]
   reports     Report[]
   givenScores BaremScore[] @relation("MentorToScore")
+  userRoles   UserRole[]
 
   @@map("users")
 }
@@ -64,6 +66,7 @@ model Team {
   submissions     Submission[]
   reports         Report[]
   schedulePresent SchedulePresent?
+  rooms           Room[]
 
   @@map("teams")
 }
@@ -110,17 +113,39 @@ model Submission {
 }
 
 model Room {
-  id         String     @id @default(uuid()) @db.VarChar(36)
-  roomNumber String     @map("room_number") @db.VarChar(5)
-  startTime  DateTime   @map("start_time")
-  endTime    DateTime?  @map("end_time")
-  hostId     String     @map("host_id") @db.VarChar(36)
-  status     RoomStatus
+  id           String            @id @default(uuid()) @db.VarChar(36)
+  presentPhase PresentationPhase @default(TRIAL) @map("present_phase")
+  modePresent  ModePresentation  @default(OFFLINE) @map("mode_present")
+  roomNumber   String            @map("room_number") @db.VarChar(255)
+  startTime    String            @map("start_time") @db.VarChar(255)
+  endTime      String?           @map("end_time") @db.VarChar(255)
 
-  host       User        @relation("HostToRoom", fields: [hostId], references: [id])
+  teamId     String?     @map("team_id") @db.VarChar(36)
   judgeRooms JudgeRoom[]
+  team       Team?       @relation(fields: [teamId], references: [id])
 
   @@map("rooms")
+}
+
+model Roles {
+  id        Int        @id @default(autoincrement()) @db.Int
+  role      Role
+  userRoles UserRole[]
+
+  @@map("roles")
+}
+
+// model roles: 1 người dùng có nhiều roles
+model UserRole {
+  userId     String   @map("user_id") @db.VarChar(36)
+  roleId     Int      @map("role_id")
+  assignedAt DateTime @default(now()) @map("assigned_at")
+
+  user User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role Roles @relation(fields: [roleId], references: [id], onDelete: Cascade)
+
+  @@id([userId, roleId])
+  @@map("user_roles")
 }
 
 model JudgeRoom {
@@ -206,8 +231,13 @@ enum TypeBarem {
   JUDGE
 }
 
-enum RoomStatus {
-  AVAILABLE
-  IN_USE
-  COMPLETED
+// OFFLINE, ONLINE
+enum ModePresentation {
+  OFFLINE
+  ONLINE
+}
+
+enum PresentationPhase {
+  TRIAL
+  OFFICIAL
 }
