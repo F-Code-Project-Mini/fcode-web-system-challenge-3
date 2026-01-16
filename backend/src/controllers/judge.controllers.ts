@@ -12,17 +12,17 @@ const judgeBarem = [
                 criteria: "Nội dung",
                 partitions: [
                     {
-                        code: "#judge_1",
+                        code: "#judge_trial_1",
                         description: `<p>Nội dung rõ ràng, mạch lạc</p>`,
                         maxScore: 10,
                     },
                     {
-                        code: "#judge_2",
+                        code: "#judge_trial_2",
                         description: `<p>Hiểu sâu về đề tài</p>`,
                         maxScore: 10,
                     },
                     {
-                        code: "#judge_3",
+                        code: "#judge_trial_3",
                         description: `<p>Trình bày đầy đủ các phần yêu cầu</p>`,
                         maxScore: 10,
                     },
@@ -32,17 +32,17 @@ const judgeBarem = [
                 criteria: "Kỹ năng thuyết trình",
                 partitions: [
                     {
-                        code: "#judge_4",
+                        code: "#judge_trial_4",
                         description: `<p>Giọng nói rõ ràng, tự tin</p>`,
                         maxScore: 5,
                     },
                     {
-                        code: "#judge_5",
+                        code: "#judge_trial_5",
                         description: `<p>Sử dụng slide hiệu quả</p>`,
                         maxScore: 5,
                     },
                     {
-                        code: "#judge_6",
+                        code: "#judge_trial_6",
                         description: `<p>Quản lý thời gian tốt</p>`,
                         maxScore: 5,
                     },
@@ -57,17 +57,17 @@ const judgeBarem = [
                 criteria: "Chất lượng sản phẩm",
                 partitions: [
                     {
-                        code: "#judge_7",
+                        code: "#judge_trial_7",
                         description: `<p>Sản phẩm hoạt động tốt, ít lỗi</p>`,
                         maxScore: 15,
                     },
                     {
-                        code: "#judge_8",
+                        code: "#judge_trial_8",
                         description: `<p>Giao diện đẹp, thân thiện người dùng</p>`,
                         maxScore: 10,
                     },
                     {
-                        code: "#judge_9",
+                        code: "#judge_trial_9",
                         description: `<p>Code sạch, có tổ chức</p>`,
                         maxScore: 10,
                     },
@@ -82,12 +82,12 @@ const judgeBarem = [
                 criteria: "Khả năng trả lời",
                 partitions: [
                     {
-                        code: "#judge_10",
+                        code: "#judge_trial_10",
                         description: `<p>Trả lời chính xác, logic</p>`,
                         maxScore: 10,
                     },
                     {
-                        code: "#judge_11",
+                        code: "#judge_trial_11",
                         description: `<p>Thể hiện kiến thức chuyên sâu</p>`,
                         maxScore: 10,
                     },

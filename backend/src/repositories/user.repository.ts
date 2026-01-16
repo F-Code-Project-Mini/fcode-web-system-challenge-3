@@ -10,6 +10,7 @@ class UserRepository {
     };
 
     findById = async (id: string) => {
+        console.log("id", id);
         const result = await prisma.user.findUnique({
             where: { id },
 
