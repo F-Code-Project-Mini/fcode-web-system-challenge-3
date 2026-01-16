@@ -32,11 +32,11 @@ class AuthService {
 
         // const token = await this.signAccesAndRefreshToken(accountExisted.id, accountExisted?.roles);
 
-        console.log("accountExisted", accountExisted);
         // check lại cái này nhé
         const token = await this.signAccesAndRefreshToken(accountExisted.id, (accountExisted as any).roles);
-
+        
         const { password: _, ...user } = accountExisted;
+        console.log("accountExisted", accountExisted);
         const candidate = await userRepository.findById(accountExisted.id);
         return {
             ...token,

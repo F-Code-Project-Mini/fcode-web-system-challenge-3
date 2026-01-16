@@ -147,6 +147,7 @@ const JudgeBaremPage = () => {
 
             debounceMapRef.current[subPart.code] = setTimeout(() => {
                 socket.emit("SAVE_SCORE", {
+                    type: "JUDGE",
                     mentorId: user.id,
                     candidateId: candidateActive.id,
                     codeBarem: subPart.code,
@@ -174,6 +175,7 @@ const JudgeBaremPage = () => {
 
             debounceNoteMapRef.current[subPart.code] = setTimeout(() => {
                 socket.emit("SAVE_SCORE", {
+                    type: "JUDGE",
                     mentorId: user.id,
                     candidateId: candidateActive.id,
                     codeBarem: subPart.code,
