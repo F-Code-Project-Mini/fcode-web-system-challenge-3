@@ -8,8 +8,6 @@ import { CreateSchedulePresent, SubmissionType } from "~/rules/requests/team.req
 
 export const getAll = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const page = Number((req.query as any).page) ?? 1;
-        const limit = Number((req.query as any).limit) ?? 20;
         const result = await teamService.getAll();
         return res.status(HTTP_STATUS.OK).json(
             new ResponseClient({

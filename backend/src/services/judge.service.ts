@@ -1,5 +1,6 @@
 import { HTTP_STATUS } from "~/constants/httpStatus";
 import judgeRepository from "~/repositories/judge.repository";
+import userRepository from "~/repositories/user.repository";
 import { ErrorWithStatus } from "~/rules/error";
 
 class JudgeService {
@@ -9,17 +10,32 @@ class JudgeService {
     }
 
     async getTeamsByRoom(judgeId: string, roomId: string) {
-        // Verify judge is assigned to this room
         const isAssigned = await judgeRepository.verifyJudgeInRoom(judgeId, roomId);
         if (!isAssigned) {
             throw new ErrorWithStatus({
-                status: HTTP_STATUS.FORBIDDEN,
+                status: HTTP_STATUS.OK,
                 message: "Bạn không có quyền truy cập phòng này.",
             });
         }
 
-        const teams = await judgeRepository.findTeamsByRoomId(roomId);
-        return teams;
+        const team = await judgeRepository.findTeamsByRoomId(roomId);
+
+        if (!team) return null;
+
+        const candidatesWithScores = await Promise.all(
+            team.candidates.map(async (candidate) => {
+                const scoreJudge = await userRepository.getScoreMentor(candidate.id, "JUDGE");
+                return {
+                    ...candidate,
+                    scoreJudge,
+                };
+            }),
+        );
+
+        return {
+            ...team,
+            candidates: candidatesWithScores,
+        };
     }
 }
 

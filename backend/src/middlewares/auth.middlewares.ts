@@ -78,6 +78,7 @@ export const verifyTokenActiveAccount = async (req: Request<{ token: string }>, 
 };
 export const isRole = (roles: RoleType[]) => async (req: Request, res: Response, next: NextFunction) => {
     const userRoles = req.roles || [];
+    console.log("userRoles", userRoles);
     const hasPermission = roles.some((role) => userRoles.includes(role));
 
     if (hasPermission) {

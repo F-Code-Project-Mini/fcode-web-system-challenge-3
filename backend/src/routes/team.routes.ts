@@ -27,6 +27,7 @@ teamRouter.get("/get-schedule/:teamId", auth, teamController.getSchedulePresenta
 
 teamRouter.get("/:id", auth, validate(idParamSchema), teamController.getDetail);
 
+// http://localhost:8000/api/v1/teams/mentor/305a593b-4994-41bc-9207-eb8a49ef7eaa
 teamRouter.get("/mentor/:id", auth, validate(idParamSchema), teamController.getTeamByUserId);
 
 teamRouter.patch(
