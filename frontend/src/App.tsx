@@ -34,7 +34,8 @@ const App = () => {
                     <Route path="judge" element={<ProtectedRoute roleAccess={[USER_ROLE.JUDGE]} />}>
                         <Route index element={<JudgePage />} />
                         <Route path="room/:roomId" element={<JudgeRoomDetail />} />
-                        <Route path="barem/:candidateId" element={<JudgeBaremPage />} />
+                        <Route path="team/:id/candidate/:candidateId" element={<JudgeBaremPage />} />
+                        {/* <Route path="barem/:candidateId" element={<JudgeBaremPage />} /> */}
                     </Route>
 
                     {/* Role Mentor */}
