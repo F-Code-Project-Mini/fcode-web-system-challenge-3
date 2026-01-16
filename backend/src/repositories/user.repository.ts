@@ -1,4 +1,5 @@
 import prisma from "~/configs/prisma";
+import { RoleType } from "~/constants/enums";
 
 class UserRepository {
     findByEmail = async (email: string) => {
@@ -9,6 +10,7 @@ class UserRepository {
     };
 
     findById = async (id: string) => {
+        console.log("id", id);
         const result = await prisma.user.findUnique({
             where: { id },
 
@@ -41,13 +43,13 @@ class UserRepository {
     };
 
     // get điểm mentor chấm userId: string
-    getScoreMentor = async (userId: string) => {
+    getScoreMentor = async (userId: string, role: "JUDGE" | "MENTOR" = "MENTOR") => {
         console.log("userId", userId);
         const groupUsers = await prisma.baremScore.groupBy({
             by: ["candidateId"],
             where: {
                 candidateId: userId,
-                type: "MENTOR",
+                type: role,
             },
             _sum: {
                 score: true,

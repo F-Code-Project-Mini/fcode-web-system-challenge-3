@@ -7,6 +7,8 @@ import BadgeLeader from "~/components/BadgeLeader";
 import { Button } from "~/components/ui/button";
 import { Sparkles, ArrowLeft } from "lucide-react";
 import HistorySubmit from "./HistorySubmit";
+import Helper from "~/utils/helper";
+import { ShowTopic } from "../Candidate/ShowTopic";
 
 const RoomDetail = () => {
     const { roomId } = useParams<{ roomId: string }>();
@@ -57,48 +59,53 @@ const RoomDetail = () => {
                 </Link>
             </section>
 
+            <section className="mb-6">
+                <HistorySubmit submissions={team?.submissions || []} isLoading={isLoading} />
+            </section>
+
             <section className="col-span-16" id="team-detail">
-                <div className="overflow-hidden rounded-lg border border-gray-200/70 bg-white shadow-xs transition-all">
-                    <div className="border-b border-gray-200/70 bg-gradient-to-r from-gray-50/80 to-white px-5 py-4 sm:px-6 sm:py-5">
-                        <div className="flex items-center justify-between">
-                            <div className="flex-1">
-                                <div className="flex items-center gap-2">
-                                    <h2 className="text-base font-semibold tracking-tight text-gray-900 sm:text-lg">
-                                        [NHÓM <span className="text-primary font-bold">{team.group}</span>] -{" "}
-                                        {team.name ? (
-                                            <span className="text-primary font-bold">{team.name}</span>
-                                        ) : (
-                                            <span className="text-gray-500">Chưa đặt tên nhóm</span>
-                                        )}
-                                    </h2>
-                                </div>
-                                <p className="mt-1.5 text-xs leading-relaxed text-gray-500 sm:text-sm">
-                                    <span className="font-semibold">Đề tài:</span> {team.topic.title}
-                                </p>
-                                <p className="mt-0.5 text-xs leading-relaxed text-gray-500 sm:text-sm">
-                                    Danh sách thành viên trong nhóm để chấm điểm.
-                                </p>
+                <div className="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-2xs">
+                    <div className="from-gray-100/60/60 flex flex-col gap-3 border-b border-gray-200 bg-gradient-to-r px-4 py-3 sm:px-6 sm:py-4 lg:flex-row lg:items-center lg:justify-between lg:gap-4">
+                        <div className="flex-1">
+                            <div className="flex items-center gap-2">
+                                <h2 className="text-base font-semibold tracking-tight text-gray-900 sm:text-lg">
+                                    [NHÓM <span className="text-primary font-bold">{team.group}</span>] -{" "}
+                                    {team.name ? (
+                                        <span className="text-primary font-bold">{team.name}</span>
+                                    ) : (
+                                        <span className="text-gray-500 italic">Chưa đặt tên nhóm</span>
+                                    )}
+                                </h2>
                             </div>
+                            <p className="mt-1 text-xs text-gray-500 sm:text-sm">
+                                <span className="font-semibold">Đề tài:</span> {team.topic.title}
+                            </p>
+                            <p className="mt-1 text-xs text-gray-500 sm:text-sm">
+                                Danh sách thành viên trong nhóm để chấm điểm.
+                            </p>
+                        </div>
+                        <div className="flex flex-wrap items-center gap-2">
+                            <ShowTopic urlPdf={team.topic.filePath} name={team.topic.title} />
                         </div>
                     </div>
-                    <div className="overflow-auto">
+                    <div className="overflow-x-auto">
                         <table className="w-full">
-                            <thead className="bg-gray-50/50">
+                            <thead className="bg-gray-50">
                                 <tr>
-                                    <th className="px-4 py-3 text-left text-xs font-semibold tracking-wide text-gray-600 uppercase sm:px-6 sm:py-3.5">
+                                    <th className="px-3 py-2 text-left text-xs font-semibold tracking-wider text-gray-600 uppercase sm:px-6 sm:py-3">
                                         STT
                                     </th>
-                                    <th className="px-4 py-3 text-left text-xs font-semibold tracking-wide text-gray-600 uppercase sm:px-6 sm:py-3.5">
+                                    <th className="px-3 py-2 text-left text-xs font-semibold tracking-wider text-gray-600 uppercase sm:px-6 sm:py-3">
                                         Họ và tên
                                     </th>
-                                    <th className="px-4 py-3 text-left text-xs font-semibold tracking-wide text-gray-600 uppercase sm:table-cell sm:px-6 sm:py-3.5">
+                                    <th className="px-3 py-2 text-left text-xs font-semibold tracking-wider text-gray-600 uppercase sm:table-cell sm:px-6 sm:py-3">
                                         MSSV
                                     </th>
-                                    <th className="px-4 py-3 text-left text-xs font-semibold tracking-wide text-gray-600 uppercase sm:px-6 sm:py-3.5 md:table-cell">
+                                    <th className="px-3 py-2 text-left text-xs font-semibold tracking-wider text-gray-600 uppercase sm:px-6 sm:py-3 md:table-cell">
                                         Liên hệ
                                     </th>
-                                    <th className="px-4 py-3 text-left text-xs font-semibold tracking-wide text-gray-600 uppercase sm:px-6 sm:py-3.5">
-                                        Thao tác
+                                    <th className="px-3 py-2 text-left text-xs font-semibold tracking-wider text-gray-600 uppercase sm:px-6 sm:py-3 md:table-cell">
+                                        Trạng thái
                                     </th>
                                 </tr>
                             </thead>
@@ -123,28 +130,39 @@ const RoomDetail = () => {
                                                 <p className="text-blue-gray-900 text-sm font-semibold">
                                                     {candidate.studentCode}
                                                 </p>
+                                                <p className="text-xs text-gray-500">Kỳ {candidate.semester}</p>
                                             </td>
                                             <td className="px-4 py-3.5 text-sm whitespace-nowrap text-gray-600 sm:px-6 sm:py-4 md:table-cell">
-                                                <div className="space-y-1">
-                                                    <p className="text-xs">
-                                                        <span className="font-medium">Email:</span>{" "}
-                                                        {candidate.user.email}
-                                                    </p>
-                                                    <p className="text-xs">
-                                                        <span className="font-medium">SĐT:</span> {candidate.phone}
-                                                    </p>
+                                                <div className="flex flex-col gap-1">
+                                                    <span className="block font-medium">{candidate.user.email}</span>
+                                                    <span className="block text-gray-500">{candidate.phone}</span>
                                                 </div>
                                             </td>
-                                            <td className="px-4 py-3.5 text-sm text-gray-600 sm:px-6 sm:py-4">
-                                                <Link to={`/judge/barem/${candidate.id}`}>
+                                            <td className="px-4 py-3.5 text-sm whitespace-nowrap text-gray-600 sm:px-6 sm:py-4 md:table-cell">
+                                                <div className="flex flex-col gap-2">
+                                                    <div className="flex items-center gap-1 text-sm">
+                                                        <span className="text-gray-500">Điểm:</span>
+                                                        <span
+                                                            className={`font-semibold ${Helper.belowAverage(candidate.scoreJudge) ? "text-red-500" : "text-green-500"}`}
+                                                        >
+                                                            {candidate.scoreJudge || 0}
+                                                        </span>
+                                                        <span className="text-gray-500">/100</span>
+                                                    </div>
                                                     <Button
                                                         variant="outline"
-                                                        className="flex w-fit cursor-pointer items-center gap-2 rounded-lg border px-3 py-2 shadow-sm transition-all hover:shadow-md"
+                                                        size="sm"
+                                                        className="w-fit text-xs"
+                                                        asChild
                                                     >
-                                                        <span>Đánh giá</span>
-                                                        <Sparkles size={16} />
+                                                        <Link
+                                                            to={`/judge/barem/${candidate.id}`}
+                                                            className="flex items-center gap-1"
+                                                        >
+                                                            <Sparkles size={10} /> <span>Đánh giá</span>
+                                                        </Link>
                                                     </Button>
-                                                </Link>
+                                                </div>
                                             </td>
                                         </tr>
                                     );
@@ -153,10 +171,6 @@ const RoomDetail = () => {
                         </table>
                     </div>
                 </div>
-            </section>
-
-            <section className="mt-6">
-                <HistorySubmit submissions={team?.submissions || []} isLoading={isLoading} />
             </section>
         </>
     );

@@ -23,7 +23,13 @@ export const auth = async (req: Request, res: Response, next: NextFunction) => {
             });
         }
         req.userId = payload.userId;
-        req.roles = payload.roles;
+        // console.log("payload", payload);
+
+        if (payload.role) {
+            req.roles = [payload.role];
+        } else {
+            req.roles = payload.roles;
+        }
 
         next();
     } catch (error) {
@@ -52,7 +58,11 @@ export const verifyToken =
                 });
             }
             req.userId = payload.userId;
-            req.roles = payload.roles;
+            if (payload.role) {
+                req.roles = [payload.role];
+            } else {
+                req.roles = payload.roles;
+            }
 
             next();
         } catch (error) {
@@ -78,6 +88,7 @@ export const verifyTokenActiveAccount = async (req: Request<{ token: string }>, 
 };
 export const isRole = (roles: RoleType[]) => async (req: Request, res: Response, next: NextFunction) => {
     const userRoles = req.roles || [];
+    console.log("userRoles", userRoles);
     const hasPermission = roles.some((role) => userRoles.includes(role));
 
     if (hasPermission) {

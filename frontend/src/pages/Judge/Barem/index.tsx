@@ -147,6 +147,7 @@ const JudgeBaremPage = () => {
 
             debounceMapRef.current[subPart.code] = setTimeout(() => {
                 socket.emit("SAVE_SCORE", {
+                    type: "JUDGE",
                     mentorId: user.id,
                     candidateId: candidateActive.id,
                     codeBarem: subPart.code,
@@ -174,6 +175,7 @@ const JudgeBaremPage = () => {
 
             debounceNoteMapRef.current[subPart.code] = setTimeout(() => {
                 socket.emit("SAVE_SCORE", {
+                    type: "JUDGE",
                     mentorId: user.id,
                     candidateId: candidateActive.id,
                     codeBarem: subPart.code,
@@ -197,7 +199,7 @@ const JudgeBaremPage = () => {
                     value={candidateActive?.id}
                     onValueChange={(id) => {
                         setcandidateActive(candidates?.candidates.find((candidate) => candidate.id === id));
-                        navigate(`/judge/room/${params.id}/candidate/${id}`);
+                        navigate(`/judge/team/${params.id}/candidate/${id}`);
                     }}
                     className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-5"
                 >

@@ -93,6 +93,8 @@ class JudgeRepository {
             },
         });
 
+        
+
         return room?.team || null;
     };
 }

@@ -37,7 +37,7 @@ export const initSocket = (server: http.Server) => {
                         codeBarem: payload.codeBarem,
                         score: parseFloat(payload.score || "0"),
                         note: payload.note,
-                        type: "MENTOR",
+                        type: payload.type || "MENTOR",
                     },
                 });
 
