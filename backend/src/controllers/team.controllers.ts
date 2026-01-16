@@ -10,12 +10,7 @@ export const getAll = async (req: Request, res: Response, next: NextFunction) =>
     try {
         const page = Number((req.query as any).page) ?? 1;
         const limit = Number((req.query as any).limit) ?? 20;
-        const result = await teamService.getAll({
-            page,
-            limit,
-            role: req.role,
-            userId: req.userId,
-        });
+        const result = await teamService.getAll();
         return res.status(HTTP_STATUS.OK).json(
             new ResponseClient({
                 result,
@@ -129,7 +124,7 @@ export const getSchedulePresentationInTeam = async (
 
 export const getDetail = async (req: Request<{ id: string }>, res: Response, next: NextFunction) => {
     try {
-        const result = await teamService.getDetail(req.params.id, req.role as RoleType);
+        const result = await teamService.getDetail(req.params.id, req.roles as RoleType[]);
         return res.status(HTTP_STATUS.OK).json(new ResponseClient({ result }));
     } catch (error) {
         return next(error);
@@ -138,11 +133,11 @@ export const getDetail = async (req: Request<{ id: string }>, res: Response, nex
 
 export const getTeamByUserId = async (req: Request<{ id: string }>, res: Response, next: NextFunction) => {
     const {
-        role,
+        roles,
         params: { id },
     } = req;
     try {
-        const result = await teamService.getTeamByUserId(id, role == RoleType.MENTOR);
+        const result = await teamService.getTeamByUserId(id, roles?.includes(RoleType.MENTOR));
         return res.status(HTTP_STATUS.OK).json(new ResponseClient({ result }));
     } catch (error) {
         return next(error);

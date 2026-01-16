@@ -12,6 +12,7 @@ import LocalStorage from "~/utils/localstorage";
 import { USER_ROLE } from "~/constants/enums";
 import AuthApi from "~/api-requests/auth.requests";
 import { AxiosError } from "axios";
+import Helper from "~/utils/helper";
 
 const FormLogin = () => {
     const [email, setEmail] = useState("");
@@ -31,12 +32,12 @@ const FormLogin = () => {
             LocalStorage.setItem("login", "true");
             const isInstruction = LocalStorage.getItem("isInstruction");
             if (!isFirstLogin) {
-                const { role } = response.result;
+                const { roles } = response.result;
                 setIsFirstLogin(false);
                 dispatch(setUser(response.result));
 
                 LocalStorage.setItem("access_token", response.result.access_token || "");
-                if (isInstruction || role !== USER_ROLE.CANDIDATE) {
+                if (isInstruction || !Helper.hasRole(roles, USER_ROLE.CANDIDATE)) {
                     // lưu access token, refresh token vô localstorage
                     Notification.success({
                         text: "Đăng nhập thành công vào hệ thống Challenge Vòng 3!",

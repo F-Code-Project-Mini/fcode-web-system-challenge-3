@@ -8,9 +8,8 @@ const ProtectedRoute = ({ roleAccess = [] }: { roleAccess?: string[] }) => {
     const navigate = useNavigate();
 
     if (isLoading) {
-
         return <Loading />;
-    } else if (roleAccess.includes(user.role || "") === false) {
+    } else if (!user.roles?.some((role) => roleAccess.includes(role))) {
         navigate("/", { replace: true });
         return <NoAccess />;
     }

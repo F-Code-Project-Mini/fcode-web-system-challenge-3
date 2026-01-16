@@ -61,7 +61,7 @@ const Header = () => {
                                 active={Helper.isActive(location.pathname, "/")}
                             />
                         </li>
-                        {isLogin && user.role === USER_ROLE.CANDIDATE && <CandidateHeader />}
+                        {isLogin && Helper.hasRole(user.roles, USER_ROLE.CANDIDATE) && <CandidateHeader />}
                         <li id="teams">
                             <NavLink
                                 url="/teams"
@@ -79,7 +79,7 @@ const Header = () => {
                             />
                         </li> */}
 
-                        {isLogin && user.role === USER_ROLE.ADMIN && <AdminHeader />}
+                        {isLogin && Helper.hasRole(user.roles, USER_ROLE.ADMIN) && <AdminHeader />}
                     </ul>
                 </nav>
 
@@ -102,7 +102,7 @@ const Header = () => {
                                         />
                                     </div>
                                 </div>
-                                {user.role === USER_ROLE.CANDIDATE && (
+                                {Helper.hasRole(user.roles, USER_ROLE.CANDIDATE) && (
                                     <button
                                         className="hover:border-primary hover:bg-primary/5 hover:text-primary flex h-9 w-9 cursor-pointer items-center justify-center rounded-lg border border-gray-200 bg-white text-gray-600 shadow-xs transition-all"
                                         onClick={showAgainInstruction}

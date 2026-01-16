@@ -6,7 +6,7 @@ type UserInfoRedux = {
     id: string;
     email: string;
     fullName: string;
-    role: UserRole | null;
+    roles: UserRole[];
     candidateId: string;
     candidate?: CandidateInfoType;
     createdAt: string;

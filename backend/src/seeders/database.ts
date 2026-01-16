@@ -35,7 +35,7 @@ const seed = async () => {
                 email: candidates.email,
                 password: "",
                 fullName: candidates.full_name,
-                role: RoleType.CANDIDATE,
+                // role: RoleType.CANDIDATE,
                 candidateId: candidate.id,
             });
             promises.push(
@@ -60,7 +60,7 @@ const seed = async () => {
             email: mentor.email,
             password: "$2b$10$.oIjaNHYprdhLa1EQVaMfe7L3qmCURyq0u99Pb9hlF1jbmNQAs.bC", // Demo@123
             fullName: mentor.fullName,
-            role: RoleType.MENTOR,
+            // role: RoleType.MENTOR,
         });
         mentorPromises.push(
             prisma.user.create({
