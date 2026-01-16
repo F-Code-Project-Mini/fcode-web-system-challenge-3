@@ -106,7 +106,10 @@ const Header = () => {
                     {isLogin ? (
                         <>
                             {user.roles.length >= 2 && (
-                                <Select value={currentRole} onValueChange={(value) => handleSwitchRole(value as RoleType)}>
+                                <Select
+                                    value={currentRole}
+                                    onValueChange={(value) => handleSwitchRole(value as RoleType)}
+                                >
                                     <SelectTrigger className="w-[140px]">
                                         <SelectValue placeholder="Chọn quyền" />
                                     </SelectTrigger>
