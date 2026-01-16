@@ -16,7 +16,7 @@ class UserRepository {
                 password: true,
             },
             include: {
-                userRoles: true,
+                // userRoles: true,
                 candidate: {
                     omit: {
                         mentorNote: true,
