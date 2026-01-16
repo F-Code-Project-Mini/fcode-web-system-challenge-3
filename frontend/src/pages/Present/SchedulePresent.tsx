@@ -8,8 +8,8 @@ type Props = {
 
 const SchedulePresent = ({ data }: Props) => {
     const parseDateTime = (dateTimeStr: string) => {
-        const [date, time] = dateTimeStr.split("|");
-        return { date: date.trim(), time: time.trim() };
+        const [date, time, room] = dateTimeStr.split("|");
+        return { date: date.trim(), time: time.trim(), room: room?.trim() ?? "" };
     };
 
     const registrationData = {
@@ -56,21 +56,23 @@ const SchedulePresent = ({ data }: Props) => {
                             <div className="flex flex-col items-center rounded-lg p-2 text-center max-sm:col-span-2">
                                 <MapPinHouse className="mb-1 h-3.5 w-3.5 text-teal-600" />
                                 <p className="text-xs font-medium text-gray-500">Địa điểm</p>
-                                <p className="mt-0.5 text-base font-bold text-teal-700">P001, ĐH FPT HCM</p>
+                                <p className="mt-0.5 text-base font-bold text-gray-900">
+                                    P{registrationData.officialSlot.confirmedSlot.room}, ĐH FPT HCM
+                                </p>
                             </div>
                         </div>
                         <div className="relative flex flex-col items-center overflow-visible rounded-lg p-2 text-center">
                             <CheckCircle className="relative z-10 mb-1 h-3.5 w-3.5 text-teal-600" />
-                            <p className="relative z-10 text-xs font-medium text-gray-500">Phê duyệt</p>
+                            <p className="relative z-10 text-xs font-medium text-gray-500">Phê duyệt bởi</p>
                             <p className="relative z-10 mt-0.5 flex flex-col text-xs text-teal-700">
-                                <span className="text-lg font-bold text-green-700">Phạm Hoàng Tuấn</span>
-                                <span className="font-semibold text-teal-700 italic">Tech Lead Recruitment</span>
-                                <span className="font-semibold text-teal-700 italic">Lead Challenge 3</span>
+                                <span className="text-lg font-bold text-emerald-700 italic">Phạm Hoàng Tuấn</span>
+                                <span className="font-semibold text-teal-700">Tech Lead Recruitment</span>
+                                <span className="font-semibold text-teal-700">Lead Challenge 3</span>
                             </p>
                             <img
                                 src="/fcode.png"
                                 alt="fcode"
-                                className="pointer-events-none absolute top-1/2 left-1/2 z-0 h-10 w-12 -translate-x-1/2 -translate-y-1/2 opacity-30 blur-[1px] select-none"
+                                className="pointer-events-none absolute top-1/2 left-1/2 z-0 h-10 w-12 -translate-x-1/2 -translate-y-1/2 opacity-50 blur-[1px] select-none"
                             />
                             <div className="pointer-events-none absolute inset-0"></div>
                         </div>

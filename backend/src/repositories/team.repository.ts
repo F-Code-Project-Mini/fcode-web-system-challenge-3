@@ -66,7 +66,7 @@ class TeamRepository {
                 schedulePresent: {
                     omit: {
                         officialDate: true,
-                        finalDate: true,
+                        // finalDate: true,
                         createdAt: true,
                         updatedAt: true,
                         googleMeetLink: true,
