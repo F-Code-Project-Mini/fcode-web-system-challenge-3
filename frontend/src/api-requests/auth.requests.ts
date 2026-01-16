@@ -3,10 +3,11 @@ import type { LoginInput, UserType } from "~/types/user.types";
 import { privateApi, publicApi } from "~/utils/axiosInstance";
 type LoginResponse = { message: string; result: UserType; isFirstLogin?: boolean };
 class AuthApi {
-    static login = async ({ email, password }: LoginInput) => {
+    static login = async ({ email, password, role }: LoginInput) => {
         const response = await privateApi.post<LoginResponse>("/auth/login", {
             email,
             password,
+            role,
         });
 
         return response?.data || [];

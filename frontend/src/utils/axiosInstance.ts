@@ -1,6 +1,7 @@
 import axios, { AxiosError, type InternalAxiosRequestConfig } from "axios";
 import AuthApi from "~/api-requests/auth.requests";
 import LocalStorage from "./localstorage";
+import Notification from "./notification";
 
 const options = {
     baseURL: import.meta.env.VITE_API_BACKEND_API,
@@ -66,6 +67,7 @@ privateApi.interceptors.response.use(
                     return privateApi(origin);
                 } catch (err) {
                     processQueue(err);
+                    Notification.error({ text: "Phiên đăng nhập đã hết hạn, vui lòng đăng nhập lại!" });
                     LocalStorage.removeItem("login");
                     return Promise.reject(err);
                 } finally {

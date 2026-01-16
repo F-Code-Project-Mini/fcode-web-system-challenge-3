@@ -1,10 +1,13 @@
 import { refine } from "zod";
 import z from "zod/v3";
+import { RoleType } from "~/constants/enums";
+
 const jwtSchema = z.string().regex(/^[^.]+\.[^.]+\.[^.]+$/, "Token không hợp lệ!");
 export const loginSchema = z.object({
     body: z.object({
         email: z.string().trim().email().nonempty(),
         password: z.string().trim(),
+        role: z.enum(["CANDIDATE", "HOST", "MENTOR", "JUDGE", "ADMIN"] as const).optional(),
     }),
 });
 

@@ -13,5 +13,6 @@ export type UserType = {
 export type LoginInput = {
     email: string;
     password: string;
+    role?: RoleType;
 };
 export type RoleType = "CANDIDATE" | "HOST" | "MENTOR" | "JUDGE" | "ADMIN";

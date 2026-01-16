@@ -13,12 +13,24 @@ import { USER_ROLE } from "~/constants/enums";
 import AuthApi from "~/api-requests/auth.requests";
 import { AxiosError } from "axios";
 import Helper from "~/utils/helper";
+import type { RoleType } from "~/types/user.types";
+import {
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectLabel,
+    SelectTrigger,
+    SelectValue,
+} from "~/components/ui/select";
 
 const FormLogin = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
     const [isFirstLogin, setIsFirstLogin] = useState(true);
+    const [roles, setRoles] = useState<RoleType[]>([]);
+    const [selectedRole, setSelectedRole] = useState<RoleType | "">("");
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
 
@@ -26,19 +38,39 @@ const FormLogin = () => {
         e.preventDefault();
 
         try {
-            const response = await AuthApi.login({ email, password });
+            const loginData: { email: string; password: string; role?: RoleType } = {
+                email,
+                password,
+                // role: "CANDIDATE",
+            };
+            if (password && !selectedRole) {
+                Notification.error({
+                    text: "Vui lòng chọn quyền đăng nhập!",
+                });
+                return;
+            }
+
+            // Nếu đã chọn role, gửi role lên server
+            if (selectedRole) {
+                loginData.role = selectedRole;
+            }
+
+            const response = await AuthApi.login(loginData);
+
             const { isFirstLogin } = response;
 
             LocalStorage.setItem("login", "true");
             const isInstruction = LocalStorage.getItem("isInstruction");
             if (!isFirstLogin) {
-                const { roles } = response.result;
+                const { roles: userRoles } = response.result;
                 setIsFirstLogin(false);
                 dispatch(setUser(response.result));
 
                 LocalStorage.setItem("access_token", response.result.access_token || "");
-                if (isInstruction || !Helper.hasRole(roles, USER_ROLE.CANDIDATE)) {
+                if (isInstruction || !Helper.hasRole(userRoles, USER_ROLE.CANDIDATE)) {
                     // lưu access token, refresh token vô localstorage
+
+                    LocalStorage.setItem("role", selectedRole || "CANDIDATE");
                     Notification.success({
                         text: "Đăng nhập thành công vào hệ thống Challenge Vòng 3!",
                     });
@@ -58,7 +90,14 @@ const FormLogin = () => {
                         text: error.response?.data?.message || "Đăng nhập thất bại!",
                     });
                 } else {
-                    setIsFirstLogin(error.response?.data?.isFirstLogin ?? false);
+                    // Check if response has multiple roles
+                    if (error.response?.data?.roles && error.response.data.roles.length >= 2) {
+                        setRoles(error.response.data.roles);
+                        setIsFirstLogin(false);
+                    } else {
+                        setIsFirstLogin(error.response?.data?.isFirstLogin ?? false);
+                    }
+
                     if (!isFirstLogin) {
                         Notification.error({
                             text: error.response?.data?.message || "Đăng nhập thất bại!",
@@ -103,32 +142,73 @@ const FormLogin = () => {
                 </div>
 
                 {!isFirstLogin && (
-                    <div>
-                        <label htmlFor="password" className="mb-2.5 block text-sm font-medium text-gray-700">
-                            Mật khẩu
-                        </label>
-                        <div className="relative">
-                            <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
-                                <Lock className="h-5 w-5 text-gray-400" />
+                    <>
+                        <div>
+                            <label htmlFor="password" className="mb-2.5 block text-sm font-medium text-gray-700">
+                                Mật khẩu
+                            </label>
+                            <div className="relative">
+                                <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
+                                    <Lock className="h-5 w-5 text-gray-400" />
+                                </div>
+                                <Input
+                                    id="password"
+                                    type={showPassword ? "text" : "password"}
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    placeholder="Nhập mật khẩu"
+                                    className="pr-11 pl-11"
+                                    required
+                                />
+                                <button
+                                    type="button"
+                                    onClick={() => setShowPassword(!showPassword)}
+                                    className="absolute inset-y-0 right-0 flex cursor-pointer items-center pr-4 text-gray-400 transition-colors hover:text-gray-600"
+                                >
+                                    {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                                </button>
                             </div>
-                            <Input
-                                id="password"
-                                type={showPassword ? "text" : "password"}
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                                placeholder="Nhập mật khẩu"
-                                className="pr-11 pl-11"
-                                required
-                            />
-                            <button
-                                type="button"
-                                onClick={() => setShowPassword(!showPassword)}
-                                className="absolute inset-y-0 right-0 flex cursor-pointer items-center pr-4 text-gray-400 transition-colors hover:text-gray-600"
-                            >
-                                {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
-                            </button>
                         </div>
-                    </div>
+
+                        {roles.length >= 2 && (
+                            <div>
+                                <label htmlFor="role" className="mb-2.5 block text-sm font-medium text-gray-700">
+                                    Chọn quyền đăng nhập
+                                </label>
+
+                                <Select
+                                    value={selectedRole}
+                                    onValueChange={(value) => setSelectedRole(value as RoleType)}
+                                    required
+                                >
+                                    <SelectTrigger className="w-full">
+                                        <SelectValue placeholder="-- Chọn quyền --" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectGroup>
+                                            <SelectLabel>Quyền đăng nhập</SelectLabel>
+                                            {roles.map((role) => (
+                                                <SelectItem key={role} value={role}>
+                                                    {role === "CANDIDATE"
+                                                        ? "Thí sinh"
+                                                        : role === "MENTOR"
+                                                          ? "Mentor"
+                                                          : role === "JUDGE"
+                                                            ? "Giám khảo"
+                                                            : role === "HOST"
+                                                              ? "Host"
+                                                              : "Admin"}
+                                                </SelectItem>
+                                            ))}
+                                        </SelectGroup>
+                                    </SelectContent>
+                                </Select>
+                                <span className="text-xs italic">
+                                    Bạn đang có <span className="text-red-600">{roles.length}</span> quyền trên hệ thống
+                                </span>
+                            </div>
+                        )}
+                    </>
                 )}
 
                 <Button className="w-full" size="lg">

@@ -149,8 +149,11 @@ class Helper {
         return score < 50;
     };
 
-    static hasRole = (roles: RoleType[], role: RoleType) => {
-        return roles.includes(role);
+    static hasRole = (roles: RoleType[] | string, role: RoleType) => {
+        if (typeof roles === "string") {
+            return roles === role;
+        }
+        return roles?.includes(role);
     };
 }
 export default Helper;
