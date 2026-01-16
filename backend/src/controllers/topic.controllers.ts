@@ -23,7 +23,7 @@ export const getDetail = async (req: Request<{ id: string }>, res: Response, nex
         const { id } = req.params;
         const result = await topicService.getDetail({
             id,
-            role: req.role,
+            roles: req.roles,
             candidateId: req.candidateId,
         });
         return res

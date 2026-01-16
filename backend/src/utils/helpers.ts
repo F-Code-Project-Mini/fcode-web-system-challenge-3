@@ -1,5 +1,5 @@
 import { Request } from "express";
-import { TokenType } from "~/constants/enums";
+import { RoleType, TokenType } from "~/constants/enums";
 import { TokenPayload } from "~/rules/requests/user.request";
 
 export default class Helpers {
@@ -19,5 +19,9 @@ export default class Helpers {
             return authHeader.slice(7, authHeader.length);
         }
         return null;
+    };
+
+    static hasRole = (roles: RoleType[], role: RoleType) => {
+        return roles.includes(role);
     };
 }

@@ -30,7 +30,11 @@ class AuthService {
             });
         }
 
-        const token = await this.signAccesAndRefreshToken(accountExisted.id, accountExisted.role as RoleType);
+        // const token = await this.signAccesAndRefreshToken(accountExisted.id, accountExisted?.roles);
+
+        // check lại cái này nhé
+        const token = await this.signAccesAndRefreshToken(accountExisted.id, [RoleType.CANDIDATE]);
+
         const { password: _, ...user } = accountExisted;
         const candidate = await userRepository.findById(accountExisted.id);
         return {
@@ -101,7 +105,7 @@ class AuthService {
         return true;
     };
 
-    public refreshToken = async (userId: string, role: RoleType, token: string) => {
+    public refreshToken = async (userId: string, roles: RoleType[], token: string) => {
         const tokenInRedis = await redisClient.get(`refreshToken:${userId}`);
         console.log("refresh token in redis", tokenInRedis, userId);
 
@@ -111,7 +115,7 @@ class AuthService {
                 message: "Refresh token không được tìm thấy trong hệ thống hoặc không chính xác!",
             });
         }
-        return await this.signAccesAndRefreshToken(userId, role);
+        return await this.signAccesAndRefreshToken(userId, roles);
     };
 
     public getInfo = async (userId: string) => {
@@ -135,32 +139,32 @@ class AuthService {
 
     private signToken = ({
         userId,
-        role,
+        roles,
         type,
         expiresIn = ExpiresInTokenType.AccessToken,
     }: {
         userId: string;
-        role?: RoleType;
+        roles?: RoleType[];
         type: TokenType;
         expiresIn?: number;
     }) => {
         return AlgoJwt.signToken({
-            payload: { type, userId, role },
+            payload: { type, userId, roles },
             options: { expiresIn: expiresIn }, // convert seconds to mili seconds
         }) as Promise<string>;
     };
 
-    private signAccesAndRefreshToken = async (userId: string, role: RoleType) => {
+    private signAccesAndRefreshToken = async (userId: string, roles: RoleType[]) => {
         const [accessToken, refreshToken] = await Promise.all([
             this.signToken({
                 userId,
-                role,
+                roles,
                 type: TokenType.AccessToken,
                 expiresIn: ExpiresInTokenType.AccessToken,
             }),
             this.signToken({
                 userId,
-                role,
+                roles,
                 type: TokenType.RefreshToken,
                 expiresIn: ExpiresInTokenType.RefreshToken,
             }),

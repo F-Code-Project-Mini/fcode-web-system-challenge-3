@@ -81,7 +81,7 @@ class TeamRepository {
         return data;
     };
 
-    findByIdWithMembers = async (id: string, displayScore: boolean = false, role: RoleType) => {
+    findByIdWithMembers = async (id: string, displayScore: boolean = false, roles: RoleType[]) => {
         const include = {
             candidates: {
                 omit: {
@@ -112,13 +112,13 @@ class TeamRepository {
             },
             topic: true,
         };
-        console.log("role", role);
+        // console.log("roles", roles);
 
         let team = await prisma.team.findUnique({
             where: { id },
             include,
             omit: {
-                ...([RoleType.MENTOR, RoleType.ADMIN].includes(role) ? {} : { mentorNote: true }),
+                ...([RoleType.MENTOR, RoleType.ADMIN].some((role) => roles.includes(role)) ? {} : { mentorNote: true }),
             },
         });
 
@@ -168,7 +168,7 @@ class TeamRepository {
         const data = [];
         console.log("mentorTeams", mentorTeams);
         for (const t of mentorTeams) {
-            data.push(await this.findByIdWithMembers(t.id, displayScore, RoleType.MENTOR));
+            data.push(await this.findByIdWithMembers(t.id, displayScore, [RoleType.MENTOR]));
         }
         return data;
     };
