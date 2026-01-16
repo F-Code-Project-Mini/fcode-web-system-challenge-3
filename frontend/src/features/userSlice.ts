@@ -11,7 +11,7 @@ const initialState: ReduxType = {
         id: "",
         email: "",
         fullName: "",
-        role: null,
+        roles: [],
         candidateId: "",
         createdAt: "",
         updatedAt: "",

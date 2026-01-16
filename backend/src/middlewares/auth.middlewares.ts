@@ -1,14 +1,12 @@
 import { NextFunction, Request, Response } from "express";
 import redisClient from "~/configs/redis";
-import { TokenType } from "~/constants/enums";
+import { RoleType, TokenType } from "~/constants/enums";
 import { HTTP_STATUS } from "~/constants/httpStatus";
 import { ErrorWithStatus } from "~/rules/error";
 import Helpers from "~/utils/helpers";
 import AlgoJwt from "~/utils/jwt";
 
 export const auth = async (req: Request, res: Response, next: NextFunction) => {
-    // const token = req.cookies.access_token;
-    // header Authorization
     const token = Helpers.getTokenFromHeader(req);
 
     if (!token) {
@@ -25,7 +23,7 @@ export const auth = async (req: Request, res: Response, next: NextFunction) => {
             });
         }
         req.userId = payload.userId;
-        req.role = payload.role;
+        req.roles = payload.roles;
 
         next();
     } catch (error) {
@@ -54,7 +52,7 @@ export const verifyToken =
                 });
             }
             req.userId = payload.userId;
-            req.role = payload.role;
+            req.roles = payload.roles;
 
             next();
         } catch (error) {
@@ -78,12 +76,14 @@ export const verifyTokenActiveAccount = async (req: Request<{ token: string }>, 
         next(error);
     }
 };
-export const isRole = (roles: string[]) => async (req: Request, res: Response, next: NextFunction) => {
-    // console.log("req.role", req.role);
-    if (roles.includes(req.role as string)) {
+export const isRole = (roles: RoleType[]) => async (req: Request, res: Response, next: NextFunction) => {
+    const userRoles = req.roles || [];
+    const hasPermission = roles.some((role) => userRoles.includes(role));
+
+    if (hasPermission) {
         next();
     } else {
-        return res.status(HTTP_STATUS.UNAUTHORIZED).json({
+        return res.status(HTTP_STATUS.FORBIDDEN).json({
             message: "Bạn không có quyền để thao tác!",
         });
     }
@@ -91,7 +91,6 @@ export const isRole = (roles: string[]) => async (req: Request, res: Response, n
 
 export const isExsitedTokenInRedis = async (req: Request, res: Response, next: NextFunction) => {
     const { userId } = req;
-    console.log("userId", userId);
 
     const isExisted = await redisClient.exists(`activateAccountToken:${userId}`);
     if (!isExisted) {

@@ -1,3 +1,5 @@
+import type { RoleType } from "~/types/user.types";
+
 class Helper {
     // BE trả về date dạng: 2025-12-17T08:30:00Z
     static formatDate(date: string): string {
@@ -44,6 +46,10 @@ class Helper {
     static belowAverage = (score: number | null) => {
         if (score === null) return false;
         return score < 50;
+    };
+
+    static hasRole = (roles: RoleType[], role: RoleType) => {
+        return roles.includes(role);
     };
 }
 export default Helper;

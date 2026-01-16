@@ -1,12 +1,11 @@
 import { v4 as uuidv4 } from "uuid";
-import { RoleType } from "~/constants/enums";
 
 interface UserType {
     id?: string;
     email: string;
     password: string;
     fullName: string;
-    role: RoleType;
+    // roles: RoleType[];
     candidateId?: string | null;
     createdAt?: Date;
     updatedAt?: Date;
@@ -17,7 +16,7 @@ class User {
     email: string;
     password: string;
     fullName: string;
-    role: RoleType;
+    // roles: RoleType[];
     candidateId: string | null;
     createdAt: Date;
     updatedAt: Date;
@@ -27,7 +26,7 @@ class User {
         this.email = user.email;
         this.password = user.password;
         this.fullName = user.fullName;
-        this.role = user.role;
+        // this.roles = user.roles || [];
         this.candidateId = user.candidateId || null;
         this.createdAt = user.createdAt || new Date();
         this.updatedAt = user.updatedAt || new Date();

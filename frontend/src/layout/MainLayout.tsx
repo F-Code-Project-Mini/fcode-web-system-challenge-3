@@ -6,6 +6,7 @@ import Header from "~/components/Header";
 import ScrollToTop from "~/components/ScrollToTop";
 import { USER_ROLE } from "~/constants/enums";
 import useAuth from "~/hooks/useAuth";
+import Helper from "~/utils/helper";
 import LocalStorage from "~/utils/localstorage";
 
 const MainLayout = () => {
@@ -37,10 +38,10 @@ const MainLayout = () => {
     }, [isLoading, location.pathname]);
 
     useLayoutEffect(() => {
-        if (user.role === USER_ROLE.CANDIDATE && isLogin) {
+        if (Helper.hasRole(user.roles, USER_ROLE.CANDIDATE) && isLogin) {
             startTour();
         }
-    }, [isLogin, user.role]);
+    }, [isLogin, user.roles]);
 
     ScrollToTop();
 
