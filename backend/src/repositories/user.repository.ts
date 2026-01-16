@@ -43,11 +43,12 @@ class UserRepository {
     };
 
     // get điểm mentor chấm userId: string
-    getScoreMentor = async (userId: string, role: "JUDGE" | "MENTOR" = "MENTOR") => {
-        console.log("userId", userId);
+    getScoreMentor = async (mentorId: string, userId: string, role: "JUDGE" | "MENTOR" = "MENTOR") => {
+        // console.log("userId", userId);
         const groupUsers = await prisma.baremScore.groupBy({
             by: ["candidateId"],
             where: {
+                mentorId,
                 candidateId: userId,
                 type: role,
             },

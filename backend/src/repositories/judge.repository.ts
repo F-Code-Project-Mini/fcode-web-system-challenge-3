@@ -53,21 +53,10 @@ class JudgeRepository {
             include: {
                 team: {
                     include: {
-                        topic: {
-                            select: {
-                                id: true,
-                                title: true,
-                            },
-                        },
+                        topic: true,
                         candidates: {
                             include: {
-                                user: {
-                                    select: {
-                                        id: true,
-                                        fullName: true,
-                                        email: true,
-                                    },
-                                },
+                                user: true,
                             },
                         },
                         leader: {
@@ -92,8 +81,6 @@ class JudgeRepository {
                 },
             },
         });
-
-        
 
         return room?.team || null;
     };

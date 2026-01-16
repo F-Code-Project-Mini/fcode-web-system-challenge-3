@@ -44,12 +44,14 @@ export type TeamDetailType = {
     topic: {
         id: string;
         title: string;
+        filePath: string;
     };
     candidates: {
         id: string;
         studentCode: string;
         phone: string;
         major: string;
+        semester: string;
         user: {
             id: string;
             fullName: string;

@@ -5,6 +5,8 @@ import { Dialog, DialogContent, DialogTrigger } from "~/components/ui/dialog";
 import useIsMobile from "~/hooks/useIsMobile";
 
 export function ShowTopic({ urlPdf, name }: { urlPdf: string; name: string }) {
+    console.log("name", name);
+
     const isMobile = useIsMobile();
 
     return (
@@ -37,7 +39,7 @@ export function ShowTopic({ urlPdf, name }: { urlPdf: string; name: string }) {
 
             <DialogContent className="min-h-[98%] min-w-[96%] rounded-lg border border-gray-200/70 bg-white shadow-lg 2xl:min-h-[98%] 2xl:min-w-[95%]">
                 <div className="flex h-full flex-col gap-0">
-                    <div className="border-b border-gray-200/70 bg-gradient-to-r from-gray-50/80 to-white px-5 py-4 sm:px-6">
+                    {/* <div className="border-b border-gray-200/70 bg-gradient-to-r from-gray-50/80 to-white px-5 py-4 sm:px-6">
                         <h3 className="text-base font-semibold tracking-tight text-gray-900 uppercase sm:text-lg">
                             Đề tài: <span className="text-primary">{name || "Tên đề tài"}</span>
                         </h3>
@@ -47,7 +49,7 @@ export function ShowTopic({ urlPdf, name }: { urlPdf: string; name: string }) {
                                 <span className="text-primary font-medium">Technical Leader Recruitment</span>
                             </div>
                         </div>
-                    </div>
+                    </div> */}
 
                     <div className="flex-1 overflow-hidden py-4">
                         <div className="h-full overflow-hidden rounded-lg border border-gray-200/50 shadow-sm">

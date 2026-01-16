@@ -128,7 +128,9 @@ class TeamRepository {
                     return candidate;
                 }
 
-                const scoreMentor = displayScore ? await userRepository.getScoreMentor(candidate.id, "MENTOR") : null;
+                const scoreMentor = displayScore
+                    ? await userRepository.getScoreMentor(team.mentorship.mentor.id, candidate.id, "MENTOR")
+                    : null;
 
                 const { password, ...userWithoutPassword } = candidate.user;
 

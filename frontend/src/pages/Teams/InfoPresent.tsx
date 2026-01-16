@@ -14,22 +14,22 @@ const InfoPresent = ({ schedule }: { schedule: SchedulePresent }) => {
                             Thuyết trình thử
                         </h3>
                     </div>
-                    <div className="grid grid-cols-3 gap-2 px-4 py-3">
-                        <div className="flex flex-col items-center rounded-lg bg-amber-50/50 p-2 text-center">
+                    <div className="grid grid-cols-3 gap-2 bg-amber-50/50 px-4 py-3">
+                        <div className="flex flex-col items-center rounded-lg p-2 text-center">
                             <Calendar className="mb-1 h-3.5 w-3.5 text-amber-600" />
                             <p className="text-xs font-medium text-gray-500">Ngày</p>
                             <p className="mt-0.5 text-xs font-bold text-gray-900">
                                 {SchedulePresent(schedule.trialDate, 0)}
                             </p>
                         </div>
-                        <div className="flex flex-col items-center rounded-lg bg-amber-50/50 p-2 text-center">
+                        <div className="flex flex-col items-center rounded-lg p-2 text-center">
                             <Clock className="mb-1 h-3.5 w-3.5 text-amber-600" />
                             <p className="text-xs font-medium text-gray-500">Giờ</p>
                             <p className="mt-0.5 text-xs font-bold text-gray-900">
                                 {SchedulePresent(schedule.trialDate, 1)}
                             </p>
                         </div>
-                        <div className="flex flex-col items-center rounded-lg bg-amber-50/50 p-2 text-center">
+                        <div className="flex flex-col items-center rounded-lg p-2 text-center">
                             <BookOpen className="mb-1 h-3.5 w-3.5 text-amber-600" />
                             <p className="text-xs font-medium text-gray-500">Nơi</p>
                             <p className="mt-0.5 text-xs font-bold text-gray-900">Google Meet</p>

@@ -117,8 +117,8 @@ model Room {
   presentPhase PresentationPhase @default(TRIAL) @map("present_phase")
   modePresent  ModePresentation  @default(OFFLINE) @map("mode_present")
   roomNumber   String            @map("room_number") @db.VarChar(255)
-  startTime    String            @map("start_time") @db.VarChar(255)
-  endTime      String?           @map("end_time") @db.VarChar(255)
+  startTime    DateTime          @default(now()) @map("start_time")
+  endTime      DateTime          @default(now()) @map("end_time")
 
   teamId     String?     @map("team_id") @db.VarChar(36)
   judgeRooms JudgeRoom[]

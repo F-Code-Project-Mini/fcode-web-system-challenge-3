@@ -13,7 +13,7 @@ class JudgeService {
         const isAssigned = await judgeRepository.verifyJudgeInRoom(judgeId, roomId);
         if (!isAssigned) {
             throw new ErrorWithStatus({
-                status: HTTP_STATUS.OK,
+                status: HTTP_STATUS.FORBIDDEN,
                 message: "Bạn không có quyền truy cập phòng này.",
             });
         }
@@ -24,7 +24,7 @@ class JudgeService {
 
         const candidatesWithScores = await Promise.all(
             team.candidates.map(async (candidate) => {
-                const scoreJudge = await userRepository.getScoreMentor(candidate.id, "JUDGE");
+                const scoreJudge = await userRepository.getScoreMentor(judgeId, candidate.id, "JUDGE");
                 return {
                     ...candidate,
                     scoreJudge,
