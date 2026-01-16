@@ -26,11 +26,11 @@ export const auth = async (req: Request, res: Response, next: NextFunction) => {
         req.roles = payload.roles;
         // console.log("payload", payload);
 
-        // if (payload.role) {
-        //     req.roles = [payload.role];
-        // } else {
-        //     req.roles = payload.roles;
-        // }
+        if (payload.role) {
+            req.roles = [payload.role];
+        } else {
+            req.roles = payload.roles;
+        }
 
         next();
     } catch (error) {
@@ -59,11 +59,11 @@ export const verifyToken =
                 });
             }
             req.userId = payload.userId;
-            req.roles = payload.roles;
-            // if (payload.role) {
-            //     req.roles = [payload.role];
-            // } else {
-            // }
+            if (payload.role) {
+                req.roles = [payload.role];
+            } else {
+                req.roles = payload.roles;
+            }
 
             next();
         } catch (error) {
