@@ -6,6 +6,7 @@ import WelcomePartition from "~/components/WelcomePartition";
 import BadgeLeader from "~/components/BadgeLeader";
 import { Button } from "~/components/ui/button";
 import { Sparkles, ArrowLeft } from "lucide-react";
+import HistorySubmit from "./HistorySubmit";
 
 const RoomDetail = () => {
     const { roomId } = useParams<{ roomId: string }>();
@@ -152,6 +153,10 @@ const RoomDetail = () => {
                         </table>
                     </div>
                 </div>
+            </section>
+
+            <section className="mt-6">
+                <HistorySubmit submissions={team?.submissions || []} isLoading={isLoading} />
             </section>
         </>
     );

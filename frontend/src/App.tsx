@@ -4,6 +4,7 @@ import "animate.css";
 import MainLayout from "./layout/MainLayout";
 import LoginPage from "./pages/Login";
 import JudgePage from "./pages/Judge";
+import JudgeRoomDetail from "./pages/Judge/RoomDetail";
 import JudgeBaremPage from "./pages/Judge/Barem";
 import ProtectedRoute from "./layout/ProtectedRoute";
 import { USER_ROLE } from "./constants/enums";
@@ -32,7 +33,8 @@ const App = () => {
                     {/* Role Judge */}
                     <Route path="judge" element={<ProtectedRoute roleAccess={[USER_ROLE.JUDGE]} />}>
                         <Route index element={<JudgePage />} />
-                        <Route path="barem/:id" element={<JudgeBaremPage />} />
+                        <Route path="room/:roomId" element={<JudgeRoomDetail />} />
+                        <Route path="barem/:candidateId" element={<JudgeBaremPage />} />
                     </Route>
 
                     {/* Role Mentor */}
@@ -42,7 +44,7 @@ const App = () => {
                         <Route path="team/:id/candidate/:candidateId" element={<MentorBaremPage />} />
                     </Route>
 
-                    {/* Role Mentor */}
+                    {/* Role Admin */}
                     <Route path="admin" element={<ProtectedRoute roleAccess={[USER_ROLE.ADMIN]} />}>
                         <Route index element={<AdminPage />} />
                         <Route path="reports" element={<ReportsPage />} />

@@ -19,6 +19,11 @@ class JudgeRepository {
                                         title: true,
                                     },
                                 },
+                                schedulePresent: {
+                                    select: {
+                                        googleMeetLink: true,
+                                    },
+                                },
                             },
                         },
                     },
@@ -68,6 +73,19 @@ class JudgeRepository {
                         leader: {
                             select: {
                                 id: true,
+                            },
+                        },
+                        submissions: {
+                            orderBy: {
+                                submittedAt: "desc",
+                            },
+                            take: 1,
+                            include: {
+                                user: {
+                                    select: {
+                                        fullName: true,
+                                    },
+                                },
                             },
                         },
                     },

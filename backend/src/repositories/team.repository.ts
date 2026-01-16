@@ -2,7 +2,6 @@ import prisma from "~/configs/prisma";
 import { paginate } from "~/utils/pagination";
 import userRepository from "./user.repository";
 import { RoleType } from "~/constants/enums";
-import Present from "~/schemas/schedule-present.schema";
 import SchedulePresent from "~/schemas/schedule-present.schema";
 import Submission from "~/schemas/submission.schema";
 import { SubmissionType } from "~/rules/requests/team.request";
@@ -14,7 +13,6 @@ class TeamRepository {
                 password: true,
                 candidateId: true,
                 email: true,
-                role: true,
                 createdAt: true,
                 updatedAt: true,
             },

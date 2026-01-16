@@ -1,10 +1,8 @@
 import type { RoleType } from "~/types/user.types";
 
 class Helper {
-    // BE trả về date dạng: 2025-12-17T08:30:00Z
     static formatDate(date: string): string {
         const d = new Date(date);
-        // Adjust for timezone offset
         const adjusted = new Date(d.getTime() + d.getTimezoneOffset() * 60000);
         return adjusted.toLocaleString("vi-VN", {
             day: "2-digit",
@@ -13,7 +11,6 @@ class Helper {
         });
     }
     static isInRangeDate(date: Date, startDate: string, endDate: string): boolean {
-        // Chuyển tất cả về UTC để tránh lỗi timezone
         const currentUTC = Date.UTC(date.getFullYear(), date.getMonth(), date.getDate());
 
         const start = new Date(startDate);
@@ -39,6 +36,42 @@ class Helper {
 
         return parts.length > 0 ? parts.join(" ") : "0 giây";
     }
+
+    static timeAgo(date: string | Date): string {
+        const now = new Date();
+        const past = new Date(date);
+        const diffInSeconds = Math.floor((now.getTime() - past.getTime()) / 1000);
+
+        if (diffInSeconds < 0) return "Vừa xong";
+
+        if (diffInSeconds < 60) {
+            return `${diffInSeconds} giây trước`;
+        }
+
+        const diffInMinutes = Math.floor(diffInSeconds / 60);
+        if (diffInMinutes < 60) {
+            return `${diffInMinutes} phút trước`;
+        }
+
+        const diffInHours = Math.floor(diffInMinutes / 60);
+        if (diffInHours < 24) {
+            return `${diffInHours} giờ trước`;
+        }
+
+        const diffInDays = Math.floor(diffInHours / 24);
+        if (diffInDays < 30) {
+            return `${diffInDays} ngày trước`;
+        }
+
+        const diffInMonths = Math.floor(diffInDays / 30);
+        if (diffInMonths < 12) {
+            return `${diffInMonths} tháng trước`;
+        }
+
+        const diffInYears = Math.floor(diffInMonths / 12);
+        return `${diffInYears} năm trước`;
+    }
+
     static isActive = (src: string, dest: string) => {
         return src === dest;
     };
