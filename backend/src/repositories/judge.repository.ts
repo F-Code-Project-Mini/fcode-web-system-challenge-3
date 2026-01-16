@@ -36,8 +36,8 @@ class JudgeRepository {
         return judgeRooms
             .map((jr) => jr.room)
             .sort((a, b) => {
-                const aTime = a.startTime;
-                const bTime = b.startTime;
+                const aTime = new Date(a.startTime);
+                const bTime = new Date(b.startTime);
 
                 const aDiff = Math.abs(aTime.getTime() - now.getTime());
                 const bDiff = Math.abs(bTime.getTime() - now.getTime());
@@ -89,6 +89,7 @@ class JudgeRepository {
                                 },
                             },
                         },
+                        schedulePresent: true,
                     },
                 },
             },
