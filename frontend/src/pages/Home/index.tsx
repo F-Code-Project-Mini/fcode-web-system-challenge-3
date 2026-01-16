@@ -5,17 +5,18 @@ import HomePage from "../Candidate";
 import JudgePage from "../Judge";
 import Loading from "~/components/Loading";
 import AdminPage from "../Admin";
+import Helper from "~/utils/helper";
 
 const IndexPage = () => {
     const { user } = useAuth();
 
-    if (user.role === USER_ROLE.CANDIDATE) {
+    if (Helper.hasRole(user.roles, USER_ROLE.CANDIDATE)) {
         return <HomePage />;
-    } else if (user.role === USER_ROLE.MENTOR) {
+    } else if (Helper.hasRole(user.roles, USER_ROLE.MENTOR)) {
         return <MentorPage />;
-    } else if (user.role === USER_ROLE.JUDGE) {
+    } else if (Helper.hasRole(user.roles, USER_ROLE.JUDGE)) {
         return <JudgePage />;
-    } else if (user.role === USER_ROLE.ADMIN) {
+    } else if (Helper.hasRole(user.roles, USER_ROLE.ADMIN)) {
         return <AdminPage />;
     } else {
         return <Loading />;

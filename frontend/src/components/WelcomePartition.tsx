@@ -1,9 +1,10 @@
 import { USER_ROLE } from "~/constants/enums";
 import useAuth from "~/hooks/useAuth";
+import Helper from "~/utils/helper";
 
 const WelcomePartition = () => {
     const { user } = useAuth();
-    if (user.role == USER_ROLE.CANDIDATE) {
+    if (Helper.hasRole(user.roles, USER_ROLE.CANDIDATE)) {
         return (
             <>
                 <h1 className="flex flex-col text-3xl font-bold tracking-tight text-gray-900 sm:flex-row sm:items-center sm:text-4xl">
@@ -15,7 +16,7 @@ const WelcomePartition = () => {
                 </span>
             </>
         );
-    } else if (user.role == USER_ROLE.ADMIN) {
+    } else if (Helper.hasRole(user.roles, USER_ROLE.ADMIN)) {
         return (
             <>
                 <h1 className="flex flex-col text-3xl font-bold tracking-tight text-gray-900 sm:flex-row sm:items-center sm:text-4xl">
