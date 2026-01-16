@@ -8,9 +8,10 @@ import { useNavigate, useParams } from "react-router";
 import { socket } from "~/utils/socket";
 import useAuth from "~/hooks/useAuth";
 import type { CandidateType } from "~/types/team.types";
-import { BadgeCheck } from "lucide-react";
+import { BadgeCheck, ZoomIn, ZoomOut } from "lucide-react";
 import BadgeLeader from "~/components/BadgeLeader";
 import Notification from "./Notification";
+import { Button } from "~/components/ui/button";
 type ParamsBarem = {
     id: string;
     candidateId?: string;
@@ -20,6 +21,8 @@ const JudgeBaremPage = () => {
 
     const { user } = useAuth();
     const navigate = useNavigate();
+
+    const [scaleBarem, setScaleBarem] = useState(false);
     const [scores, setScores] = useState<{ [key: string]: number }>({});
     const [notes, setNotes] = useState<{ [key: string]: string }>({});
     const isDataInitialized = useRef(false);
@@ -220,7 +223,10 @@ const JudgeBaremPage = () => {
 
             <Notification />
 
-            <section className="my-6" id="barem-table">
+            <section
+                className={`relative left-1/2 my-6 -translate-x-1/2 ${scaleBarem ? "md:w-[95vw] xl:w-[98vw]" : ""}`}
+                id="barem-table"
+            >
                 <div className="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-xs">
                     <div className="border-b border-gray-200 bg-gradient-to-r from-gray-50 to-white px-4 py-4 sm:px-6">
                         <div className="flex items-center gap-2">
@@ -233,9 +239,15 @@ const JudgeBaremPage = () => {
                             Vui lòng nhập điểm cho từng tiêu chí dưới đây
                         </p>
                     </div>
+                    <Button
+                        onClick={() => setScaleBarem(!scaleBarem)}
+                        className="absolute top-4 right-4 z-10 h-8 w-8 rounded-full p-0 text-gray-600 text-white hover:bg-gray-100"
+                    >
+                        {scaleBarem ? <ZoomOut /> : <ZoomIn />}
+                    </Button>
 
                     <div className="overflow-x-auto">
-                        <table className="w-full min-w-[900px]">
+                        <table className="w-full">
                             <thead className="sticky top-0 bg-gray-50">
                                 <tr className="divide-x divide-gray-200">
                                     <th className="w-28 px-4 py-3 text-left text-xs font-semibold tracking-wider text-gray-700 uppercase">
@@ -297,7 +309,7 @@ const JudgeBaremPage = () => {
                                                     {isFirstSubPart && (
                                                         <td
                                                             rowSpan={criteriaRowSpan}
-                                                            className="bg-gray-50/70 px-4 py-4 text-center"
+                                                            className={`bg-gray-50/70 px-4 py-4 text-center ${scaleBarem ? "whitespace-nowrap" : "w-60"}`}
                                                         >
                                                             <span className="text-sm font-semibold text-gray-800">
                                                                 {partition.criteria}
