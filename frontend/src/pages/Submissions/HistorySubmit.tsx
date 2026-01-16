@@ -4,6 +4,7 @@ import TeamApi from "~/api-requests/team.requests";
 import { useAppSelector } from "~/hooks/useRedux";
 import Loading from "~/components/Loading";
 import { DialogDescription } from "./DialogDescription";
+import Helper from "~/utils/helper";
 
 const HistorySubmit = () => {
     const userInfo = useAppSelector((state) => state.user.userInfo);
@@ -67,10 +68,15 @@ const HistorySubmit = () => {
                                                         </span>
                                                     )}
                                                 </div>
-                                                <div className="flex items-center gap-1 text-xs text-gray-500">
-                                                    <Clock className="h-3 w-3" />
-                                                    <span>
-                                                        {new Date(submission.submittedAt).toLocaleDateString("vi-VN")}
+                                                <div className="flex flex-col gap-1">
+                                                    <div className="flex items-center gap-1.5">
+                                                        <Clock className="h-3.5 w-3.5 text-gray-400" />
+                                                        <span className="text-sm font-medium text-gray-900">
+                                                            {Helper.timeAgo(submission.submittedAt)}
+                                                        </span>
+                                                    </div>
+                                                    <span className="text-xs text-gray-500">
+                                                        {new Date(submission.submittedAt).toLocaleString("vi-VN")}
                                                     </span>
                                                 </div>
                                             </div>
@@ -200,9 +206,14 @@ const HistorySubmit = () => {
                                                 </div>
                                             </td>
                                             <td className="px-4 py-3.5 text-sm whitespace-nowrap text-gray-600 sm:px-6 sm:py-4">
-                                                <div className="flex items-center gap-1.5">
-                                                    <Clock className="h-3.5 w-3.5 text-gray-400" />
-                                                    <span>
+                                                <div className="flex flex-col gap-1">
+                                                    <div className="flex items-center gap-1.5">
+                                                        <Clock className="h-3.5 w-3.5 text-gray-400" />
+                                                        <span className="font-medium text-gray-900">
+                                                            {Helper.timeAgo(submission.submittedAt)}
+                                                        </span>
+                                                    </div>
+                                                    <span className="text-xs text-gray-500">
                                                         {new Date(submission.submittedAt).toLocaleString("vi-VN")}
                                                     </span>
                                                 </div>
