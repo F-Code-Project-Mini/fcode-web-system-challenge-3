@@ -19,8 +19,7 @@ const Notification2 = () => {
                         <li className="flex items-center gap-2 text-sm text-gray-700">
                             <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-blue-500"></span>
                             <span>
-                                <span className="text-xs italic">[18h00p - 15/01/2025]</span> Công bố lịch thuyết trình
-                                thử của các nhóm ở mục "Danh sách nhóm".
+                                <span className="text-xs italic">[11h45p - 16/01/2025]</span> Công bố lịch chính thức.
                             </span>
                         </li>
                         <li className="flex items-center gap-2 text-sm text-gray-700">
@@ -28,6 +27,13 @@ const Notification2 = () => {
                             <span>
                                 <span className="text-xs italic">[18h30p - 15/01/2025]</span> Đã cập nhật link Google
                                 Meet thuyết trình thử.
+                            </span>
+                        </li>
+                        <li className="flex items-center gap-2 text-sm text-gray-700">
+                            <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-blue-500"></span>
+                            <span>
+                                <span className="text-xs italic">[18h00p - 15/01/2025]</span> Công bố lịch thuyết trình
+                                thử của các nhóm ở mục "Danh sách nhóm".
                             </span>
                         </li>
                     </ul>

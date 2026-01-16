@@ -27,12 +27,14 @@ const HomePage = () => {
                 <WelcomePartition />
             </section>
 
-            <section className="border-b-2 border-gray-500/30 pb-3">
-                <Notification />
-                <Notification2 />
-            </section>
-            <section className="mt-2 border-b-2 border-gray-500/30 pb-3">
-                <PresentPage />
+            <section className="flex flex-col">
+                <section className="border-b-2 border-gray-500/30 pb-3 max-md:order-2">
+                    <Notification />
+                    <Notification2 />
+                </section>
+                <section className="mt-2 border-gray-500/30 pb-3 max-md:order-1 md:border-b-2">
+                    <PresentPage />
+                </section>
             </section>
             <section className="mt-8">
                 <ShowTopic urlPdf={data?.topic?.filePath || ""} name={data?.topic?.title || ""} />
