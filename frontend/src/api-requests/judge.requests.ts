@@ -55,6 +55,7 @@ export type TeamDetailType = {
             fullName: string;
             email: string;
         };
+        scoreJudge: number;
     }[];
     leader: {
         id: string;

@@ -7,6 +7,7 @@ import BadgeLeader from "~/components/BadgeLeader";
 import { Button } from "~/components/ui/button";
 import { Sparkles, ArrowLeft } from "lucide-react";
 import HistorySubmit from "./HistorySubmit";
+import Helper from "~/utils/helper";
 
 const RoomDetail = () => {
     const { roomId } = useParams<{ roomId: string }>();
@@ -98,7 +99,7 @@ const RoomDetail = () => {
                                         Liên hệ
                                     </th>
                                     <th className="px-4 py-3 text-left text-xs font-semibold tracking-wide text-gray-600 uppercase sm:px-6 sm:py-3.5">
-                                        Thao tác
+                                        Trạng thái
                                     </th>
                                 </tr>
                             </thead>
@@ -135,16 +136,31 @@ const RoomDetail = () => {
                                                     </p>
                                                 </div>
                                             </td>
-                                            <td className="px-4 py-3.5 text-sm text-gray-600 sm:px-6 sm:py-4">
-                                                <Link to={`/judge/barem/${candidate.id}`}>
+                                            <td className="px-4 py-3.5 text-sm whitespace-nowrap text-gray-600 sm:px-6 sm:py-4">
+                                                <div className="flex flex-col gap-2">
+                                                    <div className="flex items-center gap-1 text-sm">
+                                                        <span className="text-gray-500">Điểm:</span>
+                                                        <span
+                                                            className={`font-semibold ${Helper.belowAverage(candidate.scoreJudge) ? "text-red-500" : "text-green-500"}`}
+                                                        >
+                                                            {candidate.scoreJudge || 0}
+                                                        </span>
+                                                        <span className="text-gray-500">/100</span>
+                                                    </div>
                                                     <Button
                                                         variant="outline"
-                                                        className="flex w-fit cursor-pointer items-center gap-2 rounded-lg border px-3 py-2 shadow-sm transition-all hover:shadow-md"
+                                                        size="sm"
+                                                        className="w-fit text-xs"
+                                                        asChild
                                                     >
-                                                        <span>Đánh giá</span>
-                                                        <Sparkles size={16} />
+                                                        <Link
+                                                            to={`/judge/barem/${candidate.id}`}
+                                                            className="flex items-center gap-1"
+                                                        >
+                                                            <Sparkles size={14} /> <span>Đánh giá</span>
+                                                        </Link>
                                                     </Button>
-                                                </Link>
+                                                </div>
                                             </td>
                                         </tr>
                                     );
