@@ -5,10 +5,10 @@ import Loading from "~/components/Loading";
 import WelcomePartition from "~/components/WelcomePartition";
 import BadgeLeader from "~/components/BadgeLeader";
 import { Button } from "~/components/ui/button";
-import { Sparkles, ArrowLeft } from "lucide-react";
-import HistorySubmit from "./HistorySubmit";
+import { Sparkles } from "lucide-react";
+import HistorySubmit from "../HistorySubmit";
 import Helper from "~/utils/helper";
-import { ShowTopic } from "../Candidate/ShowTopic";
+import { ShowTopic } from "../../Candidate/ShowTopic";
 
 const RoomDetail = () => {
     const { roomId } = useParams<{ roomId: string }>();
@@ -47,18 +47,6 @@ const RoomDetail = () => {
                 <WelcomePartition />
             </section>
 
-            <section className="mb-4">
-                <Link to="/judge">
-                    <Button
-                        variant="outline"
-                        className="flex items-center gap-2 rounded-lg border px-3 py-2 shadow-sm transition-all hover:shadow-md"
-                    >
-                        <ArrowLeft size={16} />
-                        <span>Quay lại danh sách phòng</span>
-                    </Button>
-                </Link>
-            </section>
-
             <section className="mb-6">
                 <HistorySubmit submissions={team?.submissions || []} isLoading={isLoading} />
             </section>
@@ -82,6 +70,10 @@ const RoomDetail = () => {
                             </p>
                             <p className="mt-1 text-xs text-gray-500 sm:text-sm">
                                 Danh sách thành viên trong nhóm để chấm điểm.
+                            </p>
+                            <p className="font-bold text-red-500 italic">
+                                Ở phần thuyết trình thử, chỉ có barem đánh giá cả nhóm, không có barem riêng cho từng
+                                người. Vì thế hãy chọn trưởng nhóm để chấm điểm đại diện cho cả nhóm.
                             </p>
                         </div>
                         <div className="flex flex-wrap items-center gap-2">
@@ -114,7 +106,10 @@ const RoomDetail = () => {
                                     const isLeader = candidate.id === leader?.id;
 
                                     return (
-                                        <tr key={candidate.id} className="transition-colors hover:bg-gray-50/50">
+                                        <tr
+                                            key={candidate.id}
+                                            className={`transition-colors ${!isLeader ? "opacity-50" : "hover:bg-gray-50/50"}`}
+                                        >
                                             <td className="px-4 py-3.5 text-sm font-medium whitespace-nowrap text-gray-900 sm:px-6 sm:py-4">
                                                 {index + 1}
                                             </td>
@@ -156,9 +151,14 @@ const RoomDetail = () => {
                                                         size="sm"
                                                         className="w-fit text-xs"
                                                         asChild
+                                                        disabled={!isLeader}
                                                     >
                                                         <Link
-                                                            to={`/judge/team/${team.id}/candidate/${candidate.id}`}
+                                                            to={
+                                                                isLeader
+                                                                    ? `/judge/team/${team.id}/candidate/${candidate.id}`
+                                                                    : ""
+                                                            }
                                                             className="flex items-center gap-1"
                                                         >
                                                             <Sparkles size={10} /> <span>Đánh giá</span>
