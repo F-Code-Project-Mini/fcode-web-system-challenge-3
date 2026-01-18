@@ -59,13 +59,12 @@ const FormLogin = () => {
 
             const { isFirstLogin } = response;
 
-            LocalStorage.setItem("login", "true");
             const isInstruction = LocalStorage.getItem("isInstruction");
             if (!isFirstLogin) {
                 const { roles: userRoles } = response.result;
                 setIsFirstLogin(false);
                 dispatch(setUser(response.result));
-
+                LocalStorage.setItem("login", "true");
                 LocalStorage.setItem("access_token", response.result.access_token || "");
                 if (isInstruction || !Helper.hasRole(userRoles, USER_ROLE.CANDIDATE)) {
                     // lưu access token, refresh token vô localstorage

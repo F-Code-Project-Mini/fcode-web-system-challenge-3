@@ -36,6 +36,17 @@ class JudgeRepository {
         return judgeRooms
             .map((jr) => jr.room)
             .sort((a, b) => {
+                const aEndTime = new Date(a.endTime);
+                const bEndTime = new Date(b.endTime);
+
+                const aEnded = aEndTime.getTime() < now.getTime();
+                const bEnded = bEndTime.getTime() < now.getTime();
+
+                // Nếu một phòng đã kết thúc và phòng kia chưa, đưa phòng đã kết thúc xuống cuối
+                if (aEnded && !bEnded) return 1;
+                if (!aEnded && bEnded) return -1;
+
+                // Nếu cả hai cùng trạng thái, sắp xếp theo startTime gần thời gian hiện tại nhất
                 const aTime = new Date(a.startTime);
                 const bTime = new Date(b.startTime);
 
