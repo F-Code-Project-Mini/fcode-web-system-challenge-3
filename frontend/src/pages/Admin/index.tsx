@@ -44,7 +44,7 @@ const AdminPage = () => {
                 <div className="mb-5 grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3 [&>div]:bg-white">
                     <div
                         onClick={() => navigate("/admin/users")}
-                        className="cursor-pointer rounded-xl border border-gray-300 px-4 py-3"
+                        className="cursor-pointer rounded-xl px-4 py-3 shadow-xs"
                     >
                         <h4 className="text-xs text-gray-500">Quản lý Users</h4>
                         <span className="mt-2 inline-block text-4xl font-bold text-gray-900">{users?.length || 0}</span>
@@ -56,7 +56,7 @@ const AdminPage = () => {
 
                     <div
                         onClick={() => navigate("/admin/rooms")}
-                        className="cursor-pointer rounded-xl border border-gray-300 px-4 py-3"
+                        className="cursor-pointer rounded-xl px-4 py-3 shadow-xs"
                     >
                         <h4 className="text-xs text-gray-500">Quản lý Phòng</h4>
                         <span className="mt-2 inline-block text-4xl font-bold text-gray-900">{rooms?.length || 0}</span>
@@ -68,7 +68,7 @@ const AdminPage = () => {
 
                     <div
                         onClick={() => navigate("/admin/teams")}
-                        className="cursor-pointer rounded-xl border border-gray-300 px-4 py-3"
+                        className="cursor-pointer rounded-xl px-4 py-3 shadow-xs"
                     >
                         <h4 className="text-xs text-gray-500">Quản lý Nhóm</h4>
                         <span className="mt-2 inline-block text-4xl font-bold text-gray-900">{teams?.length || 0}</span>

@@ -42,7 +42,7 @@ const RoomsPage = () => {
         <div className="container mx-auto py-6">
             <div className="overflow-hidden rounded-lg shadow-xs">
                 {rooms?.map((room: AdminRoomType) => (
-                    <div key={room.id} className="sm::px-6 t py- mb-10 border border-gray-200/70 bg-white px-5">
+                    <div key={room.id} className="sm::px-6 mb-10 border border-gray-200/70 bg-white px-5 py-5">
                         <div className="mb-4 flex items-start justify-between">
                             <div className="flex-1">
                                 <div className="mb-2 flex flex-wrap items-center gap-2">

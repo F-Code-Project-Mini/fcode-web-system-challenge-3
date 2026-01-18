@@ -1,4 +1,3 @@
-import { Button } from "~/components/ui/button";
 import { ShowTopic } from "../Candidate/ShowTopic";
 import type { TeamType } from "~/types/team.types";
 
@@ -26,7 +25,6 @@ const Teams = ({ team: { mentorship, candidates, leader, topic, name } }: { team
                     </div>
                     <div className="flex gap-2">
                         <ShowTopic urlPdf={topic.filePath} name="" />
-                        <Button variant={"outline"}>Cập nhật Mentor</Button>
                     </div>
                 </div>
                 <div className="overflow-x-auto">
