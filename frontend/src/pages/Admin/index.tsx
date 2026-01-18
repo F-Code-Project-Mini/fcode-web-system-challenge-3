@@ -66,14 +66,11 @@ const AdminPage = () => {
                         </div>
                     </div>
 
-                    <div
-                        onClick={() => navigate("/admin/teams")}
-                        className="cursor-pointer rounded-xl px-4 py-3 shadow-xs"
-                    >
+                    <div onClick={() => navigate("/teams")} className="cursor-pointer rounded-xl px-4 py-3 shadow-xs">
                         <h4 className="text-xs text-gray-500">Quản lý Nhóm</h4>
                         <span className="mt-2 inline-block text-4xl font-bold text-gray-900">{teams?.length || 0}</span>
                         <div className="mt-2 flex items-center gap-1 text-xs font-medium text-teal-600">
-                            Xem chi tiết
+                            Xem
                             <ArrowRight className="h-3 w-3 transition-transform" />
                         </div>
                     </div>

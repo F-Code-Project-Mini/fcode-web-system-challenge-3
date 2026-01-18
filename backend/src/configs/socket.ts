@@ -1,6 +1,8 @@
 import { Server } from "socket.io";
 import http from "http";
 import prisma from "./prisma";
+import redisClient from "./redis"; // Import cái class bạn vừa đưa
+import { Prisma } from "@prisma/client";
 
 export const initSocket = (server: http.Server) => {
     const io = new Server(server, {
@@ -13,37 +15,58 @@ export const initSocket = (server: http.Server) => {
 
     io.on("connection", (socket) => {
         socket.on("SAVE_SCORE", async (payload) => {
-            // if (payload.score == "" && payload.note == "") return;
-            if (payload.score <= 0 && payload.note == "") return;
-            console.log("payload:", payload.score);
+            const { mentorId, codeBarem, candidateId } = payload;
+
+            if (!mentorId || !codeBarem || !candidateId) return;
+
+            const dataKey = `score_data:${mentorId}:${candidateId}:${codeBarem}`;
+            const lockKey = `score_lock:${mentorId}:${candidateId}:${codeBarem}`;
 
             try {
-                const result = await prisma.baremScore.upsert({
-                    where: {
-                        mentorId_codeBarem_candidateId: {
-                            mentorId: payload.mentorId,
-                            codeBarem: payload.codeBarem,
-                            candidateId: payload.candidateId,
-                        },
-                    },
-                    update: {
-                        score: parseFloat(payload.score || "0"),
-                        note: payload.note,
-                        mentorId: payload.mentorId,
-                    },
-                    create: {
-                        mentorId: payload.mentorId,
-                        candidateId: payload.candidateId,
-                        codeBarem: payload.codeBarem,
-                        score: parseFloat(payload.score || "0"),
-                        note: payload.note,
-                        type: payload.type || "MENTOR",
-                    },
-                });
+                await redisClient.set(dataKey, JSON.stringify(payload), 60);
 
-                socket.emit("SCORE_SAVED", result);
-            } catch (error) {
-                console.error("Socket SAVE_SCORE error:", error);
+                const isLocked = await redisClient.exists(lockKey);
+
+                if (!isLocked) {
+                    await redisClient.set(lockKey, "locked", 1.5);
+
+                    setTimeout(async () => {
+                        try {
+                            const rawData = await redisClient.get(dataKey);
+                            if (!rawData) return;
+                            const latestPayload = JSON.parse(rawData);
+
+                            const result = await prisma.baremScore.upsert({
+                                where: {
+                                    mentorId_codeBarem_candidateId: { mentorId, codeBarem, candidateId },
+                                },
+                                update: {
+                                    score: parseFloat(latestPayload.score || "0"),
+                                    note: latestPayload.note || "",
+                                },
+                                create: {
+                                    mentorId,
+                                    candidateId,
+                                    codeBarem,
+                                    score: parseFloat(latestPayload.score || "0"),
+                                    note: latestPayload.note || "",
+                                    role: latestPayload.role || "MENTOR",
+                                    type: latestPayload.type || "PROCESSING",
+                                },
+                            });
+
+                            socket.emit("SCORE_SAVED", { success: true, data: result });
+                        } catch (dbError) {
+                            if (
+                                !(dbError instanceof Prisma.PrismaClientKnownRequestError && dbError.code === "P2002")
+                            ) {
+                                console.error("Database Sync Error:", dbError);
+                            }
+                        }
+                    }, 1000);
+                }
+            } catch (redisError) {
+                console.error("Redis Error:", redisError);
             }
         });
     });

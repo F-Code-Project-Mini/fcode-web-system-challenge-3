@@ -147,6 +147,8 @@ const MentorBaremPage = () => {
 
             debounceMapRef.current[subPart.code] = setTimeout(() => {
                 socket.emit("SAVE_SCORE", {
+                    role: "MENTOR",
+                    type: "PROCESSING",
                     mentorId: user.id,
                     candidateId: candidateActive.id,
                     codeBarem: subPart.code,
@@ -174,6 +176,8 @@ const MentorBaremPage = () => {
 
             debounceNoteMapRef.current[subPart.code] = setTimeout(() => {
                 socket.emit("SAVE_SCORE", {
+                    role: "MENTOR",
+                    type: "PROCESSING",
                     mentorId: user.id,
                     candidateId: candidateActive.id,
                     codeBarem: subPart.code,

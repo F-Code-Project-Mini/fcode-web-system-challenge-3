@@ -1,11 +1,12 @@
 import { createClient, RedisClientType } from "redis";
 import { ConnectionOptions } from "bullmq";
+
 class RedisClient {
     private client: RedisClientType;
     private isConnect = false;
+
     constructor() {
         this.client = createClient({
-            // format url: redis[s]://[[username][:password]@][host][:port][/db-number]
             url: process.env.URL_REDIS,
         });
 
@@ -16,6 +17,7 @@ class RedisClient {
             console.log(`[REDIS] Ready connect`);
         });
     }
+
     connect = async () => {
         if (this.isConnect) return;
 
@@ -33,14 +35,23 @@ class RedisClient {
         }
         return this.client;
     };
+
     exists = async (key: string): Promise<boolean> => {
         const result = await this.client.exists(key);
         return result === 1;
     };
 
+    // PHẦN SỬA LỖI: Tự động chuyển EX sang PX nếu là số lẻ
     set = async (key: string, value: string, ttlSeconds?: number): Promise<void> => {
         if (ttlSeconds) {
-            await this.client.set(key, value, { EX: ttlSeconds });
+            if (Number.isInteger(ttlSeconds)) {
+                // Nếu là số nguyên (1, 2, 60...), dùng EX (giây)
+                await this.client.set(key, value, { EX: ttlSeconds });
+            } else {
+                // Nếu là số lẻ (1.5, 0.5...), dùng PX (mili giây) để tránh lỗi "not an integer"
+                const ms = Math.round(ttlSeconds * 1000);
+                await this.client.set(key, value, { PX: ms });
+            }
         } else {
             await this.client.set(key, value);
         }
@@ -53,13 +64,16 @@ class RedisClient {
     del = async (key: string): Promise<number> => {
         return await this.client.del(key);
     };
+
     incr = async (key: string): Promise<number> => {
         return await this.client.incr(key);
     };
+
     expire = async (key: string, ttlSeconds: number): Promise<number> => {
         return await this.client.expire(key, ttlSeconds);
     };
 }
+
 const redisClient = new RedisClient();
 export default redisClient;
 

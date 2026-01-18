@@ -18,7 +18,6 @@ import ReportsPage from "./pages/Admin/Reports";
 import CandidatePages from "./pages/Admin/Candidates";
 import AdminUsersPage from "./pages/Admin/Users";
 import AdminRoomsPage from "./pages/Admin/Rooms";
-import AdminTeamsPage from "./pages/Admin/Teams/TeamsPage";
 import TeamPage from "./pages/Teams";
 const App = () => {
     return (
@@ -51,7 +50,6 @@ const App = () => {
                         <Route index element={<AdminPage />} />
                         <Route path="users" element={<AdminUsersPage />} />
                         <Route path="rooms" element={<AdminRoomsPage />} />
-                        <Route path="teams" element={<AdminTeamsPage />} />
                         <Route path="reports" element={<ReportsPage />} />
                         <Route path="candidates" element={<CandidatePages />} />
                     </Route>
