@@ -171,5 +171,7 @@ class Helper {
                 return role;
         }
     };
+
+    static 
 }
 export default Helper;

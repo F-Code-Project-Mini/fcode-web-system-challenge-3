@@ -116,12 +116,12 @@ class AdminRepository {
         });
     };
 
-    public createUser = async (email: string, fullName: string, hashedPassword: string) => {
+    public createUser = async (email: string, fullName: string) => {
         return await prisma.user.create({
             data: {
                 email,
                 fullName,
-                password: hashedPassword,
+                password: "",
             },
         });
     };

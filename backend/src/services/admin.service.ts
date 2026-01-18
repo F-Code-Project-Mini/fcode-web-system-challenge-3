@@ -24,15 +24,11 @@ class AdminService {
     };
 
     public createUser = async (email: string, fullName: string) => {
-        const defaultPassword = "123456aA";
-        const hashedPassword = await AlgoCrypoto.hashPassword(defaultPassword);
-
-        const user = await adminRepository.createUser(email, fullName, hashedPassword);
+        const user = await adminRepository.createUser(email, fullName);
 
         return {
             ...user,
             password: undefined,
-            defaultPassword,
         };
     };
 
@@ -53,7 +49,7 @@ class AdminService {
             });
         }
 
-        const existingRole = user.roles?.includes(roleName);
+        const existingRole = user.userRoles?.some((ur) => ur.role.role === roleName);
         if (existingRole) {
             throw new ErrorWithStatus({
                 status: HTTP_STATUS.BAD_REQUEST,
@@ -93,7 +89,7 @@ class AdminService {
             });
         }
 
-        const hasJudgeRole = user.roles?.includes(RoleType.JUDGE);
+        const hasJudgeRole = user.userRoles?.some((ur) => ur.role.role === RoleType.JUDGE);
         if (!hasJudgeRole) {
             throw new ErrorWithStatus({
                 status: HTTP_STATUS.BAD_REQUEST,

@@ -11,23 +11,44 @@ import {
 } from "~/components/ui/dialog";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "~/components/ui/select";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import AdminApi from "~/api-requests/admin.requests";
+import type { RoleType } from "~/types/user.types";
+
+const roles: { value: RoleType; label: string }[] = [
+    { value: "CANDIDATE", label: "Thí sinh" },
+    { value: "MENTOR", label: "Mentor" },
+    { value: "JUDGE", label: "Giám khảo" },
+    { value: "HOST", label: "Host" },
+    { value: "ADMIN", label: "Admin" },
+];
 
 const AddUserDialog = () => {
     const [open, setOpen] = useState(false);
     const [email, setEmail] = useState("");
     const [fullName, setFullName] = useState("");
+    const [selectedRole, setSelectedRole] = useState<RoleType>("CANDIDATE");
     const queryClient = useQueryClient();
 
     const createUserMutation = useMutation({
         mutationFn: (data: { email: string; fullName: string }) => AdminApi.createUser(data),
-        onSuccess: (response) => {
-            alert(`Tạo user thành công! Password mặc định: ${response.result.defaultPassword}`);
+        onSuccess: async (response) => {
+            if (selectedRole) {
+                try {
+                    await AdminApi.addRoleToUser(response.result.id, { role: selectedRole });
+                    alert(`Tạo user thành công! Password mặc định: ${response.result.defaultPassword}`);
+                } catch {
+                    alert(`Tạo user thành công nhưng thêm role thất bại. Password: ${response.result.defaultPassword}`);
+                }
+            } else {
+                alert(`Tạo user thành công! Password mặc định: ${response.result.defaultPassword}`);
+            }
             queryClient.invalidateQueries({ queryKey: ["admin", "users"] });
             setOpen(false);
             setEmail("");
             setFullName("");
+            setSelectedRole("CANDIDATE");
         },
         onError: (error: unknown) => {
             const err = error as { response?: { data?: { message?: string } } };
@@ -47,13 +68,13 @@ const AddUserDialog = () => {
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
-                <Button>Thêm User</Button>
+                <Button variant={"outline"}>Thêm người dùng</Button>
             </DialogTrigger>
             <DialogContent>
                 <form onSubmit={handleSubmit}>
                     <DialogHeader>
-                        <DialogTitle>Thêm User Mới</DialogTitle>
-                        <DialogDescription>Nhập thông tin user. Password mặc định là: 123456aA</DialogDescription>
+                        <DialogTitle>Thêm người dùng mới</DialogTitle>
+                        <DialogDescription>Nhập thông tin người dùng.</DialogDescription>
                     </DialogHeader>
                     <div className="grid gap-4 py-4">
                         <div className="grid gap-2">
@@ -61,7 +82,7 @@ const AddUserDialog = () => {
                             <Input
                                 id="email"
                                 type="email"
-                                placeholder="user@example.com"
+                                placeholder="phamhoangtuanqn@gmail.com"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                                 required
@@ -76,6 +97,22 @@ const AddUserDialog = () => {
                                 onChange={(e) => setFullName(e.target.value)}
                                 required
                             />
+                        </div>
+                        <div className="grid gap-2">
+                            <Label htmlFor="role">Role</Label>
+                            <Select value={selectedRole} onValueChange={(value) => setSelectedRole(value as RoleType)}>
+                                <SelectTrigger className="w-full">
+                                    <SelectValue placeholder="Chọn role" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    {roles.map((role) => (
+                                        <SelectItem key={role.value} value={role.value}>
+                                            {role.label}
+                                        </SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
+                            {/* <p className="text-xs text-gray-500">Có thể thêm role sau khi tạo user</p> */}
                         </div>
                     </div>
                     <DialogFooter>
