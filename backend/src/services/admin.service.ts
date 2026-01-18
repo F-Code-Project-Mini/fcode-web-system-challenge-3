@@ -265,7 +265,7 @@ class AdminService {
     private getJudgeScoresForCandidate = async (teamId: string, candidateId: string): Promise<number | null> => {
         // Lấy tất cả judges của team thông qua room
         const rooms = await adminRepository.getAllRooms();
-        const teamRoom = rooms.find((room) => room.team?.id === teamId);
+        const teamRoom = rooms.find((room) => room.team?.id === teamId && room.presentPhase === "OFFICIAL");
 
         if (!teamRoom) {
             return null;

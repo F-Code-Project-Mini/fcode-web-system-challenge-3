@@ -1,5 +1,7 @@
+import Helper from "~/utils/helper";
 import { ShowTopic } from "../Candidate/ShowTopic";
 import type { AdminTeamType } from "~/types/admin.types";
+import BadgeLeader from "~/components/BadgeLeader";
 
 const Teams = ({ team: { mentorship, candidates, leader, topic, name, group } }: { team: AdminTeamType }) => {
     const getResultBadge = (scoreMentor: number | null, scoreJudge: number | null) => {
@@ -60,7 +62,7 @@ const Teams = ({ team: { mentorship, candidates, leader, topic, name, group } }:
                                     Điểm Mentor
                                 </th>
                                 <th className="hidden px-4 py-3 text-center text-xs font-semibold tracking-wide text-gray-600 uppercase sm:px-6 sm:py-3.5 md:table-cell">
-                                    Điểm Judge
+                                    Điểm Present
                                 </th>
                                 <th className="hidden px-4 py-3 text-center text-xs font-semibold tracking-wide text-gray-600 uppercase sm:px-6 sm:py-3.5 md:table-cell">
                                     Kết quả
@@ -68,46 +70,55 @@ const Teams = ({ team: { mentorship, candidates, leader, topic, name, group } }:
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-gray-200/60 bg-white">
-                            {candidates.map((candidate, index) => (
-                                <tr key={candidate.id} className="transition-colors hover:bg-gray-50/50">
-                                    <td className="px-4 py-3.5 text-sm font-medium whitespace-nowrap text-gray-900 sm:px-6 sm:py-4">
-                                        {index + 1}
-                                    </td>
-                                    <td
-                                        className={`${candidate.id === leader.id ? `font-bold` : ``} px-4 py-3.5 text-sm whitespace-nowrap sm:px-6 sm:py-4`}
-                                    >
-                                        {candidate.user.fullName}{" "}
-                                        {candidate.id === leader.id ? (
-                                            <span className="text-primary text-xs">(Trưởng nhóm)</span>
-                                        ) : (
-                                            ""
-                                        )}
-                                    </td>
-                                    <td className="hidden px-4 py-3.5 text-sm whitespace-nowrap text-gray-600 sm:table-cell sm:px-6 sm:py-4">
-                                        {candidate.studentCode}
-                                    </td>
-                                    <td className="hidden px-4 py-3.5 text-sm whitespace-nowrap text-gray-600 sm:px-6 sm:py-4 md:table-cell">
-                                        {candidate.user.email}
-                                    </td>
-                                    <td className="hidden px-4 py-3.5 text-center text-sm whitespace-nowrap text-gray-900 sm:px-6 sm:py-4 md:table-cell">
-                                        {candidate.scoreMentor !== null ? (
-                                            <span className="font-semibold">{candidate.scoreMentor}</span>
-                                        ) : (
-                                            <span className="text-gray-400">-</span>
-                                        )}
-                                    </td>
-                                    <td className="hidden px-4 py-3.5 text-center text-sm whitespace-nowrap text-gray-900 sm:px-6 sm:py-4 md:table-cell">
-                                        {candidate.scoreJudge !== null ? (
-                                            <span className="font-semibold">{candidate.scoreJudge.toFixed(1)}</span>
-                                        ) : (
-                                            <span className="text-gray-400">-</span>
-                                        )}
-                                    </td>
-                                    <td className="hidden px-4 py-3.5 text-center text-sm whitespace-nowrap sm:px-6 sm:py-4 md:table-cell">
-                                        {getResultBadge(candidate.scoreMentor, candidate.scoreJudge)}
-                                    </td>
-                                </tr>
-                            ))}
+                            {candidates.map((candidate, index) => {
+                                const isLeader = candidate.id === leader.id;
+                                return (
+                                    <tr key={candidate.id} className="transition-colors hover:bg-gray-50/50">
+                                        <td className="px-4 py-3.5 text-sm font-medium whitespace-nowrap text-gray-900 sm:px-6 sm:py-4">
+                                            {index + 1}
+                                        </td>
+                                        <td
+                                            className={`${candidate.id === leader.id ? `font-bold` : ``} px-4 py-3.5 text-sm whitespace-nowrap sm:px-6 sm:py-4`}
+                                        >
+                                            {candidate.user.fullName} {isLeader && <BadgeLeader />}
+                                        </td>
+                                        <td className="hidden px-4 py-3.5 text-sm whitespace-nowrap text-gray-600 sm:table-cell sm:px-6 sm:py-4">
+                                            {candidate.studentCode}
+                                        </td>
+                                        <td className="hidden px-4 py-3.5 text-sm whitespace-nowrap text-gray-600 sm:px-6 sm:py-4 md:table-cell">
+                                            {candidate.user.email}
+                                        </td>
+                                        <td className="hidden px-4 py-3.5 text-center text-sm whitespace-nowrap text-gray-900 sm:px-6 sm:py-4 md:table-cell">
+                                            {candidate.scoreMentor !== null ? (
+                                                <>
+                                                    <span
+                                                        className={`font-semibold ${Helper.belowAverage(candidate.scoreMentor) ? "text-red-500" : "text-green-500"}`}
+                                                    >
+                                                        {candidate.scoreMentor.toFixed(1)}
+                                                    </span>
+                                                    <span>/{isLeader ? "100" : "85"}</span>
+                                                </>
+                                            ) : (
+                                                <span className="text-gray-400">-</span>
+                                            )}
+                                        </td>
+                                        <td className="hidden px-4 py-3.5 text-center text-sm whitespace-nowrap text-gray-900 sm:px-6 sm:py-4 md:table-cell">
+                                            {candidate.scoreJudge !== null ? (
+                                                <span
+                                                    className={`font-semibold ${Helper.belowAverage(candidate.scoreJudge) ? "text-red-500" : "text-green-500"}`}
+                                                >
+                                                    {candidate.scoreJudge.toFixed(1)}
+                                                </span>
+                                            ) : (
+                                                <span className="text-gray-400">-</span>
+                                            )}
+                                        </td>
+                                        <td className="hidden px-4 py-3.5 text-center text-sm whitespace-nowrap sm:px-6 sm:py-4 md:table-cell">
+                                            {getResultBadge(candidate.scoreMentor, candidate.scoreJudge)}
+                                        </td>
+                                    </tr>
+                                );
+                            })}
                         </tbody>
                     </table>
                 </div>
