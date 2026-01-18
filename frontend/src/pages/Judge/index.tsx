@@ -109,7 +109,7 @@ const JudgePage = () => {
                                                 </td>
 
                                                 <td
-                                                    className="px-4 py-3.5 text-sm whitespace-nowrap sm:px-6 sm:py-4 md:table-cell"
+                                                    className="hidden px-4 py-3.5 text-sm whitespace-nowrap sm:px-6 sm:py-4 md:table-cell"
                                                     style={{ color }}
                                                 >
                                                     <span
@@ -142,9 +142,7 @@ const JudgePage = () => {
                                                             </span>
                                                         )
                                                     ) : (
-                                                        <span className="text-xs text-gray-400 italic">
-                                                            Chưa có link
-                                                        </span>
+                                                        <span className="text-xs text-gray-400">Chưa có link</span>
                                                     )}
                                                 </td>
                                                 <td className="px-4 py-3.5 text-sm text-gray-600 sm:px-6 sm:py-4">

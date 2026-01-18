@@ -6,6 +6,30 @@ import { ErrorWithStatus } from "~/rules/error";
 class JudgeService {
     async getJudgeRooms(judgeId: string) {
         const rooms = await judgeRepository.findRoomsByJudgeId(judgeId);
+
+        // const roomsWithScores = await Promise.all(
+        //     rooms.map(async (room) => {
+        //         if (!room.team || !('candidates' in room.team) || !room.team.candidates) {
+        //             return room;
+        //         }
+
+        //         const candidateScores = await Promise.all(
+        //             room.team.candidates.map(async (candidate) => {
+        //                 const score = await userRepository.getScoreMentor(judgeId, candidate.id, "JUDGE");
+        //                 return score || 0;
+        //             }),
+        //         );
+
+        //         const totalScore = candidateScores.reduce((sum, s) => sum + s, 0);
+
+        //         return {
+        //             ...room,
+        //             myScore: totalScore,
+        //             hasScored: totalScore > 0,
+        //         };
+        //     }),
+        // );
+
         return rooms;
     }
 

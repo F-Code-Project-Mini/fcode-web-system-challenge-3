@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router";
+import { Link } from "react-router";
 import { Button } from "../ui/button";
 import { MobileNavLink } from "./NavLink";
 import { House, Send, ServerCrash, Users } from "lucide-react";
@@ -26,14 +26,12 @@ const MenuMobileHeader = ({
     const [currentRole, setCurrentRole] = useState<RoleType>(
         (LocalStorage.getItem("role") as RoleType) || user?.roles?.[0],
     );
-    const navigate = useNavigate();
 
     const handleSwitchRole = (role: RoleType) => {
         LocalStorage.setItem("role", role);
         setCurrentRole(role);
         setShowMobileMenu(false);
-        navigate("/");
-        // window.location.reload();
+        window.location.href = "/";
     };
     return (
         <div className="mt-4 border-t border-gray-100 pt-4 lg:hidden">

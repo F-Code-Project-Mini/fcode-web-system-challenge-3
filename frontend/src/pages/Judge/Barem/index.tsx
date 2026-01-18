@@ -11,7 +11,7 @@ import { BadgeCheck, ZoomIn, ZoomOut } from "lucide-react";
 import BadgeLeader from "~/components/BadgeLeader";
 import Notification from "./Notification";
 import { Button } from "~/components/ui/button";
-import { ShowCandidates } from "./ShowCandidates";
+// import { ShowCandidates } from "./ShowCandidates";
 type ParamsBarem = {
     id: string;
     candidateId?: string;
@@ -149,7 +149,8 @@ const JudgeBaremPage = () => {
 
             debounceMapRef.current[subPart.code] = setTimeout(() => {
                 socket.emit("SAVE_SCORE", {
-                    type: "JUDGE",
+                    role: "JUDGE",
+                    type: "TRIAL_PRESENTATION",
                     mentorId: user.id,
                     candidateId: candidateActive.id,
                     codeBarem: subPart.code,
@@ -177,7 +178,8 @@ const JudgeBaremPage = () => {
 
             debounceNoteMapRef.current[subPart.code] = setTimeout(() => {
                 socket.emit("SAVE_SCORE", {
-                    type: "JUDGE",
+                    role: "JUDGE",
+                    type: "TRIAL_PRESENTATION",
                     mentorId: user.id,
                     candidateId: candidateActive.id,
                     codeBarem: subPart.code,
@@ -195,11 +197,11 @@ const JudgeBaremPage = () => {
                 <p className="mt-2 text-sm text-gray-600">Vui lòng chọn ứng viên và điền điểm cho từng tiêu chí</p>
             </div>
 
-            <ShowCandidates
+            {/* <ShowCandidates
                 candidates={candidates}
                 candidateActive={candidateActive}
                 setcandidateActive={setcandidateActive}
-            />
+            /> */}
 
             <Notification />
 

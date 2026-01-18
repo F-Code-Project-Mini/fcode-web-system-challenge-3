@@ -50,7 +50,7 @@ class UserRepository {
             where: {
                 mentorId,
                 candidateId: userId,
-                type: role,
+                role,
             },
             _sum: {
                 score: true,
