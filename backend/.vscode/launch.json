@@ -1,0 +1,22 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch with ts-node",
+            "runtimeExecutable": "npx",
+            "runtimeArgs": [
+                "nodemon",
+                "--inspect", // Mở chế độ debug
+                "--inspect-brk", // Dừng ngay khi bắt đầu
+                "-r",
+                "ts-node/register", // Sử dụng ts-node để chạy TypeScript
+                "src/index.ts" // Đảm bảo đường dẫn đến file chính của bạn là TypeScript
+            ],
+            "skipFiles": [
+                "<node_internals>/**"
+            ]
+        }
+    ]
+}

@@ -1,11 +1,9 @@
 import { PrismaClient } from "@prisma/client";
-import { RoleType } from "~/constants/enums";
-// const prisma = new PrismaClient({
-//     log: process.env.NODE_ENV === "development" ? ["query", "info", "warn", "error"] : ["error"],
-// });
+
 const basePrisma = new PrismaClient({
-    // log: process.env.NODE_ENV === "development" ? ["query", "info", "warn", "error"] : ["error"],
+    log: process.env.NODE_ENV === "development" ? ["query", "info", "warn", "error"] : ["error"],
 });
+
 const prisma = basePrisma.$extends({
     query: {
         user: {
@@ -24,28 +22,35 @@ const prisma = basePrisma.$extends({
 
                 if (includeOps.includes(operation)) {
                     const userArgs = args as any;
-                    // 1. Tự động include để có dữ liệu tính toán
-                    userArgs.include = {
-                        ...userArgs.include,
-                        userRoles: { include: { role: true } },
-                    };
+
+                    if (userArgs.select) {
+                        userArgs.select = {
+                            ...userArgs.select,
+                            userRoles: {
+                                select: {
+                                    role: { select: { role: true } },
+                                },
+                            },
+                        };
+                    } else {
+                        userArgs.include = {
+                            ...userArgs.include,
+                            userRoles: { include: { role: true } },
+                        };
+                    }
 
                     const result = await query(userArgs);
 
-                    // 2. Hàm dọn dẹp object
+                    // 2. Hàm dọn dẹp (giữ nguyên logic của bạn)
                     const formatUser = (user: any) => {
                         if (!user) return user;
-
-                        // Chuyển đổi dữ liệu sang mảng phẳng
                         if (user.userRoles) {
                             user.roles = user.userRoles.map((ur: any) => ur.role?.role);
-                            // XÓA cái mảng userRoles xấu xí đi
                             delete user.userRoles;
                         }
                         return user;
                     };
 
-                    // Xử lý tùy theo kết quả là mảng hay object đơn lẻ
                     return Array.isArray(result) ? result.map(formatUser) : formatUser(result);
                 }
 
@@ -54,4 +59,5 @@ const prisma = basePrisma.$extends({
         },
     },
 });
+
 export default prisma;

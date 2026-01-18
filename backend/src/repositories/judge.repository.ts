@@ -91,7 +91,6 @@ class JudgeRepository {
                             orderBy: {
                                 submittedAt: "desc",
                             },
-                            take: 1,
                             include: {
                                 user: {
                                     select: {

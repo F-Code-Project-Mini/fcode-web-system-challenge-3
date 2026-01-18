@@ -1,20 +1,20 @@
 import { NavLink } from "./NavLink";
 import Helper from "~/utils/helper";
-import { Scroll, Users } from "lucide-react";
+import { School, Users } from "lucide-react";
 import { useLocation } from "react-router";
 const listMenuAdmin = [
     {
-        id: "candidates",
-        url: "/admin/candidates",
-        name: "Quản lý ứng viên",
+        id: "users",
+        url: "/admin/users",
+        name: "Người dùng",
         Icon: Users,
     },
 
     {
-        id: "reports",
-        url: "/admin/reports",
-        name: "Báo cáo Mentor",
-        Icon: Scroll,
+        id: "rooms",
+        url: "/admin/rooms",
+        name: "Phòng chấm",
+        Icon: School,
     },
 ];
 const AdminHeader = () => {

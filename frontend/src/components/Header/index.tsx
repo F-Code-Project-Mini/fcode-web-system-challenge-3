@@ -1,5 +1,5 @@
 import { BadgeQuestionMark, ChevronDown, House, Menu, Users, X } from "lucide-react";
-import { Link, useLocation, useNavigate } from "react-router";
+import { Link, useLocation } from "react-router";
 import useAuth from "~/hooks/useAuth";
 import { useState, useRef, useEffect } from "react";
 import SubmenuHeader from "./Submenu";
@@ -30,21 +30,19 @@ const Header = () => {
     const [currentRole, setCurrentRole] = useState<RoleType>(
         (LocalStorage.getItem("role") as RoleType) || user?.roles?.[0],
     );
-    const navigate = useNavigate();
 
     const menuRef = useRef<HTMLDivElement>(null);
 
     const showAgainInstruction = () => {
         LocalStorage.removeItem("isInstruction");
-        // window.location.reload();
-        navigate("/");
+
+        window.location.href = "/";
     };
 
     const handleSwitchRole = (role: RoleType) => {
         LocalStorage.setItem("role", role);
         setCurrentRole(role);
-        navigate("/");
-        // window.location.reload();
+        window.location.href = "/";
     };
 
     useEffect(() => {
@@ -57,6 +55,11 @@ const Header = () => {
         document.addEventListener("mousedown", handleClickOutside);
         return () => document.removeEventListener("mousedown", handleClickOutside);
     }, []);
+    const role = (LocalStorage.getItem("role") as RoleType) || user?.roles?.[0];
+
+    useEffect(() => {
+        setCurrentRole(role);
+    }, [role]);
 
     return (
         <header className="sticky top-3 z-50 mt-6 rounded-lg border border-gray-200/60 bg-white/95 px-5 py-3.5 backdrop-blur-xl transition-all md:px-7">
@@ -83,7 +86,8 @@ const Header = () => {
                                 active={Helper.isActive(location.pathname, "/")}
                             />
                         </li>
-                        {isLogin && Helper.hasRole(user.roles, USER_ROLE.CANDIDATE) && <CandidateHeader />}
+                        {isLogin && Helper.hasRole(role, USER_ROLE.CANDIDATE) && <CandidateHeader />}
+                        {isLogin && Helper.hasRole(role, USER_ROLE.ADMIN) && <AdminHeader />}
                         <li id="teams">
                             <NavLink
                                 url="/teams"
@@ -100,8 +104,6 @@ const Header = () => {
                                 target="_blank"
                             />
                         </li> */}
-
-                        {isLogin && Helper.hasRole(user.roles, USER_ROLE.ADMIN) && <AdminHeader />}
                     </ul>
                 </nav>
 

@@ -16,8 +16,9 @@ import MentorBaremPage from "./pages/Mentor/Barem";
 import AdminPage from "./pages/Admin";
 import ReportsPage from "./pages/Admin/Reports";
 import CandidatePages from "./pages/Admin/Candidates";
+import AdminUsersPage from "./pages/Admin/Users";
+import AdminRoomsPage from "./pages/Admin/Rooms";
 import TeamPage from "./pages/Teams";
-// import PresentPage from "./pages/Present";
 const App = () => {
     return (
         <BrowserRouter>
@@ -28,7 +29,6 @@ const App = () => {
                     <Route path="teams" element={<TeamPage />} />
                     <Route path="active/token/:token" element={<ActivePage />} />
                     <Route path="submissions" element={<SubmissionsPage />} />
-                    {/* <Route path="presents" element={<PresentPage />} /> */}
 
                     {/* Role Judge */}
                     <Route path="judge" element={<ProtectedRoute roleAccess={[USER_ROLE.JUDGE]} />}>
@@ -48,6 +48,8 @@ const App = () => {
                     {/* Role Admin */}
                     <Route path="admin" element={<ProtectedRoute roleAccess={[USER_ROLE.ADMIN]} />}>
                         <Route index element={<AdminPage />} />
+                        <Route path="users" element={<AdminUsersPage />} />
+                        <Route path="rooms" element={<AdminRoomsPage />} />
                         <Route path="reports" element={<ReportsPage />} />
                         <Route path="candidates" element={<CandidatePages />} />
                     </Route>
