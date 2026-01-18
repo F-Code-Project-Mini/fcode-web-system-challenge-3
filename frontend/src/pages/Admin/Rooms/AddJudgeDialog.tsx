@@ -15,6 +15,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import AdminApi from "~/api-requests/admin.requests";
 import { Plus } from "lucide-react";
 import type { JudgeUserType } from "~/types/admin.types";
+import Notification from "~/utils/notification";
 
 interface AddJudgeDialogProps {
     roomId: string;
@@ -36,21 +37,21 @@ const AddJudgeDialog = ({ roomId }: AddJudgeDialogProps) => {
     const addJudgeMutation = useMutation({
         mutationFn: (data: { judgeId: string }) => AdminApi.addJudgeToRoom(roomId, data),
         onSuccess: () => {
-            alert("Thêm judge vào phòng thành công!");
+            Notification.success({ text: "Thêm judge vào phòng thành công!" });
             queryClient.invalidateQueries({ queryKey: ["admin", "rooms"] });
             setOpen(false);
             setSelectedJudge("");
         },
         onError: (error: unknown) => {
             const err = error as { response?: { data?: { message?: string } } };
-            alert(err.response?.data?.message || "Có lỗi xảy ra!");
+            Notification.error({ text: err.response?.data?.message || "Có lỗi xảy ra!" });
         },
     });
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         if (!selectedJudge) {
-            alert("Vui lòng chọn judge!");
+            Notification.error({ text: "Vui lòng chọn judge!" });
             return;
         }
         addJudgeMutation.mutate({ judgeId: selectedJudge });
@@ -74,7 +75,7 @@ const AddJudgeDialog = ({ roomId }: AddJudgeDialogProps) => {
                         <div className="grid gap-2">
                             <Label htmlFor="judge">Judge</Label>
                             <Select value={selectedJudge} onValueChange={setSelectedJudge}>
-                                <SelectTrigger>
+                                <SelectTrigger className="w-full">
                                     <SelectValue placeholder="Chọn judge" />
                                 </SelectTrigger>
                                 <SelectContent>

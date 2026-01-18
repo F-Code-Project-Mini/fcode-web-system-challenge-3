@@ -15,6 +15,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "~
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import AdminApi from "~/api-requests/admin.requests";
 import type { RoleType } from "~/types/user.types";
+import Notification from "~/utils/notification";
 
 const roles: { value: RoleType; label: string }[] = [
     { value: "CANDIDATE", label: "Thí sinh" },
@@ -37,12 +38,18 @@ const AddUserDialog = () => {
             if (selectedRole) {
                 try {
                     await AdminApi.addRoleToUser(response.result.id, { role: selectedRole });
-                    alert(`Tạo user thành công! Password mặc định: ${response.result.defaultPassword}`);
+                    Notification.success({
+                        text: `Tạo user thành công! Password mặc định: ${response.result.defaultPassword}`,
+                    });
                 } catch {
-                    alert(`Tạo user thành công nhưng thêm role thất bại. Password: ${response.result.defaultPassword}`);
+                    Notification.error({
+                        text: `Tạo user thành công nhưng thêm role thất bại. Password: ${response.result.defaultPassword}`,
+                    });
                 }
             } else {
-                alert(`Tạo user thành công! Password mặc định: ${response.result.defaultPassword}`);
+                Notification.success({
+                    text: `Tạo user thành công! Password mặc định: ${response.result.defaultPassword}`,
+                });
             }
             queryClient.invalidateQueries({ queryKey: ["admin", "users"] });
             setOpen(false);
@@ -52,14 +59,14 @@ const AddUserDialog = () => {
         },
         onError: (error: unknown) => {
             const err = error as { response?: { data?: { message?: string } } };
-            alert(err.response?.data?.message || "Có lỗi xảy ra!");
+            Notification.error({ text: err.response?.data?.message || "Có lỗi xảy ra!" });
         },
     });
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         if (!email || !fullName) {
-            alert("Vui lòng nhập đầy đủ thông tin!");
+            Notification.error({ text: "Vui lòng nhập đầy đủ thông tin!" });
             return;
         }
         createUserMutation.mutate({ email, fullName });

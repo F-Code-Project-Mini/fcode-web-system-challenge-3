@@ -15,6 +15,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import AdminApi from "~/api-requests/admin.requests";
 import type { RoleType } from "~/types/user.types";
 import { Plus } from "lucide-react";
+import Notification from "~/utils/notification";
 
 interface AddRoleDialogProps {
     userId: string;
@@ -36,7 +37,7 @@ const AddRoleDialog = ({ userId }: AddRoleDialogProps) => {
     const addRoleMutation = useMutation({
         mutationFn: (data: { role: RoleType }) => AdminApi.addRoleToUser(userId, data),
         onSuccess: () => {
-            alert("Thêm role thành công!");
+            Notification.success({ text: "Thêm role thành công!" });
             queryClient.invalidateQueries({ queryKey: ["admin", "users"] });
             queryClient.invalidateQueries({ queryKey: ["admin", "user", userId] });
             setOpen(false);
@@ -44,14 +45,14 @@ const AddRoleDialog = ({ userId }: AddRoleDialogProps) => {
         },
         onError: (error: unknown) => {
             const err = error as { response?: { data?: { message?: string } } };
-            alert(err.response?.data?.message || "Có lỗi xảy ra!");
+            Notification.error({ text: err.response?.data?.message || "Có lỗi xảy ra!" });
         },
     });
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         if (!selectedRole) {
-            alert("Vui lòng chọn role!");
+            Notification.error({ text: "Vui lòng chọn role!" });
             return;
         }
         addRoleMutation.mutate({ role: selectedRole });
