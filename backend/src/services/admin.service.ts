@@ -2,7 +2,6 @@ import { RoleType } from "~/constants/enums";
 import { HTTP_STATUS } from "~/constants/httpStatus";
 import { ErrorWithStatus } from "~/rules/error";
 import adminRepository from "~/repositories/admin.repository";
-import AlgoCrypoto from "~/utils/crypto";
 
 class AdminService {
     public getAllUsers = async () => {
@@ -49,7 +48,7 @@ class AdminService {
             });
         }
 
-        const existingRole = user.userRoles?.some((ur) => ur.role.role === roleName);
+        const existingRole = user.userRoles.some((ur) => ur.role.role === roleName);
         if (existingRole) {
             throw new ErrorWithStatus({
                 status: HTTP_STATUS.BAD_REQUEST,
@@ -89,7 +88,7 @@ class AdminService {
             });
         }
 
-        const hasJudgeRole = user.roles?.some((role) => role === RoleType.JUDGE);
+        const hasJudgeRole = user.userRoles.some((ur) => ur.role.role === RoleType.JUDGE);
         if (!hasJudgeRole) {
             throw new ErrorWithStatus({
                 status: HTTP_STATUS.BAD_REQUEST,

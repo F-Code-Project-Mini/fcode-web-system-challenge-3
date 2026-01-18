@@ -6,7 +6,7 @@ const listMenuAdmin = [
     {
         id: "users",
         url: "/admin/users",
-        name: "Ứng viên",
+        name: "Người dùng",
         Icon: Users,
     },
 

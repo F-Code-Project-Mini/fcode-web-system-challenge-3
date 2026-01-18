@@ -84,6 +84,7 @@ const Header = () => {
                             />
                         </li>
                         {isLogin && Helper.hasRole(user.roles, USER_ROLE.CANDIDATE) && <CandidateHeader />}
+                        {isLogin && Helper.hasRole(user.roles, USER_ROLE.ADMIN) && <AdminHeader />}
                         <li id="teams">
                             <NavLink
                                 url="/teams"
@@ -100,8 +101,6 @@ const Header = () => {
                                 target="_blank"
                             />
                         </li> */}
-
-                        {isLogin && Helper.hasRole(user.roles, USER_ROLE.ADMIN) && <AdminHeader />}
                     </ul>
                 </nav>
 
