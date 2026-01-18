@@ -1,6 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
 import Teams from "./Team";
-import TeamApi from "~/api-requests/team.requests";
 import AdminApi from "~/api-requests/admin.requests";
 import { ArrowRight } from "lucide-react";
 import { useNavigate } from "react-router";
@@ -11,7 +10,7 @@ const AdminPage = () => {
     const { data: teams } = useQuery({
         queryKey: ["admin", "teams"],
         queryFn: async () => {
-            const res = await TeamApi.getAllTeams();
+            const res = await AdminApi.getAllTeams();
             return res.result;
         },
         staleTime: 5 * 60 * 1000,

@@ -1,7 +1,9 @@
+import { judgeRooms } from "./../seeders/data-raw/rooms";
 import { RoleType } from "~/constants/enums";
 import { HTTP_STATUS } from "~/constants/httpStatus";
 import { ErrorWithStatus } from "~/rules/error";
 import adminRepository from "~/repositories/admin.repository";
+import userRepository from "~/repositories/user.repository";
 
 class AdminService {
     public getAllUsers = async () => {
@@ -19,7 +21,10 @@ class AdminService {
             });
         }
 
-        return user;
+        return {
+            ...user,
+            judgeRooms: user.judgeRooms?.map((jr) => jr.room),
+        };
     };
 
     public createUser = async (email: string, fullName: string) => {
@@ -76,7 +81,8 @@ class AdminService {
     };
 
     public getAllRooms = async () => {
-        return await adminRepository.getAllRooms();
+        const rooms = await adminRepository.getAllRooms();
+        return rooms;
     };
 
     public addJudgeToRoom = async (judgeId: string, roomId: string) => {
@@ -109,6 +115,66 @@ class AdminService {
 
     public getJudgeUsers = async () => {
         return await adminRepository.getJudgeUsers();
+    };
+
+    public getAllTeams = async () => {
+        const teams = await adminRepository.getAllTeams();
+
+        // Thêm điểm đánh giá cho từng candidate
+        const teamsWithScores = await Promise.all(
+            teams.map(async (team) => {
+                const candidatesWithScores = await Promise.all(
+                    team.candidates.map(async (candidate) => {
+                        // Lấy điểm mentor
+                        const scoreMentor = await userRepository.getScoreMentor(
+                            team.mentorship.mentorId,
+                            candidate.id,
+                            "MENTOR",
+                        );
+
+                        // Lấy điểm judge (OFFICIAL_PRESENTATION)
+                        // Tím judge room của team này
+                        const scoreJudge = await this.getJudgeScoresForCandidate(team.id, candidate.id);
+
+                        return {
+                            ...candidate,
+                            scoreMentor: scoreMentor || null,
+                            scoreJudge,
+                        };
+                    }),
+                );
+
+                return {
+                    ...team,
+
+                    candidates: candidatesWithScores,
+                };
+            }),
+        );
+
+        return teamsWithScores;
+    };
+
+    private getJudgeScoresForCandidate = async (teamId: string, candidateId: string): Promise<number | null> => {
+        // Lấy tất cả judges của team thông qua room
+        const rooms = await adminRepository.getAllRooms();
+        const teamRoom = rooms.find((room) => room.team?.id === teamId);
+
+        if (!teamRoom || !teamRoom.judgeRooms || teamRoom.judgeRooms.length === 0) {
+            return null;
+        }
+
+        // Lấy điểm từ từng judge và tính trung bình
+        const scores = await Promise.all(
+            teamRoom.judgeRooms.map(async (jr) => {
+                const score = await userRepository.getScoreMentor(jr.judge.id, candidateId, "JUDGE");
+                return score || 0;
+            }),
+        );
+
+        // Tính điểm trung bình
+        const totalScore = scores.reduce((sum, s) => sum + s, 0);
+        return scores.length > 0 ? totalScore / scores.length : null;
     };
 }
 

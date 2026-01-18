@@ -15,5 +15,6 @@ adminRouter.get("/rooms", auth, isRole([RoleType.ADMIN]), adminController.getAll
 adminRouter.post("/rooms/:roomId/judges", auth, isRole([RoleType.ADMIN]), adminController.addJudgeToRoom);
 adminRouter.delete("/rooms/judges/:judgeRoomId", auth, isRole([RoleType.ADMIN]), adminController.removeJudgeFromRoom);
 adminRouter.get("/judges", auth, isRole([RoleType.ADMIN]), adminController.getJudgeUsers);
+adminRouter.get("/teams", auth, isRole([RoleType.ADMIN]), adminController.getAllTeams);
 
 export default adminRouter;

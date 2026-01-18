@@ -7,6 +7,7 @@ import type {
     CreateUserResponse,
     JudgeUserType,
     ResponseDetailData,
+    AdminTeamType,
 } from "~/types/admin.types";
 import { privateApi } from "~/utils/axiosInstance";
 
@@ -63,6 +64,11 @@ class AdminApi {
 
     static async getJudgeUsers() {
         const res = await privateApi.get<ResponseDetailData<JudgeUserType[]>>("/admin/judges");
+        return res.data;
+    }
+
+    static async getAllTeams() {
+        const res = await privateApi.get<ResponseDetailData<AdminTeamType[]>>("/admin/teams");
         return res.data;
     }
 }

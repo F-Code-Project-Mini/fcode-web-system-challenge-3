@@ -107,6 +107,18 @@ class AdminController {
             next(error);
         }
     };
+
+    public getAllTeams = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const teams = await adminService.getAllTeams();
+            res.status(HTTP_STATUS.OK).json({
+                message: "Lấy danh sách teams thành công!",
+                result: teams,
+            });
+        } catch (error) {
+            next(error);
+        }
+    };
 }
 
 const adminController = new AdminController();

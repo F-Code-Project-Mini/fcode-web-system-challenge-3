@@ -119,3 +119,56 @@ export interface ResponseDetailData<T> {
     message: string;
     result: T;
 }
+
+export interface AdminTeamType {
+    id: string;
+    group: number;
+    name: string | null;
+    leaderId: string;
+    topicId: string;
+    mentorNote: string | null;
+    candidates: AdminCandidateType[];
+    mentorship: {
+        id: string;
+        mentorId: string;
+        facebook: string;
+        discord: string;
+        phone: string;
+        mentor: {
+            id: string;
+            fullName: string;
+        };
+    };
+    leader: {
+        id: string;
+    };
+    topic: {
+        id: string;
+        title: string;
+        filePath: string;
+        createdAt: string;
+        updatedAt: string;
+    };
+    schedulePresent: {
+        id: string;
+        trialDate: string;
+        officialDate: string[];
+        finalDate: string;
+    } | null;
+}
+
+export interface AdminCandidateType {
+    id: string;
+    studentCode: string;
+    phone: string;
+    major: string;
+    semester: string;
+    teamId: string;
+    user: {
+        id: string;
+        fullName: string;
+        email: string;
+    };
+    scoreMentor: number | null;
+    scoreJudge: number | null;
+}

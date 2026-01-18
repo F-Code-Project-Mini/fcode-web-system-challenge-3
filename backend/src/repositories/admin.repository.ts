@@ -227,6 +227,74 @@ class AdminRepository {
             },
         });
     };
+
+    public getAllTeams = async () => {
+        return await prisma.team.findMany({
+            orderBy: { group: "asc" },
+            select: {
+                id: true,
+                group: true,
+                name: true,
+                leaderId: true,
+                topicId: true,
+                mentorNote: true,
+                candidates: {
+                    select: {
+                        id: true,
+                        studentCode: true,
+                        phone: true,
+                        major: true,
+                        semester: true,
+                        teamId: true,
+                        user: {
+                            select: {
+                                id: true,
+                                fullName: true,
+                                email: true,
+                            },
+                        },
+                    },
+                },
+                mentorship: {
+                    select: {
+                        id: true,
+                        mentorId: true,
+                        facebook: true,
+                        discord: true,
+                        phone: true,
+                        mentor: {
+                            select: {
+                                id: true,
+                                fullName: true,
+                            },
+                        },
+                    },
+                },
+                leader: {
+                    select: {
+                        id: true,
+                    },
+                },
+                topic: {
+                    select: {
+                        id: true,
+                        title: true,
+                        filePath: true,
+                        createdAt: true,
+                        updatedAt: true,
+                    },
+                },
+                schedulePresent: {
+                    select: {
+                        id: true,
+                        trialDate: true,
+                        officialDate: true,
+                        finalDate: true,
+                    },
+                },
+            },
+        });
+    };
 }
 
 const adminRepository = new AdminRepository();
