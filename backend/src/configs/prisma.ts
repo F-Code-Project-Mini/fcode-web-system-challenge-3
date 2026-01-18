@@ -1,10 +1,7 @@
 import { PrismaClient } from "@prisma/client";
-import { RoleType } from "~/constants/enums";
-// const prisma = new PrismaClient({
-//     log: process.env.NODE_ENV === "development" ? ["query", "info", "warn", "error"] : ["error"],
-// });
+
 const basePrisma = new PrismaClient({
-    // log: process.env.NODE_ENV === "development" ? ["query", "info", "warn", "error"] : ["error"],
+    log: process.env.NODE_ENV === "development" ? ["query", "info", "warn", "error"] : ["error"],
 });
 const prisma = basePrisma.$extends({
     query: {
@@ -24,11 +21,29 @@ const prisma = basePrisma.$extends({
 
                 if (includeOps.includes(operation)) {
                     const userArgs = args as any;
-                    // 1. Tự động include để có dữ liệu tính toán
-                    userArgs.include = {
-                        ...userArgs.include,
-                        userRoles: { include: { role: true } },
-                    };
+
+                    // Kiểm tra nếu đang dùng select hay include
+                    if (userArgs.select) {
+                        // Nếu dùng select, thêm userRoles vào select
+                        userArgs.select = {
+                            ...userArgs.select,
+                            userRoles: {
+                                select: {
+                                    role: {
+                                        select: {
+                                            role: true,
+                                        },
+                                    },
+                                },
+                            },
+                        };
+                    } else {
+                        // Nếu dùng include hoặc không có gì, thêm vào include
+                        userArgs.include = {
+                            ...userArgs.include,
+                            userRoles: { include: { role: true } },
+                        };
+                    }
 
                     const result = await query(userArgs);
 
