@@ -4,7 +4,7 @@ import "animate.css";
 import MainLayout from "./layout/MainLayout";
 import LoginPage from "./pages/Login";
 import JudgePage from "./pages/Judge";
-import JudgeRoomDetail from "./pages/Judge/RoomDetail";
+import JudgeRoomDetail from "./pages/Judge/Room/RoomDetail";
 import JudgeBaremPage from "./pages/Judge/Barem";
 import ProtectedRoute from "./layout/ProtectedRoute";
 import { USER_ROLE } from "./constants/enums";
