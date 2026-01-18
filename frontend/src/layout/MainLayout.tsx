@@ -47,7 +47,7 @@ const MainLayout = () => {
 
     return (
         <>
-            <section className="flex min-h-screen flex-col justify-between bg-gradient-to-b from-gray-50/50 to-white px-4 xl:px-6">
+            <section className="flex min-h-screen flex-col justify-between bg-gradient-to-b from-gray-100/50 to-white px-4 xl:px-6">
                 <section>
                     <Header />
                     <section className="mx-auto my-8 max-w-7xl sm:my-12">
