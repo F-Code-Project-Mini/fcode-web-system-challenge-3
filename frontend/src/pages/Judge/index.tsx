@@ -76,9 +76,15 @@ const JudgePage = () => {
                                             room.endTime,
                                         );
                                         return (
-                                            <tr 
-                                                key={room.id} 
-                                                className={`transition-all ${status === "active" ? "bg-primary/10 border-l-4 border-primary hover:bg-primary/15" : "hover:bg-gray-50/50"}`}
+                                            <tr
+                                                key={room.id}
+                                                className={`transition-all ${
+                                                    status === "active"
+                                                        ? "bg-primary/10 border-primary hover:bg-primary/15 border-l-4"
+                                                        : status === "expired"
+                                                          ? "bg-gray-100/80 opacity-95 hover:bg-gray-50"
+                                                          : "hover:bg-gray-50/50"
+                                                }`}
                                             >
                                                 <td className="px-4 py-3.5 text-sm font-medium whitespace-nowrap text-gray-900 sm:px-6 sm:py-4">
                                                     {index + 1}
@@ -98,7 +104,9 @@ const JudgePage = () => {
                                                                         {room.team.name}
                                                                     </span>
                                                                 ) : (
-                                                                    <span className="text-red-500">Chưa đặt tên nhóm</span>
+                                                                    <span className="text-red-500">
+                                                                        Chưa đặt tên nhóm
+                                                                    </span>
                                                                 )}
                                                             </h2>
                                                             <span className="text-xs italic">
@@ -108,11 +116,6 @@ const JudgePage = () => {
                                                                 </span>
                                                             </span>
                                                         </div>
-                                                        {status === "active" && (
-                                                            <span className="whitespace-nowrap rounded-full bg-primary px-2.5 py-1 text-xs font-medium text-white">
-                                                                Đang diễn ra
-                                                            </span>
-                                                        )}
                                                     </div>
                                                 </td>
                                                 <td className="px-4 py-3.5 text-sm whitespace-nowrap text-gray-600 sm:px-6 sm:py-4">
@@ -155,7 +158,7 @@ const JudgePage = () => {
                                                                             <span>Xem lại record</span>
                                                                         </a>
                                                                     </Badge>
-                                                                ) : (
+                                                                ) : status == "active" ? (
                                                                     <Badge asChild className="bg-teal-600 text-white">
                                                                         <a
                                                                             href={
@@ -169,6 +172,8 @@ const JudgePage = () => {
                                                                             <span>Tham gia</span>
                                                                         </a>
                                                                     </Badge>
+                                                                ) : (
+                                                                    ""
                                                                 )}
                                                             </div>
                                                         ) : (
