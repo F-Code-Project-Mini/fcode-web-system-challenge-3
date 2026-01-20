@@ -2,7 +2,7 @@ import type { RoleType } from "~/types/user.types";
 interface TimeStatus {
     text: string;
     color: string;
-    status: "expired" | "urgent" | "near" | "far";
+    status: "expired" | "urgent" | "near" | "far" | "active";
 }
 class Helper {
     static formatDate(date: string): string {
@@ -88,22 +88,32 @@ class Helper {
         return `${diffInYears} năm trước`;
     }
 
-    static formatTimeUntil(targetDate: string | Date): TimeStatus {
-        let dateStr = targetDate;
-        if (typeof targetDate === "string" && targetDate.endsWith("Z")) {
-            dateStr = targetDate.slice(0, -1);
-        }
-        const target = new Date(dateStr);
+    static formatTimeRange(startDate: string | Date, endDate: string | Date): TimeStatus {
+        const parseDate = (date: string | Date) => {
+            let dateStr = date;
+            if (typeof date === "string" && date.endsWith("Z")) {
+                dateStr = date.slice(0, -1);
+            }
+            return new Date(dateStr);
+        };
+
+        const start = parseDate(startDate);
+        const end = parseDate(endDate);
         const now = new Date();
-        if (isNaN(target.getTime())) {
+
+        if (isNaN(start.getTime()) || isNaN(end.getTime())) {
             return { text: "Ngày không hợp lệ", color: "#9CA3AF", status: "expired" };
         }
-        const diffInMs = target.getTime() - now.getTime();
 
-        if (diffInMs <= 0) {
-            return { text: "Đã qua", color: "#6B7280", status: "expired" };
+        if (now > end) {
+            return { text: "Đã kết thúc", color: "#6B7280", status: "expired" };
         }
 
+        if (now >= start && now <= end) {
+            return { text: "Đang diễn ra", color: "#10B981", status: "active" };
+        }
+
+        const diffInMs = start.getTime() - now.getTime();
         const seconds = Math.floor(diffInMs / 1000);
 
         let color = "#3B82F6";
@@ -137,7 +147,7 @@ class Helper {
             }
         }
 
-        return { text: "Ngay bây giờ", color: "#EF4444", status: "urgent" };
+        return { text: "Sắp bắt đầu", color: "#EF4444", status: "urgent" };
     }
 
     static isActive = (src: string, dest: string) => {
