@@ -7,6 +7,7 @@ interface SchedulePresentType {
     officialDate: string[];
     finalDate?: string;
     googleMeetLink?: string;
+    videoRecord?: string;
     createdAt?: Date;
     updatedAt?: Date;
 }
@@ -18,6 +19,7 @@ class SchedulePresent {
     officialDate: string[];
     finalDate: string;
     googleMeetLink: string;
+    videoRecord: string;
     createdAt: Date;
     updatedAt: Date;
     constructor(present: SchedulePresentType) {
@@ -27,6 +29,7 @@ class SchedulePresent {
         this.officialDate = present.officialDate;
         this.finalDate = present.finalDate || "";
         this.googleMeetLink = present.googleMeetLink || "";
+        this.videoRecord = present.videoRecord || "";
         this.createdAt = present.createdAt || new Date();
         this.updatedAt = present.updatedAt || new Date();
     }

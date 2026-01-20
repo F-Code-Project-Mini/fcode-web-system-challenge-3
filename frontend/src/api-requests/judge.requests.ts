@@ -8,8 +8,8 @@ export type RoomType = {
     modePresent: "OFFLINE" | "ONLINE";
     roomNumber: string;
     startTime: string;
-    endTime: string | null;
-    teamId: string | null;
+    endTime: string;
+    teamId: string;
     team: {
         id: string;
         group: number;
@@ -19,6 +19,7 @@ export type RoomType = {
         };
         schedulePresent: {
             googleMeetLink: string;
+            videoRecord: string;
         } | null;
     } | null;
 };

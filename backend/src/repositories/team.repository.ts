@@ -281,6 +281,14 @@ class TeamRepository {
             where: {
                 teamId,
             },
+            select: {
+                id: true,
+                teamId: true,
+                trialDate: true,
+                officialDate: true,
+                finalDate: true,
+                googleMeetLink: true,
+            },
         });
     };
 

@@ -64,7 +64,7 @@ const RoomsPage = () => {
                     {rooms?.map((room: AdminRoomType) => {
                         const isExpanded = expandedRoomId === room.id;
                         const detail = isExpanded ? roomDetail : null;
-                        const { color, text } = Helper.formatTimeUntil(room.startTime);
+                        const { color, text } = Helper.formatTimeRange(room.startTime, room.endTime);
 
                         return (
                             <div key={room.id} className="px-5 py-5 hover:bg-gray-50/30">
