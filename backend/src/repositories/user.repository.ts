@@ -38,8 +38,15 @@ class UserRepository {
         });
         return result;
     };
-    hasRole = (user: any, roleName: string) => {
-        return user.userRoles.some((ur: any) => ur.role.role === roleName);
+    hasRole = (userId: string, role: RoleType) => {
+        return prisma.userRole.findFirst({
+            where: {
+                userId,
+                role: {
+                    role,
+                },
+            },
+        });
     };
 
     // get điểm mentor chấm userId: string
