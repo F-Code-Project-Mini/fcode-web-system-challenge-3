@@ -201,7 +201,7 @@ class AdminService {
             });
         }
 
-        const hasJudgeRole = user.userRoles.some((ur) => ur.role.role === RoleType.JUDGE);
+        const hasJudgeRole = await userRepository.hasRole(user.id, RoleType.JUDGE);
         if (!hasJudgeRole) {
             throw new ErrorWithStatus({
                 status: HTTP_STATUS.BAD_REQUEST,

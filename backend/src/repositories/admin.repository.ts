@@ -279,6 +279,7 @@ class AdminRepository {
     };
 
     public addJudgeToRoom = async (judgeId: string, roomId: string) => {
+        // console.log("vô tới đây rồi", judgeId, roomId);
         return await prisma.judgeRoom.create({
             data: {
                 judgeId,
