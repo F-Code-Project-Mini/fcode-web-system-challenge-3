@@ -5,6 +5,7 @@ import { RoleType } from "~/constants/enums";
 import SchedulePresent from "~/schemas/schedule-present.schema";
 import Submission from "~/schemas/submission.schema";
 import { SubmissionType } from "~/rules/requests/team.request";
+import { includes } from "lodash";
 
 class TeamRepository {
     findWithPagination = async () => {
@@ -86,6 +87,11 @@ class TeamRepository {
                     mentorNote: true,
                 },
                 include: {
+                    // resume: {
+                    //     select: {
+                    //         filePath: true,
+                    //     },
+                    // },
                     user: {
                         omit: {
                             // password: true,
@@ -110,7 +116,15 @@ class TeamRepository {
             },
             topic: true,
         };
-        // console.log("roles", roles);
+        if (roles.includes(RoleType.MENTOR) || roles.includes(RoleType.ADMIN)) {
+            Object.assign(include.candidates.include, {
+                resume: {
+                    select: {
+                        filePath: true,
+                    },
+                },
+            });
+        }
 
         let team = await prisma.team.findUnique({
             where: { id },

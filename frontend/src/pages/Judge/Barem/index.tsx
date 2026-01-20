@@ -11,6 +11,8 @@ import { BadgeCheck, ZoomIn, ZoomOut } from "lucide-react";
 import BadgeLeader from "~/components/BadgeLeader";
 import Notification from "./Notification";
 import { Button } from "~/components/ui/button";
+import { ShowResume } from "~/components/ShowResume";
+import { ShowCandidates } from "./ShowCandidates";
 // import { ShowCandidates } from "./ShowCandidates";
 type ParamsBarem = {
     id: string;
@@ -197,11 +199,11 @@ const JudgeBaremPage = () => {
                 <p className="mt-2 text-sm text-gray-600">Vui lòng chọn ứng viên và điền điểm cho từng tiêu chí</p>
             </div>
 
-            {/* <ShowCandidates
+            <ShowCandidates
                 candidates={candidates}
                 candidateActive={candidateActive}
                 setcandidateActive={setcandidateActive}
-            /> */}
+            />
 
             <Notification />
 
@@ -220,6 +222,12 @@ const JudgeBaremPage = () => {
                         <p className="mt-1 text-xs text-gray-500 sm:text-sm">
                             Vui lòng nhập điểm cho từng tiêu chí dưới đây
                         </p>
+                    </div>
+                    <div className="flex justify-between px-4 py-4">
+                        <ShowResume
+                            urlPdf={candidateActive?.resume?.filePath || ""}
+                            name={candidateActive?.user.fullName || ""}
+                        />
                     </div>
                     <Button
                         onClick={() => setScaleBarem(!scaleBarem)}

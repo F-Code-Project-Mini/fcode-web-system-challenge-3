@@ -82,7 +82,7 @@ const JudgePage = () => {
                                                     status === "active"
                                                         ? "bg-primary/10 border-primary hover:bg-primary/15 border-l-4"
                                                         : status === "expired"
-                                                          ? "bg-gray-100/80 opacity-95 hover:bg-gray-50"
+                                                          ? "bg-gray-100/80 opacity-90 hover:bg-gray-50"
                                                           : "hover:bg-gray-50/50"
                                                 }`}
                                             >
@@ -147,9 +147,7 @@ const JudgePage = () => {
                                                                 {room.team.schedulePresent.videoRecord ? (
                                                                     <Badge asChild>
                                                                         <a
-                                                                            href={
-                                                                                room.team.schedulePresent.googleMeetLink
-                                                                            }
+                                                                            href={room.team.schedulePresent.videoRecord}
                                                                             target="_blank"
                                                                             rel="noopener noreferrer"
                                                                             className="flex items-center gap-1.5"
