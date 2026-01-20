@@ -87,11 +87,11 @@ class TeamRepository {
                     mentorNote: true,
                 },
                 include: {
-                    resume: {
-                        select: {
-                            filePath: true,
-                        },
-                    },
+                    // resume: {
+                    //     select: {
+                    //         filePath: true,
+                    //     },
+                    // },
                     user: {
                         omit: {
                             // password: true,
@@ -114,14 +114,17 @@ class TeamRepository {
                     },
                 },
             },
-            // resume: true,
             topic: true,
         };
-        // if (roles.includes(RoleType.MENTOR) || roles.includes(RoleType.ADMIN)) {
-        //     Object.assign(include, {
-        //         resume: true,
-        //     });
-        // }
+        if (roles.includes(RoleType.MENTOR) || roles.includes(RoleType.ADMIN)) {
+            Object.assign(include.candidates.include, {
+                resume: {
+                    select: {
+                        filePath: true,
+                    },
+                },
+            });
+        }
 
         let team = await prisma.team.findUnique({
             where: { id },

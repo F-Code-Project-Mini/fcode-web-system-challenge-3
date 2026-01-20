@@ -8,6 +8,10 @@ export type ResponsePaginate<T> = {
         pagination: Paginate;
     };
 };
+type ReusmeType = {
+    filePath: true;
+};
+
 export type CandidateType = {
     id: string;
     studentCode: string;
@@ -21,8 +25,11 @@ export type CandidateType = {
     user: Omit<UserType, "candidateId"> & {
         isConfirm: boolean;
     };
+    ReusmeType?: ReusmeType;
+
     scoreMentor: number | null;
 };
+
 export type TeamType = {
     id: string;
     group: number;
