@@ -90,16 +90,21 @@ const Header = () => {
                                 active={Helper.isActive(location.pathname, "/")}
                             />
                         </li>
-                        {isLogin && Helper.hasRole(role, USER_ROLE.CANDIDATE) && <CandidateHeader />}
-                        {isLogin && Helper.hasRole(role, USER_ROLE.ADMIN) && <AdminHeader />}
-                        <li id="teams">
-                            <NavLink
-                                url="/teams"
-                                name="Danh sách nhóm"
-                                Icon={Users}
-                                active={Helper.isActive(location.pathname, "/teams")}
-                            />
-                        </li>
+
+                        {isLogin && (
+                            <>
+                                {Helper.hasRole(role, USER_ROLE.CANDIDATE) && <CandidateHeader />}
+                                {Helper.hasRole(role, USER_ROLE.ADMIN) && <AdminHeader />}
+                                <li id="teams">
+                                    <NavLink
+                                        url="/teams"
+                                        name="Danh sách nhóm"
+                                        Icon={Users}
+                                        active={Helper.isActive(location.pathname, "/teams")}
+                                    />
+                                </li>
+                            </>
+                        )}
                         {/* <li>
                             <NavLink
                                 url="https://discord.gg/WvudrJaYD"
