@@ -156,7 +156,7 @@ const JudgePage = () => {
                                                                             <span>Xem lại record</span>
                                                                         </a>
                                                                     </Badge>
-                                                                ) : status == "active" ? (
+                                                                ) : ["urgent", "active"].includes(status) ? (
                                                                     <Badge asChild className="bg-teal-600 text-white">
                                                                         <a
                                                                             href={
