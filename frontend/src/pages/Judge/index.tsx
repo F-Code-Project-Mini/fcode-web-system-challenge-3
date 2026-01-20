@@ -1,4 +1,4 @@
-import { Sparkles, Video } from "lucide-react";
+import { Presentation, Sparkles, Video } from "lucide-react";
 import { Link } from "react-router";
 import { Button } from "~/components/ui/button";
 import WelcomePartition from "~/components/WelcomePartition";
@@ -71,34 +71,52 @@ const JudgePage = () => {
                             <tbody className="divide-y divide-gray-200/60 bg-white">
                                 {rooms && rooms.length > 0 ? (
                                     rooms.map((room, index) => {
-                                        const { color, status, text } = Helper.formatTimeUntil(room.startTime);
+                                        const { color, status, text } = Helper.formatTimeRange(
+                                            room.startTime,
+                                            room.endTime,
+                                        );
                                         return (
-                                            <tr key={room.id} className="transition-colors hover:bg-gray-50/50">
+                                            <tr
+                                                key={room.id}
+                                                className={`transition-all ${
+                                                    status === "active"
+                                                        ? "bg-primary/10 border-primary hover:bg-primary/15 border-l-4"
+                                                        : status === "expired"
+                                                          ? "bg-gray-100/80 opacity-95 hover:bg-gray-50"
+                                                          : "hover:bg-gray-50/50"
+                                                }`}
+                                            >
                                                 <td className="px-4 py-3.5 text-sm font-medium whitespace-nowrap text-gray-900 sm:px-6 sm:py-4">
                                                     {index + 1}
                                                 </td>
                                                 <td className="px-4 py-3.5 text-sm font-medium sm:px-6 sm:py-4">
                                                     {/* {room.team?.topic?.title || "Chưa có đề tài"} */}
-                                                    <h2 className="text-base font-medium tracking-tight text-gray-900">
-                                                        [NHÓM{" "}
-                                                        <span className="text-primary font-medium">
-                                                            {room.team?.group}
-                                                        </span>
-                                                        ] -{" "}
-                                                        {room.team?.name ? (
-                                                            <span className="text-primary font-medium">
-                                                                {room.team.name}
+                                                    <div className="flex items-center gap-2">
+                                                        <div className="flex-1">
+                                                            <h2 className="text-base font-medium tracking-tight text-gray-900">
+                                                                [NHÓM{" "}
+                                                                <span className="text-primary font-medium">
+                                                                    {room.team?.group}
+                                                                </span>
+                                                                ] -{" "}
+                                                                {room.team?.name ? (
+                                                                    <span className="text-primary font-medium">
+                                                                        {room.team.name}
+                                                                    </span>
+                                                                ) : (
+                                                                    <span className="text-red-500">
+                                                                        Chưa đặt tên nhóm
+                                                                    </span>
+                                                                )}
+                                                            </h2>
+                                                            <span className="text-xs italic">
+                                                                Đề tài:{" "}
+                                                                <span className="text-primary">
+                                                                    {room.team?.topic?.title || "Chưa có đề tài"}
+                                                                </span>
                                                             </span>
-                                                        ) : (
-                                                            <span className="text-red-500">Chưa đặt tên nhóm</span>
-                                                        )}
-                                                    </h2>
-                                                    <span className="text-xs italic">
-                                                        Đề tài:{" "}
-                                                        <span className="text-primary">
-                                                            {room.team?.topic?.title || "Chưa có đề tài"}
-                                                        </span>
-                                                    </span>
+                                                        </div>
+                                                    </div>
                                                 </td>
                                                 <td className="px-4 py-3.5 text-sm whitespace-nowrap text-gray-600 sm:px-6 sm:py-4">
                                                     <span className="font-semibold">{room.roomNumber}</span>
@@ -124,18 +142,40 @@ const JudgePage = () => {
 
                                                 <td className="px-4 py-3.5 text-sm text-gray-600 sm:px-6 sm:py-4">
                                                     {room.team?.schedulePresent?.googleMeetLink ? (
-                                                        ["urgent", "expired"].includes(status) ? (
-                                                            <Badge asChild className="bg-teal-600 text-white">
-                                                                <a
-                                                                    href={room.team.schedulePresent.googleMeetLink}
-                                                                    target="_blank"
-                                                                    rel="noopener noreferrer"
-                                                                    className="flex items-center gap-1.5"
-                                                                >
-                                                                    <Video size={14} />
-                                                                    <span>Tham gia</span>
-                                                                </a>
-                                                            </Badge>
+                                                        ["urgent", "expired", "active"].includes(status) ? (
+                                                            <div className="flex flex-col gap-1">
+                                                                {room.team.schedulePresent.videoRecord ? (
+                                                                    <Badge asChild>
+                                                                        <a
+                                                                            href={
+                                                                                room.team.schedulePresent.googleMeetLink
+                                                                            }
+                                                                            target="_blank"
+                                                                            rel="noopener noreferrer"
+                                                                            className="flex items-center gap-1.5"
+                                                                        >
+                                                                            <Video size={14} />
+                                                                            <span>Xem lại record</span>
+                                                                        </a>
+                                                                    </Badge>
+                                                                ) : status == "active" ? (
+                                                                    <Badge asChild className="bg-teal-600 text-white">
+                                                                        <a
+                                                                            href={
+                                                                                room.team.schedulePresent.googleMeetLink
+                                                                            }
+                                                                            target="_blank"
+                                                                            rel="noopener noreferrer"
+                                                                            className="flex items-center gap-1.5"
+                                                                        >
+                                                                            <Presentation size={14} />
+                                                                            <span>Tham gia</span>
+                                                                        </a>
+                                                                    </Badge>
+                                                                ) : (
+                                                                    ""
+                                                                )}
+                                                            </div>
                                                         ) : (
                                                             <span className="text-center text-xs text-gray-400 italic">
                                                                 Chưa đến giờ
@@ -156,7 +196,7 @@ const JudgePage = () => {
                                                             to={`/judge/room/${room.id}`}
                                                             className="flex items-center gap-1"
                                                         >
-                                                            <Sparkles size={10} /> <span>Xem chi tiết</span>
+                                                            <Sparkles size={10} /> <span>Chi tiết</span>
                                                         </Link>
                                                     </Button>
                                                 </td>

@@ -22,6 +22,7 @@ class JudgeRepository {
                                 schedulePresent: {
                                     select: {
                                         googleMeetLink: true,
+                                        videoRecord: true,
                                     },
                                 },
                             },
