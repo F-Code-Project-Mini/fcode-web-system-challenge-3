@@ -67,6 +67,7 @@ export interface AdminUserDetailType {
 export interface CreateUserRequest {
     email: string;
     fullName: string;
+    role: number[];
 }
 
 export interface CreateUserResponse {

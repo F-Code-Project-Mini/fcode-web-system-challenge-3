@@ -116,12 +116,17 @@ class AdminRepository {
         });
     };
 
-    public createUser = async (email: string, fullName: string) => {
+    public createUser = async (email: string, fullName: string, role: number[]) => {
         return await prisma.user.create({
             data: {
                 email,
                 fullName,
                 password: "",
+                userRoles: {
+                    create: role.map((roleId) => ({
+                        roleId,
+                    })),
+                },
             },
         });
     };
@@ -274,6 +279,7 @@ class AdminRepository {
     };
 
     public addJudgeToRoom = async (judgeId: string, roomId: string) => {
+        // console.log("vô tới đây rồi", judgeId, roomId);
         return await prisma.judgeRoom.create({
             data: {
                 judgeId,
