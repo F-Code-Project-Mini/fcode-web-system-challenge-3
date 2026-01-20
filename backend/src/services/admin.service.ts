@@ -27,8 +27,8 @@ class AdminService {
         };
     };
 
-    public createUser = async (email: string, fullName: string) => {
-        const user = await adminRepository.createUser(email, fullName);
+    public createUser = async (email: string, fullName: string, role: number[]) => {
+        const user = await adminRepository.createUser(email, fullName, role);
 
         return {
             ...user,
