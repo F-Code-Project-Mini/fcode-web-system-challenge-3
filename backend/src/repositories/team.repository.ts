@@ -123,6 +123,11 @@ class TeamRepository {
                         filePath: true,
                     },
                 },
+                interview: {
+                    select: {
+                        filePath: true,
+                    },
+                },
             });
         }
 
