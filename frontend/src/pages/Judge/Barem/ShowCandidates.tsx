@@ -18,7 +18,7 @@ export const ShowCandidates = ({
     const navigate = useNavigate();
     return (
         <div className="mb-6 rounded-lg border border-gray-200 bg-white p-4 sm:p-6">
-            <h3 className="text-primary mb-4 text-base font-semibold sm:text-lg">Ứng viên</h3>
+            <h3 className="text-primary mb-4 text-base font-bold sm:text-lg">Ứng viên</h3>
             <RadioGroup
                 value={candidateActive?.id}
                 onValueChange={(id) => {
@@ -31,7 +31,11 @@ export const ShowCandidates = ({
                     <label
                         key={candidate.id}
                         htmlFor={candidate.id}
-                        className="hover:border-primary/50 flex cursor-pointer items-center gap-3 rounded-lg border border-gray-200 px-3 py-2.5 transition-colors hover:bg-gray-50"
+                        className={`flex cursor-pointer items-center gap-3 rounded-lg border px-3 py-2.5 transition-all ${
+                            candidate.id === candidateActive?.id
+                                ? "border-primary/50 bg-gray-50"
+                                : "hover:border-primary/50 border-gray-200 hover:bg-gray-50"
+                        }`}
                     >
                         <RadioGroupItem value={candidate.id} id={candidate.id} />
                         <span className="flex-1 cursor-pointer text-sm font-medium text-gray-900">

@@ -11,6 +11,9 @@ export type ResponsePaginate<T> = {
 type ReusmeType = {
     filePath: string;
 };
+type InterviewType = {
+    filePath: string;
+};
 
 export type CandidateType = {
     id: string;
@@ -26,6 +29,7 @@ export type CandidateType = {
         isConfirm: boolean;
     };
     resume?: ReusmeType;
+    interview?: InterviewType;
 
     scoreMentor: number | null;
 };
