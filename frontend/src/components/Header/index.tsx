@@ -21,6 +21,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from "~/components/ui/select";
+import Notification from "~/utils/notification";
 
 const Header = () => {
     const location = useLocation();
@@ -42,7 +43,10 @@ const Header = () => {
     const handleSwitchRole = (role: RoleType) => {
         LocalStorage.setItem("role", role);
         setCurrentRole(role);
-        window.location.href = "/";
+        Notification.success({ text: `Chuyển sang quyền ${role}` });
+        setTimeout(() => {
+            window.location.href = "/";
+        }, 500);
     };
 
     useEffect(() => {
@@ -86,16 +90,21 @@ const Header = () => {
                                 active={Helper.isActive(location.pathname, "/")}
                             />
                         </li>
-                        {isLogin && Helper.hasRole(role, USER_ROLE.CANDIDATE) && <CandidateHeader />}
-                        {isLogin && Helper.hasRole(role, USER_ROLE.ADMIN) && <AdminHeader />}
-                        <li id="teams">
-                            <NavLink
-                                url="/teams"
-                                name="Danh sách nhóm"
-                                Icon={Users}
-                                active={Helper.isActive(location.pathname, "/teams")}
-                            />
-                        </li>
+
+                        {isLogin && (
+                            <>
+                                {Helper.hasRole(role, USER_ROLE.CANDIDATE) && <CandidateHeader />}
+                                {Helper.hasRole(role, USER_ROLE.ADMIN) && <AdminHeader />}
+                                <li id="teams">
+                                    <NavLink
+                                        url="/teams"
+                                        name="Danh sách nhóm"
+                                        Icon={Users}
+                                        active={Helper.isActive(location.pathname, "/teams")}
+                                    />
+                                </li>
+                            </>
+                        )}
                         {/* <li>
                             <NavLink
                                 url="https://discord.gg/WvudrJaYD"

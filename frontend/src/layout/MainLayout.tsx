@@ -8,6 +8,7 @@ import { USER_ROLE } from "~/constants/enums";
 import useAuth from "~/hooks/useAuth";
 import Helper from "~/utils/helper";
 import LocalStorage from "~/utils/localstorage";
+import { Toaster } from "sonner";
 
 const MainLayout = () => {
     const { isLoading, isLogin, user, getUserInfo } = useAuth();
@@ -55,6 +56,14 @@ const MainLayout = () => {
                     </section>
                 </section>
                 <Footer />
+                <Toaster
+                    expand={true}
+                    richColors
+                    position="top-center"
+                    visibleToasts={5}
+                    theme="system"
+                    toastOptions={{ duration: 4000, closeButton: true }}
+                />
             </section>
         </>
     );

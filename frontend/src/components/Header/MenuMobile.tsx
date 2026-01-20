@@ -16,6 +16,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from "~/components/ui/select";
+import Notification from "~/utils/notification";
 
 const MenuMobileHeader = ({
     setShowMobileMenu,
@@ -31,7 +32,10 @@ const MenuMobileHeader = ({
         LocalStorage.setItem("role", role);
         setCurrentRole(role);
         setShowMobileMenu(false);
-        window.location.href = "/";
+        Notification.success({ text: `Chuyển sang quyền ${role}` });
+        setTimeout(() => {
+            window.location.href = "/";
+        }, 500);
     };
     return (
         <div className="mt-4 border-t border-gray-100 pt-4 lg:hidden">
