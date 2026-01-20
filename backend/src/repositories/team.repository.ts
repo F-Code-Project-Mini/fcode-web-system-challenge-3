@@ -1,11 +1,9 @@
 import prisma from "~/configs/prisma";
-import { paginate } from "~/utils/pagination";
 import userRepository from "./user.repository";
 import { RoleType } from "~/constants/enums";
 import SchedulePresent from "~/schemas/schedule-present.schema";
 import Submission from "~/schemas/submission.schema";
 import { SubmissionType } from "~/rules/requests/team.request";
-import { includes } from "lodash";
 
 class TeamRepository {
     findWithPagination = async () => {
