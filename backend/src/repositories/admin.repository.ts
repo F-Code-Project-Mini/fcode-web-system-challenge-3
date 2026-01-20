@@ -116,12 +116,17 @@ class AdminRepository {
         });
     };
 
-    public createUser = async (email: string, fullName: string) => {
+    public createUser = async (email: string, fullName: string, role: number[]) => {
         return await prisma.user.create({
             data: {
                 email,
                 fullName,
                 password: "",
+                userRoles: {
+                    create: role.map((roleId) => ({
+                        roleId,
+                    })),
+                },
             },
         });
     };
