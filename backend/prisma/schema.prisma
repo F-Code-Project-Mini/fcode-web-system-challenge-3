@@ -47,6 +47,7 @@ model Candidate {
   ledTeam     Team?        @relation("TeamLeader")
   baremScores BaremScore[] @relation("CandidateReceivedScore")
   resume      Resume?
+  interview   Interview?
 
   @@map("candidates")
 }
@@ -230,6 +231,17 @@ model Resume {
   candidate   Candidate @relation(fields: [candidateId], references: [id])
 
   @@map("resumes")
+}
+
+model Interview {
+  id          String    @id @default(uuid()) @db.VarChar(36)
+  candidateId String    @unique @map("candidate_id") @db.VarChar(36)
+  filePath    String    @map("file_path") @db.VarChar(255)
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @updatedAt @map("updated_at")
+  candidate   Candidate @relation(fields: [candidateId], references: [id])
+
+  @@map("interviews")
 }
 
 enum Role {

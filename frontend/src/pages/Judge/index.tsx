@@ -80,7 +80,7 @@ const JudgePage = () => {
                                                 key={room.id}
                                                 className={`transition-all ${
                                                     status === "active"
-                                                        ? "bg-primary/10 border-primary hover:bg-primary/15 border-l-4"
+                                                        ? "bg-primary/8 border-primary hover:bg-primary/15 border-l-4"
                                                         : status === "expired"
                                                           ? "bg-gray-100/80 opacity-90 hover:bg-gray-50"
                                                           : "hover:bg-gray-50/50"

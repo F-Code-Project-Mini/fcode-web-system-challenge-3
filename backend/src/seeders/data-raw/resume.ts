@@ -145,7 +145,7 @@ export const resumeList = [
     },
     {
         student_code: "SE210179",
-        final_submit: "https://drive.google.com/file/d/171b7j5DWunbSkK9yG4XQopxQf14V8N1f/preview",
+        final_submit: "https://drive.google.com/file/d/1MQYLPmC85-EN6D5VgCPUzDZx5GOqvRXg/preview",
     },
     {
         student_code: "SE212030",
