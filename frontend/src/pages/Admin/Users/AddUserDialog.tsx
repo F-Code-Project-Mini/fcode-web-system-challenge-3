@@ -11,31 +11,29 @@ import {
 } from "~/components/ui/dialog";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "~/components/ui/select";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import AdminApi from "~/api-requests/admin.requests";
-import type { RoleType } from "~/types/user.types";
 import Notification from "~/utils/notification";
-
-const roles: { value: RoleType; label: string }[] = [
-    { value: "CANDIDATE", label: "Thí sinh" },
-    { value: "MENTOR", label: "Mentor" },
-    { value: "JUDGE", label: "Giám khảo" },
-    { value: "HOST", label: "Host" },
-    { value: "ADMIN", label: "Admin" },
+import { X } from "lucide-react";
+import { Checkbox } from "~/components/ui/checkbox";
+const roles: { value: number; label: string }[] = [
+    { value: 1, label: "Thí sinh" },
+    { value: 2, label: "Mentor" },
+    { value: 3, label: "Giám khảo" },
+    { value: 4, label: "Host" },
+    { value: 5, label: "Admin" },
 ];
 
 const AddUserDialog = () => {
     const [open, setOpen] = useState(false);
     const [email, setEmail] = useState("");
     const [fullName, setFullName] = useState("");
-    const [selectedRole, setSelectedRole] = useState<RoleType>("CANDIDATE");
+    const [selectedRoles, setSelectedRoles] = useState<number[]>([1]);
     const queryClient = useQueryClient();
 
     const createUserMutation = useMutation({
-        mutationFn: (data: { email: string; fullName: string }) => AdminApi.createUser(data),
-        onSuccess: async (response) => {
-            await AdminApi.addRoleToUser(response.result.id, { role: selectedRole });
+        mutationFn: (data: { email: string; fullName: string; role: number[] }) => AdminApi.createUser(data),
+        onSuccess: async () => {
             Notification.success({
                 text: `Tạo user thành công!`,
             });
@@ -43,7 +41,7 @@ const AddUserDialog = () => {
             setOpen(false);
             setEmail("");
             setFullName("");
-            setSelectedRole("CANDIDATE");
+            setSelectedRoles([1]);
         },
         onError: (error: unknown) => {
             const err = error as { response?: { data?: { message?: string } } };
@@ -53,11 +51,17 @@ const AddUserDialog = () => {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        if (!email || !fullName) {
-            Notification.error({ text: "Vui lòng nhập đầy đủ thông tin!" });
+        if (!email || !fullName || selectedRoles.length === 0) {
+            Notification.error({ text: "Vui lòng nhập đầy đủ thông tin và chọn ít nhất 1 role!" });
             return;
         }
-        createUserMutation.mutate({ email, fullName });
+        createUserMutation.mutate({ email, fullName, role: selectedRoles });
+    };
+
+    const toggleRole = (roleValue: number) => {
+        setSelectedRoles((prev) =>
+            prev.includes(roleValue) ? prev.filter((r) => r !== roleValue) : [...prev, roleValue],
+        );
     };
 
     return (
@@ -96,19 +100,42 @@ const AddUserDialog = () => {
 
                         <div className="grid gap-2">
                             <Label htmlFor="role">Role</Label>
-                            <Select value={selectedRole} onValueChange={(value) => setSelectedRole(value as RoleType)}>
-                                <SelectTrigger className="w-full">
-                                    <SelectValue placeholder="Chọn role" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    {roles.map((role) => (
-                                        <SelectItem key={role.value} value={role.value}>
-                                            {role.label}
-                                        </SelectItem>
-                                    ))}
-                                </SelectContent>
-                            </Select>
-                            {/* <p className="text-xs text-gray-500">Có thể thêm role sau khi tạo user</p> */}
+                            <div className="flex flex-wrap gap-2">
+                                {selectedRoles.length > 0 ? (
+                                    selectedRoles.map((roleValue) => {
+                                        const role = roles.find((r) => r.value === roleValue);
+                                        return (
+                                            <span
+                                                key={roleValue}
+                                                className="bg-primary flex items-center gap-1 rounded-md px-2.5 py-1 text-xs font-medium text-white"
+                                            >
+                                                {role?.label}
+                                                <button
+                                                    type="button"
+                                                    onClick={() => toggleRole(roleValue)}
+                                                    className="hover:bg-primary/80 rounded-full"
+                                                >
+                                                    <X size={14} />
+                                                </button>
+                                            </span>
+                                        );
+                                    })
+                                ) : (
+                                    <span className="text-xs text-gray-400">Chưa chọn role nào</span>
+                                )}
+                            </div>
+                            <div className="mt-2 space-y-2 rounded-md border border-gray-200 p-3">
+                                {roles.map((role) => (
+                                    <label key={role.value} className="flex cursor-pointer items-center gap-2 text-sm">
+                                        <Checkbox
+                                            checked={selectedRoles.includes(role.value)}
+                                            onCheckedChange={() => toggleRole(role.value)}
+                                            className="text-primary focus:ring-primary h-4 w-4 cursor-pointer rounded border-gray-300"
+                                        />
+                                        <span>{role.label}</span>
+                                    </label>
+                                ))}
+                            </div>
                         </div>
                     </div>
                     <DialogFooter>

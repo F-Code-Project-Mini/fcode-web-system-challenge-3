@@ -27,8 +27,8 @@ class AdminService {
         };
     };
 
-    public createUser = async (email: string, fullName: string) => {
-        const user = await adminRepository.createUser(email, fullName);
+    public createUser = async (email: string, fullName: string, role: number[]) => {
+        const user = await adminRepository.createUser(email, fullName, role);
 
         return {
             ...user,
@@ -201,7 +201,7 @@ class AdminService {
             });
         }
 
-        const hasJudgeRole = user.userRoles.some((ur) => ur.role.role === RoleType.JUDGE);
+        const hasJudgeRole = await userRepository.hasRole(user.id, RoleType.JUDGE);
         if (!hasJudgeRole) {
             throw new ErrorWithStatus({
                 status: HTTP_STATUS.BAD_REQUEST,

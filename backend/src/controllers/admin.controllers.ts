@@ -1,6 +1,8 @@
+import { ParamsDictionary } from "express-serve-static-core";
 import { Request, Response, NextFunction } from "express";
 import adminService from "~/services/admin.service";
 import { HTTP_STATUS } from "~/constants/httpStatus";
+import { RoleType } from "~/constants/enums";
 
 class AdminController {
     public getAllUsers = async (req: Request, res: Response, next: NextFunction) => {
@@ -29,10 +31,14 @@ class AdminController {
         }
     };
 
-    public createUser = async (req: Request, res: Response, next: NextFunction) => {
+    public createUser = async (
+        req: Request<ParamsDictionary, any, { email: string; fullName: string; role: number[] }>,
+        res: Response,
+        next: NextFunction,
+    ) => {
         try {
-            const { email, fullName } = req.body;
-            const user = await adminService.createUser(email, fullName);
+            const { email, fullName, role } = req.body;
+            const user = await adminService.createUser(email, fullName, role);
             res.status(HTTP_STATUS.CREATED).json({
                 message: "Tạo user thành công!",
                 result: user,
