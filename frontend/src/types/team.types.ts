@@ -9,7 +9,7 @@ export type ResponsePaginate<T> = {
     };
 };
 type ReusmeType = {
-    filePath: true;
+    filePath: string;
 };
 
 export type CandidateType = {
@@ -25,7 +25,7 @@ export type CandidateType = {
     user: Omit<UserType, "candidateId"> & {
         isConfirm: boolean;
     };
-    ReusmeType?: ReusmeType;
+    resume?: ReusmeType;
 
     scoreMentor: number | null;
 };
