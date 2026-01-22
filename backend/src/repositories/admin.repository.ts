@@ -332,6 +332,7 @@ class AdminRepository {
                         major: true,
                         semester: true,
                         teamId: true,
+                        statusC3: true,
                         user: {
                             select: {
                                 id: true,

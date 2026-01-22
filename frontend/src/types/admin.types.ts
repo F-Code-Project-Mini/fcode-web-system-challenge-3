@@ -1,4 +1,4 @@
-import type { RoleType } from "./user.types";
+import type { RoleType, StatusC3 } from "./user.types";
 
 export interface AdminUserType {
     id: string;
@@ -204,6 +204,7 @@ export interface AdminCandidateType {
     major: string;
     semester: string;
     teamId: string;
+    statusC3: StatusC3;
     user: {
         id: string;
         fullName: string;
