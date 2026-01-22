@@ -1,7 +1,7 @@
 import { Sparkles } from "lucide-react";
 import { Link } from "react-router";
 import { Button } from "~/components/ui/button";
-import { ChoiceLeader } from "./ChoiceLeader";
+// import { ChoiceLeader } from "./ChoiceLeader";
 import type { TeamType } from "~/types/team.types";
 import NotifyNotLeader from "~/components/NotifyNotLeader";
 import { ShowTopic } from "../Candidate/ShowTopic";
@@ -36,7 +36,7 @@ const Team = ({ team }: { team: TeamType }) => {
                     </div>
                     <div className="flex flex-wrap items-center gap-2">
                         <ShowTopic urlPdf={team.topic.filePath} name={team.topic.title} />
-                        <ChoiceLeader team={team} />
+                        {/* <ChoiceLeader team={team} /> */}
                         <NoteTeam note={team.mentorNote || ""} teamId={team.id} />
 
                         {/* <Link to={`/mentor/team/${team.id}`}>

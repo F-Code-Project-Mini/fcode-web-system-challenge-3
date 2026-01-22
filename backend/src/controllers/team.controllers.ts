@@ -195,6 +195,9 @@ export const assignMember = async (req: Request<{ id: string }>, res: Response, 
 };
 
 export const setLeader = async (req: Request<{ id: string }>, res: Response, next: NextFunction) => {
+    return res
+        .status(HTTP_STATUS.BAD_REQUEST)
+        .json(new ResponseClient({ message: "Không thể thay đổi Leader bây giờ nữa!" }));
     try {
         const { candidate_id } = req.body as { candidate_id: string };
         await teamService.setLeader(req.params.id, candidate_id);
