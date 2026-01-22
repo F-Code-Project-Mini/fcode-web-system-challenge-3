@@ -70,7 +70,7 @@ const FormSubmit = () => {
 
     return (
         <section className="mb-4 overflow-hidden rounded-md border bg-white sm:mb-6">
-            <div className="border-b border-gray-200/70 bg-gradient-to-r from-gray-50/80 to-white px-4 py-3 sm:px-5 sm:py-4 md:px-6">
+            <div className="border-b border-gray-200/70 bg-linear-to-r from-gray-50/80 to-white px-4 py-3 sm:px-5 sm:py-4 md:px-6">
                 <h2 className="text-base font-semibold tracking-tight text-gray-900 sm:text-lg">
                     Nộp sản phẩm Challenge 3
                 </h2>

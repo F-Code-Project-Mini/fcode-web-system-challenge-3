@@ -7,7 +7,7 @@ import { Link, useParams } from "react-router";
 import { socket } from "~/utils/socket";
 import useAuth from "~/hooks/useAuth";
 import type { CandidateType } from "~/types/team.types";
-import { BadgeCheck, ZoomIn, ZoomOut } from "lucide-react";
+import { BadgeCheck, MessageCircle, ZoomIn, ZoomOut } from "lucide-react";
 import BadgeLeader from "~/components/BadgeLeader";
 import Notification from "./Notification";
 import { Button } from "~/components/ui/button";
@@ -212,7 +212,7 @@ const JudgeBaremPage = () => {
                 id="barem-table"
             >
                 <div className="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-xs">
-                    <div className="border-b border-gray-200 bg-gradient-to-r from-gray-50 to-white px-4 py-4 sm:px-6">
+                    <div className="border-b border-gray-200 bg-linear-to-r from-gray-50 to-white px-4 py-4 sm:px-6">
                         <div className="flex items-center gap-2">
                             <h2 className="text-base font-bold text-gray-900 sm:text-lg">
                                 ỨNG VIÊN: <span className="text-primary">{candidateActive?.user.fullName}</span>
@@ -223,16 +223,21 @@ const JudgeBaremPage = () => {
                             Vui lòng nhập điểm cho từng tiêu chí dưới đây
                         </p>
                     </div>
-                    <div className="flex justify-center gap-2 px-4 py-4">
-                        <ShowResume
-                            urlPdf={candidateActive?.resume?.filePath || ""}
-                            name={candidateActive?.user.fullName || ""}
-                        />
-                        <Button asChild>
-                            <Link to={candidateActive?.interview?.filePath || ""} target="_blank">
-                                Xem nhận xét Challenge 2
-                            </Link>
-                        </Button>
+                    <div className="flex flex-col justify-center gap-2 px-4 py-4">
+                        <div>
+                            <h3>Nhận xét các vòng trước</h3>
+                        </div>
+                        <div className="flex gap-2">
+                            <ShowResume
+                                urlPdf={candidateActive?.resume?.filePath || ""}
+                                name={candidateActive?.user.fullName || ""}
+                            />
+                            <Button asChild>
+                                <Link to={candidateActive?.interview?.filePath || ""} target="_blank">
+                                    <MessageCircle /> Nhận xét Challenge 2
+                                </Link>
+                            </Button>
+                        </div>
                     </div>
                     <Button
                         onClick={() => setScaleBarem(!scaleBarem)}

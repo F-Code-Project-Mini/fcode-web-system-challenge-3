@@ -4,7 +4,7 @@ const Candidates = () => {
     return (
         <section className="col-span-1 lg:col-span-16" id="members">
             <div className="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-2xs">
-                <div className="from-gray-100/60/60 border-b border-gray-200 bg-gradient-to-r px-4 py-3 sm:px-6 sm:py-4">
+                <div className="from-gray-100/60/60 border-b border-gray-200 bg-linear-to-r px-4 py-3 sm:px-6 sm:py-4">
                     <h2 className="text-base font-semibold text-gray-900 sm:text-lg">DANH SÁCH ỨNG VIÊN</h2>
                     <p className="mt-1 text-xs text-gray-500 sm:text-sm">Danh sách các ứng viên vòng 3</p>
                 </div>

@@ -6,7 +6,7 @@ const NotifyNotLeader = ({
     message?: string;
 }) => {
     return (
-        <div className="mb-2 rounded-lg border-1 border-amber-200 bg-gradient-to-r from-amber-50 to-orange-50 p-4">
+        <div className="mb-2 rounded-lg border-1 border-amber-200 bg-linear-to-r from-amber-50 to-orange-50 p-4">
             <div className="flex items-start gap-3">
                 <div className="flex-shrink-0">
                     <svg className="h-6 w-6 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">

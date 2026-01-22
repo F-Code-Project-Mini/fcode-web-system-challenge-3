@@ -1,19 +1,20 @@
 import { Sparkles } from "lucide-react";
 import { Link } from "react-router";
 import { Button } from "~/components/ui/button";
-import { ChoiceLeader } from "./ChoiceLeader";
+// import { ChoiceLeader } from "./ChoiceLeader";
 import type { TeamType } from "~/types/team.types";
 import NotifyNotLeader from "~/components/NotifyNotLeader";
 import { ShowTopic } from "../Candidate/ShowTopic";
 import Helper from "~/utils/helper";
 import BadgeLeader from "~/components/BadgeLeader";
 import { NoteTeam } from "./Note";
+import DisplayResult from "../Candidate/DisplayStatus";
 const Team = ({ team }: { team: TeamType }) => {
     return (
         <section className="col-span-1 lg:col-span-8" id="members">
             {!team.leaderId && <NotifyNotLeader name={team.group} />}
             <div className="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-2xs">
-                <div className="from-gray-100/60/60 flex flex-col gap-3 border-b border-gray-200 bg-gradient-to-r px-4 py-3 sm:px-6 sm:py-4 lg:flex-row lg:items-center lg:justify-between lg:gap-4">
+                <div className="from-gray-100/60/60 flex flex-col gap-3 border-b border-gray-200 bg-linear-to-r px-4 py-3 sm:px-6 sm:py-4 lg:flex-row lg:items-center lg:justify-between lg:gap-4">
                     <div className="flex-1">
                         <h2 className="text-base font-semibold tracking-tight text-gray-900 sm:text-lg">
                             [NHÓM <span className="text-primary font-bold">{team?.group}</span>] -{" "}
@@ -35,7 +36,7 @@ const Team = ({ team }: { team: TeamType }) => {
                     </div>
                     <div className="flex flex-wrap items-center gap-2">
                         <ShowTopic urlPdf={team.topic.filePath} name={team.topic.title} />
-                        <ChoiceLeader team={team} />
+                        {/* <ChoiceLeader team={team} /> */}
                         <NoteTeam note={team.mentorNote || ""} teamId={team.id} />
 
                         {/* <Link to={`/mentor/team/${team.id}`}>
@@ -65,6 +66,9 @@ const Team = ({ team }: { team: TeamType }) => {
                                 </th>
                                 <th className="px-3 py-2 text-left text-xs font-semibold tracking-wider text-gray-600 uppercase sm:px-6 sm:py-3 md:table-cell">
                                     Liên hệ
+                                </th>
+                                <th className="px-3 py-2 text-left text-xs font-semibold tracking-wider text-gray-600 uppercase sm:px-6 sm:py-3 md:table-cell">
+                                    Kết quả
                                 </th>
                                 <th className="px-3 py-2 text-left text-xs font-semibold tracking-wider text-gray-600 uppercase sm:px-6 sm:py-3 md:table-cell">
                                     Trạng thái
@@ -109,6 +113,9 @@ const Team = ({ team }: { team: TeamType }) => {
                                             </div>
                                         </td>
                                         <td className="px-4 py-3.5 text-sm whitespace-nowrap text-gray-600 sm:px-6 sm:py-4 md:table-cell">
+                                            <DisplayResult status={member.statusC3} />
+                                        </td>
+                                        <td className="px-4 py-3.5 text-sm whitespace-nowrap text-gray-600 sm:px-6 sm:py-4 md:table-cell">
                                             <div className="flex flex-col gap-2">
                                                 <div className="flex items-center gap-1 text-sm">
                                                     <span className="text-gray-500">Điểm:</span>
@@ -119,7 +126,7 @@ const Team = ({ team }: { team: TeamType }) => {
                                                     </span>
                                                     <span className="text-gray-500">/{isLeader ? "100" : "85"}</span>
                                                 </div>
-                                                {user.isConfirm && (
+                                                {user.isConfirm && member.statusC3 === "WAITING" && (
                                                     <Button
                                                         variant="outline"
                                                         size="sm"

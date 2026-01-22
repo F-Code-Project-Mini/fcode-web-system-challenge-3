@@ -4,7 +4,7 @@ import type { TeamType } from "~/types/team.types";
 const TopicTeam = ({ team }: { team: TeamType }) => {
     return (
         <div className="overflow-hidden rounded-lg border border-gray-200/70 bg-white shadow-xs transition-all">
-            <div className="border-b border-gray-200/70 bg-gradient-to-br from-gray-50/80 to-white px-5 py-4">
+            <div className="border-b border-gray-200/70 bg-linear-to-br from-gray-50/80 to-white px-5 py-4">
                 <h3 className="flex items-center gap-2 text-sm font-semibold text-gray-900">
                     <BookOpen className="text-primary h-4 w-4" />
                     Thông tin nhóm

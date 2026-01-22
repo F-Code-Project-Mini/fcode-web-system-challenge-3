@@ -6,7 +6,7 @@ const PartitionBanner = () => {
                 alt="F-Code Banner"
                 className="h-full w-full rounded-l-lg object-cover object-center transition-transform duration-300 hover:scale-105"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-gray-900/70 via-gray-900/30 to-transparent"></div>
+            <div className="absolute inset-0 bg-linear-to-t from-gray-900/70 via-gray-900/30 to-transparent"></div>
             <div className="absolute inset-0 flex flex-col justify-end p-6 text-white sm:p-8">
                 <div className="space-y-2">
                     <h2 className="text-2xl leading-tight font-bold drop-shadow-lg sm:text-3xl">CLB F-Code!</h2>

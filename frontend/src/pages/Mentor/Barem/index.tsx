@@ -224,7 +224,7 @@ const MentorBaremPage = () => {
 
             <section className="my-6" id="barem-table">
                 <div className="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-xs">
-                    <div className="border-b border-gray-200 bg-gradient-to-r from-gray-50 to-white px-4 py-4 sm:px-6">
+                    <div className="border-b border-gray-200 bg-linear-to-r from-gray-50 to-white px-4 py-4 sm:px-6">
                         <div className="flex items-center gap-2">
                             <h2 className="text-base font-bold text-gray-900 sm:text-lg">
                                 ỨNG VIÊN: <span className="text-primary">{candidateActive?.user.fullName}</span>

@@ -1,4 +1,4 @@
-import type { UserType } from "./user.types";
+import type { StatusC3, UserType } from "./user.types";
 
 export type ResponsePaginate<T> = {
     status: boolean;
@@ -28,6 +28,7 @@ export type CandidateType = {
     user: Omit<UserType, "candidateId"> & {
         isConfirm: boolean;
     };
+    statusC3: StatusC3;
     resume?: ReusmeType;
     interview?: InterviewType;
 

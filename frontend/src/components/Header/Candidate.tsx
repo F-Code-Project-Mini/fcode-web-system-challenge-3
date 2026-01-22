@@ -18,7 +18,7 @@ const CandidateHeader = () => {
             <li id="submissions">
                 <NavLink
                     url="/submissions"
-                    name="Nộp sản phẩm"
+                    name="Sản phẩm"
                     Icon={Send}
                     active={Helper.isActive(location.pathname, "/submissions")}
                 />

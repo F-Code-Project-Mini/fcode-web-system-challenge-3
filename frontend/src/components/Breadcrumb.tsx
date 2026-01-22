@@ -24,7 +24,7 @@ export function BreadcrumbPages({ urls }: { urls: BreadcrumbPageProps[] }) {
     const indexLast = count - 1;
 
     return (
-        <div className="border-primary/20 from-primary/5 rounded-lg border bg-gradient-to-r to-white px-4 py-3 shadow-xs">
+        <div className="border-primary/20 from-primary/5 rounded-lg border bg-linear-to-r to-white px-4 py-3 shadow-xs">
             <Breadcrumb>
                 <BreadcrumbList>
                     <BreadcrumbItem>

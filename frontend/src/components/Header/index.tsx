@@ -154,7 +154,7 @@ const Header = () => {
                                         className="group cursor-pointer rounded-lg px-3"
                                     >
                                         <div className="flex items-center gap-3">
-                                            <div className="from-primary/20 to-primary/40 text-primary ring-primary/10 flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br text-sm font-semibold ring-2 transition-all group-hover:ring-4">
+                                            <div className="from-primary/20 to-primary/40 text-primary ring-primary/10 flex h-9 w-9 items-center justify-center rounded-full bg-linear-to-br text-sm font-semibold ring-2 transition-all group-hover:ring-4">
                                                 {user.fullName.charAt(0)}
                                             </div>
                                             <span className="text-sm font-medium text-gray-700">{user.fullName}</span>

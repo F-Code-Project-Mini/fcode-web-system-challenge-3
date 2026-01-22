@@ -1,4 +1,4 @@
-import { BookOpen, Calendar, Clock, CheckCircle } from "lucide-react";
+import { Calendar, Clock, CheckCircle } from "lucide-react";
 import type { SchedulePresent } from "~/types/team.types";
 const SchedulePresent = (trial: string, index: number) => {
     return trial.split("|")[index] || "";
@@ -6,9 +6,9 @@ const SchedulePresent = (trial: string, index: number) => {
 const InfoPresent = ({ schedule }: { schedule: SchedulePresent }) => {
     return (
         <div className="space-y-3">
-            {schedule.trialDate && (
-                <div className="overflow-hidden rounded-lg border border-amber-200/60 bg-gradient-to-br from-amber-50/50 to-white shadow-xs transition-all">
-                    <div className="border-b border-amber-200/60 bg-gradient-to-br from-amber-50/80 to-white px-4 py-3">
+            {/* {schedule.trialDate && (
+                <div className="overflow-hidden rounded-lg border border-amber-200/60 bg-linear-to-br from-amber-50/50 to-white shadow-xs transition-all">
+                    <div className="border-b border-amber-200/60 bg-linear-to-br from-amber-50/80 to-white px-4 py-3">
                         <h3 className="flex items-center gap-2 text-xs font-semibold text-gray-900">
                             <Clock className="h-3.5 w-3.5 text-amber-600" />
                             Thuyết trình thử
@@ -36,11 +36,11 @@ const InfoPresent = ({ schedule }: { schedule: SchedulePresent }) => {
                         </div>
                     </div>
                 </div>
-            )}
+            )} */}
 
             {/* Thuyết trình chính thức */}
-            <div className="overflow-hidden rounded-lg border border-teal-200/60 bg-gradient-to-br from-teal-50/50 to-white shadow-xs transition-all">
-                <div className="border-b border-teal-200/60 bg-gradient-to-br from-teal-50/80 to-white px-4 py-3">
+            <div className="overflow-hidden rounded-lg border border-teal-200/60 bg-linear-to-br from-teal-50/50 to-white shadow-xs transition-all">
+                <div className="border-b border-teal-200/60 bg-linear-to-br from-teal-50/80 to-white px-4 py-3">
                     <h3 className="flex items-center gap-2 text-xs font-semibold text-gray-900">
                         <CheckCircle className="h-3.5 w-3.5 text-teal-600" />
                         Thuyết trình chính thức
