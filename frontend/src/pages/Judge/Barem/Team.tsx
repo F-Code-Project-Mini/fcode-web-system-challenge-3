@@ -1,7 +1,6 @@
 import { Note } from "./Note";
 import { BadgeCheck, ZoomIn, ZoomOut } from "lucide-react";
 import { Button } from "~/components/ui/button";
-import type { CandidateType } from "~/types/team.types";
 
 type BaremJudgeType = {
     target: string;
@@ -21,28 +20,26 @@ interface BaremTeamProps {
     scaleBarem: boolean;
     setScaleBarem: (value: boolean) => void;
     baremJudge: BaremJudgeType[] | undefined;
-    isLeader: boolean;
     scores: { [key: string]: number };
     handleScoreChange: (key: string, value: string) => void;
     notes: { [key: string]: string };
     handleNoteChange: (key: string, note: string) => void;
-    candidateActive: CandidateType | undefined;
     totalCurrentScore: number;
     totalMaxScore: number;
+    teamId: string;
 }
 
 const BaremTeam = ({
     scaleBarem,
     setScaleBarem,
     baremJudge,
-    isLeader,
     scores,
     handleScoreChange,
     notes,
     handleNoteChange,
-    candidateActive,
     totalCurrentScore,
     totalMaxScore,
+    teamId,
 }: BaremTeamProps) => {
     return (
         <div>
@@ -100,16 +97,13 @@ const BaremTeam = ({
                                         (sum, partition) => sum + (partition.partitions?.length || 0),
                                         0,
                                     );
-                                    if (!isLeader && item.target == "Leader") {
-                                        return null;
-                                    }
 
                                     return item.partitions.flatMap((partition, partitionIndex) => {
                                         const subPartitions = partition.partitions || [];
                                         const criteriaRowSpan = subPartitions.length;
 
                                         return subPartitions.map((subPart, subIndex) => {
-                                            const scoreKey = `${item.target}-${partitionIndex}-${subIndex}`;
+                                            const scoreKey = `team-${item.target}-${partitionIndex}-${subIndex}`;
                                             const isFirstSubPart = subIndex === 0;
                                             const isFirstPartition = targetRowIndex === 0;
 
@@ -186,7 +180,7 @@ const BaremTeam = ({
                                                             keyId={scoreKey}
                                                             handleNoteChange={handleNoteChange}
                                                             note={notes[scoreKey] || ""}
-                                                            candidateId={candidateActive?.id || ""}
+                                                            candidateId={teamId}
                                                             codeBarem={subPart.code}
                                                         />
                                                     </td>
