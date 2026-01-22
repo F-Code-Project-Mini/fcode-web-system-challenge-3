@@ -21,7 +21,7 @@ const DisplayResultChallenge = () => {
             borderColor: "border-green-300/60",
             iconBg: "bg-gradient-to-br from-green-400 to-emerald-500",
             badgeBg: "bg-green-500",
-            badgeText: "Đậu",
+            badgeText: "Vượt qua",
             confetti: true,
         },
         FAILED: {
