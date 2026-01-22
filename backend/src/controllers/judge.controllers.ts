@@ -1,10 +1,12 @@
 import { NextFunction, Request, Response } from "express";
 import prisma from "~/configs/prisma";
 import { judgeBaremOfficial } from "~/constants/barems/oficial";
+import { judgeBaremTeam } from "~/constants/barems/team";
 import { judgeBaremTrial } from "~/constants/barems/trial";
 import { HTTP_STATUS } from "~/constants/httpStatus";
 import { ResponseClient } from "~/rules/response";
 import judgeService from "~/services/judge.service";
+import teamService from "~/services/team.service";
 
 const fetchBaremScore = async (judgeId: string, candidateId: string, codeBarem: string) => {
     return await prisma.baremScore.findFirst({
@@ -84,6 +86,19 @@ export const getBarem = async (
         const room = await judgeService.getDetailRoom(roomId);
         const barem = room?.modePresent === "ONLINE" ? judgeBaremTrial : judgeBaremOfficial;
         const result = await Promise.all(barem.map((item) => processBaremItem(item, judgeId, candidateId)));
+        return res.status(HTTP_STATUS.OK).json(new ResponseClient({ result }));
+    } catch (error) {
+        return next(error);
+    }
+};
+
+export const getBaremTeam = async (req: Request<{ candidateId: string }>, res: Response, next: NextFunction) => {
+    try {
+        const { candidateId } = req.params;
+        console.log("candidateId", candidateId);
+        const judgeId = req.userId!;
+        const leaderId = await teamService.getLeaderByMemberId(candidateId);
+        const result = await Promise.all(judgeBaremTeam.map((item) => processBaremItem(item, judgeId, leaderId!)));
         return res.status(HTTP_STATUS.OK).json(new ResponseClient({ result }));
     } catch (error) {
         return next(error);

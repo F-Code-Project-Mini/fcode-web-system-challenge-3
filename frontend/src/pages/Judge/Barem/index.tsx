@@ -14,20 +14,26 @@ import { Button } from "~/components/ui/button";
 import { ShowResume } from "~/components/ShowResume";
 import { ShowCandidates } from "./ShowCandidates";
 import BaremTeam from "./Team";
+
 type ParamsBarem = {
     id: string;
     roomId: string;
     candidateId?: string;
 };
+
 const JudgeBaremPage = () => {
     const params = useParams<ParamsBarem>();
-
     const { user } = useAuth();
 
     const [scaleBarem, setScaleBarem] = useState(false);
     const [scores, setScores] = useState<{ [key: string]: number }>({});
     const [notes, setNotes] = useState<{ [key: string]: string }>({});
     const isDataInitialized = useRef(false);
+
+    // State riêng cho Team Barem
+    const [scoresTeam, setScoresTeam] = useState<{ [key: string]: number }>({});
+    const [notesTeam, setNotesTeam] = useState<{ [key: string]: string }>({});
+    const isDataInitializedTeam = useRef(false);
 
     const debounceMapRef = useRef<Record<string, number>>({});
     const debounceNoteMapRef = useRef<Record<string, number>>({});
@@ -49,13 +55,12 @@ const JudgeBaremPage = () => {
             setcandidateActive(
                 candidates.candidates.find((c) => c.id === params.candidateId) || candidates.candidates[0],
             );
-            // reset scores and cell status when candidate changes
         }
         // Reset flag khi chuyển candidate
         isDataInitialized.current = false;
     }, [candidates, candidateActive, params.candidateId]);
 
-    const { data: baremJudge } = useQuery({
+    const { data: baremJudgePersonal } = useQuery({
         queryKey: ["judge-barem", candidateActive, params.candidateId, params.roomId],
         queryFn: async () => {
             const res = await JudgeApi.getBarem(candidateActive?.id || "", params.roomId || "");
@@ -64,13 +69,22 @@ const JudgeBaremPage = () => {
         enabled: !!candidateActive,
     });
 
+    const { data: baremJudgeTeam } = useQuery({
+        queryKey: ["judge-barem-team", params.id, params.roomId],
+        queryFn: async () => {
+            const res = await JudgeApi.getBaremTeam(params.candidateId || "");
+            return res.result;
+        },
+        enabled: !!params.id,
+    });
+
     // Reset lại data (k reset chuyển cái khác nó vẫn giữ lại data cũ của ứng viên khác)
     useEffect(() => {
-        if (!baremJudge) return;
+        if (!baremJudgePersonal) return;
 
         const newScores: { [key: string]: number } = {};
         const newNotes: { [key: string]: string } = {};
-        baremJudge.forEach((item) => {
+        baremJudgePersonal.forEach((item) => {
             item.partitions.forEach((partition, partitionIndex) => {
                 partition.partitions?.forEach((subPart, subIndex) => {
                     const scoreKey = `${item.target}-${partitionIndex}-${subIndex}`;
@@ -92,10 +106,40 @@ const JudgeBaremPage = () => {
         setTimeout(() => {
             isDataInitialized.current = true;
         }, 100);
-    }, [baremJudge]);
+    }, [baremJudgePersonal]);
+
+    // Reset lại data cho Team Barem (không phụ thuộc vào candidateActive)
+    useEffect(() => {
+        if (!baremJudgeTeam) return;
+
+        const newScoresTeam: { [key: string]: number } = {};
+        const newNotesTeam: { [key: string]: string } = {};
+        baremJudgeTeam.forEach((item) => {
+            item.partitions.forEach((partition, partitionIndex) => {
+                partition.partitions?.forEach((subPart, subIndex) => {
+                    const scoreKey = `team-${item.target}-${partitionIndex}-${subIndex}`;
+                    if (subPart.scoreCurrent !== undefined && subPart.scoreCurrent !== null) {
+                        newScoresTeam[scoreKey] = subPart.scoreCurrent;
+                    }
+
+                    if (subPart.note !== undefined && subPart.note !== null) {
+                        newNotesTeam[scoreKey] = subPart.note;
+                    }
+                });
+            });
+        });
+
+        setScoresTeam(newScoresTeam);
+        setNotesTeam(newNotesTeam);
+
+        // Đánh dấu data đã được initialized để tránh emit socket không cần thiết
+        setTimeout(() => {
+            isDataInitializedTeam.current = true;
+        }, 100);
+    }, [baremJudgeTeam]);
 
     const totalMaxScore =
-        baremJudge?.reduce((sum, item) => {
+        baremJudgePersonal?.reduce((sum, item) => {
             if (!isLeader && item.target == "Leader") {
                 return sum;
             }
@@ -111,6 +155,21 @@ const JudgeBaremPage = () => {
 
     const totalCurrentScore = Object.values(scores).reduce((sum, score) => sum + (score || 0), 0);
 
+    // Tính tổng điểm cho Team
+    const totalMaxScoreTeam =
+        baremJudgeTeam?.reduce((sum, item) => {
+            return (
+                sum +
+                item.partitions.reduce((partSum, partition) => {
+                    return (
+                        partSum + (partition.partitions?.reduce((subSum, subPart) => subSum + subPart.maxScore, 0) || 0)
+                    );
+                }, 0)
+            );
+        }, 0) ?? 0;
+
+    const totalCurrentScoreTeam = Object.values(scoresTeam).reduce((sum, score) => sum + (score || 0), 0);
+
     const handleScoreChange = (key: string, value: string) => {
         const num = parseFloat(value);
 
@@ -119,8 +178,26 @@ const JudgeBaremPage = () => {
             [key]: isNaN(num) ? 0 : num,
         }));
     };
+
     const handleNoteChange = useCallback((key: string, note: string) => {
         setNotes((prev) => ({
+            ...prev,
+            [key]: note,
+        }));
+    }, []);
+
+    // Handlers riêng cho Team
+    const handleScoreChangeTeam = (key: string, value: string) => {
+        const num = parseFloat(value);
+
+        setScoresTeam((prev) => ({
+            ...prev,
+            [key]: isNaN(num) ? 0 : num,
+        }));
+    };
+
+    const handleNoteChangeTeam = useCallback((key: string, note: string) => {
+        setNotesTeam((prev) => ({
             ...prev,
             [key]: note,
         }));
@@ -136,11 +213,13 @@ const JudgeBaremPage = () => {
 
     // useEffect riêng cho scores
     useEffect(() => {
-        if (!baremJudge || !candidateActive || !isDataInitialized.current) return;
+        if (!baremJudgePersonal || !candidateActive || !isDataInitialized.current) return;
 
         Object.entries(scores).forEach(([key, score]) => {
             const [target, partitionIndex, subIndex] = key.split("-");
-            const partition = baremJudge?.find((item) => item.target === target)?.partitions[Number(partitionIndex)];
+            const partition = baremJudgePersonal?.find((item) => item.target === target)?.partitions[
+                Number(partitionIndex)
+            ];
             const subPart = partition?.partitions?.[Number(subIndex)];
 
             if (!subPart) return;
@@ -161,15 +240,17 @@ const JudgeBaremPage = () => {
                 });
             }, 500);
         });
-    }, [scores, baremJudge, candidateActive, user.id, notes]);
+    }, [scores, baremJudgePersonal, candidateActive, user.id, notes]);
 
     // useEffect riêng cho notes
     useEffect(() => {
-        if (!baremJudge || !candidateActive || !isDataInitialized.current) return;
+        if (!baremJudgePersonal || !candidateActive || !isDataInitialized.current) return;
 
         Object.entries(notes).forEach(([key, note]) => {
             const [target, partitionIndex, subIndex] = key.split("-");
-            const partition = baremJudge?.find((item) => item.target === target)?.partitions[Number(partitionIndex)];
+            const partition = baremJudgePersonal?.find((item) => item.target === target)?.partitions[
+                Number(partitionIndex)
+            ];
             const subPart = partition?.partitions?.[Number(subIndex)];
 
             if (!subPart) return;
@@ -190,7 +271,77 @@ const JudgeBaremPage = () => {
                 });
             }, 500);
         });
-    }, [notes, baremJudge, candidateActive, user.id, scores]);
+    }, [notes, baremJudgePersonal, candidateActive, user.id, scores]);
+
+    // useEffect riêng cho scores Team
+    useEffect(() => {
+        if (!baremJudgeTeam || !isDataInitializedTeam.current) return;
+
+        Object.entries(scoresTeam).forEach(([key, score]) => {
+            const keyParts = key.split("-");
+            const target = keyParts.slice(1, -2).join("-");
+            const partitionIndex = keyParts[keyParts.length - 2];
+            const subIndex = keyParts[keyParts.length - 1];
+
+            const partition = baremJudgeTeam?.find((item) => item.target === target)?.partitions[
+                Number(partitionIndex)
+            ];
+            const subPart = partition?.partitions?.[Number(subIndex)];
+
+            if (!subPart) return;
+
+            if (debounceMapRef.current[`team-${subPart.code}`]) {
+                clearTimeout(debounceMapRef.current[`team-${subPart.code}`]);
+            }
+
+            debounceMapRef.current[`team-${subPart.code}`] = setTimeout(() => {
+                socket.emit("SAVE_SCORE", {
+                    role: "JUDGE",
+                    type: "TRIAL_PRESENTATION",
+                    mentorId: user.id,
+                    teamId: params.id,
+                    codeBarem: subPart.code,
+                    score,
+                    note: notesTeam[key] || "",
+                });
+            }, 500);
+        });
+    }, [scoresTeam, baremJudgeTeam, user.id, notesTeam, params.id]);
+
+    // useEffect riêng cho notes Team
+    useEffect(() => {
+        if (!baremJudgeTeam || !isDataInitializedTeam.current) return;
+
+        Object.entries(notesTeam).forEach(([key, note]) => {
+            const keyParts = key.split("-");
+            const target = keyParts.slice(1, -2).join("-");
+            const partitionIndex = keyParts[keyParts.length - 2];
+            const subIndex = keyParts[keyParts.length - 1];
+
+            const partition = baremJudgeTeam?.find((item) => item.target === target)?.partitions[
+                Number(partitionIndex)
+            ];
+            const subPart = partition?.partitions?.[Number(subIndex)];
+
+            if (!subPart) return;
+
+            if (debounceNoteMapRef.current[`team-${subPart.code}`]) {
+                clearTimeout(debounceNoteMapRef.current[`team-${subPart.code}`]);
+            }
+
+            debounceNoteMapRef.current[`team-${subPart.code}`] = setTimeout(() => {
+                socket.emit("SAVE_SCORE", {
+                    role: "JUDGE",
+                    type: "TRIAL_PRESENTATION",
+                    mentorId: user.id,
+                    teamId: params.id,
+                    codeBarem: subPart.code,
+                    score: scoresTeam[key] || 0,
+                    note: note,
+                });
+            }, 500);
+        });
+    }, [notesTeam, baremJudgeTeam, user.id, scoresTeam, params.id]);
 
     return (
         <section className="px-4 sm:px-0">
@@ -240,14 +391,6 @@ const JudgeBaremPage = () => {
                                 </Button>
                             </div>
                         </div>
-                        {/* <div className="flex flex-col gap-1">
-                            <div>
-                                <h3 className="text-right">Thao tác</h3>
-                            </div>
-                            <div className="flex gap-2">
-                                <Button variant={"secondary"}>Reset điểm</Button>
-                            </div>
-                        </div> */}
                     </div>
                     <Button
                         onClick={() => setScaleBarem(!scaleBarem)}
@@ -279,7 +422,7 @@ const JudgeBaremPage = () => {
                             </thead>
 
                             <tbody className="divide-y divide-gray-200 bg-white">
-                                {baremJudge?.flatMap((item) => {
+                                {baremJudgePersonal?.flatMap((item) => {
                                     let targetRowIndex = 0;
                                     const totalSubPartitions = item.partitions.reduce(
                                         (sum, partition) => sum + (partition.partitions?.length || 0),
@@ -394,15 +537,14 @@ const JudgeBaremPage = () => {
             <BaremTeam
                 scaleBarem={scaleBarem}
                 setScaleBarem={setScaleBarem}
-                baremJudge={baremJudge}
-                isLeader={isLeader}
-                scores={scores}
-                handleScoreChange={handleScoreChange}
-                notes={notes}
-                handleNoteChange={handleNoteChange}
-                candidateActive={candidateActive}
-                totalCurrentScore={totalCurrentScore}
-                totalMaxScore={totalMaxScore}
+                baremJudge={baremJudgeTeam}
+                scores={scoresTeam}
+                handleScoreChange={handleScoreChangeTeam}
+                notes={notesTeam}
+                handleNoteChange={handleNoteChangeTeam}
+                totalCurrentScore={totalCurrentScoreTeam}
+                totalMaxScore={totalMaxScoreTeam}
+                teamId={params.id || ""}
             />
         </section>
     );
@@ -426,4 +568,5 @@ const TotalScore = ({ totalCurrentScore, totalMaxScore }: { totalCurrentScore: n
         <span className="font-bold italic">Điểm được lưu tự động</span>
     </div>
 );
+
 export default JudgeBaremPage;

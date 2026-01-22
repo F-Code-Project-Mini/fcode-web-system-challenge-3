@@ -340,6 +340,19 @@ class TeamRepository {
             }),
         });
     };
+    findLeaderByMemberId = async (candidateId: string) => {
+        const candidate = await prisma.candidate.findUnique({
+            where: { id: candidateId },
+            select: { teamId: true },
+        });
+        if (!candidate?.teamId) return null;
+
+        const team = await prisma.team.findUnique({
+            where: { id: candidate.teamId },
+            select: { leaderId: true },
+        });
+        return team?.leaderId ?? null;
+    };
 }
 
 const teamRepository = new TeamRepository();
