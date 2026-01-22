@@ -15,6 +15,7 @@ export const initSocket = (server: http.Server) => {
 
     io.on("connection", (socket) => {
         socket.on("SAVE_SCORE", async (payload) => {
+            console.log("Received SAVE_SCORE event with payload:", payload);
             const { mentorId, codeBarem, candidateId } = payload;
 
             if (!mentorId || !codeBarem || !candidateId) return;
