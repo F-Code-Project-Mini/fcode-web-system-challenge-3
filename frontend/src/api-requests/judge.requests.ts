@@ -86,6 +86,10 @@ class JudgeApi {
         );
         return res.data;
     }
+    static async getBaremTeam(candidateId: string) {
+        const res = await privateApi.get<ResponseDetailData<BaremResultItem[]>>(`/judge/get-barem/${candidateId}/team`);
+        return res.data;
+    }
 }
 
 export default JudgeApi;

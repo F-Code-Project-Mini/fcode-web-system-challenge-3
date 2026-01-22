@@ -20,7 +20,7 @@ export function ShowResume({ urlPdf, name }: { urlPdf: string; name: string }) {
                     >
                         <div className="absolute inset-0 -z-10 bg-linear-to-r from-transparent via-white/20 to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
                         <FileText className="h-4.5 w-4.5 transition-all duration-300 group-hover:scale-110 group-hover:rotate-6" />
-                        <span className="font-medium">Resume</span>
+                        <span className="font-medium">Challenge 1</span>
                     </Button>
                 </Link>
             ) : (
@@ -32,7 +32,7 @@ export function ShowResume({ urlPdf, name }: { urlPdf: string; name: string }) {
                     >
                         <div className="absolute inset-0 -z-10 bg-linear-to-r from-transparent via-white/20 to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
                         <FileText className="h-4.5 w-4.5 transition-all duration-300 group-hover:scale-110 group-hover:rotate-6" />
-                        <span className="font-medium">Resume</span>
+                        <span className="font-medium">Challenge 1</span>
                     </Button>
                 </DialogTrigger>
             )}
