@@ -1,8 +1,13 @@
+import React from "react";
 import { Note } from "./Note";
-import { BadgeCheck, ZoomIn, ZoomOut } from "lucide-react";
+import { Link } from "react-router";
+import { BadgeCheck, MessageCircle, ZoomIn, ZoomOut } from "lucide-react";
+import BadgeLeader from "~/components/BadgeLeader";
 import { Button } from "~/components/ui/button";
+import { ShowResume } from "~/components/ShowResume";
+import type { CandidateType } from "~/types/team.types";
 
-type BaremJudgeType = {
+type BaremItem = {
     target: string;
     partitions: {
         criteria: string;
@@ -16,20 +21,21 @@ type BaremJudgeType = {
     }[];
 };
 
-interface BaremTeamProps {
+interface PersonalBaremProps {
     scaleBarem: boolean;
-    setScaleBarem: (value: boolean) => void;
-    baremJudge: BaremJudgeType[] | undefined;
+    setScaleBarem: React.Dispatch<React.SetStateAction<boolean>>;
+    baremJudge?: BaremItem[];
     scores: { [key: string]: number };
     handleScoreChange: (key: string, value: string) => void;
     notes: { [key: string]: string };
     handleNoteChange: (key: string, note: string) => void;
     totalCurrentScore: number;
     totalMaxScore: number;
-    teamId: string;
+    candidateActive?: CandidateType;
+    isLeader: boolean;
 }
 
-const BaremTeam = ({
+const PersonalBarem = ({
     scaleBarem,
     setScaleBarem,
     baremJudge,
@@ -39,11 +45,12 @@ const BaremTeam = ({
     handleNoteChange,
     totalCurrentScore,
     totalMaxScore,
-    teamId,
-}: BaremTeamProps) => {
+    candidateActive,
+    isLeader,
+}: PersonalBaremProps) => {
     return (
         <div>
-            <h3 className="text-primary mt-6 text-2xl font-bold italic">2/2. Bảng điểm cả nhóm</h3>
+            <h3 className="text-primary mt-6 text-2xl font-bold italic">1/2. Bảng điểm cá nhân</h3>
             <section
                 className={`relative left-1/2 mt-2 mb-6 -translate-x-1/2 ${scaleBarem ? "md:w-[95vw] xl:w-[98vw]" : ""}`}
                 id="barem-table"
@@ -52,14 +59,33 @@ const BaremTeam = ({
                     <div className="border-b border-gray-200 bg-linear-to-r from-gray-50 to-white px-4 py-4 sm:px-6">
                         <div className="flex items-center gap-2">
                             <h2 className="text-base font-bold text-gray-900 sm:text-lg">
-                                [CẢ NHÓM] BẢNG ĐIỂM DÀNH CHO CẢ NHÓM
+                                [CÁ NHÂN] ỨNG VIÊN:{" "}
+                                <span className="text-primary">{candidateActive?.user.fullName}</span>
                             </h2>
+                            {isLeader && <BadgeLeader />}
                         </div>
                         <p className="mt-1 text-xs text-gray-500 sm:text-sm">
                             Vui lòng nhập điểm cho từng tiêu chí dưới đây
                         </p>
                     </div>
-
+                    <div className="flex justify-between gap-2 px-4 py-4">
+                        <div className="flex flex-col gap-1">
+                            <div className="mb-2">
+                                <h3 className="text-left">Tài nguyên các vòng trước</h3>
+                            </div>
+                            <div className="flex gap-2">
+                                <ShowResume
+                                    urlPdf={candidateActive?.resume?.filePath || ""}
+                                    name={candidateActive?.user.fullName || ""}
+                                />
+                                <Button asChild>
+                                    <Link to={candidateActive?.interview?.filePath || ""} target="_blank">
+                                        <MessageCircle /> Challenge 2
+                                    </Link>
+                                </Button>
+                            </div>
+                        </div>
+                    </div>
                     <Button
                         onClick={() => setScaleBarem(!scaleBarem)}
                         className="absolute top-4 right-4 z-10 h-8 w-8 rounded-full p-0 text-gray-600 text-white hover:bg-gray-100"
@@ -96,13 +122,16 @@ const BaremTeam = ({
                                         (sum, partition) => sum + (partition.partitions?.length || 0),
                                         0,
                                     );
+                                    if (!isLeader && item.target == "Leader") {
+                                        return null;
+                                    }
 
                                     return item.partitions.flatMap((partition, partitionIndex) => {
                                         const subPartitions = partition.partitions || [];
                                         const criteriaRowSpan = subPartitions.length;
 
                                         return subPartitions.map((subPart, subIndex) => {
-                                            const scoreKey = `team-${item.target}-${partitionIndex}-${subIndex}`;
+                                            const scoreKey = `${item.target}-${partitionIndex}-${subIndex}`;
                                             const isFirstSubPart = subIndex === 0;
                                             const isFirstPartition = targetRowIndex === 0;
 
@@ -179,7 +208,7 @@ const BaremTeam = ({
                                                             keyId={scoreKey}
                                                             handleNoteChange={handleNoteChange}
                                                             note={notes[scoreKey] || ""}
-                                                            candidateId={teamId}
+                                                            candidateId={candidateActive?.id || ""}
                                                             codeBarem={subPart.code}
                                                         />
                                                     </td>
@@ -196,6 +225,7 @@ const BaremTeam = ({
                     </div>
                 </div>
             </section>
+
             <TotalScore totalCurrentScore={totalCurrentScore} totalMaxScore={totalMaxScore} />
         </div>
     );
@@ -220,4 +250,4 @@ const TotalScore = ({ totalCurrentScore, totalMaxScore }: { totalCurrentScore: n
     </div>
 );
 
-export default BaremTeam;
+export default PersonalBarem;
