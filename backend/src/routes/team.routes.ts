@@ -5,7 +5,7 @@ import * as teamController from "~/controllers/team.controllers";
 import { auth, isRole } from "~/middlewares/auth.middlewares";
 import {
     changeNameSchema,
-    getAllSchema,
+    // getAllSchema,
     idParamSchema,
     noteBodySchema,
     submissionSchema,

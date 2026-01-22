@@ -146,7 +146,7 @@ const RoomDetail = () => {
                                                         asChild
                                                     >
                                                         <Link
-                                                            to={`/judge/team/${team.id}/candidate/${candidate.id}`}
+                                                            to={`/judge/room/${roomId}/team/${team.id}/candidate/${candidate.id}`}
                                                             className="flex items-center gap-1"
                                                         >
                                                             <Sparkles size={10} /> <span>Đánh giá</span>

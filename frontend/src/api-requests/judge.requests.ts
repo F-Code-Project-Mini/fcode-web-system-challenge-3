@@ -78,8 +78,10 @@ class JudgeApi {
         return res.data;
     }
 
-    static async getBarem(candidateId: string) {
-        const res = await privateApi.get<ResponseDetailData<BaremResultItem[]>>(`/judge/get-barem/${candidateId}`);
+    static async getBarem(candidateId: string, roomId: string) {
+        const res = await privateApi.get<ResponseDetailData<BaremResultItem[]>>(
+            `/judge/get-barem/${candidateId}/${roomId}`,
+        );
         return res.data;
     }
 }
