@@ -1,6 +1,7 @@
 import { useNavigate, useParams } from "react-router";
 import type { CandidateType, TeamType } from "~/types/team.types";
 import { RadioGroup, RadioGroupItem } from "~/components/ui/radio-group";
+import ResultBadge from "~/components/ResultBadge";
 type ParamsBarem = {
     id: string;
     roomId: string;
@@ -50,15 +51,7 @@ export const ShowCandidates = ({
                             <span className="text-xs italic">Điểm: 0/100</span>
                         </div>
 
-                        {candidate.statusC3 === "FAILED" && (
-                            <div className="pointer-events-none absolute inset-0 flex items-center justify-end bg-red-50/40 pr-4">
-                                <div className="item-center animate-in fade-in zoom-in flex rotate-12 justify-center rounded-md border-2 border-red-500 bg-white/80 px-2 py-2 shadow-sm duration-300">
-                                    <span className="text-[10px] font-black tracking-widest text-red-600 uppercase">
-                                        Rớt
-                                    </span>
-                                </div>
-                            </div>
-                        )}
+                        {candidate.statusC3 === "FAILED" && <ResultBadge status={candidate.statusC3} />}
                     </label>
                 ))}
             </RadioGroup>

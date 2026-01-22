@@ -9,6 +9,7 @@ import { Sparkles } from "lucide-react";
 import HistorySubmit from "../HistorySubmit";
 import Helper from "~/utils/helper";
 import { ShowTopic } from "../../Candidate/ShowTopic";
+import ResultBadge from "~/components/ResultBadge";
 
 const RoomDetail = () => {
     const { roomId } = useParams<{ roomId: string }>();
@@ -107,13 +108,16 @@ const RoomDetail = () => {
                                                 {index + 1}
                                             </td>
                                             <td
-                                                className={`${isLeader ? "font-semibold text-gray-900" : "text-gray-700"} px-4 py-3.5 text-sm whitespace-nowrap sm:px-6 sm:py-4`}
+                                                className={`${isLeader ? "font-semibold text-gray-900" : "text-gray-700"} relative px-4 py-3.5 text-sm whitespace-nowrap sm:px-6 sm:py-4`}
                                             >
                                                 <div className="flex items-center gap-2">
                                                     {candidate.user.fullName}
                                                     {isLeader && <BadgeLeader />}
                                                 </div>
                                                 <p className="mt-0.5 text-xs text-gray-600">Ngành: {candidate.major}</p>
+                                                {candidate.statusC3 === "FAILED" && (
+                                                    <ResultBadge status={candidate.statusC3} isBg={false} />
+                                                )}
                                             </td>
                                             <td className="px-4 py-3.5 text-sm whitespace-nowrap text-gray-600 sm:table-cell sm:px-6 sm:py-4">
                                                 <p className="text-blue-gray-900 text-sm font-semibold">
@@ -128,31 +132,33 @@ const RoomDetail = () => {
                                                 </div>
                                             </td>
                                             <td className="px-4 py-3.5 text-sm whitespace-nowrap text-gray-600 sm:px-6 sm:py-4 md:table-cell">
-                                                <div className="flex flex-col gap-2">
-                                                    <div className="flex items-center gap-1 text-sm">
-                                                        <span className="text-gray-500">Điểm:</span>
-                                                        <span
-                                                            className={`font-semibold ${Helper.belowAverage(candidate.scoreJudge) ? "text-red-500" : "text-green-500"}`}
-                                                        >
-                                                            {candidate.scoreJudge || 0}
-                                                        </span>
-                                                        <span className="text-gray-500">/100</span>
-                                                    </div>
+                                                {candidate.statusC3 !== "FAILED" && (
+                                                    <div className="flex flex-col gap-2">
+                                                        <div className="flex items-center gap-1 text-sm">
+                                                            <span className="text-gray-500">Điểm:</span>
+                                                            <span
+                                                                className={`font-semibold ${Helper.belowAverage(candidate.scoreJudge) ? "text-red-500" : "text-green-500"}`}
+                                                            >
+                                                                {candidate.scoreJudge || 0}
+                                                            </span>
+                                                            <span className="text-gray-500">/100</span>
+                                                        </div>
 
-                                                    <Button
-                                                        variant="outline"
-                                                        size="sm"
-                                                        className="w-fit text-xs"
-                                                        asChild
-                                                    >
-                                                        <Link
-                                                            to={`/judge/room/${roomId}/team/${team.id}/candidate/${candidate.id}`}
-                                                            className="flex items-center gap-1"
+                                                        <Button
+                                                            variant="outline"
+                                                            size="sm"
+                                                            className="w-fit text-xs"
+                                                            asChild
                                                         >
-                                                            <Sparkles size={10} /> <span>Đánh giá</span>
-                                                        </Link>
-                                                    </Button>
-                                                </div>
+                                                            <Link
+                                                                to={`/judge/room/${roomId}/team/${team.id}/candidate/${candidate.id}`}
+                                                                className="flex items-center gap-1"
+                                                            >
+                                                                <Sparkles size={10} /> <span>Đánh giá</span>
+                                                            </Link>
+                                                        </Button>
+                                                    </div>
+                                                )}
                                             </td>
                                         </tr>
                                     );

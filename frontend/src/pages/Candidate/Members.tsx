@@ -3,7 +3,7 @@ import type { TeamType } from "~/types/team.types";
 import { ChangeNameTeam } from "./ChangeNameTeam";
 import useAuth from "~/hooks/useAuth";
 import BadgeLeader from "~/components/BadgeLeader";
-import DisplayResult from "./DisplayStatus";
+import ResultBadge from "~/components/ResultBadge";
 
 const Members = ({ data }: { data: TeamType | undefined }) => {
     const candidates = data?.candidates;
@@ -65,9 +65,6 @@ const Members = ({ data }: { data: TeamType | undefined }) => {
                                 <th className="px-4 py-3 text-left text-xs font-semibold tracking-wide text-gray-600 uppercase sm:px-6 sm:py-3.5 md:table-cell">
                                     Liên hệ
                                 </th>
-                                <th className="px-4 py-3 text-left text-xs font-semibold tracking-wide text-gray-600 uppercase sm:px-6 sm:py-3.5 md:table-cell">
-                                    Kết quả
-                                </th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-gray-200/60 bg-white">
@@ -82,7 +79,7 @@ const Members = ({ data }: { data: TeamType | undefined }) => {
                                             {index + 1}
                                         </td>
                                         <td
-                                            className={`${isLeader ? "font-semibold text-gray-900" : "text-gray-700"} px-4 py-3.5 text-sm whitespace-nowrap sm:px-6 sm:py-4`}
+                                            className={`${isLeader ? "font-semibold text-gray-900" : "text-gray-700"} relative px-4 py-3.5 text-sm whitespace-nowrap sm:px-6 sm:py-4`}
                                         >
                                             <div className="flex items-center gap-2">
                                                 {user.fullName}
@@ -94,6 +91,10 @@ const Members = ({ data }: { data: TeamType | undefined }) => {
                                                     Chưa đăng nhập lần đầu!
                                                 </p>
                                             )}
+                                            {/* {user.statusC3 !== "WAITING" && (
+                                                <ResultBadge status={user.statusC3} isBg={false} />
+                                            )} */}
+                                            <ResultBadge status={"REDO"} isBg={false} />
                                         </td>
                                         <td className="px-4 py-3.5 text-sm whitespace-nowrap text-gray-600 sm:table-cell sm:px-6 sm:py-4">
                                             <p className="text-blue-gray-900 text-sm font-semibold">
@@ -106,9 +107,6 @@ const Members = ({ data }: { data: TeamType | undefined }) => {
                                                 <span className="block font-medium">{user.email}</span>
                                                 <span className="block text-gray-500">{member.phone}</span>
                                             </div>
-                                        </td>
-                                        <td className="px-4 py-3.5 text-sm whitespace-nowrap text-gray-600 sm:px-6 sm:py-4 md:table-cell">
-                                            <DisplayResult status={member.statusC3} />
                                         </td>
                                     </tr>
                                 );
