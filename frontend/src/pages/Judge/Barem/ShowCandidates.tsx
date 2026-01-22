@@ -51,7 +51,7 @@ export const ShowCandidates = ({
                             <span className="text-xs italic">Điểm: 0/100</span>
                         </div>
 
-                        {candidate.statusC3 === "FAILED" && <ResultBadge status={candidate.statusC3} />}
+                        <ResultBadge status={candidate.statusC3} />
                     </label>
                 ))}
             </RadioGroup>

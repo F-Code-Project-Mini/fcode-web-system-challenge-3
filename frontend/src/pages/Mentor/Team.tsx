@@ -8,7 +8,7 @@ import { ShowTopic } from "../Candidate/ShowTopic";
 import Helper from "~/utils/helper";
 import BadgeLeader from "~/components/BadgeLeader";
 import { NoteTeam } from "./Note";
-import DisplayResult from "../Candidate/DisplayStatus";
+import ResultBadge from "~/components/ResultBadge";
 const Team = ({ team }: { team: TeamType }) => {
     return (
         <section className="col-span-1 lg:col-span-8" id="members">
@@ -67,9 +67,7 @@ const Team = ({ team }: { team: TeamType }) => {
                                 <th className="px-3 py-2 text-left text-xs font-semibold tracking-wider text-gray-600 uppercase sm:px-6 sm:py-3 md:table-cell">
                                     Liên hệ
                                 </th>
-                                <th className="px-3 py-2 text-left text-xs font-semibold tracking-wider text-gray-600 uppercase sm:px-6 sm:py-3 md:table-cell">
-                                    Kết quả
-                                </th>
+
                                 <th className="px-3 py-2 text-left text-xs font-semibold tracking-wider text-gray-600 uppercase sm:px-6 sm:py-3 md:table-cell">
                                     Trạng thái
                                 </th>
@@ -87,7 +85,7 @@ const Team = ({ team }: { team: TeamType }) => {
                                             {index + 1}
                                         </td>
                                         <td
-                                            className={`${isLeader ? "font-semibold text-gray-900" : "text-gray-700"} px-4 py-3.5 text-sm whitespace-nowrap sm:px-6 sm:py-4`}
+                                            className={`${isLeader ? "font-semibold text-gray-900" : "text-gray-700"} relative px-4 py-3.5 text-sm whitespace-nowrap sm:px-6 sm:py-4`}
                                         >
                                             <div className="flex items-center gap-2">
                                                 {user.fullName}
@@ -99,6 +97,7 @@ const Team = ({ team }: { team: TeamType }) => {
                                                     Chưa đăng nhập lần đầu!
                                                 </p>
                                             )}
+                                                <ResultBadge status={member.statusC3} isBg={false} />
                                         </td>
                                         <td className="px-4 py-3.5 text-sm whitespace-nowrap text-gray-600 sm:table-cell sm:px-6 sm:py-4">
                                             <p className="text-blue-gray-900 text-sm font-semibold">
@@ -112,9 +111,7 @@ const Team = ({ team }: { team: TeamType }) => {
                                                 <span className="block text-gray-500">{member.phone}</span>
                                             </div>
                                         </td>
-                                        <td className="px-4 py-3.5 text-sm whitespace-nowrap text-gray-600 sm:px-6 sm:py-4 md:table-cell">
-                                            <DisplayResult status={member.statusC3} />
-                                        </td>
+
                                         <td className="px-4 py-3.5 text-sm whitespace-nowrap text-gray-600 sm:px-6 sm:py-4 md:table-cell">
                                             <div className="flex flex-col gap-2">
                                                 <div className="flex items-center gap-1 text-sm">

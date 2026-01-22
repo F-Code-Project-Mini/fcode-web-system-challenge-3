@@ -6,21 +6,26 @@ interface ResultBadgeProps {
 }
 
 const ResultBadge = ({ status, isBg = true }: ResultBadgeProps) => {
-    if (status === "WAITING") return null;
-
     const config = {
+        WAITING: {
+            containerBg: "bg-yellow-50/40",
+            borderColor: "border-yellow-400",
+            textColor: "text-yellow-500",
+            label: "Chờ KQ",
+            rotation: "rotate-0",
+        },
         PASSED: {
             containerBg: "bg-green-50/40",
             borderColor: "border-green-500",
             textColor: "text-green-600",
-            label: "Đậu",
+            label: "Pass",
             rotation: "-rotate-12",
         },
         FAILED: {
             containerBg: "bg-red-50/40",
             borderColor: "border-red-500",
             textColor: "text-red-600",
-            label: "Rớt",
+            label: "Fail",
             rotation: "rotate-12",
         },
         REDO: {
@@ -36,14 +41,16 @@ const ResultBadge = ({ status, isBg = true }: ResultBadgeProps) => {
 
     return (
         <div
-            className={`pointer-events-none absolute inset-0 flex items-center justify-end pr-4 transition-all ${
+            className={`pointer-events-none absolute inset-0 flex items-center justify-end pr-2 transition-all sm:pr-4 ${
                 isBg ? current.containerBg : ""
             }`}
         >
             <div
-                className={`animate-in fade-in zoom-in flex items-center justify-center rounded-md border-2 bg-white/90 px-3 py-1 shadow-sm duration-300 ${current.borderColor} ${current.rotation}`}
+                className={`animate-in fade-in zoom-in flex items-center justify-center rounded border-2 bg-white/90 px-2 py-0.5 shadow-sm duration-300 sm:rounded-md sm:px-3 sm:py-1 ${current.borderColor} ${current.rotation}`}
             >
-                <span className={`text-[10px] font-black tracking-widest uppercase ${current.textColor}`}>
+                <span
+                    className={`text-[8px] font-black tracking-wide uppercase sm:text-[10px] sm:tracking-widest ${current.textColor}`}
+                >
                     {current.label}
                 </span>
             </div>

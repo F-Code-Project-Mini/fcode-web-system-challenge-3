@@ -115,9 +115,8 @@ const RoomDetail = () => {
                                                     {isLeader && <BadgeLeader />}
                                                 </div>
                                                 <p className="mt-0.5 text-xs text-gray-600">Ngành: {candidate.major}</p>
-                                                {candidate.statusC3 === "FAILED" && (
-                                                    <ResultBadge status={candidate.statusC3} isBg={false} />
-                                                )}
+
+                                                <ResultBadge status={candidate.statusC3} isBg={false} />
                                             </td>
                                             <td className="px-4 py-3.5 text-sm whitespace-nowrap text-gray-600 sm:table-cell sm:px-6 sm:py-4">
                                                 <p className="text-blue-gray-900 text-sm font-semibold">
