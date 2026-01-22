@@ -16,6 +16,7 @@ import { ShowCandidates } from "./ShowCandidates";
 // import { ShowCandidates } from "./ShowCandidates";
 type ParamsBarem = {
     id: string;
+    roomId: string;
     candidateId?: string;
 };
 const JudgeBaremPage = () => {
@@ -40,7 +41,6 @@ const JudgeBaremPage = () => {
         enabled: !!params.id,
     });
     const isLeader = params?.candidateId === candidates?.leader?.id;
-    // console.log("isLeader", params?.candidateId, isLeader);
 
     const [candidateActive, setcandidateActive] = useState<CandidateType | undefined>(undefined);
 
@@ -56,9 +56,9 @@ const JudgeBaremPage = () => {
     }, [candidates, candidateActive, params.candidateId]);
 
     const { data: baremJudge } = useQuery({
-        queryKey: ["judge-barem", candidateActive, params.candidateId],
+        queryKey: ["judge-barem", candidateActive, params.candidateId, params.roomId],
         queryFn: async () => {
-            const res = await JudgeApi.getBarem(candidateActive?.id || "");
+            const res = await JudgeApi.getBarem(candidateActive?.id || "", params.roomId || "");
             return res.result;
         },
         enabled: !!candidateActive,
@@ -198,14 +198,13 @@ const JudgeBaremPage = () => {
                 <h1 className="text-2xl font-bold text-gray-900 sm:text-3xl">Judge chấm điểm Present thử</h1>
                 <p className="mt-2 text-sm text-gray-600">Vui lòng chọn ứng viên và điền điểm cho từng tiêu chí</p>
             </div>
+            <Notification />
 
             <ShowCandidates
                 candidates={candidates}
                 candidateActive={candidateActive}
                 setcandidateActive={setcandidateActive}
             />
-
-            <Notification />
 
             <section
                 className={`relative left-1/2 my-6 -translate-x-1/2 ${scaleBarem ? "md:w-[95vw] xl:w-[98vw]" : ""}`}
@@ -223,21 +222,31 @@ const JudgeBaremPage = () => {
                             Vui lòng nhập điểm cho từng tiêu chí dưới đây
                         </p>
                     </div>
-                    <div className="flex flex-col justify-center gap-2 px-4 py-4">
-                        <div>
-                            <h3>Nhận xét các vòng trước</h3>
+                    <div className="flex justify-between gap-2 px-4 py-4">
+                        <div className="flex flex-col gap-1">
+                            <div>
+                                <h3 className="text-left">Nhận xét các vòng trước</h3>
+                            </div>
+                            <div className="flex gap-2">
+                                <ShowResume
+                                    urlPdf={candidateActive?.resume?.filePath || ""}
+                                    name={candidateActive?.user.fullName || ""}
+                                />
+                                <Button asChild>
+                                    <Link to={candidateActive?.interview?.filePath || ""} target="_blank">
+                                        <MessageCircle /> Nhận xét Challenge 2
+                                    </Link>
+                                </Button>
+                            </div>
                         </div>
-                        <div className="flex gap-2">
-                            <ShowResume
-                                urlPdf={candidateActive?.resume?.filePath || ""}
-                                name={candidateActive?.user.fullName || ""}
-                            />
-                            <Button asChild>
-                                <Link to={candidateActive?.interview?.filePath || ""} target="_blank">
-                                    <MessageCircle /> Nhận xét Challenge 2
-                                </Link>
-                            </Button>
-                        </div>
+                        {/* <div className="flex flex-col gap-1">
+                            <div>
+                                <h3 className="text-right">Thao tác</h3>
+                            </div>
+                            <div className="flex gap-2">
+                                <Button variant={"secondary"}>Reset điểm</Button>
+                            </div>
+                        </div> */}
                     </div>
                     <Button
                         onClick={() => setScaleBarem(!scaleBarem)}
@@ -245,140 +254,137 @@ const JudgeBaremPage = () => {
                     >
                         {scaleBarem ? <ZoomOut /> : <ZoomIn />}
                     </Button>
-                    {isLeader ? (
-                        <div className="overflow-x-auto">
-                            <table className="w-full">
-                                <thead className="sticky top-0 bg-gray-50">
-                                    <tr className="divide-x divide-gray-200">
-                                        <th className="w-28 px-4 py-3 text-left text-xs font-semibold tracking-wider text-gray-700 uppercase">
-                                            Đối tượng
-                                        </th>
-                                        <th className="w-40 px-4 py-3 text-left text-xs font-semibold tracking-wider text-gray-700 uppercase">
-                                            Tiêu chí
-                                        </th>
-                                        <th className="px-4 py-3 text-left text-xs font-semibold tracking-wider text-gray-700 uppercase">
-                                            Mô tả
-                                        </th>
-                                        <th className="w-32 px-4 py-3 text-center text-xs font-semibold tracking-wider text-gray-700 uppercase">
-                                            Điểm
-                                        </th>
-                                        <th className="w-10 px-4 py-3 text-center text-xs font-semibold tracking-wider text-gray-700 uppercase">
-                                            Ghi chú
-                                        </th>
-                                    </tr>
-                                </thead>
 
-                                <tbody className="divide-y divide-gray-200 bg-white">
-                                    {baremJudge?.flatMap((item) => {
-                                        let targetRowIndex = 0;
-                                        const totalSubPartitions = item.partitions.reduce(
-                                            (sum, partition) => sum + (partition.partitions?.length || 0),
-                                            0,
-                                        );
-                                        if (!isLeader && item.target == "Leader") {
-                                            return null;
-                                        }
+                    <div className="overflow-x-auto">
+                        <table className="w-full">
+                            <thead className="sticky top-0 bg-gray-50">
+                                <tr className="divide-x divide-gray-200">
+                                    <th className="w-28 px-4 py-3 text-left text-xs font-semibold tracking-wider text-gray-700 uppercase">
+                                        Đối tượng
+                                    </th>
+                                    <th className="w-40 px-4 py-3 text-left text-xs font-semibold tracking-wider text-gray-700 uppercase">
+                                        Tiêu chí
+                                    </th>
+                                    <th className="px-4 py-3 text-left text-xs font-semibold tracking-wider text-gray-700 uppercase">
+                                        Mô tả
+                                    </th>
+                                    <th className="w-32 px-4 py-3 text-center text-xs font-semibold tracking-wider text-gray-700 uppercase">
+                                        Điểm
+                                    </th>
+                                    <th className="w-10 px-4 py-3 text-center text-xs font-semibold tracking-wider text-gray-700 uppercase">
+                                        Ghi chú
+                                    </th>
+                                </tr>
+                            </thead>
 
-                                        return item.partitions.flatMap((partition, partitionIndex) => {
-                                            const subPartitions = partition.partitions || [];
-                                            const criteriaRowSpan = subPartitions.length;
+                            <tbody className="divide-y divide-gray-200 bg-white">
+                                {baremJudge?.flatMap((item) => {
+                                    let targetRowIndex = 0;
+                                    const totalSubPartitions = item.partitions.reduce(
+                                        (sum, partition) => sum + (partition.partitions?.length || 0),
+                                        0,
+                                    );
+                                    if (!isLeader && item.target == "Leader") {
+                                        return null;
+                                    }
 
-                                            return subPartitions.map((subPart, subIndex) => {
-                                                const scoreKey = `${item.target}-${partitionIndex}-${subIndex}`;
-                                                const isFirstSubPart = subIndex === 0;
-                                                const isFirstPartition = targetRowIndex === 0;
+                                    return item.partitions.flatMap((partition, partitionIndex) => {
+                                        const subPartitions = partition.partitions || [];
+                                        const criteriaRowSpan = subPartitions.length;
 
-                                                const isInvalidScore = scores[scoreKey] > subPart.maxScore;
+                                        return subPartitions.map((subPart, subIndex) => {
+                                            const scoreKey = `${item.target}-${partitionIndex}-${subIndex}`;
+                                            const isFirstSubPart = subIndex === 0;
+                                            const isFirstPartition = targetRowIndex === 0;
 
-                                                const row = (
-                                                    <tr
-                                                        key={scoreKey}
-                                                        className="divide-x divide-gray-100 transition-colors hover:bg-gray-50/50"
-                                                    >
-                                                        {isFirstPartition && (
-                                                            <td
-                                                                rowSpan={totalSubPartitions}
-                                                                className="border-r-2 border-gray-200 bg-neutral-50/10 px-4 py-4 text-center"
-                                                            >
-                                                                <span className="text-primary text-base font-bold">
-                                                                    {item.target}
-                                                                </span>
-                                                            </td>
-                                                        )}
+                                            const isInvalidScore = scores[scoreKey] > subPart.maxScore;
 
-                                                        {isFirstSubPart && (
-                                                            <td
-                                                                rowSpan={criteriaRowSpan}
-                                                                className={`bg-neutral-50/5 px-4 py-4 text-center ${scaleBarem ? "whitespace-nowrap" : "w-60"}`}
-                                                            >
-                                                                <span className="text-sm font-semibold text-gray-800">
-                                                                    {partition.criteria}
-                                                                </span>
-                                                            </td>
-                                                        )}
-
-                                                        <td className="px-4 py-3">
-                                                            <div className="flex items-center gap-1">
-                                                                {scores[scoreKey] > 0 && (
-                                                                    <BadgeCheck
-                                                                        className="inline-block text-green-600"
-                                                                        size={16}
-                                                                    />
-                                                                )}
-                                                                <div
-                                                                    className={`text-sm leading-relaxed ${isInvalidScore ? "text-red-600" : "text-gray-700"}`}
-                                                                    dangerouslySetInnerHTML={{
-                                                                        __html: `${subPart.description}` || "—",
-                                                                    }}
-                                                                />
-                                                            </div>
+                                            const row = (
+                                                <tr
+                                                    key={scoreKey}
+                                                    className="divide-x divide-gray-100 transition-colors hover:bg-gray-50/50"
+                                                >
+                                                    {isFirstPartition && (
+                                                        <td
+                                                            rowSpan={totalSubPartitions}
+                                                            className={`border-r-2 border-gray-200 bg-neutral-50/10 px-4 py-4 text-center ${scaleBarem ? "whitespace-nowrap" : "min-w-40"}`}
+                                                        >
+                                                            <span className="text-primary text-base font-bold">
+                                                                {item.target}
+                                                            </span>
                                                         </td>
+                                                    )}
 
-                                                        <td className="px-4 py-3 text-center">
-                                                            <div className="flex items-center justify-center gap-1">
-                                                                <input
-                                                                    type="number"
-                                                                    min="0"
-                                                                    max={subPart.maxScore}
-                                                                    step="0.5"
-                                                                    value={scores[scoreKey] || ""}
-                                                                    onChange={(e) =>
-                                                                        handleScoreChange(scoreKey, e.target.value)
-                                                                    }
-                                                                    placeholder="0"
-                                                                    className={`w-16 rounded border px-2 py-1.5 text-center text-sm ${isInvalidScore ? "border-red-500 text-red-500" : "focus:border-primary focus:ring-primary border-gray-300 transition-colors focus:ring-1 focus:outline-none disabled:cursor-not-allowed disabled:bg-gray-100"}`}
-                                                                />
-                                                                <span
-                                                                    className={`text-sm font-medium ${isInvalidScore ? "text-red-600" : "text-gray-600"}`}
-                                                                >
-                                                                    / {subPart.maxScore}
-                                                                </span>
-                                                            </div>
+                                                    {isFirstSubPart && (
+                                                        <td
+                                                            rowSpan={criteriaRowSpan}
+                                                            className={`bg-neutral-50/5 px-4 py-4 ${scaleBarem ? "whitespace-nowrap" : "min-w-60"}`}
+                                                        >
+                                                            <span className="text-sm text-gray-800">
+                                                                {partition.criteria}
+                                                            </span>
                                                         </td>
+                                                    )}
 
-                                                        <td className="cursor-pointer px-4 py-3 text-center">
-                                                            <Note
-                                                                keyId={scoreKey}
-                                                                handleNoteChange={handleNoteChange}
-                                                                note={notes[scoreKey] || ""}
-                                                                candidateId={candidateActive?.id || ""}
-                                                                codeBarem={subPart.code}
+                                                    <td className="px-4 py-3">
+                                                        <div className="flex items-center gap-1">
+                                                            {scores[scoreKey] > 0 && (
+                                                                <BadgeCheck
+                                                                    className="inline-block text-green-600"
+                                                                    size={16}
+                                                                />
+                                                            )}
+                                                            <div
+                                                                className={`text-sm leading-relaxed ${isInvalidScore ? "text-red-600" : "text-gray-700"}`}
+                                                                dangerouslySetInnerHTML={{
+                                                                    __html: `${subPart.description}`,
+                                                                }}
                                                             />
-                                                        </td>
-                                                    </tr>
-                                                );
+                                                        </div>
+                                                    </td>
 
-                                                targetRowIndex++;
-                                                return row;
-                                            });
+                                                    <td className="px-4 py-3 text-center">
+                                                        <div className="flex items-center justify-center gap-1">
+                                                            <input
+                                                                type="number"
+                                                                min="0"
+                                                                max={subPart.maxScore}
+                                                                step="0.5"
+                                                                value={scores[scoreKey] || ""}
+                                                                onChange={(e) =>
+                                                                    handleScoreChange(scoreKey, e.target.value)
+                                                                }
+                                                                placeholder="0"
+                                                                className={`w-16 rounded border px-2 py-1.5 text-center text-sm ${isInvalidScore ? "border-red-500 text-red-500" : "focus:border-primary focus:ring-primary border-gray-300 transition-colors focus:ring-1 focus:outline-none disabled:cursor-not-allowed disabled:bg-gray-100"}`}
+                                                            />
+                                                            <span
+                                                                className={`text-sm font-medium ${isInvalidScore ? "text-red-600" : "text-gray-600"}`}
+                                                            >
+                                                                / {subPart.maxScore}
+                                                            </span>
+                                                        </div>
+                                                    </td>
+
+                                                    <td className="cursor-pointer px-4 py-3 text-center">
+                                                        <Note
+                                                            keyId={scoreKey}
+                                                            handleNoteChange={handleNoteChange}
+                                                            note={notes[scoreKey] || ""}
+                                                            candidateId={candidateActive?.id || ""}
+                                                            codeBarem={subPart.code}
+                                                        />
+                                                    </td>
+                                                </tr>
+                                            );
+
+                                            targetRowIndex++;
+                                            return row;
                                         });
-                                    })}
-                                </tbody>
-                            </table>
-                        </div>
-                    ) : (
-                        <p className="p-4 text-center text-red-500">Thuyết trình thử chỉ đánh giá Leader</p>
-                    )}
+                                    });
+                                })}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </section>
 

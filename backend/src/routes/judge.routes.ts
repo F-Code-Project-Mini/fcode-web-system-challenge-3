@@ -10,6 +10,6 @@ judgeRouter.get("/rooms", auth, isRole([RoleType.JUDGE]), judgeController.getJud
 judgeRouter.get("/rooms/:roomId/teams", auth, isRole([RoleType.JUDGE]), judgeController.getTeamsByRoom);
 
 // mentorRouter.get("/get-barem/:candidateId", auth, isRole([RoleType.MENTOR]), mentorController.getBarem);
-judgeRouter.get("/get-barem/:candidateId", auth, isRole([RoleType.JUDGE]), judgeController.getBarem);
+judgeRouter.get("/get-barem/:candidateId/:roomId", auth, isRole([RoleType.JUDGE]), judgeController.getBarem);
 
 export default judgeRouter;

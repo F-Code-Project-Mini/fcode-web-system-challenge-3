@@ -8,21 +8,27 @@ import { SubmissionType } from "~/rules/requests/team.request";
 class TeamRepository {
     findWithPagination = async () => {
         const includeUser = {
-            omit: {
-                password: true,
-                candidateId: true,
-                email: true,
-                createdAt: true,
-                updatedAt: true,
+            select: {
+                id: true,
+                fullName: true,
             },
+            // omit: {
+            //     password: true,
+            //     candidateId: true,
+            //     email: true,
+            //     createdAt: true,
+            //     updatedAt: true,
+            // },
         };
         const include = {
             candidates: {
                 include: {
                     user: includeUser,
                 },
+
                 omit: {
                     phone: true,
+                    statusC3: true,
                     // major: true,
                     semester: true,
                     mentorNote: true,
