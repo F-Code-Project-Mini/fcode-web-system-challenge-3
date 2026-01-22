@@ -3,7 +3,7 @@ import type { TeamType } from "~/types/team.types";
 import { ChangeNameTeam } from "./ChangeNameTeam";
 import useAuth from "~/hooks/useAuth";
 import BadgeLeader from "~/components/BadgeLeader";
-import { CircleX, Loader, LoaderCircle, MailCheck, Undo2 } from "lucide-react";
+import DisplayResult from "./DisplayStatus";
 
 const Members = ({ data }: { data: TeamType | undefined }) => {
     const candidates = data?.candidates;
@@ -108,18 +108,7 @@ const Members = ({ data }: { data: TeamType | undefined }) => {
                                             </div>
                                         </td>
                                         <td className="px-4 py-3.5 text-sm whitespace-nowrap text-gray-600 sm:px-6 sm:py-4 md:table-cell">
-                                            <span className="flex items-center gap-1 text-yellow-500">
-                                                <Loader size={15} /> Chờ
-                                            </span>
-                                            {/* <span className="flex items-center gap-1 font-semibold text-red-500">
-                                                <CircleX size={15} /> Rớt
-                                            </span> */}
-                                            {/* <span className="flex items-center gap-1 font-semibold text-green-500">
-                                                <MailCheck size={15} /> Đậu
-                                            </span> */}
-                                            {/* <span className="flex items-center gap-1 font-semibold text-rose-400">
-                                                <Undo2 size={15} /> Làm lại
-                                            </span> */}
+                                            <DisplayResult status={member.statusC3} />
                                         </td>
                                     </tr>
                                 );

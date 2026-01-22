@@ -19,6 +19,7 @@ const useAuth = () => {
     const logout = () => {
         LocalStorage.removeItem("login");
         LocalStorage.removeItem("access_token");
+        LocalStorage.removeItem("role");
 
         dispatch(logoutUser());
         navigate("/login");
