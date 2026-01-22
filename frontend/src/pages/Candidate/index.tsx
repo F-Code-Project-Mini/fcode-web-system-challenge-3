@@ -9,6 +9,7 @@ import TeamApi from "~/api-requests/team.requests";
 import useAuth from "~/hooks/useAuth";
 import Notification2 from "./Notification2";
 import PresentPage from "../Present";
+import DisplayResultChallenge from "./DisplayResultChallenge";
 
 const HomePage = () => {
     const { user } = useAuth();
@@ -27,6 +28,9 @@ const HomePage = () => {
                 <WelcomePartition />
             </section>
 
+            <section className="mb-2 sm:mb-4">
+                <DisplayResultChallenge />
+            </section>
             <section className="flex flex-col">
                 <section className="border-b-2 border-gray-500/30 pb-3 max-md:order-2">
                     <Notification />
