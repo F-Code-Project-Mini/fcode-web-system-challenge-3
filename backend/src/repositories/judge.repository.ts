@@ -108,6 +108,15 @@ class JudgeRepository {
 
         return room?.team || null;
     };
+
+    getDetailRoom = async (roomId: string) => {
+        const room = await prisma.room.findUnique({
+            where: {
+                id: roomId,
+            },
+        });
+        return room;
+    };
 }
 
 export default new JudgeRepository();

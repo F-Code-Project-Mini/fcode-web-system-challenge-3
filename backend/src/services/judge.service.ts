@@ -61,6 +61,10 @@ class JudgeService {
             candidates: candidatesWithScores,
         };
     }
+    async getDetailRoom(roomId: string) {
+        const room = await judgeRepository.getDetailRoom(roomId);
+        return room;
+    }
 }
 
 export default new JudgeService();

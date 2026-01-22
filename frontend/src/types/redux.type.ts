@@ -1,4 +1,5 @@
 import type { UserRole } from "~/constants/enums";
+import type { StatusC3 } from "./user.types";
 
 type UserInfoRedux = {
     isLogin: boolean;
@@ -19,6 +20,7 @@ export type ReduxType = {
 type CandidateInfoType = {
     id: string;
     studentCode: string;
+    statusC3: StatusC3;
     phone: string;
     major: string;
     semester: string;

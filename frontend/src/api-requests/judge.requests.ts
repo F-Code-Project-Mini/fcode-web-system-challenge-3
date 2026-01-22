@@ -1,5 +1,6 @@
 import type { BaremResultItem } from "~/types/barem";
 import type { ResponseDetailData, SchedulePresent, SubmissionResponseType } from "~/types/team.types";
+import type { StatusC3 } from "~/types/user.types";
 import { privateApi } from "~/utils/axiosInstance";
 
 export type RoomType = {
@@ -53,6 +54,7 @@ export type TeamDetailType = {
         phone: string;
         major: string;
         semester: string;
+        statusC3: StatusC3;
         user: {
             id: string;
             fullName: string;
@@ -78,8 +80,10 @@ class JudgeApi {
         return res.data;
     }
 
-    static async getBarem(candidateId: string) {
-        const res = await privateApi.get<ResponseDetailData<BaremResultItem[]>>(`/judge/get-barem/${candidateId}`);
+    static async getBarem(candidateId: string, roomId: string) {
+        const res = await privateApi.get<ResponseDetailData<BaremResultItem[]>>(
+            `/judge/get-barem/${candidateId}/${roomId}`,
+        );
         return res.data;
     }
 }

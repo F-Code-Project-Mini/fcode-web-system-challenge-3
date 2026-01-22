@@ -19,6 +19,7 @@ const initialState: ReduxType = {
             id: "",
             studentCode: "",
             phone: "",
+            statusC3: "WAITING",
             major: "",
             semester: "",
             teamId: "",
