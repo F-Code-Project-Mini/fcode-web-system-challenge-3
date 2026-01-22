@@ -3,6 +3,7 @@ import type { TeamType } from "~/types/team.types";
 import { ChangeNameTeam } from "./ChangeNameTeam";
 import useAuth from "~/hooks/useAuth";
 import BadgeLeader from "~/components/BadgeLeader";
+import { CircleX, Loader, LoaderCircle, MailCheck, Undo2 } from "lucide-react";
 
 const Members = ({ data }: { data: TeamType | undefined }) => {
     const candidates = data?.candidates;
@@ -64,9 +65,9 @@ const Members = ({ data }: { data: TeamType | undefined }) => {
                                 <th className="px-4 py-3 text-left text-xs font-semibold tracking-wide text-gray-600 uppercase sm:px-6 sm:py-3.5 md:table-cell">
                                     Liên hệ
                                 </th>
-                                {/* <th className="px-4 py-3 text-left text-xs font-semibold tracking-wide text-gray-600 uppercase sm:px-6 sm:py-3.5 md:table-cell">
+                                <th className="px-4 py-3 text-left text-xs font-semibold tracking-wide text-gray-600 uppercase sm:px-6 sm:py-3.5 md:table-cell">
                                     Kết quả
-                                </th> */}
+                                </th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-gray-200/60 bg-white">
@@ -106,9 +107,20 @@ const Members = ({ data }: { data: TeamType | undefined }) => {
                                                 <span className="block text-gray-500">{member.phone}</span>
                                             </div>
                                         </td>
-                                        {/* <td className="px-4 py-3.5 text-sm whitespace-nowrap text-gray-600 sm:px-6 sm:py-4 md:table-cell">
-                                            <span className="font-semibold text-yellow-500">Chờ thuyết trình</span>
-                                        </td> */}
+                                        <td className="px-4 py-3.5 text-sm whitespace-nowrap text-gray-600 sm:px-6 sm:py-4 md:table-cell">
+                                            <span className="flex items-center gap-1 text-yellow-500">
+                                                <Loader size={15} /> Chờ
+                                            </span>
+                                            {/* <span className="flex items-center gap-1 font-semibold text-red-500">
+                                                <CircleX size={15} /> Rớt
+                                            </span> */}
+                                            {/* <span className="flex items-center gap-1 font-semibold text-green-500">
+                                                <MailCheck size={15} /> Đậu
+                                            </span> */}
+                                            {/* <span className="flex items-center gap-1 font-semibold text-rose-400">
+                                                <Undo2 size={15} /> Làm lại
+                                            </span> */}
+                                        </td>
                                     </tr>
                                 );
                             })}
