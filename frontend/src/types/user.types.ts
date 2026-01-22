@@ -16,3 +16,4 @@ export type LoginInput = {
     role?: RoleType;
 };
 export type RoleType = "CANDIDATE" | "HOST" | "MENTOR" | "JUDGE" | "ADMIN";
+export type StatusC3 = "WAITING" | "FAILED" | "PASSED" | "REDO";

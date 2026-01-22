@@ -25,12 +25,12 @@ const SchedulePresent = ({ data }: Props) => {
             registeredSlots: data.officialDate.map((date) => parseDateTime(date)),
         },
     };
-
+    const isDisabledPresentTrial = true;
     return (
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-6">
             {/* Thuyết trình chính thức */}
-            <div className="overflow-hidden rounded-lg border border-teal-200/60 bg-gradient-to-br from-teal-50/50 to-white shadow-xs sm:col-span-4">
-                <div className="border-b border-teal-200/60 bg-gradient-to-br from-teal-50/80 to-white px-4 py-3">
+            <div className="overflow-hidden rounded-lg border border-teal-200/60 bg-linear-to-br from-teal-50/50 to-white shadow-xs sm:col-span-4">
+                <div className="border-b border-teal-200/60 bg-linear-to-br from-teal-50/80 to-white px-4 py-3">
                     <h3 className="flex items-center gap-2 text-sm font-semibold text-gray-900">
                         <CheckCircle className="h-3.5 w-3.5 text-teal-600" />
                         Thuyết trình chính thức
@@ -130,15 +130,17 @@ const SchedulePresent = ({ data }: Props) => {
             </div>
 
             {/* Thuyết trình thử */}
-            <div className="h-fit overflow-hidden rounded-lg border border-amber-200/60 bg-gradient-to-br from-amber-50/50 to-white shadow-xs sm:col-span-2">
-                <div className="border-b border-amber-200/60 bg-gradient-to-br from-amber-50/80 to-white px-4 py-3">
+            <div
+                className={`h-fit overflow-hidden rounded-lg border border-amber-200/60 bg-linear-to-br from-amber-50/50 to-white shadow-xs sm:col-span-2 ${isDisabledPresentTrial ? "opacity-40" : ""}`}
+            >
+                <div className="border-b border-amber-200/60 bg-linear-to-br from-amber-50/80 to-white px-4 py-3">
                     <h3 className="flex items-center gap-2 text-sm font-semibold text-gray-900">
                         <Clock className="h-3.5 w-3.5 text-amber-600" />
                         Thuyết trình thử
                     </h3>
                 </div>
                 {registrationData.trialSlot ? (
-                    <div className="space-y-3 px-4 py-3">
+                    <div className={`space-y-3 px-4 py-3`}>
                         <div className="grid grid-cols-3 gap-2">
                             <div className="flex flex-col items-center rounded-lg bg-amber-50/50 p-2 text-center">
                                 <Calendar className="mb-1 h-3.5 w-3.5 text-amber-600" />

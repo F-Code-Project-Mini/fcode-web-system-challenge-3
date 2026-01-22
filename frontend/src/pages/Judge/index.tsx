@@ -3,7 +3,7 @@ import { Link } from "react-router";
 import { Button } from "~/components/ui/button";
 import WelcomePartition from "~/components/WelcomePartition";
 import { useQuery } from "@tanstack/react-query";
-import JudgeApi from "~/api-requests/judge.requests";
+import JudgeApi, { type RoomType } from "~/api-requests/judge.requests";
 import Loading from "~/components/Loading";
 import Helper from "~/utils/helper";
 import Notification from "./Notification";
@@ -34,7 +34,7 @@ const JudgePage = () => {
 
             <section className="col-span-1 lg:col-span-8" id="members">
                 <div className="overflow-hidden rounded-lg border border-gray-200/70 bg-white shadow-xs transition-all">
-                    <div className="border-b border-gray-200/70 bg-gradient-to-r from-gray-50/80 to-white px-5 py-4 sm:px-6 sm:py-5">
+                    <div className="border-b border-gray-200/70 bg-linear-to-r from-gray-50/80 to-white px-5 py-4 sm:px-6 sm:py-5">
                         <h2 className="text-base font-semibold tracking-tight text-gray-900 sm:text-lg">
                             DANH SÁCH CHẤM
                         </h2>
@@ -119,7 +119,11 @@ const JudgePage = () => {
                                                     </div>
                                                 </td>
                                                 <td className="px-4 py-3.5 text-sm whitespace-nowrap text-gray-600 sm:px-6 sm:py-4">
-                                                    <span className="font-semibold">{room.roomNumber}</span>
+                                                    <span
+                                                        className={` ${room.presentPhase === "OFFICIAL" ? "font-bold text-green-600" : "font-semibold text-gray-600"}`}
+                                                    >
+                                                        {room.roomNumber}
+                                                    </span>
                                                     <p className="mt-0.5 text-xs text-gray-500">
                                                         Thuyết trình{" "}
                                                         {room.presentPhase === "OFFICIAL" ? "chính thức" : "thử"}
@@ -141,46 +145,10 @@ const JudgePage = () => {
                                                 </td>
 
                                                 <td className="px-4 py-3.5 text-sm text-gray-600 sm:px-6 sm:py-4">
-                                                    {room.team?.schedulePresent?.googleMeetLink ? (
-                                                        ["urgent", "expired", "active"].includes(status) ? (
-                                                            <div className="flex flex-col gap-1">
-                                                                {room.team.schedulePresent.videoRecord ? (
-                                                                    <Badge asChild>
-                                                                        <a
-                                                                            href={room.team.schedulePresent.videoRecord}
-                                                                            target="_blank"
-                                                                            rel="noopener noreferrer"
-                                                                            className="flex items-center gap-1.5"
-                                                                        >
-                                                                            <Video size={14} />
-                                                                            <span>Xem lại record</span>
-                                                                        </a>
-                                                                    </Badge>
-                                                                ) : ["urgent", "active"].includes(status) ? (
-                                                                    <Badge asChild className="bg-teal-600 text-white">
-                                                                        <a
-                                                                            href={
-                                                                                room.team.schedulePresent.googleMeetLink
-                                                                            }
-                                                                            target="_blank"
-                                                                            rel="noopener noreferrer"
-                                                                            className="flex items-center gap-1.5"
-                                                                        >
-                                                                            <Presentation size={14} />
-                                                                            <span>Tham gia</span>
-                                                                        </a>
-                                                                    </Badge>
-                                                                ) : (
-                                                                    ""
-                                                                )}
-                                                            </div>
-                                                        ) : (
-                                                            <span className="text-center text-xs text-gray-400 italic">
-                                                                Chưa đến giờ
-                                                            </span>
-                                                        )
+                                                    {room.presentPhase == "OFFICIAL" ? (
+                                                        "_"
                                                     ) : (
-                                                        <span className="text-xs text-gray-400">Chưa có link</span>
+                                                        <DisplayInfoGoogleMeet room={room} status={status} />
                                                     )}
                                                 </td>
                                                 <td className="px-4 py-3.5 text-sm text-gray-600 sm:px-6 sm:py-4">
@@ -213,6 +181,49 @@ const JudgePage = () => {
                     </div>
                 </div>
             </section>
+        </>
+    );
+};
+const DisplayInfoGoogleMeet = ({ room, status }: { room: RoomType; status: string }) => {
+    return (
+        <>
+            {room.team?.schedulePresent?.googleMeetLink ? (
+                ["urgent", "expired", "active"].includes(status) ? (
+                    <div className="flex flex-col gap-1">
+                        {room.team.schedulePresent.videoRecord ? (
+                            <Badge asChild>
+                                <a
+                                    href={room.team.schedulePresent.videoRecord}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="flex items-center gap-1.5"
+                                >
+                                    <Video size={14} />
+                                    <span>Xem lại record</span>
+                                </a>
+                            </Badge>
+                        ) : ["urgent", "active"].includes(status) ? (
+                            <Badge asChild className="bg-teal-600 text-white">
+                                <a
+                                    href={room.team.schedulePresent.googleMeetLink}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="flex items-center gap-1.5"
+                                >
+                                    <Presentation size={14} />
+                                    <span>Tham gia</span>
+                                </a>
+                            </Badge>
+                        ) : (
+                            ""
+                        )}
+                    </div>
+                ) : (
+                    <span className="text-center text-xs text-gray-400 italic">Chưa đến giờ</span>
+                )
+            ) : (
+                <span className="text-xs text-gray-400">Chưa có link</span>
+            )}
         </>
     );
 };

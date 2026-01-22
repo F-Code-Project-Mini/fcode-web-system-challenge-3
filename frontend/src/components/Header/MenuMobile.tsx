@@ -85,7 +85,7 @@ const MenuMobileHeader = ({
             {isLogin ? (
                 <div className="mt-4 border-t border-gray-100 pt-4">
                     <div className="flex items-center gap-3 rounded-lg bg-gray-50 p-3">
-                        <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-gray-100/60 to-gray-500 text-sm font-semibold text-gray-700">
+                        <div className="flex h-10 w-10 items-center justify-center rounded-full bg-linear-to-br from-gray-100/60 to-gray-500 text-sm font-semibold text-gray-700">
                             {user.fullName.charAt(0)}
                         </div>
                         <div className="flex-1">

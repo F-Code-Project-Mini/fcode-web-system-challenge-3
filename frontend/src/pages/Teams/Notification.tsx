@@ -1,7 +1,7 @@
 const Notification = () => {
     return (
         <div
-            className="mb-6 rounded-lg border border-blue-300/60 bg-gradient-to-r from-blue-50 to-indigo-50 px-5 py-4 shadow-xs"
+            className="mb-6 rounded-lg border border-blue-300/60 bg-linear-to-r from-blue-50 to-indigo-50 px-5 py-4 shadow-xs"
             role="alert"
         >
             <div className="flex items-center gap-3">

@@ -53,7 +53,7 @@ const RoomDetail = () => {
 
             <section className="col-span-16" id="team-detail">
                 <div className="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-2xs">
-                    <div className="from-gray-100/60/60 flex flex-col gap-3 border-b border-gray-200 bg-gradient-to-r px-4 py-3 sm:px-6 sm:py-4 lg:flex-row lg:items-center lg:justify-between lg:gap-4">
+                    <div className="from-gray-100/60/60 flex flex-col gap-3 border-b border-gray-200 bg-linear-to-r px-4 py-3 sm:px-6 sm:py-4 lg:flex-row lg:items-center lg:justify-between lg:gap-4">
                         <div className="flex-1">
                             <div className="flex items-center gap-2">
                                 <h2 className="text-base font-semibold tracking-tight text-gray-900 sm:text-lg">
@@ -70,10 +70,6 @@ const RoomDetail = () => {
                             </p>
                             <p className="mt-1 text-xs text-gray-500 sm:text-sm">
                                 Danh sách thành viên trong nhóm để chấm điểm.
-                            </p>
-                            <p className="font-bold text-red-500 italic">
-                                Ở phần thuyết trình thử, chỉ có barem đánh giá cả nhóm, không có barem riêng cho từng
-                                người. Vì thế hãy chọn trưởng nhóm để chấm điểm đại diện cho cả nhóm.
                             </p>
                         </div>
                         <div className="flex flex-wrap items-center gap-2">
@@ -106,10 +102,7 @@ const RoomDetail = () => {
                                     const isLeader = candidate.id === leader?.id;
 
                                     return (
-                                        <tr
-                                            key={candidate.id}
-                                            className={`transition-colors ${!isLeader ? "opacity-50" : "hover:bg-gray-50/50"}`}
-                                        >
+                                        <tr key={candidate.id} className={`transition-colors hover:bg-gray-50/50`}>
                                             <td className="px-4 py-3.5 text-sm font-medium whitespace-nowrap text-gray-900 sm:px-6 sm:py-4">
                                                 {index + 1}
                                             </td>
@@ -151,14 +144,9 @@ const RoomDetail = () => {
                                                         size="sm"
                                                         className="w-fit text-xs"
                                                         asChild
-                                                        disabled={!isLeader}
                                                     >
                                                         <Link
-                                                            to={
-                                                                isLeader
-                                                                    ? `/judge/team/${team.id}/candidate/${candidate.id}`
-                                                                    : ""
-                                                            }
+                                                            to={`/judge/team/${team.id}/candidate/${candidate.id}`}
                                                             className="flex items-center gap-1"
                                                         >
                                                             <Sparkles size={10} /> <span>Đánh giá</span>

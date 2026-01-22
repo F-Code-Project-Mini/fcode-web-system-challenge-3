@@ -32,15 +32,16 @@ model User {
 }
 
 model Candidate {
-  id          String   @id @default(uuid()) @db.VarChar(36)
-  studentCode String   @unique @map("student_code") @db.VarChar(10)
-  phone       String   @db.VarChar(12)
-  major       String   @db.VarChar(50)
-  semester    String   @db.VarChar(255)
-  teamId      String?  @map("team_id") @db.VarChar(36)
-  mentorNote  String?  @map("mentor_note") @db.Text
-  createdAt   DateTime @default(now()) @map("created_at")
-  updatedAt   DateTime @updatedAt @map("updated_at")
+  id          String           @id @default(uuid()) @db.VarChar(36)
+  studentCode String           @unique @map("student_code") @db.VarChar(10)
+  phone       String           @db.VarChar(12)
+  major       String           @db.VarChar(50)
+  semester    String           @db.VarChar(255)
+  teamId      String?          @map("team_id") @db.VarChar(36)
+  mentorNote  String?          @map("mentor_note") @db.Text
+  statusC3    StatusChallenge3 @default(WAITING) @map("status_c3")
+  createdAt   DateTime         @default(now()) @map("created_at")
+  updatedAt   DateTime         @updatedAt @map("updated_at")
 
   user        User?        @relation("UserToCandidate")
   team        Team?        @relation("CandidateToTeam", fields: [teamId], references: [id], onDelete: SetNull)
@@ -193,8 +194,9 @@ model BaremScore {
   candidateId String         @map("candidate_id") @db.VarChar(36)
   score       Float
   note        String?        @db.Text
-  createdAt   DateTime       @default(now()) @map("created_at")
-  updatedAt   DateTime       @updatedAt @map("updated_at")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 
   mentor    User      @relation("MentorToScore", fields: [mentorId], references: [id])
   candidate Candidate @relation("CandidateReceivedScore", fields: [candidateId], references: [id])
@@ -211,8 +213,8 @@ model SchedulePresent {
   trialDate      String  @map("trial_date") @db.VarChar(255)
   officialDate   Json    @map("offical_date") @db.Json
   finalDate      String? @map("final_date") @db.VarChar(255)
-  googleMeetLink String  @map("google_meet_link") @db.VarChar(255)
-  videoRecord    String  @map("video_record") @db.VarChar(255)
+  googleMeetLink String? @map("google_meet_link") @db.VarChar(255)
+  videoRecord    String? @map("video_record") @db.VarChar(255)
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
@@ -272,4 +274,11 @@ enum ModePresentation {
 enum PresentationPhase {
   TRIAL
   OFFICIAL
+}
+
+enum StatusChallenge3 {
+  WAITING
+  FAILED
+  PASSED
+  REDO
 }

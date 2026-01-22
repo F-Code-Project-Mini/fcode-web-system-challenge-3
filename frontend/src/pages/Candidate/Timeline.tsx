@@ -50,7 +50,7 @@ const Timeline = () => {
     return (
         <section className="col-span-1" id="timeline">
             <div className="overflow-hidden rounded-lg border border-gray-200/70 bg-white">
-                <div className="border-b border-gray-200/70 bg-gradient-to-r from-gray-50/80 to-white px-5 py-4 sm:px-8 sm:py-5">
+                <div className="border-b border-gray-200/70 bg-linear-to-r from-gray-50/80 to-white px-5 py-4 sm:px-8 sm:py-5">
                     <h2 className="text-base font-semibold tracking-tight text-gray-900 sm:text-lg">Timeline</h2>
                     <p className="mt-1.5 text-xs leading-relaxed text-gray-500 sm:text-sm">
                         Lịch trình thực hiện Challenge Vòng 3. Timeline cũng có thể thay đổi, chúng tôi sẽ thông báo
@@ -86,7 +86,7 @@ const Dot = ({ number, active = false }: { number: number; active?: boolean }) =
         {active && (
             <Badge
                 variant="default"
-                className="absolute -top-8 -left-4 animate-pulse bg-gradient-to-r from-yellow-500 to-orange-500 px-1.5 text-[10px] font-semibold text-white shadow-xs max-sm:p-1 sm:-left-6 sm:text-xs"
+                className="absolute -top-8 -left-4 animate-pulse bg-linear-to-r from-yellow-500 to-orange-500 px-1.5 text-[10px] font-semibold text-white shadow-xs max-sm:p-1 sm:-left-6 sm:text-xs"
             >
                 Đang diễn ra
             </Badge>
@@ -95,7 +95,7 @@ const Dot = ({ number, active = false }: { number: number; active?: boolean }) =
             <div
                 className={`flex h-9 w-9 items-center justify-center rounded-full text-sm font-semibold shadow-xs transition-all ${
                     active
-                        ? "bg-gradient-to-br from-yellow-400 to-orange-500 text-white shadow-xs ring-4 ring-yellow-400/30"
+                        ? "bg-linear-to-br from-yellow-400 to-orange-500 text-white shadow-xs ring-4 ring-yellow-400/30"
                         : "bg-gray-200 text-gray-600"
                 }`}
             >
@@ -119,7 +119,7 @@ const Content = ({
         <div
             className={`rounded-lg border p-4 transition-all ${
                 active
-                    ? "border-yellow-200 bg-gradient-to-br from-yellow-50/80 to-orange-50/50 shadow-xs"
+                    ? "border-yellow-200 bg-linear-to-br from-yellow-50/80 to-orange-50/50 shadow-xs"
                     : "animate__backInRight animate__animated border-gray-200/60 bg-gray-50/50"
             }`}
         >
@@ -138,7 +138,7 @@ export const BadgeTime = ({ date, active }: { date: string; active: boolean }) =
     <span
         className={`rounded-lg px-3 py-1.5 text-xs font-semibold transition-all ${
             active
-                ? `bg-gradient-to-r from-yellow-100 to-orange-100 text-yellow-700 ring-1 ring-yellow-200`
+                ? `bg-linear-to-r from-yellow-100 to-orange-100 text-yellow-700 ring-1 ring-yellow-200`
                 : `bg-gray-100 text-gray-600`
         }`}
     >

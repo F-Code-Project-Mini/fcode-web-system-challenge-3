@@ -1,6 +1,4 @@
-import FormSubmit from "./FormSubmit";
 import HistorySubmit from "./HistorySubmit";
-import Notification from "./Notification";
 
 const SubmissionsPage = () => {
     return (
@@ -12,9 +10,9 @@ const SubmissionsPage = () => {
                 </span>
             </section>
 
-            <Notification />
+            {/* <Notification /> */}
 
-            <FormSubmit />
+            {/* <FormSubmit /> */}
 
             <HistorySubmit />
         </>

@@ -26,7 +26,7 @@ const UsersPage = () => {
 
     const renderTable = (filteredUsers: AdminUserType[]) => (
         <div className="overflow-hidden rounded-lg border border-gray-200/70 bg-white shadow-xs">
-            <div className="border-b border-gray-200/70 bg-gradient-to-r from-gray-50/80 to-white px-5 py-4 sm:px-6 sm:py-5">
+            <div className="border-b border-gray-200/70 bg-linear-to-r from-gray-50/80 to-white px-5 py-4 sm:px-6 sm:py-5">
                 <div className="flex items-center justify-between">
                     <div>
                         <h3 className="text-base font-semibold tracking-tight text-gray-900 sm:text-lg">

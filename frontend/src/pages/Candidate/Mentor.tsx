@@ -7,7 +7,7 @@ const Mentor = ({ data }: { data: MentorshipType | undefined }) => {
                 className="overflow-hidden rounded-lg border border-gray-200/70 bg-white shadow-xs transition-all lg:sticky lg:top-28"
                 id="mentor"
             >
-                <div className="border-b border-gray-200/70 bg-gradient-to-br from-gray-50/80 to-white px-5 py-4 sm:px-6">
+                <div className="border-b border-gray-200/70 bg-linear-to-br from-gray-50/80 to-white px-5 py-4 sm:px-6">
                     <div className="flex items-center gap-3">
                         <div>
                             <span className="text-xs font-medium tracking-wide text-gray-500 uppercase">Mentor</span>
@@ -66,7 +66,7 @@ const Mentor = ({ data }: { data: MentorshipType | undefined }) => {
                         </div>
                     </div>
                 </div>
-                <div className="border-t border-gray-200/70 bg-gradient-to-br from-red-50/50 to-white px-5 py-4 sm:px-6">
+                <div className="border-t border-gray-200/70 bg-linear-to-br from-red-50/50 to-white px-5 py-4 sm:px-6">
                     <p className="text-xs leading-relaxed text-red-600">
                         <span className="font-semibold">Lưu ý:</span> Vui lòng add mentor của bạn vào nhóm của bạn.
                     </p>
