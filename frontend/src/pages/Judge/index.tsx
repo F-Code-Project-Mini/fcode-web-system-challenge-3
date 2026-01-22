@@ -6,7 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import JudgeApi, { type RoomType } from "~/api-requests/judge.requests";
 import Loading from "~/components/Loading";
 import Helper from "~/utils/helper";
-import Notification from "./Notification";
+// import Notification from "./Notification";
 import { Badge } from "~/components/ui/badge";
 
 const JudgePage = () => {
@@ -28,9 +28,9 @@ const JudgePage = () => {
             <section className="mb-6 sm:mb-8">
                 <WelcomePartition />
             </section>
-            <section className="mb-6 sm:mb-8">
+            {/* <section className="mb-6 sm:mb-8">
                 <Notification />
-            </section>
+            </section> */}
 
             <section className="col-span-1 lg:col-span-8" id="members">
                 <div className="overflow-hidden rounded-lg border border-gray-200/70 bg-white shadow-xs transition-all">
@@ -215,7 +215,7 @@ const DisplayInfoGoogleMeet = ({ room, status }: { room: RoomType; status: strin
                                 </a>
                             </Badge>
                         ) : (
-                            ""
+                            "Chỉ dành cho thí sinh không tham dự trực tiếp"
                         )}
                     </div>
                 ) : (

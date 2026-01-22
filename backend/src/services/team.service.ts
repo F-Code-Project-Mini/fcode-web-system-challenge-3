@@ -285,6 +285,11 @@ class TeamService {
         });
         return created;
     };
+
+    async getLeaderByMemberId(candidateId: string) {
+        const leader = await teamRepository.findLeaderByMemberId(candidateId);
+        return leader;
+    }
 }
 
 const teamService = new TeamService();

@@ -2,22 +2,9 @@ import Helper from "~/utils/helper";
 import { ShowTopic } from "../Candidate/ShowTopic";
 import type { AdminTeamType } from "~/types/admin.types";
 import BadgeLeader from "~/components/BadgeLeader";
+import ResultBadge from "~/components/ResultBadge";
 
 const Teams = ({ team: { mentorship, candidates, leader, topic, name, group } }: { team: AdminTeamType }) => {
-    const getResultBadge = (scoreMentor: number | null, scoreJudge: number | null) => {
-        console.log(scoreMentor, scoreJudge);
-
-        return <span className="font-bold text-yellow-600">Chờ chấm</span>;
-        // if (scoreMentor === null || scoreJudge === null) {
-        //     return <span className="font-bold text-yellow-600">Chờ chấm</span>;
-        // }
-        // const totalScore = scoreMentor + scoreJudge;
-        // if (totalScore >= 50) {
-        //     return <span className="font-bold text-green-600">Đạt</span>;
-        // }
-        // return <span className="font-bold text-red-600">Không đạt</span>;
-    };
-
     return (
         <section className="col-span-1 lg:col-span-16" id="members">
             <div className="overflow-hidden rounded-lg border border-gray-200/70 bg-white shadow-xs">
@@ -64,9 +51,6 @@ const Teams = ({ team: { mentorship, candidates, leader, topic, name, group } }:
                                 <th className="hidden px-4 py-3 text-center text-xs font-semibold tracking-wide text-gray-600 uppercase sm:px-6 sm:py-3.5 md:table-cell">
                                     Điểm Present
                                 </th>
-                                <th className="hidden px-4 py-3 text-center text-xs font-semibold tracking-wide text-gray-600 uppercase sm:px-6 sm:py-3.5 md:table-cell">
-                                    Kết quả
-                                </th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-gray-200/60 bg-white">
@@ -78,9 +62,10 @@ const Teams = ({ team: { mentorship, candidates, leader, topic, name, group } }:
                                             {index + 1}
                                         </td>
                                         <td
-                                            className={`${candidate.id === leader.id ? `font-bold` : ``} px-4 py-3.5 text-sm whitespace-nowrap sm:px-6 sm:py-4`}
+                                            className={`${candidate.id === leader.id ? `font-bold` : ``} relative px-4 py-3.5 text-sm whitespace-nowrap sm:px-6 sm:py-4`}
                                         >
                                             {candidate.user.fullName} {isLeader && <BadgeLeader />}
+                                            <ResultBadge status={candidate.statusC3} isBg={false} />
                                         </td>
                                         <td className="hidden px-4 py-3.5 text-sm whitespace-nowrap text-gray-600 sm:table-cell sm:px-6 sm:py-4">
                                             {candidate.studentCode}
@@ -112,9 +97,6 @@ const Teams = ({ team: { mentorship, candidates, leader, topic, name, group } }:
                                             ) : (
                                                 <span className="text-gray-400">-</span>
                                             )}
-                                        </td>
-                                        <td className="hidden px-4 py-3.5 text-center text-sm whitespace-nowrap sm:px-6 sm:py-4 md:table-cell">
-                                            {getResultBadge(candidate.scoreMentor, candidate.scoreJudge)}
                                         </td>
                                     </tr>
                                 );
