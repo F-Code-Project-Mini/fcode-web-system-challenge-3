@@ -74,15 +74,19 @@ const PersonalBarem = ({
                                 <h3 className="text-left">Tài nguyên các vòng trước</h3>
                             </div>
                             <div className="flex gap-2">
-                                <ShowResume
-                                    urlPdf={candidateActive?.resume?.filePath || ""}
-                                    name={candidateActive?.user.fullName || ""}
-                                />
-                                <Button asChild>
-                                    <Link to={candidateActive?.interview?.filePath || ""} target="_blank">
-                                        <MessageCircle /> Challenge 2
-                                    </Link>
-                                </Button>
+                                {candidateActive?.resume?.filePath && (
+                                    <ShowResume
+                                        urlPdf={candidateActive?.resume?.filePath}
+                                        name={candidateActive?.user.fullName}
+                                    />
+                                )}
+                                {candidateActive?.interview?.filePath && (
+                                    <Button asChild>
+                                        <Link to={candidateActive?.interview?.filePath} target="_blank">
+                                            <MessageCircle /> Challenge 2
+                                        </Link>
+                                    </Button>
+                                )}
                             </div>
                         </div>
                     </div>

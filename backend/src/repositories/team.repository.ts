@@ -120,7 +120,7 @@ class TeamRepository {
             },
             topic: true,
         };
-        if (roles.includes(RoleType.MENTOR) || roles.includes(RoleType.ADMIN)) {
+        if (roles.includes(RoleType.JUDGE) || roles.includes(RoleType.ADMIN)) {
             Object.assign(include.candidates.include, {
                 resume: {
                     select: {
