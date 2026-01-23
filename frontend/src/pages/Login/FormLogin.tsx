@@ -69,7 +69,7 @@ const FormLogin = () => {
                 if (isInstruction || !Helper.hasRole(userRoles, USER_ROLE.CANDIDATE)) {
                     // lưu access token, refresh token vô localstorage
 
-                    LocalStorage.setItem("role", selectedRole || "CANDIDATE");
+                    LocalStorage.setItem("role", selectedRole || userRoles[0] || "CANDIDATE");
                     Notification.success({
                         text: "Đăng nhập thành công vào hệ thống Challenge Vòng 3!",
                     });
