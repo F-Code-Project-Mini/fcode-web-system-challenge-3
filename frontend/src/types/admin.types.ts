@@ -116,14 +116,15 @@ export interface AdminRoomType {
     };
     teamScore: number | null;
 }
-
-export interface AdminRoomDetailType {
+export interface RoomDetailType {
     id: string;
     roomNumber: string;
-    presentPhase: string;
-    modePresent: string;
+    presentPhase: "TRIAL" | "OFFICIAL";
+    modePresent: "ONLINE" | "OFFLINE";
     startTime: string;
     endTime: string;
+}
+export interface AdminRoomDetailType extends RoomDetailType {
     team?: {
         id: string;
         group: number;

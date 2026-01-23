@@ -81,6 +81,14 @@ const JudgeBaremPage = () => {
         },
         enabled: !!params.id,
     });
+    // const { data: roomDetail } = useQuery({
+    //     queryKey: ["judge-barem-room-detail", params.roomId],
+    //     queryFn: async () => {
+    //         const res = await JudgeApi.getDetailRoom(params.roomId || "");
+    //         return res.result;
+    //     },
+    //     enabled: !!params.roomId,
+    // });
     const leaderId = candidates?.leader?.id || "";
 
     // Reset lại data (k reset chuyển cái khác nó vẫn giữ lại data cũ của ứng viên khác)

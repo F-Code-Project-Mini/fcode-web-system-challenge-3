@@ -65,6 +65,8 @@ const Header = () => {
         setCurrentRole(role);
     }, [role]);
 
+    console.log("role", role);
+
     return (
         <header className="sticky top-3 z-50 mt-6 rounded-lg border border-gray-200/60 bg-white/95 px-5 py-3.5 backdrop-blur-xl transition-all md:px-7">
             <div className="mx-auto flex max-w-7xl items-center">

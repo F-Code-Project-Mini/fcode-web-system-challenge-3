@@ -17,7 +17,7 @@ const DisplayResultChallenge = () => {
             message: "Bạn đã vượt qua Challenge 3 thành công!",
             description:
                 'Chúc mừng bạn đã hoàn thành xuất sắc Challenge 3. Bạn đã chính thức trở thành một phần của <b class="text-primary font-bold">CLB F-Code!</b>',
-            bgGradient: "bg-gradient-to-br from-green-50 via-emerald-50 to-primary/60",
+            bgGradient: "bg-gradient-to-br from-green-50 via-emerald-50 to-primary/40",
             borderColor: "border-green-300/60",
             iconBg: "bg-gradient-to-br from-green-400 to-emerald-500",
             badgeBg: "bg-green-500",
