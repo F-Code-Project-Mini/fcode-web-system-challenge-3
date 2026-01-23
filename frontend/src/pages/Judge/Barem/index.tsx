@@ -404,6 +404,7 @@ const JudgeBaremPage = () => {
                     totalCurrentScore={totalCurrentScoreTeam}
                     totalMaxScore={totalMaxScoreTeam}
                     teamId={params.id || ""}
+                    reportLink={candidates?.reportLink || ""}
                 />
             ) : (
                 <PersonalBarem

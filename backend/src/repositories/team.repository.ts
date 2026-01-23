@@ -78,6 +78,7 @@ class TeamRepository {
             },
             omit: {
                 mentorNote: true,
+                reportLink: true,
             },
         });
 
@@ -120,7 +121,7 @@ class TeamRepository {
             },
             topic: true,
         };
-        if (roles.includes(RoleType.MENTOR) || roles.includes(RoleType.ADMIN)) {
+        if (roles.includes(RoleType.JUDGE) || roles.includes(RoleType.ADMIN)) {
             Object.assign(include.candidates.include, {
                 resume: {
                     select: {
@@ -139,7 +140,9 @@ class TeamRepository {
             where: { id },
             include,
             omit: {
-                ...([RoleType.MENTOR, RoleType.ADMIN].some((role) => roles.includes(role)) ? {} : { mentorNote: true }),
+                ...([RoleType.MENTOR, RoleType.JUDGE, RoleType.ADMIN].some((role) => roles.includes(role))
+                    ? {}
+                    : { mentorNote: true, reportLink: true }),
             },
         });
 
@@ -155,11 +158,17 @@ class TeamRepository {
                     ? await userRepository.getScoreMentor(team.mentorship.mentor.id, candidate.id, "MENTOR")
                     : null;
 
+                const scoreJudge = await userRepository.getScoreMentor(
+                    team.mentorship.mentor.id,
+                    candidate.id,
+                    "JUDGE",
+                );
                 const { password, ...userWithoutPassword } = candidate.user;
 
                 return {
                     ...candidate,
                     scoreMentor,
+                    scoreJudge,
                     user: {
                         ...userWithoutPassword,
                         isConfirm: !!password,

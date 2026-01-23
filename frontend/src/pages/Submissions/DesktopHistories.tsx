@@ -38,7 +38,7 @@ const DesktopHistories = ({ submissions }: { submissions: SubmissionResponseType
                                     <span>#{submissions.length - index}</span>
                                     {isLatest ? (
                                         <span className="bg-primary/10 text-primary flex items-center gap-0.5 rounded-md px-2 py-0.5 text-xs font-medium">
-                                            <ShieldCheck size={16} /> Final
+                                            <ShieldCheck size={16} /> Official
                                         </span>
                                     ) : (
                                         <span className="flex items-center gap-0.5 rounded-md bg-gray-100 px-2 py-0.5 text-xs font-medium text-gray-500">

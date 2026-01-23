@@ -20,7 +20,7 @@ const ChoiceBarem = ({
                         htmlFor="personal"
                         className={`text-primary cursor-pointer rounded-md border-2 border-gray-200 px-4 py-2 font-semibold transition-colors duration-150 ${barem === "personal" ? "border-primary bg-primary/10 text-primary" : ""} hover:border-primary focus:outline-none`}
                     >
-                        Bảng điểm cá nhân
+                        1. Bảng điểm cá nhân
                     </label>
                 </div>
                 <div className="flex items-center space-x-2">
@@ -29,7 +29,7 @@ const ChoiceBarem = ({
                         htmlFor="team"
                         className={`text-primary cursor-pointer rounded-md border-2 border-gray-200 px-4 py-2 font-semibold transition-colors duration-150 ${barem === "team" ? "border-primary bg-primary/10 text-primary" : ""} hover:border-primary focus:outline-none`}
                     >
-                        Bảng điểm cả nhóm
+                        2. Bảng điểm cả nhóm
                     </label>
                 </div>
             </RadioGroup>

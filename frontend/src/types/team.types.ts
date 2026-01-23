@@ -43,6 +43,7 @@ export type TeamType = {
     leaderId: string;
     topicId: string;
     mentorNote: string | null;
+    reportLink: string | null;
     candidates: CandidateType[];
     mentorship: MentorshipType;
     leader: LeaderType;

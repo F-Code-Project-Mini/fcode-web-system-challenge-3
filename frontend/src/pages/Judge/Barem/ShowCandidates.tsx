@@ -30,31 +30,34 @@ export const ShowCandidates = ({
                 }}
                 className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-5"
             >
-                {candidates?.candidates.map((candidate) => (
-                    <label
-                        key={candidate.id}
-                        htmlFor={candidate.id}
-                        className={`relative flex cursor-pointer items-center gap-3 rounded-lg border px-3 py-2.5 transition-all ${
-                            candidate.id === candidateActive?.id
-                                ? "border-primary/50 bg-gray-50"
-                                : "hover:border-primary/50 border-gray-200 hover:bg-gray-50"
-                        }`}
-                    >
-                        <RadioGroupItem
-                            disabled={candidate.statusC3 === "FAILED"}
-                            value={candidate.id}
-                            id={candidate.id}
-                        />
-                        <div className="flex flex-col gap-1">
-                            <span className="flex-1 cursor-pointer text-sm font-medium text-gray-900">
-                                {candidate.user.fullName}
-                            </span>
-                            {/* <span className="text-xs italic">Điểm: 0/100</span> */}
-                        </div>
+                {candidates?.candidates.map((candidate) => {
+                    const isLeader = candidates.leaderId === candidate.id;
+                    return (
+                        <label
+                            key={candidate.id}
+                            htmlFor={candidate.id}
+                            className={`relative flex cursor-pointer items-center gap-3 rounded-lg border px-3 py-2.5 transition-all ${
+                                candidate.id === candidateActive?.id
+                                    ? "border-primary/50 bg-gray-50"
+                                    : "hover:border-primary/50 border-gray-200 hover:bg-gray-50"
+                            } ${candidate.statusC3 === "FAILED" ? "opacity-50" : ""}`}
+                        >
+                            <RadioGroupItem
+                                disabled={candidate.statusC3 === "FAILED"}
+                                value={candidate.id}
+                                id={candidate.id}
+                            />
+                            <div className="flex flex-col gap-1">
+                                <span className="flex-1 cursor-pointer text-sm font-medium text-gray-900">
+                                    {candidate.user.fullName}
+                                </span>
+                                <span className="text-xs italic">{isLeader ? "Trưởng nhóm" : "Thành viên"}</span>
+                            </div>
 
-                        {candidate.statusC3 !== "WAITING" && <ResultBadge status={candidate.statusC3} />}
-                    </label>
-                ))}
+                            {candidate.statusC3 !== "WAITING" && <ResultBadge status={candidate.statusC3} />}
+                        </label>
+                    );
+                })}
             </RadioGroup>
         </div>
     );

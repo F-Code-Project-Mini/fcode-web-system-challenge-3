@@ -1,5 +1,6 @@
 import { Note } from "./Note";
-import { BadgeCheck, ZoomIn, ZoomOut } from "lucide-react";
+import { BadgeCheck, MessageCircle, ZoomIn, ZoomOut } from "lucide-react";
+import { Link } from "react-router";
 import { Button } from "~/components/ui/button";
 
 type BaremJudgeType = {
@@ -27,6 +28,7 @@ interface BaremTeamProps {
     totalCurrentScore: number;
     totalMaxScore: number;
     teamId: string;
+    reportLink: string;
 }
 
 const BaremTeam = ({
@@ -40,6 +42,7 @@ const BaremTeam = ({
     totalCurrentScore,
     totalMaxScore,
     teamId,
+    reportLink,
 }: BaremTeamProps) => {
     return (
         <div>
@@ -58,6 +61,20 @@ const BaremTeam = ({
                         <p className="mt-1 text-xs text-gray-500 sm:text-sm">
                             Vui lòng nhập điểm cho từng tiêu chí dưới đây
                         </p>
+                    </div>
+                    <div className="flex justify-between gap-2 px-4 py-4">
+                        <div className="flex flex-col gap-1">
+                            <div className="mb-2">
+                                <h3 className="text-left">Quá trình làm việc nhóm</h3>
+                            </div>
+                            <div className="flex gap-2">
+                                <Button asChild>
+                                    <Link to={reportLink} target="_blank">
+                                        <MessageCircle /> Nhận xét mentor
+                                    </Link>
+                                </Button>
+                            </div>
+                        </div>
                     </div>
 
                     <Button

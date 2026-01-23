@@ -163,7 +163,7 @@ const JudgePage = () => {
                                                                 to={`/judge/room/${room.id}`}
                                                                 className="flex items-center gap-1"
                                                             >
-                                                                <Sparkles size={10} /> <span>Chi tiết</span>
+                                                                <span>Chi tiết</span>
                                                             </Link>
                                                         </Button>
                                                     ) : (
