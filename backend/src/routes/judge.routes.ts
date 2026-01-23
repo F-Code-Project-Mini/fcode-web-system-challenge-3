@@ -7,6 +7,7 @@ const judgeRouter = Router();
 
 judgeRouter.get("/rooms", auth, isRole([RoleType.JUDGE]), judgeController.getJudgeRooms);
 // http://localhost:8000/api/v1/judge/get-barem/17e2f31d-c9a5-4116-a8ef-acd52c0366ad
+judgeRouter.get("/rooms/:roomId", auth, isRole([RoleType.JUDGE]), judgeController.getDetailRoom);
 judgeRouter.get("/rooms/:roomId/teams", auth, isRole([RoleType.JUDGE]), judgeController.getTeamsByRoom);
 
 // mentorRouter.get("/get-barem/:candidateId", auth, isRole([RoleType.MENTOR]), mentorController.getBarem);

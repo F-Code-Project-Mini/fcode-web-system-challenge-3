@@ -45,7 +45,7 @@ const Notification = () => {
                         <li className="flex items-center gap-2 text-sm">
                             <span className="h-1.5 w-1.5 flex-shrink-0 rounded-full bg-yellow-500"></span>
                             <span className="">
-                                Khi thuyết trình, bắt buộc tất cả các thành viên đều phải mặt đồng phục của ĐH FPT.
+                                Khi thuyết trình, bắt buộc tất cả các thành viên đều phải mặc đồng phục của ĐH FPT.
                             </span>
                         </li>
                         {/* <li className="flex items-center gap-2 text-sm text-gray-700">

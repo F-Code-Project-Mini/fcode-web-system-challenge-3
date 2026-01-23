@@ -1,3 +1,4 @@
+import type { RoomDetailType } from "~/types/admin.types";
 import type { BaremResultItem } from "~/types/barem";
 import type { ResponseDetailData, SchedulePresent, SubmissionResponseType } from "~/types/team.types";
 import type { StatusC3 } from "~/types/user.types";
@@ -88,6 +89,10 @@ class JudgeApi {
     }
     static async getBaremTeam(candidateId: string) {
         const res = await privateApi.get<ResponseDetailData<BaremResultItem[]>>(`/judge/get-barem/${candidateId}/team`);
+        return res.data;
+    }
+    static async getDetailRoom(roomId: string) {
+        const res = await privateApi.get<ResponseDetailData<RoomDetailType>>(`/judge/rooms/${roomId}`);
         return res.data;
     }
 }
