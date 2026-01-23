@@ -1,5 +1,7 @@
 // Danh sách ứng viên pass vòng 1
 // UPDATE `users` SET `password` = '$2b$10$.oIjaNHYprdhLa1EQVaMfe7L3qmCURyq0u99Pb9hlF1jbmNQAs.bC'
+
+// DELETE FROM `rooms` WHERE `room_number` = 'P106, ĐH FPT HCM';
 export const studentList = [
     {
         group: 1,
