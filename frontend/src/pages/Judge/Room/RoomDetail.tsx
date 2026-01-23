@@ -5,7 +5,7 @@ import Loading from "~/components/Loading";
 import WelcomePartition from "~/components/WelcomePartition";
 import BadgeLeader from "~/components/BadgeLeader";
 import { Button } from "~/components/ui/button";
-import { Sparkles } from "lucide-react";
+import { NotebookTabs, Sparkles } from "lucide-react";
 import HistorySubmit from "../HistorySubmit";
 import Helper from "~/utils/helper";
 import { ShowTopic } from "../../Candidate/ShowTopic";
@@ -73,8 +73,14 @@ const RoomDetail = () => {
                                 Danh sách thành viên trong nhóm để chấm điểm.
                             </p>
                         </div>
-                        <div className="flex flex-wrap items-center gap-2">
+                        <div className="flex flex-wrap items-center gap-1">
                             <ShowTopic urlPdf={team.topic.filePath} name={team.topic.title} />
+                            <Button variant={"outline"} asChild>
+                                <Link to={`https://anotepad.com/`} target="_blank">
+                                    <NotebookTabs size={10} />
+                                    Notepad online
+                                </Link>
+                            </Button>
                         </div>
                     </div>
                     <div className="overflow-x-auto">
