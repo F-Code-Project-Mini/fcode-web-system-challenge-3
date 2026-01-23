@@ -63,7 +63,15 @@ export const getJudgeRooms = async (req: Request, res: Response, next: NextFunct
         return next(error);
     }
 };
-
+export const getDetailRoom = async (req: Request<{ roomId: string }>, res: Response, next: NextFunction) => {
+    try {
+        const { roomId } = req.params;
+        const result = await judgeService.getDetailRoom(roomId);
+        return res.status(HTTP_STATUS.OK).json(new ResponseClient({ result }));
+    } catch (error) {
+        return next(error);
+    }
+};
 export const getTeamsByRoom = async (req: Request<{ roomId: string }>, res: Response, next: NextFunction) => {
     try {
         const userId = req.userId!;

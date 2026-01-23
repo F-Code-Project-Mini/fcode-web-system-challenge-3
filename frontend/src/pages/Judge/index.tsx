@@ -152,19 +152,23 @@ const JudgePage = () => {
                                                     )}
                                                 </td>
                                                 <td className="px-4 py-3.5 text-sm text-gray-600 sm:px-6 sm:py-4">
-                                                    <Button
-                                                        variant="outline"
-                                                        size="sm"
-                                                        className="w-fit text-xs"
-                                                        asChild
-                                                    >
-                                                        <Link
-                                                            to={`/judge/room/${room.id}`}
-                                                            className="flex items-center gap-1"
+                                                    {room.presentPhase == "OFFICIAL" ? (
+                                                        <Button
+                                                            variant="outline"
+                                                            size="sm"
+                                                            className="w-fit text-xs"
+                                                            asChild
                                                         >
-                                                            <Sparkles size={10} /> <span>Chi tiết</span>
-                                                        </Link>
-                                                    </Button>
+                                                            <Link
+                                                                to={`/judge/room/${room.id}`}
+                                                                className="flex items-center gap-1"
+                                                            >
+                                                                <Sparkles size={10} /> <span>Chi tiết</span>
+                                                            </Link>
+                                                        </Button>
+                                                    ) : (
+                                                        "_"
+                                                    )}
                                                 </td>
                                             </tr>
                                         );

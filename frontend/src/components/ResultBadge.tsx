@@ -1,3 +1,4 @@
+import { PartyPopper } from "lucide-react";
 import type { StatusC3 } from "~/types/user.types";
 
 interface ResultBadgeProps {
@@ -6,7 +7,16 @@ interface ResultBadgeProps {
 }
 
 const ResultBadge = ({ status, isBg = true }: ResultBadgeProps) => {
-    const config = {
+    type ConfigItem = {
+        containerBg: string;
+        borderColor: string;
+        textColor: string;
+        label: string;
+        rotation: string;
+        Icon?: React.ComponentType<{ className?: string }>;
+    };
+
+    const config: Record<string, ConfigItem> = {
         WAITING: {
             containerBg: "bg-yellow-50/40",
             borderColor: "border-yellow-400",
@@ -18,7 +28,8 @@ const ResultBadge = ({ status, isBg = true }: ResultBadgeProps) => {
             containerBg: "bg-green-50/40",
             borderColor: "border-green-500",
             textColor: "text-green-600",
-            label: "Pass",
+            Icon: PartyPopper,
+            label: " Pass",
             rotation: "-rotate-12",
         },
         FAILED: {
@@ -29,10 +40,10 @@ const ResultBadge = ({ status, isBg = true }: ResultBadgeProps) => {
             rotation: "rotate-12",
         },
         REDO: {
-            containerBg: "bg-yellow-50/40",
-            borderColor: "border-yellow-500",
-            textColor: "text-yellow-600",
-            label: "Thi lại",
+            containerBg: "bg-amber-50/40",
+            borderColor: "border-amber-500",
+            textColor: "text-amber-600",
+            label: "Làm lại",
             rotation: "rotate-0",
         },
     };
@@ -49,8 +60,9 @@ const ResultBadge = ({ status, isBg = true }: ResultBadgeProps) => {
                 className={`animate-in fade-in zoom-in flex items-center justify-center rounded border-2 bg-white/90 px-2 py-0.5 shadow-sm duration-300 sm:rounded-md sm:px-3 sm:py-1 ${current.borderColor} ${current.rotation}`}
             >
                 <span
-                    className={`text-[8px] font-black tracking-wide uppercase sm:text-[10px] sm:tracking-widest ${current.textColor}`}
+                    className={`text-[8px] font-black tracking-wide uppercase sm:tracking-widest ${current.textColor}`}
                 >
+                    {current?.Icon && <current.Icon className="mr-1 inline h-3 w-3" />}
                     {current.label}
                 </span>
             </div>
