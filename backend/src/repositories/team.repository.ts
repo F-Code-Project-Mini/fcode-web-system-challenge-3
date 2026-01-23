@@ -155,11 +155,17 @@ class TeamRepository {
                     ? await userRepository.getScoreMentor(team.mentorship.mentor.id, candidate.id, "MENTOR")
                     : null;
 
+                const scoreJudge = await userRepository.getScoreMentor(
+                    team.mentorship.mentor.id,
+                    candidate.id,
+                    "JUDGE",
+                );
                 const { password, ...userWithoutPassword } = candidate.user;
 
                 return {
                     ...candidate,
                     scoreMentor,
+                    scoreJudge,
                     user: {
                         ...userWithoutPassword,
                         isConfirm: !!password,

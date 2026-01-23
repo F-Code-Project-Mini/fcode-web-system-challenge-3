@@ -24,7 +24,6 @@ model User {
   mentorships Mentorship[] @relation("MentorToMentorship")
   submissions Submission[]
   judgeRooms  JudgeRoom[]
-  reports     Report[]
   givenScores BaremScore[] @relation("MentorToScore")
   userRoles   UserRole[]
 
@@ -61,13 +60,13 @@ model Team {
   leaderId     String? @unique @map("leader_id") @db.VarChar(36)
   topicId      String  @map("topic_id") @db.VarChar(36)
   mentorNote   String? @map("mentor_note") @db.Text
+  reportLink   String? @map("report_link") @db.Text
 
   mentorship      Mentorship       @relation("MentorshipToTeam", fields: [mentorshipId], references: [id])
   leader          Candidate?       @relation("TeamLeader", fields: [leaderId], references: [id])
   topic           Topic            @relation(fields: [topicId], references: [id])
   candidates      Candidate[]      @relation("CandidateToTeam")
   submissions     Submission[]
-  reports         Report[]
   schedulePresent SchedulePresent?
   rooms           Room[]
 
@@ -160,19 +159,6 @@ model JudgeRoom {
   room  Room @relation(fields: [roomId], references: [id])
 
   @@map("judge_rooms")
-}
-
-model Report {
-  id            String   @id @default(uuid()) @db.VarChar(36)
-  mentorId      String   @map("mentor_id") @db.VarChar(36)
-  teamId        String   @map("team_id") @db.VarChar(36)
-  reportContent String   @map("report_content") @db.Text
-  reportedAt    DateTime @map("reported_at")
-
-  mentor User @relation(fields: [mentorId], references: [id])
-  team   Team @relation(fields: [teamId], references: [id])
-
-  @@map("reports")
 }
 
 model Notification {

@@ -2,7 +2,6 @@ import React from "react";
 import { Note } from "./Note";
 import { Link } from "react-router";
 import { BadgeCheck, MessageCircle, ZoomIn, ZoomOut } from "lucide-react";
-import BadgeLeader from "~/components/BadgeLeader";
 import { Button } from "~/components/ui/button";
 import { ShowResume } from "~/components/ShowResume";
 import type { CandidateType } from "~/types/team.types";
@@ -62,12 +61,12 @@ const PersonalBarem = ({
                                 [CÁ NHÂN] ỨNG VIÊN:{" "}
                                 <span className="text-primary">{candidateActive?.user.fullName}</span>
                             </h2>
-                            {isLeader && <BadgeLeader />}
                         </div>
                         <p className="mt-1 text-xs text-gray-500 sm:text-sm">
                             Vui lòng nhập điểm cho từng tiêu chí dưới đây
                         </p>
                     </div>
+
                     <div className="flex justify-between gap-2 px-4 py-4">
                         <div className="flex flex-col gap-1">
                             <div className="mb-2">
@@ -90,9 +89,10 @@ const PersonalBarem = ({
                             </div>
                         </div>
                     </div>
+
                     <Button
                         onClick={() => setScaleBarem(!scaleBarem)}
-                        className="absolute top-4 right-4 z-10 h-8 w-8 rounded-full p-0 text-gray-600 text-white hover:bg-gray-100"
+                        className="absolute top-4 right-4 z-10 h-8 w-8 rounded-full p-0 text-white hover:bg-gray-100"
                     >
                         {scaleBarem ? <ZoomOut /> : <ZoomIn />}
                     </Button>
