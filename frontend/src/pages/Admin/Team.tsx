@@ -60,10 +60,7 @@ const Teams = ({
                                     Email
                                 </th>
                                 <th className="hidden px-4 py-3 text-center text-xs font-semibold tracking-wide text-gray-600 uppercase sm:px-6 sm:py-3.5 md:table-cell">
-                                    Điểm Mentor
-                                </th>
-                                <th className="hidden px-4 py-3 text-center text-xs font-semibold tracking-wide text-gray-600 uppercase sm:px-6 sm:py-3.5 md:table-cell">
-                                    Điểm Present
+                                    Điểm
                                 </th>
                             </tr>
                         </thead>
@@ -71,7 +68,10 @@ const Teams = ({
                             {candidates.map((candidate, index) => {
                                 const isLeader = candidate.id === leader.id;
                                 return (
-                                    <tr key={candidate.id} className="transition-colors hover:bg-gray-50/50">
+                                    <tr
+                                        key={candidate.id}
+                                        className={`${candidate.statusC3 === "FAILED" ? "bg-red-50" : "transition-colors hover:bg-gray-50/50"}`}
+                                    >
                                         <td className="px-4 py-3.5 text-sm font-medium whitespace-nowrap text-gray-900 sm:px-6 sm:py-4">
                                             {index + 1}
                                         </td>
@@ -88,20 +88,42 @@ const Teams = ({
                                             {candidate.user.email}
                                         </td>
                                         <td className="hidden px-4 py-3.5 text-center text-sm whitespace-nowrap text-gray-900 sm:px-6 sm:py-4 md:table-cell">
-                                            {candidate.scoreMentor !== null ? (
-                                                <>
-                                                    <span
-                                                        className={`font-semibold ${Helper.belowAverage(candidate.scoreMentor) ? "text-red-500" : "text-green-500"}`}
-                                                    >
-                                                        {candidate.scoreMentor.toFixed(1)}
-                                                    </span>
-                                                    <span>/{isLeader ? "100" : "85"}</span>
-                                                </>
-                                            ) : (
-                                                <span className="text-gray-400">-</span>
-                                            )}
+                                            <div className="flex flex-col items-center gap-1">
+                                                <div className="flex items-center gap-1">
+                                                    <span className="text-gray-500">Mentor:</span>
+                                                    {candidate.scoreMentor !== null ? (
+                                                        <>
+                                                            <span
+                                                                className={`font-semibold ${Helper.belowAverage(candidate.scoreMentor) ? "text-red-500" : "text-green-600"}`}
+                                                            >
+                                                                {candidate.scoreMentor.toFixed(1)}
+                                                            </span>
+                                                            <span className="text-xs font-bold">
+                                                                /{isLeader ? "100" : "85"}
+                                                            </span>
+                                                        </>
+                                                    ) : (
+                                                        <span className="text-gray-400">-</span>
+                                                    )}
+                                                </div>
+                                                <div className="flex items-center gap-1">
+                                                    <span className="text-gray-500">Present Offical:</span>
+                                                    {candidate.scoreJudge !== null ? (
+                                                        <>
+                                                            <span
+                                                                className={`font-semibold ${Helper.belowAverage(candidate.scoreJudge) ? "text-red-500" : "text-green-600"}`}
+                                                            >
+                                                                {candidate.scoreJudge.toFixed(1)}
+                                                            </span>
+                                                            <span className="text-xs font-bold">/100</span>
+                                                        </>
+                                                    ) : (
+                                                        <span className="text-gray-400">-</span>
+                                                    )}
+                                                </div>
+                                            </div>
                                         </td>
-                                        <td className="hidden px-4 py-3.5 text-center text-sm whitespace-nowrap text-gray-900 sm:px-6 sm:py-4 md:table-cell">
+                                        {/* <td className="hidden px-4 py-3.5 text-center text-sm whitespace-nowrap text-gray-900 sm:px-6 sm:py-4 md:table-cell">
                                             {candidate.scoreJudge !== null ? (
                                                 <>
                                                     <span
@@ -114,7 +136,7 @@ const Teams = ({
                                             ) : (
                                                 <span className="text-gray-400">-</span>
                                             )}
-                                        </td>
+                                        </td> */}
                                     </tr>
                                 );
                             })}
