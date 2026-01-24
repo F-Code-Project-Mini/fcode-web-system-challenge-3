@@ -166,7 +166,11 @@ class AdminService {
                 // Lấy điểm của judge này cho tất cả candidates trong team
                 const candidateScores = await Promise.all(
                     room.team!.candidates.map(async (candidate) => {
-                        const score = await userRepository.getScoreJudge(jr.judge.id, candidate.id);
+                        const score = await userRepository.getScoreJudge(
+                            jr.judge.id,
+                            candidate.id,
+                            "OFFICIAL_PRESENTATION",
+                        );
                         return {
                             candidateId: candidate.id,
                             candidateName: candidate.user?.fullName,

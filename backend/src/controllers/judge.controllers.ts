@@ -7,6 +7,7 @@ import { HTTP_STATUS } from "~/constants/httpStatus";
 import { ResponseClient } from "~/rules/response";
 import judgeService from "~/services/judge.service";
 import teamService from "~/services/team.service";
+import authService from "~/services/user.service";
 
 const fetchBaremScore = async (judgeId: string, candidateId: string, codeBarem: string) => {
     return await prisma.baremScore.findFirst({
@@ -63,6 +64,15 @@ export const getJudgeRooms = async (req: Request, res: Response, next: NextFunct
         return next(error);
     }
 };
+export const getJudgeInfo = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const judgeId = req.params.judgeId;
+        const result = await authService.getInfo(judgeId);
+        return res.status(HTTP_STATUS.OK).json(new ResponseClient({ result }));
+    } catch (error) {
+        return next(error);
+    }
+};
 export const getDetailRoom = async (req: Request<{ roomId: string }>, res: Response, next: NextFunction) => {
     try {
         const { roomId } = req.params;
@@ -72,11 +82,15 @@ export const getDetailRoom = async (req: Request<{ roomId: string }>, res: Respo
         return next(error);
     }
 };
-export const getTeamsByRoom = async (req: Request<{ roomId: string }>, res: Response, next: NextFunction) => {
+export const getTeamsByRoom = async (
+    req: Request<{ roomId: string; judgeId: string }>,
+    res: Response,
+    next: NextFunction,
+) => {
     try {
         const userId = req.userId!;
-        const { roomId } = req.params;
-        const result = await judgeService.getTeamsByRoom(userId, roomId);
+        const { roomId, judgeId } = req.params;
+        const result = await judgeService.getTeamsByRoom(judgeId ? judgeId : userId, roomId);
         return res.status(HTTP_STATUS.OK).json(new ResponseClient({ result }));
     } catch (error) {
         return next(error);
