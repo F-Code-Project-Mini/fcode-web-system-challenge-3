@@ -8,6 +8,7 @@ import Loading from "~/components/Loading";
 import Helper from "~/utils/helper";
 // import Notification from "./Notification";
 import { Badge } from "~/components/ui/badge";
+import useAuth from "~/hooks/useAuth";
 
 const JudgePage = () => {
     const { data: rooms, isLoading } = useQuery({
@@ -18,6 +19,7 @@ const JudgePage = () => {
         },
         staleTime: 5 * 60 * 1000,
     });
+    const { user } = useAuth();
 
     if (isLoading) {
         return <Loading />;
@@ -160,7 +162,7 @@ const JudgePage = () => {
                                                             asChild
                                                         >
                                                             <Link
-                                                                to={`/judge/room/${room.id}`}
+                                                                to={`/judge/room/${room.id}/judge/${user.id}`}
                                                                 className="flex items-center gap-1"
                                                             >
                                                                 <span>Chi tiết</span>

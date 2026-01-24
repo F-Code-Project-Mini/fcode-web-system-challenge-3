@@ -33,8 +33,11 @@ const App = () => {
                     {/* Role Judge */}
                     <Route path="judge" element={<ProtectedRoute roleAccess={[USER_ROLE.JUDGE]} />}>
                         <Route index element={<JudgePage />} />
-                        <Route path="room/:roomId" element={<JudgeRoomDetail />} />
-                        <Route path="room/:roomId/team/:id/candidate/:candidateId" element={<JudgeBaremPage />} />
+                        <Route path="room/:roomId/judge/:judgeId" element={<JudgeRoomDetail />} />
+                        <Route
+                            path="room/:roomId/judge/:judgeId/team/:id/candidate/:candidateId"
+                            element={<JudgeBaremPage />}
+                        />
                         <Route path="barem/:candidateId" element={<JudgeBaremPage />} />
                     </Route>
 

@@ -10,20 +10,24 @@ import HistorySubmit from "../HistorySubmit";
 import Helper from "~/utils/helper";
 import { ShowTopic } from "../../Candidate/ShowTopic";
 import ResultBadge from "~/components/ResultBadge";
+import useGetInfoJudge from "~/hooks/useGetInfoJudge";
+import useAuth from "~/hooks/useAuth";
+import { USER_ROLE } from "~/constants/enums";
 
 const RoomDetail = () => {
-    const { roomId } = useParams<{ roomId: string }>();
+    const { roomId, judgeId } = useParams<{ roomId: string; judgeId: string }>();
 
     const { data: team, isLoading } = useQuery({
         queryKey: ["judge", "room", roomId],
         queryFn: async () => {
-            const res = await JudgeApi.getTeamsByRoom(roomId!);
+            const res = await JudgeApi.getTeamsByRoom(roomId!, judgeId!);
             return res.result;
         },
         enabled: !!roomId,
         staleTime: 5 * 60 * 1000,
     });
-
+    const { data } = useGetInfoJudge(judgeId!);
+    const { user } = useAuth();
     if (isLoading) {
         return <Loading />;
     }
@@ -51,6 +55,11 @@ const RoomDetail = () => {
             <section className="mb-6">
                 <HistorySubmit submissions={team?.submissions || []} isLoading={isLoading} />
             </section>
+            {user.roles.includes(USER_ROLE.ADMIN) && (
+                <section className="mb-2 ml-2">
+                    <h2>Đang xem đánh giá của: {data?.fullName}</h2>
+                </section>
+            )}
 
             <section className="col-span-16" id="team-detail">
                 <div className="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-2xs">
@@ -157,7 +166,7 @@ const RoomDetail = () => {
                                                             asChild
                                                         >
                                                             <Link
-                                                                to={`/judge/room/${roomId}/team/${team.id}/candidate/${candidate.id}`}
+                                                                to={`/judge/room/${roomId}/judge/${judgeId}/team/${team.id}/candidate/${candidate.id}`}
                                                                 className="flex items-center gap-1"
                                                             >
                                                                 <Sparkles size={10} /> <span>Đánh giá</span>

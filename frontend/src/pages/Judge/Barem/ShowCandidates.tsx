@@ -6,6 +6,7 @@ import ResultBadge from "~/components/ResultBadge";
 type ParamsBarem = {
     id: string;
     roomId: string;
+    judgeId: string;
     candidateId?: string;
 };
 export const ShowCandidates = ({
@@ -26,7 +27,7 @@ export const ShowCandidates = ({
                 value={candidateActive?.id}
                 onValueChange={(id) => {
                     setcandidateActive(candidates?.candidates.find((candidate) => candidate.id === id));
-                    navigate(`/judge/room/${params.roomId}/team/${params.id}/candidate/${id}`);
+                    navigate(`/judge/room/${params.roomId}/judge/${params.judgeId}/team/${params.id}/candidate/${id}`);
                 }}
                 className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-5"
             >
