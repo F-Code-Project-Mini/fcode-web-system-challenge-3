@@ -1,4 +1,4 @@
-import { Presentation, Sparkles, Video } from "lucide-react";
+import { Presentation, Video } from "lucide-react";
 import { Link } from "react-router";
 import { Button } from "~/components/ui/button";
 import WelcomePartition from "~/components/WelcomePartition";

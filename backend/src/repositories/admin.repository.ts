@@ -382,6 +382,16 @@ class AdminRepository {
             },
         });
     };
+
+    public isJudgeInRoom = async (judgeId: string, roomId: string) => {
+        const judgeRoom = await prisma.judgeRoom.findFirst({
+            where: {
+                judgeId,
+                roomId,
+            },
+        });
+        return !!judgeRoom;
+    };
 }
 
 const adminRepository = new AdminRepository();

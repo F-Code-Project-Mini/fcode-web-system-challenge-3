@@ -4,6 +4,7 @@ import { HTTP_STATUS } from "~/constants/httpStatus";
 import { ErrorWithStatus } from "~/rules/error";
 import adminRepository from "~/repositories/admin.repository";
 import userRepository from "~/repositories/user.repository";
+import prisma from "~/configs/prisma";
 
 class AdminService {
     public getAllUsers = async () => {
@@ -96,7 +97,7 @@ class AdminService {
                         endTime: room.endTime,
                         team: room.team,
                         _count: room._count,
-                        teamScore: null,
+                        teamScore: 200,
                     };
                 }
 
@@ -114,7 +115,7 @@ class AdminService {
                 );
 
                 // Tính teamScore: TRIAL = tổng, OFFICIAL = trung bình
-                let teamScore = null;
+                let teamScore = 200;
                 const scoredJudges = judgeScores.filter((s) => s > 0);
                 if (scoredJudges.length > 0) {
                     if (room.presentPhase === "TRIAL") {
@@ -192,26 +193,49 @@ class AdminService {
         };
     };
 
-    public addJudgeToRoom = async (judgeId: string, roomId: string) => {
-        const user = await adminRepository.getUserById(judgeId);
-        if (!user) {
-            throw new ErrorWithStatus({
-                status: HTTP_STATUS.NOT_FOUND,
-                message: "Judge không tồn tại!",
-            });
+    public addJudgeToRoom = async (judgeIds: string[], roomId: string) => {
+        let addedCount = 0;
+        const errors: string[] = [];
+
+        for (const judgeId of judgeIds) {
+            try {
+                const user = await adminRepository.getUserById(judgeId);
+                if (!user) {
+                    errors.push(`Judge với ID ${judgeId} không tồn tại`);
+                    continue;
+                }
+
+                const hasJudgeRole = await userRepository.hasRole(user.id, RoleType.JUDGE);
+                if (!hasJudgeRole) {
+                    errors.push(`${user.fullName} không có role JUDGE`);
+                    continue;
+                }
+
+                const isAlreadyInRoom = await adminRepository.isJudgeInRoom(judgeId, roomId);
+                if (isAlreadyInRoom) {
+                    errors.push(`${user.fullName} đã được thêm vào phòng này rồi`);
+                    continue;
+                }
+
+                await adminRepository.addJudgeToRoom(judgeId, roomId);
+                addedCount++;
+            } catch (error) {
+                errors.push(`Lỗi khi thêm judge ${judgeId}`);
+            }
         }
 
-        const hasJudgeRole = await userRepository.hasRole(user.id, RoleType.JUDGE);
-        if (!hasJudgeRole) {
+        if (addedCount === 0) {
             throw new ErrorWithStatus({
                 status: HTTP_STATUS.BAD_REQUEST,
-                message: "User này không có role JUDGE!",
+                message: errors.length > 0 ? errors.join(", ") : "Không thể thêm judge nào!",
             });
         }
 
-        await adminRepository.addJudgeToRoom(judgeId, roomId);
-
-        return { message: "Thêm judge vào phòng thành công!" };
+        return {
+            message: `Thêm ${addedCount} judge(s) vào phòng thành công!`,
+            added: addedCount,
+            errors: errors.length > 0 ? errors : undefined,
+        };
     };
 
     public removeJudgeFromRoom = async (judgeRoomId: string) => {
@@ -227,21 +251,22 @@ class AdminService {
     public getAllTeams = async () => {
         const teams = await adminRepository.getAllTeams();
 
-        // Thêm điểm đánh giá cho từng candidate
         const teamsWithScores = await Promise.all(
             teams.map(async (team) => {
                 const candidatesWithScores = await Promise.all(
                     team.candidates.map(async (candidate) => {
-                        // Lấy điểm mentor
                         const scoreMentor = await userRepository.getScoreMentor(
                             team.mentorship.mentorId,
                             candidate.id,
                             "MENTOR",
                         );
 
-                        // Lấy điểm judge (OFFICIAL_PRESENTATION)
-                        // Tím judge room của team này
-                        const scoreJudge = await this.getJudgeScoresForCandidate(team.id, candidate.id);
+                        const scoreJudge = await userRepository.getScoreMentor(
+                            "",
+                            candidate.id,
+                            "JUDGE",
+                            "OFFICIAL_PRESENTATION",
+                        );
 
                         return {
                             ...candidate,
@@ -251,15 +276,69 @@ class AdminService {
                     }),
                 );
 
+                const teamScore = await this.getTeamScore(team.id);
+
                 return {
                     ...team,
-
                     candidates: candidatesWithScores,
+                    teamScore,
                 };
             }),
         );
 
         return teamsWithScores;
+    };
+
+    private getTeamScore = async (teamId: string): Promise<number | null> => {
+        const team = await adminRepository.getAllTeams().then((teams) => teams.find((t) => t.id === teamId));
+        if (!team || team.candidates.length === 0) {
+            return null;
+        }
+
+        const representativeCandidate = team.candidates[0];
+
+        const teamBaremScores = await prisma.baremScore.findMany({
+            where: {
+                candidateId: representativeCandidate.id,
+                role: "JUDGE",
+                codeBarem: {
+                    startsWith: "#judge_official_team_",
+                },
+            },
+            select: {
+                mentorId: true,
+                score: true,
+                codeBarem: true,
+            },
+        });
+
+        console.log("Team ID:", teamId);
+        console.log("Representative Candidate ID:", representativeCandidate.id);
+        console.log("Team Barem Scores:", teamBaremScores);
+
+        if (teamBaremScores.length === 0) {
+            return null;
+        }
+
+        const judgeScores = new Map<string, number>();
+        teamBaremScores.forEach((scoreRecord) => {
+            const currentScore = judgeScores.get(scoreRecord.mentorId) || 0;
+            judgeScores.set(scoreRecord.mentorId, currentScore + scoreRecord.score);
+        });
+
+        console.log("Judge Scores Map:", Array.from(judgeScores.entries()));
+
+        const judges = Array.from(judgeScores.values());
+        if (judges.length === 0) {
+            return null;
+        }
+
+        const totalScore = judges.reduce((sum, score) => sum + score, 0);
+        const averageScore = totalScore / judges.length;
+
+        console.log("Total Score:", totalScore, "Average Score:", averageScore);
+
+        return Number(averageScore.toFixed(2));
     };
 
     private getJudgeScoresForCandidate = async (teamId: string, candidateId: string): Promise<number | null> => {
