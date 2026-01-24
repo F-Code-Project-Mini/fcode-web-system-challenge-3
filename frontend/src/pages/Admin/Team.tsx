@@ -4,7 +4,11 @@ import type { AdminTeamType } from "~/types/admin.types";
 import BadgeLeader from "~/components/BadgeLeader";
 import ResultBadge from "~/components/ResultBadge";
 
-const Teams = ({ team: { mentorship, candidates, leader, topic, name, group } }: { team: AdminTeamType }) => {
+const Teams = ({
+    team: { mentorship, candidates, leader, topic, name, group, teamScore },
+}: {
+    team: AdminTeamType;
+}) => {
     return (
         <section className="col-span-1 lg:col-span-16" id="members">
             <div className="overflow-hidden rounded-lg border border-gray-200/70 bg-white shadow-xs">
@@ -22,6 +26,16 @@ const Teams = ({ team: { mentorship, candidates, leader, topic, name, group } }:
                                     Mentor:{" "}
                                     <span className="font-bold text-gray-600">{mentorship.mentor.fullName}</span>
                                 </li>
+                                {teamScore !== null && (
+                                    <li>
+                                        Điểm nhóm:{" "}
+                                        <span
+                                            className={`font-bold ${teamScore >= 50 ? "text-green-600" : "text-red-600"}`}
+                                        >
+                                            {teamScore.toFixed(1)}/100
+                                        </span>
+                                    </li>
+                                )}
                             </ul>
                         </p>
                     </div>

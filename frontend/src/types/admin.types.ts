@@ -196,6 +196,7 @@ export interface AdminTeamType {
         officialDate: string[];
         finalDate: string;
     } | null;
+    teamScore: number | null;
 }
 
 export interface AdminCandidateType {
