@@ -83,7 +83,7 @@ export interface AddRoleRequest {
 }
 
 export interface AddJudgeToRoomRequest {
-    judgeId: string;
+    judgeIds: string[];
 }
 
 export interface JudgeUserType {

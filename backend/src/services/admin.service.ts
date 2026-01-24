@@ -192,26 +192,49 @@ class AdminService {
         };
     };
 
-    public addJudgeToRoom = async (judgeId: string, roomId: string) => {
-        const user = await adminRepository.getUserById(judgeId);
-        if (!user) {
-            throw new ErrorWithStatus({
-                status: HTTP_STATUS.NOT_FOUND,
-                message: "Judge không tồn tại!",
-            });
+    public addJudgeToRoom = async (judgeIds: string[], roomId: string) => {
+        let addedCount = 0;
+        const errors: string[] = [];
+
+        for (const judgeId of judgeIds) {
+            try {
+                const user = await adminRepository.getUserById(judgeId);
+                if (!user) {
+                    errors.push(`Judge với ID ${judgeId} không tồn tại`);
+                    continue;
+                }
+
+                const hasJudgeRole = await userRepository.hasRole(user.id, RoleType.JUDGE);
+                if (!hasJudgeRole) {
+                    errors.push(`${user.fullName} không có role JUDGE`);
+                    continue;
+                }
+
+                const isAlreadyInRoom = await adminRepository.isJudgeInRoom(judgeId, roomId);
+                if (isAlreadyInRoom) {
+                    errors.push(`${user.fullName} đã được thêm vào phòng này rồi`);
+                    continue;
+                }
+
+                await adminRepository.addJudgeToRoom(judgeId, roomId);
+                addedCount++;
+            } catch (error) {
+                errors.push(`Lỗi khi thêm judge ${judgeId}`);
+            }
         }
 
-        const hasJudgeRole = await userRepository.hasRole(user.id, RoleType.JUDGE);
-        if (!hasJudgeRole) {
+        if (addedCount === 0) {
             throw new ErrorWithStatus({
                 status: HTTP_STATUS.BAD_REQUEST,
-                message: "User này không có role JUDGE!",
+                message: errors.length > 0 ? errors.join(", ") : "Không thể thêm judge nào!",
             });
         }
 
-        await adminRepository.addJudgeToRoom(judgeId, roomId);
-
-        return { message: "Thêm judge vào phòng thành công!" };
+        return {
+            message: `Thêm ${addedCount} judge(s) vào phòng thành công!`,
+            added: addedCount,
+            errors: errors.length > 0 ? errors : undefined,
+        };
     };
 
     public removeJudgeFromRoom = async (judgeRoomId: string) => {

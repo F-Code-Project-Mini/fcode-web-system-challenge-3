@@ -97,8 +97,8 @@ class AdminController {
     public addJudgeToRoom = async (req: Request, res: Response, next: NextFunction) => {
         try {
             const { roomId } = req.params;
-            const { judgeId } = req.body;
-            const result = await adminService.addJudgeToRoom(judgeId, roomId);
+            const { judgeIds } = req.body;
+            const result = await adminService.addJudgeToRoom(judgeIds, roomId);
             res.status(HTTP_STATUS.OK).json(result);
         } catch (error) {
             next(error);
