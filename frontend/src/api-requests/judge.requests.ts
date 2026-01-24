@@ -76,8 +76,15 @@ class JudgeApi {
         return res.data;
     }
 
-    static async getTeamsByRoom(roomId: string) {
-        const res = await privateApi.get<ResponseDetailData<TeamDetailType>>(`/judge/rooms/${roomId}/teams`);
+    static async getJudgeInfo(judgeId: string) {
+        const res = await privateApi.get<ResponseDetailData<{ id: string; fullName: string; email: string }>>(
+            `/judge/info/${judgeId}`,
+        );
+        return res.data;
+    }
+
+    static async getTeamsByRoom(roomId: string, judgeId: string) {
+        const res = await privateApi.get<ResponseDetailData<TeamDetailType>>(`/judge/rooms/${roomId}/${judgeId}/teams`);
         return res.data;
     }
 

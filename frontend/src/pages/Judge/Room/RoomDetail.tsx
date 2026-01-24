@@ -12,12 +12,12 @@ import { ShowTopic } from "../../Candidate/ShowTopic";
 import ResultBadge from "~/components/ResultBadge";
 
 const RoomDetail = () => {
-    const { roomId } = useParams<{ roomId: string }>();
+    const { roomId, judgeId } = useParams<{ roomId: string; judgeId: string }>();
 
     const { data: team, isLoading } = useQuery({
         queryKey: ["judge", "room", roomId],
         queryFn: async () => {
-            const res = await JudgeApi.getTeamsByRoom(roomId!);
+            const res = await JudgeApi.getTeamsByRoom(roomId!, judgeId!);
             return res.result;
         },
         enabled: !!roomId,
@@ -50,6 +50,9 @@ const RoomDetail = () => {
 
             <section className="mb-6">
                 <HistorySubmit submissions={team?.submissions || []} isLoading={isLoading} />
+            </section>
+            <section className="mb-2 ml-2">
+                <h2>Đang xem đánh giá của: Phạm Hoàng Tuấn</h2>
             </section>
 
             <section className="col-span-16" id="team-detail">
@@ -157,7 +160,7 @@ const RoomDetail = () => {
                                                             asChild
                                                         >
                                                             <Link
-                                                                to={`/judge/room/${roomId}/team/${team.id}/candidate/${candidate.id}`}
+                                                                to={`/judge/room/${roomId}/judge/${judgeId}/team/${team.id}/candidate/${candidate.id}`}
                                                                 className="flex items-center gap-1"
                                                             >
                                                                 <Sparkles size={10} /> <span>Đánh giá</span>

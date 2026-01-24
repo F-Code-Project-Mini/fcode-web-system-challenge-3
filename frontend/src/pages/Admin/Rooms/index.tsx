@@ -166,50 +166,63 @@ const RoomsPage = () => {
                                                         </tr>
                                                     </thead>
                                                     <tbody className="divide-y divide-gray-200/60 bg-white">
-                                                        {detail?.judgeRooms.map((jr, index) => (
-                                                            <tr
-                                                                key={jr.id}
-                                                                className="transition-colors hover:bg-gray-50/50"
-                                                            >
-                                                                <td className="px-4 py-3.5 text-sm font-medium whitespace-nowrap text-gray-900 sm:px-6 sm:py-4">
-                                                                    {index + 1}
-                                                                </td>
-                                                                <td className="px-4 py-3.5 text-sm whitespace-nowrap text-gray-900 sm:px-6 sm:py-4">
-                                                                    <p className="font-medium">{jr.judge.fullName}</p>
-                                                                </td>
-                                                                <td className="px-4 py-3.5 text-sm text-gray-600 sm:px-6 sm:py-4">
-                                                                    {jr.judge.email}
-                                                                </td>
-                                                                <td className="px-4 py-3.5 text-center text-sm font-semibold text-gray-900 sm:px-6 sm:py-4">
-                                                                    {jr.totalScore.toFixed(1)}
-                                                                </td>
-                                                                <td className="px-4 py-3.5 text-center sm:px-6 sm:py-4">
-                                                                    {jr.hasScored ? (
-                                                                        <div className="inline-flex items-center gap-1 text-xs text-green-600">
-                                                                            <CheckCircle2 className="h-4 w-4" />
-                                                                            Đã chấm
-                                                                        </div>
-                                                                    ) : (
-                                                                        <div className="inline-flex items-center gap-1 text-xs text-gray-400">
-                                                                            <XCircle className="h-4 w-4" />
-                                                                            Chưa chấm
-                                                                        </div>
-                                                                    )}
-                                                                </td>
-                                                                <td className="px-4 py-3.5 text-center sm:px-6 sm:py-4">
-                                                                    <button
-                                                                        onClick={() =>
-                                                                            handleRemoveJudge(jr.judge.fullName, jr.id)
-                                                                        }
-                                                                        disabled={removeJudgeMutation.isPending}
-                                                                        className="inline-flex items-center justify-center rounded-md p-2 text-red-500 transition-colors hover:bg-red-50 disabled:opacity-50"
-                                                                        title="Xóa giám khảo"
-                                                                    >
-                                                                        <Trash2 className="h-4 w-4" />
-                                                                    </button>
-                                                                </td>
-                                                            </tr>
-                                                        ))}
+                                                        {detail?.judgeRooms.map((jr, index) => {
+                                                            const scoreJudge = jr.totalScore;
+                                                            return (
+                                                                <tr
+                                                                    key={jr.id}
+                                                                    className="transition-colors hover:bg-gray-50/50"
+                                                                >
+                                                                    <td className="px-4 py-3.5 text-sm font-medium whitespace-nowrap text-gray-900 sm:px-6 sm:py-4">
+                                                                        {index + 1}
+                                                                    </td>
+                                                                    <td className="px-4 py-3.5 text-sm whitespace-nowrap text-gray-900 sm:px-6 sm:py-4">
+                                                                        <p className="font-medium">
+                                                                            {jr.judge.fullName}
+                                                                        </p>
+                                                                    </td>
+                                                                    <td className="px-4 py-3.5 text-sm text-gray-600 sm:px-6 sm:py-4">
+                                                                        {jr.judge.email}
+                                                                    </td>
+                                                                    <td className="px-4 py-3.5 text-center sm:px-6 sm:py-4">
+                                                                        <span
+                                                                            className={`text-base font-semibold ${Helper.belowAverage(scoreJudge) ? "text-red-500" : "text-green-500"}`}
+                                                                        >
+                                                                            {scoreJudge}
+                                                                        </span>
+                                                                        <span className="text-xs italic">/100</span>
+                                                                    </td>
+                                                                    <td className="px-4 py-3.5 text-center sm:px-6 sm:py-4">
+                                                                        {jr.hasScored ? (
+                                                                            <div className="inline-flex items-center gap-1 text-xs text-green-600">
+                                                                                <CheckCircle2 className="h-4 w-4" />
+                                                                                Đã chấm
+                                                                            </div>
+                                                                        ) : (
+                                                                            <div className="inline-flex items-center gap-1 text-xs text-gray-400">
+                                                                                <XCircle className="h-4 w-4" />
+                                                                                Chưa chấm
+                                                                            </div>
+                                                                        )}
+                                                                    </td>
+                                                                    <td className="px-4 py-3.5 text-center sm:px-6 sm:py-4">
+                                                                        <button
+                                                                            onClick={() =>
+                                                                                handleRemoveJudge(
+                                                                                    jr.judge.fullName,
+                                                                                    jr.id,
+                                                                                )
+                                                                            }
+                                                                            disabled={removeJudgeMutation.isPending}
+                                                                            className="inline-flex items-center justify-center rounded-md p-2 text-red-500 transition-colors hover:bg-red-50 disabled:opacity-50"
+                                                                            title="Xóa giám khảo"
+                                                                        >
+                                                                            <Trash2 className="h-4 w-4" />
+                                                                        </button>
+                                                                    </td>
+                                                                </tr>
+                                                            );
+                                                        })}
                                                     </tbody>
                                                 </table>
                                             </div>
