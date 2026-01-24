@@ -4,6 +4,7 @@ import { HTTP_STATUS } from "~/constants/httpStatus";
 import { ErrorWithStatus } from "~/rules/error";
 import adminRepository from "~/repositories/admin.repository";
 import userRepository from "~/repositories/user.repository";
+import prisma from "~/configs/prisma";
 
 class AdminService {
     public getAllUsers = async () => {
@@ -96,7 +97,7 @@ class AdminService {
                         endTime: room.endTime,
                         team: room.team,
                         _count: room._count,
-                        teamScore: null,
+                        teamScore: 200,
                     };
                 }
 
@@ -114,17 +115,17 @@ class AdminService {
                 );
 
                 // Tính teamScore: TRIAL = tổng, OFFICIAL = trung bình
-                // let teamScore = null;
-                // const scoredJudges = judgeScores.filter((s) => s > 0);
-                // if (scoredJudges.length > 0) {
-                //     if (room.presentPhase === "TRIAL") {
-                //         // TRIAL: chỉ lấy tổng điểm của judge duy nhất (không tính TB)
-                //         teamScore = scoredJudges[0];
-                //     } else {
-                //         // OFFICIAL: tính trung bình
-                //         teamScore = scoredJudges.reduce((sum, s) => sum + s, 0) / scoredJudges.length;
-                //     }
-                // }
+                let teamScore = 200;
+                const scoredJudges = judgeScores.filter((s) => s > 0);
+                if (scoredJudges.length > 0) {
+                    if (room.presentPhase === "TRIAL") {
+                        // TRIAL: chỉ lấy tổng điểm của judge duy nhất (không tính TB)
+                        teamScore = scoredJudges[0];
+                    } else {
+                        // OFFICIAL: tính trung bình
+                        teamScore = scoredJudges.reduce((sum, s) => sum + s, 0) / scoredJudges.length;
+                    }
+                }
 
                 return {
                     id: room.id,
@@ -135,7 +136,7 @@ class AdminService {
                     endTime: room.endTime,
                     team: room.team,
                     _count: room._count,
-                    // teamScore,
+                    teamScore,
                 };
             }),
         );
@@ -250,21 +251,16 @@ class AdminService {
     public getAllTeams = async () => {
         const teams = await adminRepository.getAllTeams();
 
-        // Thêm điểm đánh giá cho từng candidate
         const teamsWithScores = await Promise.all(
             teams.map(async (team) => {
                 const candidatesWithScores = await Promise.all(
                     team.candidates.map(async (candidate) => {
-                        // Lấy điểm mentor
                         const scoreMentor = await userRepository.getScoreMentor(
                             team.mentorship.mentorId,
                             candidate.id,
                             "MENTOR",
                         );
 
-                        // Lấy điểm judge (OFFICIAL_PRESENTATION)
-                        // Tím judge room của team này
-                        // const scoreJudge = await this.getJudgeScoresForCandidate(team.id, candidate.id);
                         const scoreJudge = await userRepository.getScoreMentor(
                             "",
                             candidate.id,
@@ -280,15 +276,69 @@ class AdminService {
                     }),
                 );
 
+                const teamScore = await this.getTeamScore(team.id);
+
                 return {
                     ...team,
-
                     candidates: candidatesWithScores,
+                    teamScore,
                 };
             }),
         );
 
         return teamsWithScores;
+    };
+
+    private getTeamScore = async (teamId: string): Promise<number | null> => {
+        const team = await adminRepository.getAllTeams().then((teams) => teams.find((t) => t.id === teamId));
+        if (!team || team.candidates.length === 0) {
+            return null;
+        }
+
+        const representativeCandidate = team.candidates[0];
+
+        const teamBaremScores = await prisma.baremScore.findMany({
+            where: {
+                candidateId: representativeCandidate.id,
+                role: "JUDGE",
+                codeBarem: {
+                    startsWith: "#judge_official_team_",
+                },
+            },
+            select: {
+                mentorId: true,
+                score: true,
+                codeBarem: true,
+            },
+        });
+
+        console.log("Team ID:", teamId);
+        console.log("Representative Candidate ID:", representativeCandidate.id);
+        console.log("Team Barem Scores:", teamBaremScores);
+
+        if (teamBaremScores.length === 0) {
+            return null;
+        }
+
+        const judgeScores = new Map<string, number>();
+        teamBaremScores.forEach((scoreRecord) => {
+            const currentScore = judgeScores.get(scoreRecord.mentorId) || 0;
+            judgeScores.set(scoreRecord.mentorId, currentScore + scoreRecord.score);
+        });
+
+        console.log("Judge Scores Map:", Array.from(judgeScores.entries()));
+
+        const judges = Array.from(judgeScores.values());
+        if (judges.length === 0) {
+            return null;
+        }
+
+        const totalScore = judges.reduce((sum, score) => sum + score, 0);
+        const averageScore = totalScore / judges.length;
+
+        console.log("Total Score:", totalScore, "Average Score:", averageScore);
+
+        return Number(averageScore.toFixed(2));
     };
 
     private getJudgeScoresForCandidate = async (teamId: string, candidateId: string): Promise<number | null> => {
