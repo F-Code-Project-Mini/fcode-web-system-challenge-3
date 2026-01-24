@@ -10,6 +10,9 @@ import HistorySubmit from "../HistorySubmit";
 import Helper from "~/utils/helper";
 import { ShowTopic } from "../../Candidate/ShowTopic";
 import ResultBadge from "~/components/ResultBadge";
+import useGetInfoJudge from "~/hooks/useGetInfoJudge";
+import useAuth from "~/hooks/useAuth";
+import { USER_ROLE } from "~/constants/enums";
 
 const RoomDetail = () => {
     const { roomId, judgeId } = useParams<{ roomId: string; judgeId: string }>();
@@ -23,7 +26,8 @@ const RoomDetail = () => {
         enabled: !!roomId,
         staleTime: 5 * 60 * 1000,
     });
-
+    const { data } = useGetInfoJudge(judgeId!);
+    const { user } = useAuth();
     if (isLoading) {
         return <Loading />;
     }
@@ -51,9 +55,11 @@ const RoomDetail = () => {
             <section className="mb-6">
                 <HistorySubmit submissions={team?.submissions || []} isLoading={isLoading} />
             </section>
-            <section className="mb-2 ml-2">
-                <h2>Đang xem đánh giá của: Phạm Hoàng Tuấn</h2>
-            </section>
+            {user.roles.includes(USER_ROLE.ADMIN) && (
+                <section className="mb-2 ml-2">
+                    <h2>Đang xem đánh giá của: {data?.fullName}</h2>
+                </section>
+            )}
 
             <section className="col-span-16" id="team-detail">
                 <div className="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-2xs">
