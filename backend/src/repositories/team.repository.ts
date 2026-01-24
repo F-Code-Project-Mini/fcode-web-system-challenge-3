@@ -163,6 +163,7 @@ class TeamRepository {
                     candidate.id,
                     "JUDGE",
                     "OFFICIAL_PRESENTATION",
+                    true,
                 );
                 const { password, ...userWithoutPassword } = candidate.user;
 

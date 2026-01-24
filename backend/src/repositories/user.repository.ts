@@ -55,6 +55,7 @@ class UserRepository {
         userId: string,
         role: "JUDGE" | "MENTOR" = "MENTOR",
         type: "PROCESSING" | "TRIAL_PRESENTATION" | "OFFICIAL_PRESENTATION" = "PROCESSING",
+        team: boolean = false,
     ) => {
         const scores = await prisma.baremScore.findMany({
             where: {
@@ -62,6 +63,8 @@ class UserRepository {
                 candidateId: userId,
                 role,
                 type,
+                codeBarem: { startsWith: team ? "#judge_official_team_" : "#judge_official_personal_" },
+                // ...(team ? { codeBarem: { startsWith: "#judge_official_team_" } } : {}),
             },
             select: {
                 mentorId: true,
