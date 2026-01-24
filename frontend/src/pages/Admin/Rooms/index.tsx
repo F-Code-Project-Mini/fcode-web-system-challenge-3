@@ -96,7 +96,7 @@ const RoomsPage = () => {
                                                     - {Helper.formatDateTime(room.startTime)}
                                                 </span>
                                             </div>
-                                            {room.teamScore !== null && (
+                                            {/* {room.teamScore !== null && (
                                                 <div className="flex items-center gap-1 text-sm">
                                                     <span className="text-gray-500">Điểm:</span>
                                                     <span className="font-bold text-green-600">
@@ -106,7 +106,7 @@ const RoomsPage = () => {
                                                         ({room.presentPhase === "TRIAL" ? "Tổng" : "TB"})
                                                     </span>
                                                 </div>
-                                            )}
+                                            )} */}
                                         </div>
                                     </div>
                                     <div className="flex gap-2">

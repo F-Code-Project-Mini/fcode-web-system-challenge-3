@@ -54,7 +54,7 @@ class AdminApi {
     }
 
     static async addJudgeToRoom(roomId: string, data: AddJudgeToRoomRequest) {
-        const res = await privateApi.post<ResponseDetailData<{ message: string }>>(
+        const res = await privateApi.post<ResponseDetailData<{ message: string; added: number }>>(
             `/admin/rooms/${roomId}/judges`,
             data,
         );

@@ -162,6 +162,8 @@ class TeamRepository {
                     team.mentorship.mentor.id,
                     candidate.id,
                     "JUDGE",
+                    "OFFICIAL_PRESENTATION",
+                    true,
                 );
                 const { password, ...userWithoutPassword } = candidate.user;
 

@@ -50,21 +50,40 @@ class UserRepository {
     };
 
     // get điểm mentor chấm userId: string
-    getScoreMentor = async (mentorId: string, userId: string, role: "JUDGE" | "MENTOR" = "MENTOR") => {
-        // console.log("userId", userId);
-        const groupUsers = await prisma.baremScore.groupBy({
-            by: ["candidateId"],
+    getScoreMentor = async (
+        mentorId: string = "",
+        userId: string,
+        role: "JUDGE" | "MENTOR" = "MENTOR",
+        type: "PROCESSING" | "TRIAL_PRESENTATION" | "OFFICIAL_PRESENTATION" = "PROCESSING",
+        team: boolean = false,
+    ) => {
+        const scores = await prisma.baremScore.findMany({
             where: {
-                mentorId,
+                ...(mentorId ? { mentorId } : {}),
                 candidateId: userId,
                 role,
+                type,
+                codeBarem: { startsWith: team ? "#judge_official_team_" : "#judge_official_personal_" },
+                // ...(team ? { codeBarem: { startsWith: "#judge_official_team_" } } : {}),
             },
-            _sum: {
+            select: {
+                mentorId: true,
                 score: true,
             },
         });
-        console.log("groupUsers", groupUsers);
-        return Number(groupUsers[0]?._sum.score ?? 0);
+
+        if (scores.length === 0) {
+            return 0;
+        }
+
+        const uniqueMentors = new Set(scores.map((s) => s.mentorId));
+        const mentorCount = uniqueMentors.size;
+
+        const totalScore = scores.reduce((sum, s) => sum + s.score, 0);
+
+        const averageScore = totalScore / mentorCount;
+
+        return Number(averageScore.toFixed(2));
     };
 }
 const userRepository = new UserRepository();

@@ -189,6 +189,9 @@ model BaremScore {
 
   @@unique([mentorId, codeBarem, candidateId])
   @@index([candidateId])
+  @@index([mentorId])
+  @@index([type])
+  @@index([codeBarem])
   @@map("scores")
 }
 

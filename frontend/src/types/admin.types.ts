@@ -83,7 +83,7 @@ export interface AddRoleRequest {
 }
 
 export interface AddJudgeToRoomRequest {
-    judgeId: string;
+    judgeIds: string[];
 }
 
 export interface JudgeUserType {
@@ -114,7 +114,7 @@ export interface AdminRoomType {
     _count: {
         judgeRooms: number;
     };
-    teamScore: number | null;
+    // teamScore: number | null;
 }
 export interface RoomDetailType {
     id: string;
@@ -196,6 +196,7 @@ export interface AdminTeamType {
         officialDate: string[];
         finalDate: string;
     } | null;
+    teamScore: number | null;
 }
 
 export interface AdminCandidateType {
