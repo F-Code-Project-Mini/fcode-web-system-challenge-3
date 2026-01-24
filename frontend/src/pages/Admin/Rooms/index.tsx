@@ -2,11 +2,13 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import AdminApi from "~/api-requests/admin.requests";
 import Loading from "~/components/Loading";
 import AddJudgeDialog from "./AddJudgeDialog";
-import { Trash2, Clock, ChevronDown, ChevronUp, CheckCircle2, XCircle } from "lucide-react";
+import { Trash2, Clock, ChevronDown, ChevronUp, CheckCircle2, XCircle, Sparkles } from "lucide-react";
 import Helper from "~/utils/helper";
 import type { AdminRoomType } from "~/types/admin.types";
 import Notification from "~/utils/notification";
 import { useState } from "react";
+import { Button } from "~/components/ui/button";
+import { Link } from "react-router";
 
 const RoomsPage = () => {
     const queryClient = useQueryClient();
@@ -161,6 +163,9 @@ const RoomsPage = () => {
                                                                 Trạng thái
                                                             </th>
                                                             <th className="px-4 py-3 text-center text-xs font-semibold tracking-wide text-gray-600 uppercase sm:px-6 sm:py-3.5">
+                                                                Bảng điểm
+                                                            </th>
+                                                            <th className="px-4 py-3 text-center text-xs font-semibold tracking-wide text-gray-600 uppercase sm:px-6 sm:py-3.5">
                                                                 Thao tác
                                                             </th>
                                                         </tr>
@@ -204,6 +209,22 @@ const RoomsPage = () => {
                                                                                 Chưa chấm
                                                                             </div>
                                                                         )}
+                                                                    </td>
+                                                                    <td className="px-4 py-3.5 text-center sm:px-6 sm:py-4">
+                                                                        <Button
+                                                                            variant="outline"
+                                                                            size="sm"
+                                                                            className="w-fit text-xs"
+                                                                            asChild
+                                                                        >
+                                                                            <Link
+                                                                                to={`/judge/room/${room.id}/judge/${jr.judge.id}`}
+                                                                                target="_blank"
+                                                                                className="flex items-center gap-1"
+                                                                            >
+                                                                                <span>Đánh giá</span>
+                                                                            </Link>
+                                                                        </Button>
                                                                     </td>
                                                                     <td className="px-4 py-3.5 text-center sm:px-6 sm:py-4">
                                                                         <button
