@@ -68,6 +68,9 @@ export type TeamDetailType = {
     } | null;
     submissions: SubmissionResponseType[];
     schedulePresent: SchedulePresent;
+    noteJudge: {
+        note: string;
+    } | null;
 };
 
 class JudgeApi {

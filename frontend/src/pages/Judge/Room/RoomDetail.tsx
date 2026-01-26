@@ -85,7 +85,7 @@ const RoomDetail = () => {
                         </div>
                         <div className="flex flex-wrap items-center gap-1">
                             <ShowTopic urlPdf={team.topic.filePath} name={team.topic.title} />
-                            <NoteTeam note={"cai lol què" || ""} teamId={team.id} />
+                            <NoteTeam note={team.noteJudge?.note || ""} teamId={team.id} />
                         </div>
                     </div>
                     <div className="overflow-x-auto">

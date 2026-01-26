@@ -8,18 +8,13 @@ datasource db {
 }
 
 model User {
-  id       String @id @default(uuid()) @db.VarChar(36)
-  email    String @unique @db.VarChar(255)
-  password String @db.VarChar(60)
-  fullName String @map("full_name") @db.VarChar(255)
-  // role     Role
-  // hệ hệ nhiều nhiều với roles
-
-  candidateId String?  @unique @map("candidate_id") @db.VarChar(36)
-  createdAt   DateTime @default(now()) @map("created_at")
-  updatedAt   DateTime @updatedAt @map("updated_at")
-
-  // Relations
+  id          String       @id @default(uuid()) @db.VarChar(36)
+  email       String       @unique @db.VarChar(255)
+  password    String       @db.VarChar(60)
+  fullName    String       @map("full_name") @db.VarChar(255)
+  candidateId String?      @unique @map("candidate_id") @db.VarChar(36)
+  createdAt   DateTime     @default(now()) @map("created_at")
+  updatedAt   DateTime     @updatedAt @map("updated_at")
   candidate   Candidate?   @relation("UserToCandidate", fields: [candidateId], references: [id])
   mentorships Mentorship[] @relation("MentorToMentorship")
   submissions Submission[]
@@ -42,11 +37,10 @@ model Candidate {
   statusC3    StatusChallenge3 @default(WAITING) @map("status_c3")
   createdAt   DateTime         @default(now()) @map("created_at")
   updatedAt   DateTime         @updatedAt @map("updated_at")
-
-  user        User?        @relation("UserToCandidate")
-  team        Team?        @relation("CandidateToTeam", fields: [teamId], references: [id], onDelete: SetNull)
-  ledTeam     Team?        @relation("TeamLeader")
-  baremScores BaremScore[] @relation("CandidateReceivedScore")
+  user        User?            @relation("UserToCandidate")
+  team        Team?            @relation("CandidateToTeam", fields: [teamId], references: [id], onDelete: SetNull)
+  ledTeam     Team?            @relation("TeamLeader")
+  baremScores BaremScore[]     @relation("CandidateReceivedScore")
   resume      Resume?
   interview   Interview?
 
@@ -54,15 +48,14 @@ model Candidate {
 }
 
 model Team {
-  id           String  @id @default(uuid()) @db.VarChar(36)
-  group        Int     @unique @db.Int
-  name         String? @unique @db.VarChar(255)
-  mentorshipId String  @map("mentorship_id") @db.VarChar(36)
-  leaderId     String? @unique @map("leader_id") @db.VarChar(36)
-  topicId      String  @map("topic_id") @db.VarChar(36)
-  mentorNote   String? @map("mentor_note") @db.Text
-  reportLink   String? @map("report_link") @db.Text
-
+  id              String           @id @default(uuid()) @db.VarChar(36)
+  group           Int              @unique @db.Int
+  name            String?          @unique @db.VarChar(255)
+  mentorshipId    String           @map("mentorship_id") @db.VarChar(36)
+  leaderId        String?          @unique @map("leader_id") @db.VarChar(36)
+  topicId         String           @map("topic_id") @db.VarChar(36)
+  mentorNote      String?          @map("mentor_note") @db.Text
+  reportLink      String?          @map("report_link") @db.Text
   mentorship      Mentorship       @relation("MentorshipToTeam", fields: [mentorshipId], references: [id])
   leader          Candidate?       @relation("TeamLeader", fields: [leaderId], references: [id])
   topic           Topic            @relation(fields: [topicId], references: [id])
@@ -70,7 +63,7 @@ model Team {
   submissions     Submission[]
   schedulePresent SchedulePresent?
   rooms           Room[]
-  noteJudges      NoteJudge[]
+  noteJudge       NoteJudge?
 
   @@map("teams")
 }
@@ -81,9 +74,8 @@ model Mentorship {
   facebook String @db.VarChar(255)
   discord  String @db.VarChar(255)
   phone    String @db.VarChar(12)
-
-  mentor User   @relation("MentorToMentorship", fields: [mentorId], references: [id])
-  teams  Team[] @relation("MentorshipToTeam")
+  mentor   User   @relation("MentorToMentorship", fields: [mentorId], references: [id])
+  teams    Team[] @relation("MentorshipToTeam")
 
   @@map("mentorship")
 }
@@ -94,8 +86,7 @@ model Topic {
   filePath  String   @map("file_path") @db.VarChar(255)
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
-
-  teams Team[]
+  teams     Team[]
 
   @@map("topics")
 }
@@ -109,9 +100,8 @@ model Submission {
   productLinks       Json     @map("product_links") @db.Json
   note               String?  @db.Text
   submittedAt        DateTime @map("submitted_at")
-
-  team Team @relation(fields: [teamId], references: [id])
-  user User @relation(fields: [userId], references: [id])
+  team               Team     @relation(fields: [teamId], references: [id])
+  user               User     @relation(fields: [userId], references: [id])
 
   @@map("submissions")
 }
@@ -123,10 +113,9 @@ model Room {
   roomNumber   String            @map("room_number") @db.VarChar(255)
   startTime    DateTime          @default(now()) @map("start_time")
   endTime      DateTime          @default(now()) @map("end_time")
-
-  teamId     String?     @map("team_id") @db.VarChar(36)
-  judgeRooms JudgeRoom[]
-  team       Team?       @relation(fields: [teamId], references: [id])
+  teamId       String?           @map("team_id") @db.VarChar(36)
+  judgeRooms   JudgeRoom[]
+  team         Team?             @relation(fields: [teamId], references: [id])
 
   @@map("rooms")
 }
@@ -139,14 +128,12 @@ model Roles {
   @@map("roles")
 }
 
-// model roles: 1 người dùng có nhiều roles
 model UserRole {
   userId     String   @map("user_id") @db.VarChar(36)
   roleId     Int      @map("role_id")
   assignedAt DateTime @default(now()) @map("assigned_at")
-
-  user User  @relation(fields: [userId], references: [id], onDelete: Cascade)
-  role Roles @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role       Roles    @relation(fields: [roleId], references: [id], onDelete: Cascade)
 
   @@id([userId, roleId])
   @@map("user_roles")
@@ -155,13 +142,11 @@ model UserRole {
 model NoteJudge {
   id      String @id @default(uuid()) @db.VarChar(36)
   judgeId String @map("judge_id") @db.VarChar(36)
-  teamId  String @map("team_id") @db.VarChar(36)
+  teamId  String @unique @map("team_id") @db.VarChar(36)
   note    String @db.Text
+  judge   User   @relation(fields: [judgeId], references: [id], onDelete: Cascade)
+  team    Team   @relation(fields: [teamId], references: [id], onDelete: Cascade)
 
-  judge User @relation(fields: [judgeId], references: [id], onDelete: Cascade)
-  team  Team @relation(fields: [teamId], references: [id], onDelete: Cascade)
-
-  @@unique([judgeId, teamId])
   @@map("note_judges")
 }
 
@@ -169,9 +154,8 @@ model JudgeRoom {
   id      String @id @default(uuid()) @db.VarChar(36)
   judgeId String @map("judge_id") @db.VarChar(36)
   roomId  String @map("room_id") @db.VarChar(36)
-
-  judge User @relation(fields: [judgeId], references: [id])
-  room  Room @relation(fields: [roomId], references: [id])
+  judge   User   @relation(fields: [judgeId], references: [id])
+  room    Room   @relation(fields: [roomId], references: [id])
 
   @@map("judge_rooms")
 }
@@ -195,12 +179,10 @@ model BaremScore {
   candidateId String         @map("candidate_id") @db.VarChar(36)
   score       Float
   note        String?        @db.Text
-
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
-
-  mentor    User      @relation("MentorToScore", fields: [mentorId], references: [id])
-  candidate Candidate @relation("CandidateReceivedScore", fields: [candidateId], references: [id])
+  createdAt   DateTime       @default(now()) @map("created_at")
+  updatedAt   DateTime       @updatedAt @map("updated_at")
+  mentor      User           @relation("MentorToScore", fields: [mentorId], references: [id])
+  candidate   Candidate      @relation("CandidateReceivedScore", fields: [candidateId], references: [id])
 
   @@unique([mentorId, codeBarem, candidateId])
   @@index([candidateId])
@@ -211,19 +193,16 @@ model BaremScore {
 }
 
 model SchedulePresent {
-  id     String @id @default(uuid()) @db.VarChar(36)
-  teamId String @unique @map("team_id") @db.VarChar(36)
-
-  trialDate      String  @map("trial_date") @db.VarChar(255)
-  officialDate   Json    @map("offical_date") @db.Json
-  finalDate      String? @map("final_date") @db.VarChar(255)
-  googleMeetLink String? @map("google_meet_link") @db.VarChar(255)
-  videoRecord    String? @map("video_record") @db.VarChar(255)
-
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
-
-  team Team @relation(fields: [teamId], references: [id])
+  id             String   @id @default(uuid()) @db.VarChar(36)
+  teamId         String   @unique @map("team_id") @db.VarChar(36)
+  trialDate      String   @map("trial_date") @db.VarChar(255)
+  officialDate   Json     @map("offical_date") @db.Json
+  finalDate      String?  @map("final_date") @db.VarChar(255)
+  googleMeetLink String?  @map("google_meet_link") @db.VarChar(255)
+  videoRecord    String?  @map("video_record") @db.VarChar(255)
+  createdAt      DateTime @default(now()) @map("created_at")
+  updatedAt      DateTime @updatedAt @map("updated_at")
+  team           Team     @relation(fields: [teamId], references: [id])
 
   @@map("schedule_presents")
 }
@@ -269,7 +248,6 @@ enum TypeEvaluation {
   OFFICIAL_PRESENTATION
 }
 
-// OFFLINE, ONLINE
 enum ModePresentation {
   OFFLINE
   ONLINE

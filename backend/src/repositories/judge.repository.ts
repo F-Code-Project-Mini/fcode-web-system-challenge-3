@@ -77,6 +77,11 @@ class JudgeRepository {
             include: {
                 team: {
                     include: {
+                        noteJudge: {
+                            select: {
+                                note: true,
+                            }
+                        },
                         topic: true,
                         candidates: {
                             include: {
@@ -121,10 +126,7 @@ class JudgeRepository {
     updateNote = async (judgeId: string, teamId: string, note: string) => {
         const noteJudge = await prisma.noteJudge.upsert({
             where: {
-                judgeId_teamId: {
-                    judgeId,
-                    teamId,
-                },
+                teamId,
             },
             update: {
                 note,
