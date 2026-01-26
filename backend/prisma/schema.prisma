@@ -154,13 +154,14 @@ model UserRole {
 
 model NoteJudge {
   id      String @id @default(uuid()) @db.VarChar(36)
-  judgeId String @unique @map("judge_id") @db.VarChar(36)
-  teamId  String @unique @map("team_id") @db.VarChar(36)
+  judgeId String @map("judge_id") @db.VarChar(36)
+  teamId  String @map("team_id") @db.VarChar(36)
   note    String @db.Text
 
   judge User @relation(fields: [judgeId], references: [id], onDelete: Cascade)
   team  Team @relation(fields: [teamId], references: [id], onDelete: Cascade)
 
+  @@unique([judgeId, teamId])
   @@map("note_judges")
 }
 
