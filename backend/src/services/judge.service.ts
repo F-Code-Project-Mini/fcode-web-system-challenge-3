@@ -65,8 +65,8 @@ class JudgeService {
         const room = await judgeRepository.getDetailRoom(roomId);
         return room;
     }
-    updateNote = async (judgeId: string, note: string) => {
-        const updatedJudge = await judgeRepository.updateNote(judgeId, note);
+    updateNote = async (judgeId: string, teamId: string, note: string) => {
+        const updatedJudge = await judgeRepository.updateNote(judgeId, teamId, note);
         return updatedJudge;
     };
 }

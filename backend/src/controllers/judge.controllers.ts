@@ -133,9 +133,10 @@ export const updateNote = async (
     next: NextFunction,
 ) => {
     try {
-        const { id } = req.params;
+        const userId = req.userId!;
+        const { id: teamId } = req.params;
         const { note } = req.body;
-        const result = await judgeService.updateNote(id, note);
+        const result = await judgeService.updateNote(userId, teamId, note);
         return res.status(HTTP_STATUS.OK).json(new ResponseClient({ result }));
     } catch (error) {
         return next(error);

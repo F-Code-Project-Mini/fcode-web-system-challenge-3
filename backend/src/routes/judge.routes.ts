@@ -13,7 +13,7 @@ judgeRouter.get("/info/:judgeId", auth, isRole([RoleType.JUDGE]), judgeControlle
 judgeRouter.get("/rooms/:roomId", auth, isRole([RoleType.JUDGE]), judgeController.getDetailRoom);
 judgeRouter.get("/rooms/:roomId/:judgeId/teams", auth, isRole([RoleType.JUDGE]), judgeController.getTeamsByRoom);
 judgeRouter.patch(
-    "/:id",
+    "/teams/:id",
     auth,
     isRole([RoleType.JUDGE]),
     validate(idParamSchema),
