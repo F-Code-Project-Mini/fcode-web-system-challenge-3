@@ -117,6 +117,26 @@ class JudgeRepository {
         });
         return room;
     };
+
+    updateNote = async (judgeId: string, teamId: string, note: string) => {
+        const noteJudge = await prisma.noteJudge.upsert({
+            where: {
+                judgeId_teamId: {
+                    judgeId,
+                    teamId,
+                },
+            },
+            update: {
+                note,
+            },
+            create: {
+                judgeId,
+                teamId,
+                note,
+            },
+        });
+        return noteJudge;
+    };
 }
 
 export default new JudgeRepository();

@@ -126,3 +126,18 @@ export const getBaremTeam = async (req: Request<{ candidateId: string }>, res: R
         return next(error);
     }
 };
+
+export const updateNote = async (
+    req: Request<{ id: string }, {}, { note: string }>,
+    res: Response,
+    next: NextFunction,
+) => {
+    try {
+        const { id } = req.params;
+        const { note } = req.body;
+        const result = await judgeService.updateNote(id, note);
+        return res.status(HTTP_STATUS.OK).json(new ResponseClient({ result }));
+    } catch (error) {
+        return next(error);
+    }
+};
