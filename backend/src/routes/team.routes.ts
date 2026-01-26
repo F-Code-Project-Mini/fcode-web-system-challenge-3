@@ -43,7 +43,7 @@ teamRouter.patch(
     auth,
     isRole([RoleType.MENTOR]),
     validate(idParamSchema),
-    validate(noteBodySchema),
+    // validate(noteBodySchema),
     teamController.update,
 );
 teamRouter.delete("/:id", auth, isRole([RoleType.ADMIN]), validate(idParamSchema), teamController.deleteTeam);
