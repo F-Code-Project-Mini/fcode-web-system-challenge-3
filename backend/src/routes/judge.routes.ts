@@ -17,7 +17,7 @@ judgeRouter.patch(
     auth,
     isRole([RoleType.JUDGE]),
     validate(idParamSchema),
-    validate(noteBodySchema),
+    // validate(noteBodySchema),
     judgeController.updateNote,
 );
 // mentorRouter.get("/get-barem/:candidateId", auth, isRole([RoleType.MENTOR]), mentorController.getBarem);
