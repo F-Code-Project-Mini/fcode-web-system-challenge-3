@@ -2,7 +2,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import AdminApi from "~/api-requests/admin.requests";
 import Loading from "~/components/Loading";
 import AddJudgeDialog from "./AddJudgeDialog";
-import { Trash2, Clock, ChevronDown, ChevronUp, CheckCircle2, XCircle, Sparkles } from "lucide-react";
+import { Trash2, Clock, ChevronDown, ChevronUp, CheckCircle2, XCircle } from "lucide-react";
 import Helper from "~/utils/helper";
 import type { AdminRoomType } from "~/types/admin.types";
 import Notification from "~/utils/notification";

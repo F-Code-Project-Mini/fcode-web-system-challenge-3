@@ -100,6 +100,10 @@ class JudgeApi {
         const res = await privateApi.get<ResponseDetailData<RoomDetailType>>(`/judge/rooms/${roomId}`);
         return res.data;
     }
+    static async updateNoteTeam(teamId: string, note: string) {
+        const res = await privateApi.patch(`/judge/teams/${teamId}`, { note });
+        return res.data;
+    }
 }
 
 export default JudgeApi;

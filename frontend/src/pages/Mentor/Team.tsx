@@ -97,7 +97,7 @@ const Team = ({ team }: { team: TeamType }) => {
                                                     Chưa đăng nhập lần đầu!
                                                 </p>
                                             )}
-                                                <ResultBadge status={member.statusC3} isBg={false} />
+                                            <ResultBadge status={member.statusC3} isBg={false} />
                                         </td>
                                         <td className="px-4 py-3.5 text-sm whitespace-nowrap text-gray-600 sm:table-cell sm:px-6 sm:py-4">
                                             <p className="text-blue-gray-900 text-sm font-semibold">

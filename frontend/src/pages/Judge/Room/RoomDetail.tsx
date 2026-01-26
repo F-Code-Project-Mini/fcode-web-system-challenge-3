@@ -5,7 +5,7 @@ import Loading from "~/components/Loading";
 import WelcomePartition from "~/components/WelcomePartition";
 import BadgeLeader from "~/components/BadgeLeader";
 import { Button } from "~/components/ui/button";
-import { NotebookTabs, Sparkles } from "lucide-react";
+import { Sparkles } from "lucide-react";
 import HistorySubmit from "../HistorySubmit";
 import Helper from "~/utils/helper";
 import { ShowTopic } from "../../Candidate/ShowTopic";
@@ -13,6 +13,7 @@ import ResultBadge from "~/components/ResultBadge";
 import useGetInfoJudge from "~/hooks/useGetInfoJudge";
 import useAuth from "~/hooks/useAuth";
 import { USER_ROLE } from "~/constants/enums";
+import { NoteTeam } from "./Note";
 
 const RoomDetail = () => {
     const { roomId, judgeId } = useParams<{ roomId: string; judgeId: string }>();
@@ -84,12 +85,7 @@ const RoomDetail = () => {
                         </div>
                         <div className="flex flex-wrap items-center gap-1">
                             <ShowTopic urlPdf={team.topic.filePath} name={team.topic.title} />
-                            <Button variant={"outline"} asChild>
-                                <Link to={`https://anotepad.com/`} target="_blank">
-                                    <NotebookTabs size={10} />
-                                    Notepad online
-                                </Link>
-                            </Button>
+                            <NoteTeam note={"cai lol què" || ""} teamId={team.id} />
                         </div>
                     </div>
                     <div className="overflow-x-auto">
