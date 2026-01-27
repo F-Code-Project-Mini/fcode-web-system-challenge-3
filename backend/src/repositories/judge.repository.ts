@@ -69,7 +69,7 @@ class JudgeRepository {
         return !!judgeRoom;
     };
 
-    findTeamsByRoomId = async (roomId: string) => {
+    findTeamsByRoomId = async (roomId: string, judgeId: string) => {
         const room = await prisma.room.findUnique({
             where: {
                 id: roomId,
@@ -77,10 +77,13 @@ class JudgeRepository {
             include: {
                 team: {
                     include: {
-                        noteJudge: {
+                        noteJudges: {
+                            where: {
+                                judgeId,
+                            },
                             select: {
                                 note: true,
-                            }
+                            },
                         },
                         topic: true,
                         candidates: {
@@ -126,7 +129,10 @@ class JudgeRepository {
     updateNote = async (judgeId: string, teamId: string, note: string) => {
         const noteJudge = await prisma.noteJudge.upsert({
             where: {
-                teamId,
+                judgeId_teamId: {
+                    judgeId,
+                    teamId,
+                },
             },
             update: {
                 note,
