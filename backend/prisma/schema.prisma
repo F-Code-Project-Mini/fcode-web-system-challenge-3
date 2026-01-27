@@ -8,20 +8,20 @@ datasource db {
 }
 
 model User {
-  id          String       @id @default(uuid()) @db.VarChar(36)
-  email       String       @unique @db.VarChar(255)
-  password    String       @db.VarChar(60)
-  fullName    String       @map("full_name") @db.VarChar(255)
-  candidateId String?      @unique @map("candidate_id") @db.VarChar(36)
-  createdAt   DateTime     @default(now()) @map("created_at")
-  updatedAt   DateTime     @updatedAt @map("updated_at")
-  candidate   Candidate?   @relation("UserToCandidate", fields: [candidateId], references: [id])
-  mentorships Mentorship[] @relation("MentorToMentorship")
-  submissions Submission[]
-  judgeRooms  JudgeRoom[]
-  givenScores BaremScore[] @relation("MentorToScore")
-  userRoles   UserRole[]
-  noteJudges  NoteJudge[]
+  id           String       @id @default(uuid()) @db.VarChar(36)
+  email        String       @unique @db.VarChar(255)
+  password     String       @db.VarChar(60)
+  fullName     String       @map("full_name") @db.VarChar(255)
+  candidateId  String?      @unique @map("candidate_id") @db.VarChar(36)
+  createdAt    DateTime     @default(now()) @map("created_at")
+  updatedAt    DateTime     @updatedAt @map("updated_at")
+  candidate    Candidate?   @relation("UserToCandidate", fields: [candidateId], references: [id])
+  mentorships  Mentorship[] @relation("MentorToMentorship")
+  submissions  Submission[]
+  judgeRooms   JudgeRoom[]
+  givenScores  BaremScore[] @relation("MentorToScore")
+  userRoles    UserRole[]
+  noteJudges   NoteJudge[]
 
   @@map("users")
 }
@@ -63,7 +63,7 @@ model Team {
   submissions     Submission[]
   schedulePresent SchedulePresent?
   rooms           Room[]
-  noteJudge       NoteJudge?
+  noteJudges      NoteJudge[]
 
   @@map("teams")
 }
@@ -142,11 +142,12 @@ model UserRole {
 model NoteJudge {
   id      String @id @default(uuid()) @db.VarChar(36)
   judgeId String @map("judge_id") @db.VarChar(36)
-  teamId  String @unique @map("team_id") @db.VarChar(36)
+  teamId  String @map("team_id") @db.VarChar(36)
   note    String @db.Text
-  judge   User   @relation(fields: [judgeId], references: [id], onDelete: Cascade)
-  team    Team   @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  user    User   @relation(fields: [judgeId], references: [id])
+  team    Team   @relation(fields: [teamId], references: [id])
 
+  @@unique([judgeId, teamId])
   @@map("note_judges")
 }
 

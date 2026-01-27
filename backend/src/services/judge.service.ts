@@ -42,7 +42,7 @@ class JudgeService {
             });
         }
 
-        const team = await judgeRepository.findTeamsByRoomId(roomId);
+        const team = await judgeRepository.findTeamsByRoomId(roomId, judgeId);
 
         if (!team) return null;
 
