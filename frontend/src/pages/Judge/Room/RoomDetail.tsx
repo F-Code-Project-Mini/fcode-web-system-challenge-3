@@ -27,7 +27,7 @@ const RoomDetail = () => {
         enabled: !!roomId,
         staleTime: 5 * 60 * 1000,
     });
-    const { data } = useGetInfoJudge(judgeId!);
+    const { data: infoJudge } = useGetInfoJudge(judgeId!);
     const { user } = useAuth();
     if (isLoading) {
         return <Loading />;
@@ -58,7 +58,10 @@ const RoomDetail = () => {
             </section>
             {user.roles.includes(USER_ROLE.ADMIN) && (
                 <section className="mb-2 ml-2">
-                    <h2>Đang xem đánh giá của: {data?.fullName}</h2>
+                    <h2>
+                        Đang xem đánh giá của:{" "}
+                        <span className="text-primary text-xl font-bold italic">{infoJudge?.fullName}</span>
+                    </h2>
                 </section>
             )}
 

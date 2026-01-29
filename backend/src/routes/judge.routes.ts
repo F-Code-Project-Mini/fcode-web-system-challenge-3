@@ -22,6 +22,6 @@ judgeRouter.patch(
 );
 // mentorRouter.get("/get-barem/:candidateId", auth, isRole([RoleType.MENTOR]), mentorController.getBarem);
 judgeRouter.get("/get-barem/:candidateId/team", auth, isRole([RoleType.JUDGE]), judgeController.getBaremTeam);
-judgeRouter.get("/get-barem/:candidateId/:roomId", auth, isRole([RoleType.JUDGE]), judgeController.getBarem);
+judgeRouter.get("/get-barem/:candidateId/:roomId/:judgeId", auth, isRole([RoleType.JUDGE]), judgeController.getBarem);
 
 export default judgeRouter;

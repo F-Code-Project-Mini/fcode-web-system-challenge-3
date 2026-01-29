@@ -12,10 +12,13 @@ import BaremTeam from "./Team";
 import ChoiceBarem from "./ChoiceBarem";
 import PersonalBarem from "./Personal";
 import Notification from "./Notification";
+import { USER_ROLE } from "~/constants/enums";
+import useGetInfoJudge from "~/hooks/useGetInfoJudge";
 
 type ParamsBarem = {
     id: string;
     roomId: string;
+    judgeId: string;
     candidateId?: string;
 };
 
@@ -67,7 +70,7 @@ const JudgeBaremPage = () => {
     const { data: baremJudgePersonal } = useQuery({
         queryKey: ["judge-barem", candidateActive, params.candidateId, params.roomId],
         queryFn: async () => {
-            const res = await JudgeApi.getBarem(candidateActive?.id || "", params.roomId || "");
+            const res = await JudgeApi.getBarem(candidateActive?.id || "", params.roomId || "", params.judgeId || "");
             return res.result;
         },
         enabled: !!candidateActive,
@@ -216,6 +219,7 @@ const JudgeBaremPage = () => {
             [key]: note,
         }));
     }, []);
+    const { data: infoJudge } = useGetInfoJudge(params.judgeId!);
 
     useEffect(() => {
         if (!socket.connected) socket.connect();
@@ -379,12 +383,15 @@ const JudgeBaremPage = () => {
 
     return (
         <section className="px-4 sm:px-0">
-            <div className="mb-6 sm:mb-8">
-                <h1 className="text-2xl font-bold text-gray-900 sm:text-3xl">Chấm điểm Present</h1>
-                <p className="mt-2 text-sm text-gray-600">Vui lòng chọn ứng viên và điền điểm cho từng tiêu chí</p>
-            </div>
             <Notification />
-
+            {user.roles.includes(USER_ROLE.ADMIN) && (
+                <section className="mb-2 ml-2">
+                    <h2>
+                        Đang xem đánh giá của:{" "}
+                        <span className="text-primary text-xl font-bold italic">{infoJudge?.fullName}</span>
+                    </h2>
+                </section>
+            )}
             <ShowCandidates
                 candidates={candidates}
                 candidateActive={candidateActive}

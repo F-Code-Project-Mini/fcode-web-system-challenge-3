@@ -68,9 +68,11 @@ export type TeamDetailType = {
     } | null;
     submissions: SubmissionResponseType[];
     schedulePresent: SchedulePresent;
-    noteJudges: {
-        note: string;
-    }[] | null;
+    noteJudges:
+        | {
+              note: string;
+          }[]
+        | null;
 };
 
 class JudgeApi {
@@ -89,9 +91,9 @@ class JudgeApi {
         return res.data;
     }
 
-    static async getBarem(candidateId: string, roomId: string) {
+    static async getBarem(candidateId: string, roomId: string, judgeId: string) {
         const res = await privateApi.get<ResponseDetailData<BaremResultItem[]>>(
-            `/judge/get-barem/${candidateId}/${roomId}`,
+            `/judge/get-barem/${candidateId}/${roomId}/${judgeId}`,
         );
         return res.data;
     }
