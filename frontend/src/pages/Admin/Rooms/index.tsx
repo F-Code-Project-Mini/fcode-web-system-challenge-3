@@ -156,8 +156,8 @@ const RoomsPage = () => {
                                                             <th className="px-4 py-3 text-left text-xs font-semibold tracking-wide text-gray-600 uppercase sm:px-6 sm:py-3.5">
                                                                 Email
                                                             </th>
-                                                            <th className="px-4 py-3 text-center text-xs font-semibold tracking-wide text-gray-600 uppercase sm:px-6 sm:py-3.5">
-                                                                Tổng điểm
+                                                            <th className="px-4 py-3 text-xs font-semibold tracking-wide text-gray-600 uppercase sm:px-6 sm:py-3.5">
+                                                                Điểm số
                                                             </th>
                                                             <th className="px-4 py-3 text-center text-xs font-semibold tracking-wide text-gray-600 uppercase sm:px-6 sm:py-3.5">
                                                                 Trạng thái
@@ -172,7 +172,7 @@ const RoomsPage = () => {
                                                     </thead>
                                                     <tbody className="divide-y divide-gray-200/60 bg-white">
                                                         {detail?.judgeRooms.map((jr, index) => {
-                                                            const scoreJudge = jr.totalScore;
+                                                            // const scoreJudge = jr.totalScore;
                                                             return (
                                                                 <tr
                                                                     key={jr.id}
@@ -189,13 +189,31 @@ const RoomsPage = () => {
                                                                     <td className="px-4 py-3.5 text-sm text-gray-600 sm:px-6 sm:py-4">
                                                                         {jr.judge.email}
                                                                     </td>
-                                                                    <td className="px-4 py-3.5 text-center sm:px-6 sm:py-4">
-                                                                        <span
-                                                                            className={`text-base font-semibold ${Helper.belowAverage(scoreJudge) ? "text-red-500" : "text-green-500"}`}
-                                                                        >
-                                                                            {scoreJudge}
-                                                                        </span>
-                                                                        <span className="text-xs italic">/100</span>
+                                                                    <td className="px-4 py-3.5 sm:px-6 sm:py-4">
+                                                                        <ul className="list-disc">
+                                                                            {jr.candidateScores.map((cs) => (
+                                                                                <li
+                                                                                    key={cs.candidateId}
+                                                                                    className="text-sm text-gray-700"
+                                                                                >
+                                                                                    {cs.candidateName}:{" "}
+                                                                                    <span
+                                                                                        className={`font-semibold ${
+                                                                                            Helper.belowAverage(
+                                                                                                cs.score,
+                                                                                            )
+                                                                                                ? "text-red-500"
+                                                                                                : "text-green-500"
+                                                                                        }`}
+                                                                                    >
+                                                                                        {cs.score}
+                                                                                    </span>
+                                                                                    <span className="text-xs italic">
+                                                                                        /100
+                                                                                    </span>
+                                                                                </li>
+                                                                            ))}
+                                                                        </ul>
                                                                     </td>
                                                                     <td className="px-4 py-3.5 text-center sm:px-6 sm:py-4">
                                                                         {jr.hasScored ? (

@@ -98,16 +98,16 @@ export const getTeamsByRoom = async (
 };
 
 export const getBarem = async (
-    req: Request<{ candidateId: string; roomId: string }>,
+    req: Request<{ candidateId: string; roomId: string; judgeId: string }>,
     res: Response,
     next: NextFunction,
 ) => {
     try {
-        const { candidateId, roomId = "" } = req.params;
-        const judgeId = req.userId!;
+        const { candidateId, roomId = "", judgeId } = req.params;
+        const userId = judgeId ? judgeId : req.userId!;
         const room = await judgeService.getDetailRoom(roomId);
         const barem = room?.modePresent === "ONLINE" ? judgeBaremTrial : judgeBaremOfficial;
-        const result = await Promise.all(barem.map((item) => processBaremItem(item, judgeId, candidateId)));
+        const result = await Promise.all(barem.map((item) => processBaremItem(item, userId, candidateId)));
         return res.status(HTTP_STATUS.OK).json(new ResponseClient({ result }));
     } catch (error) {
         return next(error);
