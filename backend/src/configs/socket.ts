@@ -3,6 +3,7 @@ import http from "http";
 import prisma from "./prisma";
 import redisClient from "./redis"; // Import cái class bạn vừa đưa
 import { Prisma } from "@prisma/client";
+import { CandidateStatus } from "~/constants/enums";
 
 export const initSocket = (server: http.Server) => {
     const io = new Server(server, {
@@ -68,6 +69,19 @@ export const initSocket = (server: http.Server) => {
                 }
             } catch (redisError) {
                 console.error("Redis Error:", redisError);
+            }
+        });
+
+        socket.on("APPROVE_CANDIDATE", async (payload: { candidateId: string; status: CandidateStatus }) => {
+            const { candidateId, status } = payload;
+            try {
+                const updatedCandidate = await prisma.candidate.update({
+                    where: { id: candidateId },
+                    data: { statusC3: status },
+                });
+                socket.emit("CANDIDATE_APPROVED", { success: true, data: updatedCandidate });
+            } catch (error) {
+                console.error("Error approving candidate:", error);
             }
         });
     });

@@ -138,6 +138,19 @@ class AdminController {
             next(error);
         }
     };
+
+    // public approveCandidate = async (req: Request, res: Response, next: NextFunction) => {
+    //     try {
+    //         const { candidateId } = req.params;
+    //         const result = await adminService.approveCandidate(candidateId);
+    //         res.status(HTTP_STATUS.OK).json({
+    //             message: "Phê duyệt ứng viên thành công!",
+    //             result: result,
+    //         });
+    //     } catch (error) {
+    //         next(error);
+    //     }
+    // };
 }
 
 const adminController = new AdminController();

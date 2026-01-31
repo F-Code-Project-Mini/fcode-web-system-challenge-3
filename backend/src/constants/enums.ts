@@ -22,3 +22,9 @@ export enum RoomStatus {
     IN_USE = "IN_USE",
     COMPLETED = "COMPLETED",
 }
+export enum CandidateStatus {
+    WAITING = "WAITING",
+    FAILED = "FAILED",
+    PASSED = "PASSED",
+    REDO = "REDO",
+}

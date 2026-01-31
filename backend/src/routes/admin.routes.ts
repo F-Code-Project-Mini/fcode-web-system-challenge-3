@@ -10,6 +10,7 @@ adminRouter.get("/users/:id", auth, isRole([RoleType.ADMIN]), adminController.ge
 adminRouter.post("/users", auth, isRole([RoleType.ADMIN]), adminController.createUser);
 adminRouter.post("/users/:id/roles", auth, isRole([RoleType.ADMIN]), adminController.addRoleToUser);
 adminRouter.delete("/users/:id/roles/:roleId", auth, isRole([RoleType.ADMIN]), adminController.removeRoleFromUser);
+// adminRouter.patch("/approve/:candidateId", auth, isRole([RoleType.ADMIN]), adminController.approveCandidate);
 
 adminRouter.get("/rooms", auth, isRole([RoleType.ADMIN]), adminController.getAllRooms);
 adminRouter.get("/rooms/:id", auth, isRole([RoleType.ADMIN]), adminController.getRoomDetail);

@@ -4,12 +4,21 @@ import type { AdminTeamType } from "~/types/admin.types";
 import BadgeLeader from "~/components/BadgeLeader";
 import ResultBadge from "~/components/ResultBadge";
 import ApproveMember from "./components/ApproveMember";
+import { useEffect } from "react";
+import { socket } from "~/utils/socket";
 
 const Teams = ({
     team: { mentorship, candidates, leader, topic, name, group, teamScore },
 }: {
     team: AdminTeamType;
 }) => {
+    useEffect(() => {
+        if (!socket.connected) socket.connect();
+
+        return () => {
+            socket.disconnect();
+        };
+    }, []);
     return (
         <section className="col-span-1 lg:col-span-16" id="members">
             <div className="overflow-hidden rounded-lg border border-gray-200/70 bg-white shadow-xs">
@@ -141,7 +150,11 @@ const Teams = ({
                                         </td>
 
                                         <td className="relative hidden px-4 py-3.5 text-sm whitespace-nowrap text-gray-600 sm:px-6 sm:py-4 md:table-cell">
-                                            <ApproveMember value={candidate.statusC3} />
+                                            <ApproveMember
+                                                value={candidate.statusC3}
+                                                candidateId={candidate.id}
+                                                socket={socket}
+                                            />
                                         </td>
                                     </tr>
                                 );
