@@ -68,10 +68,7 @@ const Teams = ({
                             {candidates.map((candidate, index) => {
                                 const isLeader = candidate.id === leader.id;
                                 return (
-                                    <tr
-                                        key={candidate.id}
-                                        className={`${candidate.statusC3 === "FAILED" ? "bg-red-50" : "transition-colors hover:bg-gray-50/50"}`}
-                                    >
+                                    <tr key={candidate.id} className={Helper.getStatusC3ClassName(candidate.statusC3)}>
                                         <td className="px-4 py-3.5 text-sm font-medium whitespace-nowrap text-gray-900 sm:px-6 sm:py-4">
                                             {index + 1}
                                         </td>
