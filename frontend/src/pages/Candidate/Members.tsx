@@ -4,6 +4,7 @@ import { ChangeNameTeam } from "./ChangeNameTeam";
 import useAuth from "~/hooks/useAuth";
 import BadgeLeader from "~/components/BadgeLeader";
 import ResultBadge from "~/components/ResultBadge";
+import Helper from "~/utils/helper";
 
 const Members = ({ data }: { data: TeamType | undefined }) => {
     const candidates = data?.candidates;
@@ -73,7 +74,7 @@ const Members = ({ data }: { data: TeamType | undefined }) => {
                                 return (
                                     <tr
                                         key={member.studentCode}
-                                        className={` ${!user.isConfirm ? "bg-red-50/50" : "transition-colors hover:bg-gray-50/50"}`}
+                                        className={` ${!user.isConfirm ? "bg-red-50/50" : Helper.getStatusC3ClassName(member.statusC3)}`}
                                     >
                                         <td className="px-4 py-3.5 text-sm font-medium whitespace-nowrap text-gray-900 sm:px-6 sm:py-4">
                                             {index + 1}
