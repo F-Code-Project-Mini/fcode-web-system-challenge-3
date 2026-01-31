@@ -232,7 +232,7 @@ model Interview {
 }
 
 view ViewCandidateScore {
-  candidateId     String @unique @map("candidate_id") @db.VarChar(36) 
+  candidateId     String @unique @map("candidate_id") @db.VarChar(36)
   studentCode     String @map("student_code") @db.VarChar(10)
   fullName        String @map("full_name") @db.VarChar(255)
   mentorScore     Float  @map("mentor_score")
@@ -241,6 +241,17 @@ view ViewCandidateScore {
   finalScore      Float  @map("final_score")
 
   @@map("view_candidate_scores")
+}
+
+view ViewTeamScore {
+  teamGroup      Int     @map("team_group")
+  teamName       String? @map("team_name") @db.VarChar(255)
+  leaderName     String? @map("leader_name")
+  totalJudges    Int     @map("total_judges")
+  finalTeamScore Float   @map("final_team_score")
+  teamId         String  @unique @map("team_id") @db.VarChar(36) // Để @unique ở đây là được
+
+  @@map("view_team_scores")
 }
 
 enum Role {
