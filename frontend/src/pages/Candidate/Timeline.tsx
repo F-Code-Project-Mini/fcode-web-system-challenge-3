@@ -41,8 +41,8 @@ const Timeline = () => {
             description: "Thời gian thuyết trình chính thức.",
         },
         {
-            startDate: "2025-02-02T00:00:00Z",
-            endDate: "2025-02-02T23:59:59Z",
+            startDate: "2026-02-01T00:00:00Z",
+            endDate: "2026-02-02T23:59:59Z",
             description: "Nhận kết quả Challenge 3 từ CLB.",
         },
     ];

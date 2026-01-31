@@ -16,8 +16,8 @@ const DisplayResultChallenge = () => {
             title: "Chúc mừng bạn!",
             message: "Bạn đã vượt qua Challenge 3 thành công!",
             description:
-                'Chúc mừng bạn đã hoàn thành xuất sắc Challenge 3. Bạn đã chính thức trở thành một phần của <b class="text-primary font-bold">CLB F-Code!</b>',
-            bgGradient: "bg-gradient-to-br from-green-50 via-emerald-50 to-primary/40",
+                '<b class="text-primary font-bold">BẠN ĐÃ CHÍNH THỨC TRỞ THÀNH THÀNH VIÊN CỦA ĐẠI GIA ĐÌNH  CLB F-CODE!</b>',
+            bgGradient: "bg-gradient-to-br from-green-50 via-emerald-50 to-primary/20",
             borderColor: "border-green-300/60",
             iconBg: "bg-gradient-to-br from-green-400 to-emerald-500",
             badgeBg: "bg-green-500",
@@ -29,7 +29,7 @@ const DisplayResultChallenge = () => {
             title: "Thông báo kết quả",
             message: "Bạn chưa vượt qua Challenge 3",
             description:
-                "Đừng nản lòng! Hãy rút kinh nghiệm và chuẩn bị tốt hơn cho các cơ hội tiếp theo. Mỗi thất bại đều là bài học quý giá.",
+                "Đừng nản lòng! Điều này không phản ánh toàn bộ năng lực hay tiềm năng của bạn. Chúng mình tin rằng với tinh thần cầu tiến và nhiệt huyết sẵn có, bạn sẽ còn tiến xa hơn nữa trong những hành trình sắp tới..",
             bgGradient: "bg-gradient-to-br from-red-50 via-rose-50 to-pink-50",
             borderColor: "border-red-300/60",
             iconBg: "bg-gradient-to-br from-red-400 to-rose-500",
