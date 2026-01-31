@@ -27,8 +27,10 @@ const DisplayResultChallenge = () => {
             icon: XCircle,
             title: "Thông báo kết quả",
             message: "Bạn chưa vượt qua Challenge 3",
-            description:
-                "Đừng nản lòng! Đây chỉ là một bước đệm. F-Code tin rằng với tinh thần cầu tiến, bạn sẽ còn tiến rất xa trong tương lai.",
+            description: `
+                Cảm ơn bạn đã cháy hết mình tại <b>New Wave: The Chosen One</b>. Dù chưa thể đồng hành cùng nhau lúc này, F-Code vẫn đánh giá rất cao nỗ lực của bạn tại Challenge 3. <br/><br/>
+                Đừng để kết quả này dừng bước, hãy giữ vững đam mê nhé! Nếu có thắc mắc hoặc khiếu nại về kết quả, vui lòng liên hệ qua email: <a href="mailto:fcode.fptuhcm@gmail.com" class="text-rose-600 font-bold underline">fcode.fptuhcm@gmail.com</a>.
+            `,
             bgGradient: "from-rose-50 via-red-50 to-orange-50",
             glowColor: "bg-rose-400/20",
             borderColor: "border-rose-200/50",
