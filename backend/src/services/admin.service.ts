@@ -85,63 +85,8 @@ class AdminService {
         const rooms = await adminRepository.getAllRooms();
 
         // Thêm điểm cho mỗi phòng (không trả về judgeRooms)
-        const roomsWithScores = await Promise.all(
-            rooms.map(async (room) => {
-                if (!room.team || !room.judgeRooms || room.judgeRooms.length === 0) {
-                    return {
-                        id: room.id,
-                        roomNumber: room.roomNumber,
-                        presentPhase: room.presentPhase,
-                        modePresent: room.modePresent,
-                        startTime: room.startTime,
-                        endTime: room.endTime,
-                        team: room.team,
-                        _count: room._count,
-                        teamScore: 200,
-                    };
-                }
 
-                // Lấy điểm từ tất cả judges
-                const judgeScores = await Promise.all(
-                    room.judgeRooms.map(async (jr) => {
-                        const candidateScores = await Promise.all(
-                            room.team!.candidates.map(async (candidate) => {
-                                const score = await userRepository.getScoreJudge(jr.judge.id, candidate.id);
-                                return score || 0;
-                            }),
-                        );
-                        return candidateScores.reduce((sum, s) => sum + s, 0);
-                    }),
-                );
-
-                // Tính teamScore: TRIAL = tổng, OFFICIAL = trung bình
-                let teamScore = 200;
-                const scoredJudges = judgeScores.filter((s) => s > 0);
-                if (scoredJudges.length > 0) {
-                    if (room.presentPhase === "TRIAL") {
-                        // TRIAL: chỉ lấy tổng điểm của judge duy nhất (không tính TB)
-                        teamScore = scoredJudges[0];
-                    } else {
-                        // OFFICIAL: tính trung bình
-                        teamScore = scoredJudges.reduce((sum, s) => sum + s, 0) / scoredJudges.length;
-                    }
-                }
-
-                return {
-                    id: room.id,
-                    roomNumber: room.roomNumber,
-                    presentPhase: room.presentPhase,
-                    modePresent: room.modePresent,
-                    startTime: room.startTime,
-                    endTime: room.endTime,
-                    team: room.team,
-                    _count: room._count,
-                    teamScore,
-                };
-            }),
-        );
-
-        return roomsWithScores;
+        return rooms;
     };
 
     public getRoomDetail = async (roomId: string) => {

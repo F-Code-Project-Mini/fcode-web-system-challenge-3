@@ -118,6 +118,21 @@ const Teams = ({
                                                         <span className="text-gray-400">-</span>
                                                     )}
                                                 </div>
+                                                <div className="flex items-center gap-1">
+                                                    <span className="text-gray-500">Total:</span>
+
+                                                    <>
+                                                        <span
+                                                            className={`font-semibold ${Helper.belowAverage(((candidate.scoreJudge ?? 0) + (candidate.scoreMentor ?? 0)) / 2) ? "text-red-500" : "text-green-600"}`}
+                                                        >
+                                                            {(
+                                                                ((candidate.scoreJudge ?? 0) +
+                                                                    (candidate.scoreMentor ?? 0)) /
+                                                                2
+                                                            ).toFixed(1)}
+                                                        </span>
+                                                    </>
+                                                </div>
                                             </div>
                                         </td>
                                         {/* <td className="hidden px-4 py-3.5 text-center text-sm whitespace-nowrap text-gray-900 sm:px-6 sm:py-4 md:table-cell">
