@@ -51,7 +51,7 @@ const Teams = ({
                                         <span
                                             className={`font-bold ${teamScore.finalTeamScore >= 50 ? "text-green-600" : "text-red-600"}`}
                                         >
-                                            {teamScore.finalTeamScore.toFixed(2)}/100
+                                            {teamScore.finalTeamScore.toFixed(1)}/100
                                         </span>
                                     </li>
                                 )}
@@ -82,7 +82,7 @@ const Teams = ({
                                     Điểm
                                 </th>
                                 <th className="hidden px-4 py-3 text-center text-xs font-semibold tracking-wide text-gray-600 uppercase sm:px-6 sm:py-3.5 md:table-cell">
-                                    Trạng thái
+                                    Thao tác
                                 </th>
                             </tr>
                         </thead>
@@ -95,27 +95,16 @@ const Teams = ({
                                             {index + 1}
                                         </td>
                                         <td
-                                            className={`${isLeader ? "font-semibold text-gray-900" : "text-gray-700"} relative px-4 py-3.5 text-sm whitespace-nowrap sm:px-6 sm:py-4`}
+                                            className={`${candidate.id === leader.id ? `font-bold` : ``} relative px-4 py-3.5 text-sm whitespace-nowrap sm:px-6 sm:py-4`}
                                         >
-                                            <div className="flex items-center gap-2">
-                                                {candidate.user.fullName}
-                                                {isLeader && <BadgeLeader />}
-                                            </div>
-                                            <p className="mt-0.5 text-xs text-gray-600">Ngành: {candidate.major}</p>
-
+                                            {candidate.user.fullName} {isLeader && <BadgeLeader />}
                                             <ResultBadge status={candidate.statusC3} isBg={false} />
                                         </td>
                                         <td className="hidden px-4 py-3.5 text-sm whitespace-nowrap text-gray-600 sm:table-cell sm:px-6 sm:py-4">
-                                            <p className="text-blue-gray-900 text-sm font-semibold">
-                                                {candidate.studentCode}
-                                            </p>
-                                            <p className="text-xs text-gray-500">Kỳ {candidate.semester}</p>
+                                            {candidate.studentCode}
                                         </td>
                                         <td className="hidden px-4 py-3.5 text-sm whitespace-nowrap text-gray-600 sm:px-6 sm:py-4 md:table-cell">
-                                            <div className="flex flex-col gap-1">
-                                                <span className="block font-medium">{candidate.user.email}</span>
-                                                <span className="block text-gray-500">{candidate.phone}</span>
-                                            </div>
+                                            {candidate.user.email}
                                         </td>
                                         <td className="hidden px-4 py-3.5 text-center text-sm whitespace-nowrap text-gray-900 sm:px-6 sm:py-4 md:table-cell">
                                             <div className="flex flex-col items-center gap-1">
