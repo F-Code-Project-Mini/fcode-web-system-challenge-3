@@ -1,14 +1,12 @@
-import { XCircle, AlertCircle, PartyPopper, Sparkles } from "lucide-react";
+import { XCircle, AlertCircle, PartyPopper, Sparkles, Star } from "lucide-react";
 import { Badge } from "~/components/ui/badge";
 import useAuth from "~/hooks/useAuth";
 
 const DisplayResultChallenge = () => {
     const { user } = useAuth();
-    const status = user.candidate?.statusC3 || "WAITING";
+    const status = user?.candidate?.statusC3 || "WAITING";
 
-    if (!status || status === "WAITING") {
-        return null;
-    }
+    if (!status || status === "WAITING") return null;
 
     const statusConfig = {
         PASSED: {
@@ -16,39 +14,42 @@ const DisplayResultChallenge = () => {
             title: "Chúc mừng bạn!",
             message: "Bạn đã vượt qua Challenge 3 thành công!",
             description:
-                '<b class="text-primary font-bold">BẠN ĐÃ CHÍNH THỨC TRỞ THÀNH THÀNH VIÊN CỦA ĐẠI GIA ĐÌNH  CLB F-CODE!</b>',
-            bgGradient: "bg-gradient-to-br from-green-50 via-emerald-50 to-primary/20",
-            borderColor: "border-green-300/60",
-            iconBg: "bg-gradient-to-br from-green-400 to-emerald-500",
-            badgeBg: "bg-green-500",
+                'Bạn đã chính thức trở thành thành viên của đại gia đình <span class="text-emerald-700 font-bold">CLB F-CODE!</span>',
+            bgGradient: "from-emerald-50 via-green-50 to-emerald-100",
+            glowColor: "bg-emerald-400/20",
+            borderColor: "border-emerald-200/50",
+            iconBg: "bg-gradient-to-tr from-emerald-500 to-teal-400",
+            badgeClass: "bg-emerald-500 hover:bg-emerald-600 shadow-emerald-200",
             badgeText: "Vượt qua",
-            confetti: true,
+            ornamentColor: "text-emerald-400",
         },
         FAILED: {
             icon: XCircle,
             title: "Thông báo kết quả",
             message: "Bạn chưa vượt qua Challenge 3",
             description:
-                "Đừng nản lòng! Điều này không phản ánh toàn bộ năng lực hay tiềm năng của bạn. Chúng mình tin rằng với tinh thần cầu tiến và nhiệt huyết sẵn có, bạn sẽ còn tiến xa hơn nữa trong những hành trình sắp tới..",
-            bgGradient: "bg-gradient-to-br from-red-50 via-rose-50 to-pink-50",
-            borderColor: "border-red-300/60",
-            iconBg: "bg-gradient-to-br from-red-400 to-rose-500",
-            badgeBg: "bg-red-500",
+                "Đừng nản lòng! Đây chỉ là một bước đệm. F-Code tin rằng với tinh thần cầu tiến, bạn sẽ còn tiến rất xa trong tương lai.",
+            bgGradient: "from-rose-50 via-red-50 to-orange-50",
+            glowColor: "bg-rose-400/20",
+            borderColor: "border-rose-200/50",
+            iconBg: "bg-gradient-to-tr from-rose-500 to-red-400",
+            badgeClass: "bg-rose-500 hover:bg-rose-600 shadow-rose-200",
             badgeText: "Chưa vượt qua",
-            confetti: false,
+            ornamentColor: "text-rose-400",
         },
         REDO: {
             icon: AlertCircle,
             title: "Thông báo về đề tài",
             message: "Bạn cần làm lại đề tài",
             description:
-                "Tụi mình biết bạn vừa gặp phải sự cố không mong muốn trong quá trình thực hiện thử thách. Đừng lo nhé, F-Code sẽ tạo điều kiện để bạn hoàn thiện lại bài thi tốt nhất. Hãy liên hệ ngay với BTC để được hỗ trợ và bắt đầu lại nha!",
-            bgGradient: "bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50",
-            borderColor: "border-orange-300/60",
-            iconBg: "bg-gradient-to-br from-orange-400 to-amber-500",
-            badgeBg: "bg-orange-500",
+                "Đừng lo nhé, F-Code sẽ tạo điều kiện để bạn hoàn thiện lại bài thi tốt nhất. Hãy liên hệ ngay với BTC để được hỗ trợ!",
+            bgGradient: "from-amber-50 via-orange-50 to-yellow-100",
+            glowColor: "bg-orange-400/20",
+            borderColor: "border-orange-200/50",
+            iconBg: "bg-gradient-to-tr from-orange-500 to-amber-400",
+            badgeClass: "bg-orange-500 hover:bg-orange-600 shadow-orange-200",
             badgeText: "Làm lại",
-            confetti: false,
+            ornamentColor: "text-orange-400",
         },
     };
 
@@ -56,44 +57,69 @@ const DisplayResultChallenge = () => {
     const Icon = config.icon;
 
     return (
-        <div
-            className={`animate-in fade-in slide-in-from-top-4 relative overflow-hidden rounded-lg border ${config.borderColor} ${config.bgGradient} `}
-        >
-            <div className="absolute top-0 right-0 h-32 w-32 translate-x-8 -translate-y-8 rounded-full bg-white/30 blur-2xl" />
-            <div className="absolute bottom-0 left-0 h-24 w-24 -translate-x-6 translate-y-6 rounded-full bg-white/20 blur-xl" />
+        <div className="group perspective-1000 relative">
+            <div
+                className={`animate-in fade-in zoom-in-95 relative overflow-hidden rounded-[2rem] border duration-700 ${config.borderColor} bg-gradient-to-br ${config.bgGradient} p-1 shadow-xs transition-all hover:shadow-emerald-500/10`}
+            >
+                <div
+                    className={`absolute -top-4 -right-4 h-40 w-40 rounded-full ${config.glowColor} animate-pulse blur-3xl`}
+                />
+                <div
+                    className={`absolute -bottom-10 -left-10 h-40 w-40 rounded-full ${config.glowColor} blur-3xl delay-700`}
+                />
 
-            {config.confetti && (
-                <>
-                    <Sparkles className="absolute top-4 right-4 h-6 w-6 animate-pulse text-yellow-500" />
-                    <Sparkles className="absolute top-8 right-12 h-4 w-4 animate-pulse text-green-500 delay-300" />
-                    <Sparkles className="absolute top-12 right-6 h-5 w-5 animate-pulse text-blue-500 delay-500" />
-                </>
-            )}
-
-            <div className="relative p-6">
-                <div className="flex flex-col items-center text-center">
-                    <div
-                        className={`mb-2 flex h-16 w-16 items-center justify-center rounded-full ${config.iconBg} shadow-lg ring-4 ring-white/50`}
-                    >
-                        <Icon className="h-10 w-10 text-white" />
+                {/* Inner Card với hiệu ứng Glass */}
+                <div className="relative overflow-hidden rounded-[1.8rem] bg-white/40 px-6 py-10 backdrop-blur-xl sm:px-12">
+                    {/* Các icon bay trang trí */}
+                    <div className="pointer-events-none absolute inset-0">
+                        <Sparkles
+                            className={`absolute top-10 right-10 h-6 w-6 ${config.ornamentColor} animate-bounce opacity-40`}
+                        />
+                        <Star
+                            className={`absolute bottom-10 left-10 h-5 w-5 ${config.ornamentColor} animate-pulse opacity-30`}
+                        />
+                        {status === "PASSED" && (
+                            <PartyPopper className="animate-floating absolute top-20 left-15 h-8 w-8 -rotate-12 text-yellow-400/30" />
+                        )}
                     </div>
 
-                    <Badge variant={"destructive"} className={`${config.badgeBg} mt-2`}>
-                        {config.badgeText}
-                    </Badge>
+                    <div className="flex flex-col items-center text-center">
+                        <div className="relative mb-6">
+                            <div
+                                className={`absolute inset-0 rounded-full ${config.iconBg} animate-pulse opacity-40 blur-xl`}
+                            />
+                            <div
+                                className={`relative flex h-20 w-20 items-center justify-center rounded-full ${config.iconBg} shadow-inner ring-4 ring-white/80`}
+                            >
+                                <Icon className="h-10 w-10 text-white drop-shadow-md" />
+                            </div>
+                        </div>
 
-                    <h2 className="mt-1 mb-3 text-lg font-bold tracking-tight text-gray-900 sm:text-3xl">
-                        {config.title}
-                    </h2>
+                        <Badge
+                            className={`${config.badgeClass} mb-4 px-4 py-1 text-xs tracking-wider text-white uppercase shadow-lg transition-transform group-hover:scale-105`}
+                        >
+                            {config.badgeText}
+                        </Badge>
 
-                    <p className="mb-4 text-lg font-semibold text-gray-700 sm:text-xl">{config.message}</p>
+                        <h2 className="mb-2 text-2xl font-black tracking-tight text-gray-900 sm:text-4xl">
+                            {config.title}
+                        </h2>
 
-                    <p
-                        className="max-w-2xl text-sm leading-relaxed text-gray-600 sm:text-base"
-                        dangerouslySetInnerHTML={{ __html: config.description }}
-                    />
+                        <p
+                            className={`mb-6 text-lg font-bold ${status === "PASSED" ? "text-emerald-600" : "text-gray-700"} sm:text-2xl`}
+                        >
+                            {config.message}
+                        </p>
+
+                        <div
+                            className="max-w-xl text-sm leading-relaxed text-gray-600 italic opacity-90 sm:text-lg"
+                            dangerouslySetInnerHTML={{ __html: config.description }}
+                        />
+                    </div>
                 </div>
             </div>
+
+            <div className={`mx-auto h-4 w-4/5 rounded-[100%] ${config.glowColor} blur-2xl`} />
         </div>
     );
 };

@@ -133,3 +133,18 @@
         @apply font-semibold tracking-tight;
     }
 }
+
+@keyframes floating {
+    0% {
+        transform: translateY(0px) rotate(-12deg);
+    }
+    50% {
+        transform: translateY(-15px) rotate(-5deg);
+    }
+    100% {
+        transform: translateY(0px) rotate(-12deg);
+    }
+}
+.animate-floating {
+    animation: floating 4s ease-in-out infinite;
+}
