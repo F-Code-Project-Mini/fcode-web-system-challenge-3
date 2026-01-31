@@ -21,9 +21,10 @@ type NoteProps = {
     codeBarem: string;
     keyId: string;
     handleNoteChange?: (keyId: string, note: string) => void;
+    disabled?: boolean;
 };
 
-export function Note({ note, keyId, handleNoteChange }: NoteProps) {
+export function Note({ note, keyId, handleNoteChange, disabled }: NoteProps) {
     const [noteValue, setNoteValue] = useState(note || "");
     const debounceTimerRef = useRef<number | null>(null);
     const isUserEditingRef = useRef(false);
@@ -57,7 +58,10 @@ export function Note({ note, keyId, handleNoteChange }: NoteProps) {
     return (
         <AlertDialog>
             <AlertDialogTrigger asChild>
-                <div className="relative rounded-xl border-2 bg-white p-2">
+                <div
+                    className={`relative rounded-xl border-2 bg-white p-2 ${disabled ? "pointer-events-none opacity-50" : ""}`}
+                    aria-disabled={disabled}
+                >
                     <Tooltip>
                         <TooltipTrigger asChild>
                             <div>
@@ -78,6 +82,7 @@ export function Note({ note, keyId, handleNoteChange }: NoteProps) {
                     <AlertDialogTitle>Ghi chú</AlertDialogTitle>
 
                     <Textarea
+                        disabled={disabled}
                         placeholder="Ghi chú ...."
                         onChange={(e) => {
                             isUserEditingRef.current = true;
