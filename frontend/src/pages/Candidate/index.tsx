@@ -33,12 +33,12 @@ const HomePage = () => {
             </section>
             <section className="flex flex-col">
                 <section className="border-b-2 border-gray-500/30 pb-3 max-md:order-2">
-                    <Notification />
+                    {/* <Notification /> */}
                     <Notification2 />
                 </section>
-                <section className="mt-2 border-gray-500/30 pb-3 max-md:order-1 md:border-b-2">
+                {/* <section className="mt-2 border-gray-500/30 pb-3 max-md:order-1 md:border-b-2">
                     <PresentPage />
-                </section>
+                </section> */}
             </section>
             <section className="mt-8">
                 <ShowTopic urlPdf={data?.topic?.filePath || ""} name={data?.topic?.title || ""} />

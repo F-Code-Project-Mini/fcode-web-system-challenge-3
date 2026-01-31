@@ -9,8 +9,6 @@ import prisma from "~/configs/prisma";
 class AdminService {
     public getAllUsers = async () => {
         const users = await adminRepository.getAllUsers();
-        console.log(users);
-
         return users;
     };
 
