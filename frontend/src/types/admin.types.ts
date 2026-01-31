@@ -19,9 +19,6 @@ export interface AdminUserType {
             name?: string;
         };
     } | null;
-    mentorScore: number | null;
-    avgPresentScore: number | null;
-    total: number | null;
 }
 
 export interface AdminUserDetailType {

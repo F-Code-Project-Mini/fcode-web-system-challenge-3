@@ -9,29 +9,9 @@ import prisma from "~/configs/prisma";
 class AdminService {
     public getAllUsers = async () => {
         const users = await adminRepository.getAllUsers();
-        const usersWithScore = await Promise.all(
-            users.map(async (user) => {
-                if (!user.candidate) {
-                    return { ...user, mentorScore: null, avgPresentScore: null, total: null };
-                }
+        console.log(users);
 
-                const score = await userRepository.getScoreMentor(user.candidate.id);
-                const { mentorScore = null, avgPresentScore = null } = score || {};
-
-                const total =
-                    mentorScore !== null && avgPresentScore !== null
-                        ? Number(((mentorScore + avgPresentScore) / 2).toFixed(2))
-                        : null;
-
-                return { ...user, mentorScore, avgPresentScore, total };
-            }),
-        );
-
-        return usersWithScore.sort((a, b) => {
-            if (a.total === null) return 1;
-            if (b.total === null) return -1;
-            return b.total - a.total;
-        });
+        return users;
     };
 
     public getUserById = async (userId: string) => {
