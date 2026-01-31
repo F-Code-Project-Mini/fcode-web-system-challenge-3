@@ -95,16 +95,27 @@ const Teams = ({
                                             {index + 1}
                                         </td>
                                         <td
-                                            className={`${candidate.id === leader.id ? `font-bold` : ``} relative px-4 py-3.5 text-sm whitespace-nowrap sm:px-6 sm:py-4`}
+                                            className={`${isLeader ? "font-semibold text-gray-900" : "text-gray-700"} relative px-4 py-3.5 text-sm whitespace-nowrap sm:px-6 sm:py-4`}
                                         >
-                                            {candidate.user.fullName} {isLeader && <BadgeLeader />}
+                                            <div className="flex items-center gap-2">
+                                                {candidate.user.fullName}
+                                                {isLeader && <BadgeLeader />}
+                                            </div>
+                                            <p className="mt-0.5 text-xs text-gray-600">Ngành: {candidate.major}</p>
+
                                             <ResultBadge status={candidate.statusC3} isBg={false} />
                                         </td>
                                         <td className="hidden px-4 py-3.5 text-sm whitespace-nowrap text-gray-600 sm:table-cell sm:px-6 sm:py-4">
-                                            {candidate.studentCode}
+                                            <p className="text-blue-gray-900 text-sm font-semibold">
+                                                {candidate.studentCode}
+                                            </p>
+                                            <p className="text-xs text-gray-500">Kỳ {candidate.semester}</p>
                                         </td>
                                         <td className="hidden px-4 py-3.5 text-sm whitespace-nowrap text-gray-600 sm:px-6 sm:py-4 md:table-cell">
-                                            {candidate.user.email}
+                                            <div className="flex flex-col gap-1">
+                                                <span className="block font-medium">{candidate.user.email}</span>
+                                                <span className="block text-gray-500">{candidate.phone}</span>
+                                            </div>
                                         </td>
                                         <td className="hidden px-4 py-3.5 text-center text-sm whitespace-nowrap text-gray-900 sm:px-6 sm:py-4 md:table-cell">
                                             <div className="flex flex-col items-center gap-1">
