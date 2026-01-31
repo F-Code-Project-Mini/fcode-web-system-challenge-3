@@ -29,8 +29,7 @@ const DisplayResultChallenge = () => {
             icon: PartyPopper,
             title: "Chúc mừng bạn!",
             message: "Bạn đã vượt qua Challenge 3 thành công!",
-            description:
-                'Bạn đã chính thức trở thành thành viên của đại gia đình <span class="text-emerald-700 font-bold">CLB F-CODE!</span>',
+            description: `<span class="text-emerald-700 font-semibold">Bạn đã chính thức trở thành thành viên của đại gia đình CLB F-CODE!</span>. <br/> Vui lòng kiểm tra <b>email</b> để nhận hướng dẫn và các thông tin quan trọng khác.`,
             bgGradient: "from-emerald-50 via-green-50 to-emerald-100",
             glowColor: "bg-emerald-400/20",
             borderColor: "border-emerald-200/50",
