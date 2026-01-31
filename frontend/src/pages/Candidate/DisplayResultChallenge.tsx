@@ -104,7 +104,7 @@ const DisplayResultChallenge = () => {
                     <div className="flex flex-col items-center text-center">
                         <div className="relative mb-6">
                             <div
-                                className={`absolute inset-0 rounded-full ${config.iconBg} animate-pulse opacity-40 blur-xl`}
+                                className={`absolute inset-0 rounded-full ${config.iconBg} animate-pulse opacity-40 blur-lg`}
                             />
                             <div
                                 className={`relative flex h-20 w-20 items-center justify-center rounded-full ${config.iconBg} shadow-inner ring-4 ring-white/80`}
