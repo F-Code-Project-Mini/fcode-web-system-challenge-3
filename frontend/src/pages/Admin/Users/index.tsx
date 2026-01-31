@@ -6,6 +6,8 @@ import Loading from "~/components/Loading";
 import type { AdminUserType } from "~/types/admin.types";
 import type { RoleType } from "~/types/user.types";
 import BadgeRole from "~/components/BadgeRole";
+import Helper from "~/utils/helper";
+import { Medal, Trophy } from "lucide-react";
 
 const UsersPage = () => {
     const { data: users, isLoading } = useQuery({
@@ -52,11 +54,11 @@ const UsersPage = () => {
                             <th className="px-4 py-3 text-left text-xs font-semibold tracking-wide text-gray-600 uppercase sm:px-6 sm:py-3.5">
                                 Email
                             </th>
-                            <th className="px-4 py-3 text-left text-xs font-semibold tracking-wide text-gray-600 uppercase sm:px-6 sm:py-3.5">
-                                Roles
-                            </th>
-                            <th className="px-4 py-3 text-left text-xs font-semibold tracking-wide text-gray-600 uppercase sm:px-6 sm:py-3.5">
+                            <th className="px-4 py-3 text-center text-xs font-semibold tracking-wide text-gray-600 uppercase sm:px-6 sm:py-3.5">
                                 Thông tin
+                            </th>
+                            <th className="px-4 py-3 text-end text-xs font-semibold tracking-wide text-gray-600 uppercase sm:px-6 sm:py-3.5">
+                                Roles
                             </th>
                         </tr>
                     </thead>
@@ -64,8 +66,8 @@ const UsersPage = () => {
                         {filteredUsers.map((user, index) => {
                             return (
                                 <tr key={user.id} className="transition-colors hover:bg-gray-50/50">
-                                    <td className="px-4 py-3.5 text-sm font-medium whitespace-nowrap text-gray-900 sm:px-6 sm:py-4">
-                                        {index + 1}
+                                    <td className="px-4 py-3.5 text-sm font-medium whitespace-nowrap sm:px-6 sm:py-4">
+                                        <BadgeWinner rank={index + 1} />
                                     </td>
                                     <td
                                         className={`px-4 py-3.5 text-sm whitespace-nowrap text-gray-700 sm:px-6 sm:py-4`}
@@ -78,31 +80,63 @@ const UsersPage = () => {
                                         )}
                                     </td>
                                     <td className="px-4 py-3.5 text-sm text-gray-700 sm:px-6 sm:py-4">{user.email}</td>
+
+                                    <td className="px-4 py-3.5 text-sm text-gray-600 sm:px-6 sm:py-4">
+                                        {user.candidate ? (
+                                            <div className="flex flex-col items-center gap-1">
+                                                <div className="flex items-center gap-1">
+                                                    <span className="text-gray-500">Mentor:</span>
+                                                    {user.mentorScore !== null ? (
+                                                        <>
+                                                            <span
+                                                                className={`font-semibold ${Helper.belowAverage(user.mentorScore) ? "text-red-500" : "text-green-600"}`}
+                                                            >
+                                                                {user.mentorScore.toFixed(1)}
+                                                            </span>
+                                                        </>
+                                                    ) : (
+                                                        <span className="text-gray-400">-</span>
+                                                    )}
+                                                </div>
+                                                <div className="flex items-center gap-1">
+                                                    <span className="text-gray-500">Present Offical:</span>
+                                                    {user.avgPresentScore !== null ? (
+                                                        <>
+                                                            <span
+                                                                className={`font-semibold ${Helper.belowAverage(user.avgPresentScore) ? "text-red-500" : "text-green-600"}`}
+                                                            >
+                                                                {user.avgPresentScore.toFixed(1)}
+                                                            </span>
+                                                            <span className="text-xs font-bold">/100</span>
+                                                        </>
+                                                    ) : (
+                                                        <span className="text-gray-400">-</span>
+                                                    )}
+                                                </div>
+                                                <div className="flex items-center gap-1">
+                                                    <span className="text-gray-500">Total:</span>
+
+                                                    <>
+                                                        <span
+                                                            className={`font-semibold ${Helper.belowAverage(((user.avgPresentScore ?? 0) + (user.mentorScore ?? 0)) / 2) ? "text-red-500" : "text-green-600"}`}
+                                                        >
+                                                            {user.total}
+                                                        </span>
+                                                    </>
+                                                </div>
+                                            </div>
+                                        ) : (
+                                            <span className="text-xs text-gray-400">-</span>
+                                        )}
+                                    </td>
                                     <td className="px-4 py-3.5 text-sm sm:px-6 sm:py-4">
-                                        <div className="flex flex-wrap gap-1">
+                                        <div className="flex flex-wrap justify-end gap-1">
                                             {user.roles.length > 0 ? (
                                                 user.roles.map((role) => <BadgeRole key={role} role={role} />)
                                             ) : (
                                                 <span className="text-xs text-gray-400">Chưa có role</span>
                                             )}
                                         </div>
-                                    </td>
-                                    <td className="px-4 py-3.5 text-sm text-gray-600 sm:px-6 sm:py-4">
-                                        {user.candidate ? (
-                                            <div>
-                                                <p className="text-xs font-medium">
-                                                    MSSV: {user.candidate.studentCode}
-                                                </p>
-                                                {user.candidate.team && (
-                                                    <p className="text-xs text-gray-500">
-                                                        {user.candidate.team.name ||
-                                                            `Nhóm ${user.candidate.team.group}`}
-                                                    </p>
-                                                )}
-                                            </div>
-                                        ) : (
-                                            <span className="text-xs text-gray-400">-</span>
-                                        )}
                                     </td>
                                 </tr>
                             );
@@ -161,5 +195,47 @@ const UsersPage = () => {
         </div>
     );
 };
+const BadgeWinner = ({ rank }: { rank: number }) => {
+    const rankConfig: Record<
+        number,
+        {
+            container: string;
+            icon: React.ReactNode;
+            textColor: string;
+        }
+    > = {
+        1: {
+            container: "bg-gradient-to-br from-amber-100 to-amber-200 border-amber-300 shadow-amber-100",
+            icon: <Trophy className="h-4 w-4 text-amber-600" />,
+            textColor: "text-amber-700",
+        },
+        2: {
+            container: "bg-gradient-to-br from-slate-100 to-slate-200 border-slate-300 shadow-slate-100",
+            icon: <Medal className="h-4 w-4 text-slate-500" />,
+            textColor: "text-slate-600",
+        },
+        3: {
+            container: "bg-gradient-to-br from-orange-100 to-orange-200 border-orange-300 shadow-orange-100",
+            icon: <Medal className="h-4 w-4 text-orange-600" />,
+            textColor: "text-orange-700",
+        },
+    };
 
+    const config = rankConfig[rank];
+
+    if (!config) {
+        return <div className="flex h-8 w-8 items-center justify-center font-semibold text-gray-400">{rank}</div>;
+    }
+
+    return (
+        <div
+            className={`flex h-9 w-9 cursor-default items-center justify-center rounded-xl border shadow-sm transition-transform hover:scale-110 ${config.container} `}
+        >
+            <div className="flex flex-col items-center leading-none">
+                {config.icon}
+                <span className={`text-[10px] font-bold ${config.textColor}`}>{rank}</span>
+            </div>
+        </div>
+    );
+};
 export default UsersPage;
