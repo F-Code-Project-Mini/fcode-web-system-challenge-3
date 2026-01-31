@@ -19,10 +19,17 @@ const Notification2 = () => {
                         <li className="flex items-center gap-2 text-sm text-gray-700">
                             <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-blue-500"></span>
                             <span>
+                                <span className="text-xs italic">[01/02/2025]</span> Công bố kết quả chính thức.
+                            </span>
+                        </li>
+                        <li className="flex items-center gap-2 text-sm text-gray-700">
+                            <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-blue-500"></span>
+                            <span>
                                 <span className="text-xs italic">[7h00p - 23/01/2025]</span> Cập nhật lại thời gian/địa
                                 điểm thuyết trình chính thức.
                             </span>
                         </li>
+
                         {/* <li className="flex items-center gap-2 text-sm text-gray-700">
                             <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-blue-500"></span>
                             <span>
