@@ -1,4 +1,4 @@
-import { XCircle, AlertCircle, PartyPopper, Sparkles, Star } from "lucide-react";
+import { XCircle, AlertCircle, PartyPopper, Sparkles, Star, Clock } from "lucide-react";
 import { Badge } from "~/components/ui/badge";
 import useAuth from "~/hooks/useAuth";
 
@@ -6,9 +6,25 @@ const DisplayResultChallenge = () => {
     const { user } = useAuth();
     const status = user?.candidate?.statusC3 || "WAITING";
 
-    if (!status || status === "WAITING") return null;
+    if (!status) return null;
 
     const statusConfig = {
+        WAITING: {
+            icon: Clock,
+            title: "Đang chờ kết quả",
+            message: "BGK đang xử lý kết quả Challenge 3",
+            description: `
+                Kết quả Challenge 3 sẽ được gửi qua <b>Email</b> và cập nhật trực tiếp trên <b>hệ thống này</b>. <br/>
+                Hãy kiểm tra hòm thư thường xuyên nhé!
+            `,
+            bgGradient: "from-amber-50 via-yellow-50 to-orange-50",
+            glowColor: "bg-yellow-400/20",
+            borderColor: "border-yellow-200/50",
+            iconBg: "bg-gradient-to-tr from-yellow-400 to-amber-500",
+            badgeClass: "bg-amber-500 hover:bg-amber-600 shadow-amber-100",
+            badgeText: "Đang xử lý",
+            ornamentColor: "text-amber-400",
+        },
         PASSED: {
             icon: PartyPopper,
             title: "Chúc mừng bạn!",
@@ -61,7 +77,7 @@ const DisplayResultChallenge = () => {
     return (
         <div className="group perspective-1000 relative">
             <div
-                className={`animate-in fade-in zoom-in-95 relative overflow-hidden rounded-[2rem] border duration-700 ${config.borderColor} bg-gradient-to-br ${config.bgGradient} p-1 shadow-xs transition-all hover:shadow-emerald-500/10`}
+                className={`animate-in fade-in zoom-in-95 relative overflow-hidden rounded-[1.4rem] border duration-700 ${config.borderColor} bg-gradient-to-br ${config.bgGradient} p-1 shadow-xs transition-all hover:shadow-emerald-500/10`}
             >
                 <div
                     className={`absolute -top-4 -right-4 h-40 w-40 rounded-full ${config.glowColor} animate-pulse blur-3xl`}
