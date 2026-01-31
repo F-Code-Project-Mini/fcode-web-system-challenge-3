@@ -32,8 +32,8 @@ const ApproveMember = ({ value, candidateId, socket, handleStatusChange }: Appro
                 <SelectGroup>
                     <SelectLabel>Trạng thái</SelectLabel>
                     <SelectItem value="WAITING">Chờ xử lý</SelectItem>
-                    <SelectItem value="PASSED">Duyệt</SelectItem>
-                    <SelectItem value="FAILED">Loại</SelectItem>
+                    <SelectItem value="PASSED">Đậu</SelectItem>
+                    <SelectItem value="FAILED">Rớt</SelectItem>
                     <SelectItem value="REDO">Làm lại</SelectItem>
                 </SelectGroup>
             </SelectContent>

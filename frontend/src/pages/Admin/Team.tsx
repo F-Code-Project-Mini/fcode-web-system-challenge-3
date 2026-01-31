@@ -51,7 +51,7 @@ const Teams = ({
                                         <span
                                             className={`font-bold ${teamScore.finalTeamScore >= 50 ? "text-green-600" : "text-red-600"}`}
                                         >
-                                            {teamScore.finalTeamScore.toFixed(1)}/100
+                                            {teamScore.finalTeamScore.toFixed(2)}/100
                                         </span>
                                     </li>
                                 )}
@@ -82,7 +82,7 @@ const Teams = ({
                                     Điểm
                                 </th>
                                 <th className="hidden px-4 py-3 text-center text-xs font-semibold tracking-wide text-gray-600 uppercase sm:px-6 sm:py-3.5 md:table-cell">
-                                    Thao tác
+                                    Trạng thái
                                 </th>
                             </tr>
                         </thead>
