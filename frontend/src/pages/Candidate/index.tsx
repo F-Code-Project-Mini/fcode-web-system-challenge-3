@@ -3,12 +3,10 @@ import { ShowTopic } from "./ShowTopic";
 import Members from "./Members";
 import Timeline from "./Timeline";
 import WelcomePartition from "~/components/WelcomePartition";
-import Notification from "./Notification";
 import { useQuery } from "@tanstack/react-query";
 import TeamApi from "~/api-requests/team.requests";
 import useAuth from "~/hooks/useAuth";
 import Notification2 from "./Notification2";
-import PresentPage from "../Present";
 import DisplayResultChallenge from "./DisplayResultChallenge";
 
 const HomePage = () => {

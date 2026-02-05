@@ -7,7 +7,7 @@ import redisClient from "./configs/redis";
 import cookieParser from "cookie-parser";
 import "./configs/env";
 import cors from "cors";
-import "./seeders/database";
+// import "./seeders/database";
 import rootRouter from "./routes/root.routes";
 import "./workers/email.worker";
 import { initSocket } from "./configs/socket";

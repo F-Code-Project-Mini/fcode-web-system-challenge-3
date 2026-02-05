@@ -1,10 +1,8 @@
-import { judgeRooms } from "./../seeders/data-raw/rooms";
 import { RoleType } from "~/constants/enums";
 import { HTTP_STATUS } from "~/constants/httpStatus";
 import { ErrorWithStatus } from "~/rules/error";
 import adminRepository from "~/repositories/admin.repository";
 import userRepository from "~/repositories/user.repository";
-import prisma from "~/configs/prisma";
 
 class AdminService {
     public getAllUsers = async () => {
